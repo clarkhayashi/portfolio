@@ -1,0 +1,82 @@
+---
+import type { ExperienceItem } from "../data/experience";
+
+interface Props {
+  item: ExperienceItem;
+}
+
+const { item } = Astro.props;
+---
+
+<div class="grid grid-cols-[1fr_auto] items-start gap-4 border-t border-ink/10 py-5">
+  <div>
+    <p class="font-sans text-sm font-medium uppercase tracking-[0.12em] text-bark/70">
+      {item.org}
+    </p>
+    <div class="flex flex-wrap items-baseline gap-x-3">
+      <h3 class="mt-0.5 font-serif text-xl font-bold tracking-tight">
+        {item.role}
+      </h3>
+      <p class="text-sm text-ink/45">{item.dates}</p>
+    </div>
+    <p class="mt-1 leading-relaxed text-ink/70">{item.detail}</p>
+    {
+      item.link && (
+        <a
+          href={item.link.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-2 inline-block text-sm font-medium text-teal transition-colors hover:text-ink"
+        >
+          {item.link.label}
+        </a>
+      )
+    }
+    {
+      item.link2 && (
+        <a
+          href={item.link2.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="ml-5 mt-2 inline-block text-sm font-medium text-teal transition-colors hover:text-ink"
+        >
+          {item.link2.label}
+        </a>
+      )
+    }
+  </div>
+  {
+    item.images && item.images.length > 1 ? (
+      <div class="relative mt-1 h-24 w-36 md:h-28 md:w-44">
+        {item.images.slice(0, 4).map((im, i) => (
+          <img
+            src={im.src}
+            alt={im.alt}
+            class:list={[
+              "absolute inset-0 h-full w-full rounded-lg",
+              im.fit === "contain" ? "object-contain object-right py-1" : "object-cover",
+              item.images!.length > 2 ? `xfade4-${i + 1}` : i === 0 ? "xfade-a" : "xfade-b",
+            ]}
+            loading="lazy"
+            width="176"
+            height="112"
+          />
+        ))}
+      </div>
+    ) : (
+      item.image && (
+        <img
+          src={item.image.src}
+          alt={item.image.alt}
+          class:list={[
+            "mt-1 h-24 w-36 rounded-lg md:h-28 md:w-44",
+            item.image.fit === "contain" ? "object-contain object-right py-1" : "object-cover",
+          ]}
+          loading="lazy"
+          width="176"
+          height="112"
+        />
+      )
+    )
+  }
+</div>

@@ -1,0 +1,214 @@
+---
+import Base from "../layouts/Base.astro";
+import ButtonLink from "../components/ButtonLink.astro";
+import WaveDivider from "../components/WaveDivider.astro";
+import { lanes } from "../data/lanes";
+import ExperienceRow from "../components/ExperienceRow.astro";
+import { experience } from "../data/experience";
+
+const mainExperience = experience.filter((e) => !e.background);
+const backgroundExperience = experience.filter((e) => e.background);
+
+const buildingNow = [
+  "This portfolio, and the public-safe case study write-ups behind it",
+  "GA4, Tag Manager, and lead tracking for a family real estate business",
+  "Marketing analytics and local SEO practice on a real, live project",
+  "Deepening SQL, Python, GA4, and Search Console",
+  "Longer term: JLPT N3 and keeping the Japan connection alive",
+];
+---
+
+<Base
+  title="About · Clark Hayashi"
+  description="Business Analytics and Marketing graduate from Seattle University, rooted in Hawai‘i. Analytics, marketing measurement, AI workflows, operations, and visual communication."
+>
+  <article class="mx-auto max-w-[72ch] px-6 pb-10 pt-10 md:pt-16">
+    <h1 class="font-serif text-4xl font-bold tracking-tight md:text-5xl">About</h1>
+
+    <!-- Intro -->
+    <div class="mt-8 space-y-5 leading-relaxed text-ink/80">
+      <p class="text-lg">Hi, I'm Clark Hayashi.</p>
+
+      <p>
+        I'm a Business Analytics and Marketing graduate from Seattle University
+        with a minor in Japanese, originally from Hawai‘i. My background blends
+        analytics, marketing, AI, operations, global study, sports leadership,
+        visual communication, and service. Most of it comes down to the
+        same move: taking something messy (a dataset, a process, a pile of
+        competing ideas) and turning it into something a team can act on.
+      </p>
+
+      <p>
+        At Bank of Hawaii, as one of the bank's first AI interns, that meant
+        interviewing people across the organization about where AI could
+        actually help, then building the scoring framework and Power BI
+        dashboard leadership used to prioritize the opportunities. The rest of
+        the record is below. One note from four years of refereeing flag
+        football: it teaches you more about making fast calls with incomplete
+        information than most classrooms do.
+      </p>
+    </div>
+
+    <!-- Professional lanes -->
+    <section class="mt-14">
+      <h2 class="font-serif text-3xl font-bold tracking-tight">What I Bring</h2>
+      <div class="mt-6">
+        {
+          lanes.map((lane) => (
+            <div class="border-t border-ink/10 py-5">
+              <h3 class="font-serif text-xl font-bold tracking-tight">
+                {lane.title}
+              </h3>
+              <p class="mt-1 leading-relaxed text-ink/70">{lane.description}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Experience snapshot -->
+    <section class="mt-14">
+      <h2 class="font-serif text-3xl font-bold tracking-tight">
+        Experience Snapshot
+      </h2>
+      <p class="mt-3 text-ink/60">
+        The full picture. The <a
+          href="/resume.pdf"
+          class="font-medium text-teal transition-colors hover:text-ink">resume</a
+        > is the one-page version.
+      </p>
+      <div class="mt-6">
+        {mainExperience.map((item) => <ExperienceRow item={item} />)}
+      </div>
+
+      <details class="group mt-8">
+        <summary class="cursor-pointer list-none text-sm font-medium uppercase tracking-[0.14em] text-bark/80 transition-colors hover:text-teal">
+          <span class="group-open:hidden">Background · sports, culture &amp; first jobs ({backgroundExperience.length} more) ↓</span>
+          <span class="hidden group-open:inline">Background ↑</span>
+        </summary>
+        <div class="mt-4">
+          {backgroundExperience.map((item) => <ExperienceRow item={item} />)}
+        </div>
+      </details>
+    </section>
+
+    <WaveDivider />
+
+    <!-- Rooted Perspective -->
+    <section class="mt-8">
+      <h2 class="font-serif text-3xl font-bold tracking-tight">
+        Rooted Perspective
+      </h2>
+      <div class="mt-5 space-y-5 leading-relaxed text-ink/80">
+        <p>
+          I grew up in Hawai‘i, where community isn't a value statement; it's
+          just how things get done. Seattle is where I learned to work:
+          analytics and marketing classes, a student credit union, four years
+          of intramural sports. A semester at Sophia University in Tokyo and a
+          study tour through Tuscany stretched that further. Being the person
+          who doesn't fully speak the language or know the customs teaches you
+          to pay close attention.
+        </p>
+        <p>
+          Sports run through all of it: co-captaining my high school varsity
+          basketball team, officiating and managing intramural leagues, and
+          scrimmaging against a D1 women's basketball team as a practice
+          player. None of this shows up on a dashboard, but it shapes how I
+          build one. I ask who will actually use the thing, I over-communicate
+          rather than assume, and I finish what I start, a habit Scouting
+          drilled in early. The question underneath every project stays the
+          same: how do I make this clearer, more useful, and more human?
+        </p>
+      </div>
+      <div class="mt-8 grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
+        <figure>
+          <img
+            src="/images/hawaii/hawaii-coast.jpg"
+            alt="Coastline in Hawai‘i with mountains meeting the ocean"
+            class="aspect-[4/5] w-full rounded-lg object-cover"
+            loading="lazy"
+            width="480"
+            height="600"
+          />
+          <figcaption class="mt-2 text-xs font-medium uppercase tracking-[0.14em] text-bark/70">
+            Hawai‘i
+          </figcaption>
+        </figure>
+        <figure>
+          <img
+            src="/images/seattle/seattle-space-needle.jpg"
+            alt="Seattle skyline with the Space Needle from Gas Works Park"
+            class="aspect-[4/5] w-full rounded-lg object-cover"
+            loading="lazy"
+            width="480"
+            height="600"
+          />
+          <figcaption class="mt-2 text-xs font-medium uppercase tracking-[0.14em] text-bark/70">
+            Seattle
+          </figcaption>
+        </figure>
+        <figure>
+          <img
+            src="/images/japan/tokyo-skytree-dusk.jpg"
+            alt="Tokyo skyline with the Skytree at dusk"
+            class="aspect-[4/5] w-full rounded-lg object-cover"
+            loading="lazy"
+            width="480"
+            height="600"
+          />
+          <figcaption class="mt-2 text-xs font-medium uppercase tracking-[0.14em] text-bark/70">
+            Tokyo
+          </figcaption>
+        </figure>
+        <figure>
+          <img
+            src="/images/italy/tuscan-vineyards.jpg"
+            alt="Vineyard hills in the Italian countryside at golden hour"
+            class="aspect-[4/5] w-full rounded-lg object-cover"
+            loading="lazy"
+            width="480"
+            height="600"
+          />
+          <figcaption class="mt-2 text-xs font-medium uppercase tracking-[0.14em] text-bark/70">
+            Italy
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- What I'm building now -->
+    <section class="mt-14">
+      <h2 class="font-serif text-3xl font-bold tracking-tight">
+        What I'm Building Now
+      </h2>
+      <ul class="mt-5 space-y-2.5">
+        {
+          buildingNow.map((item) => (
+            <li class="flex gap-3 leading-relaxed text-ink/75">
+              <span class="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-teal" aria-hidden="true" />
+              {item}
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <!-- Contact -->
+    <div class="mt-14 border-t border-ink/10 pt-10">
+      <p class="max-w-[58ch] text-lg leading-relaxed text-ink/75">
+        I'm looking for roles where analytics, practical judgment, and clear
+        communication all matter. If that sounds like your team, I'd love to
+        talk.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <ButtonLink href="mailto:hayashiclark@gmail.com">Email me</ButtonLink>
+        <ButtonLink
+          href="https://www.linkedin.com/in/clark-hayashi"
+          variant="ghost"
+          external>LinkedIn</ButtonLink
+        >
+        <ButtonLink href="/resume.pdf" variant="ghost">Resume</ButtonLink>
+      </div>
+    </div>
+  </article>
+</Base>

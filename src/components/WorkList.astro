@@ -1,0 +1,23 @@
+---
+import ProjectRow from "./ProjectRow.astro";
+import { projects } from "../data/projects";
+---
+
+<div class="border-b border-ink/10">
+  {
+    projects.map((p, i) => (
+      <ProjectRow
+        number={String(i + 1).padStart(2, "0")}
+        title={p.title}
+        description={p.description}
+        tags={p.tags}
+        lane={p.lane}
+        proof={p.proof}
+        href={p.href}
+        external={p.external}
+        statusLabel={p.statusLabel}
+        statusType={p.statusType}
+      />
+    ))
+  }
+</div>

@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+/* ---------- Local Satoshi (self-hosted, only the weights we use) ---------- */
+@font-face {
+  font-family: "Satoshi";
+  src: url("/fonts/satoshi/Satoshi-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Satoshi";
+  src: url("/fonts/satoshi/Satoshi-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Satoshi";
+  src: url("/fonts/satoshi/Satoshi-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- Design tokens ---------- */
+@theme {
+  --color-paper: #f7f4ef;
+  --color-ink: #1c1c1c;
+  --color-teal: #5d8c88;
+  --color-bark: #6b5642;
+  --color-crimson: #8a1538;
+
+  --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-sans: "Satoshi", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* ---------- Base ---------- */
+html {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-teal) 30%, transparent);
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-teal);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ---------- Case study body (markdown content) ---------- */
+.case-body h2 {
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 3rem 0 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+.case-body p {
+  margin: 0.85rem 0;
+  line-height: 1.75;
+  color: color-mix(in srgb, var(--color-ink) 82%, transparent);
+}
+
+.case-body ul {
+  margin: 0.85rem 0 0.85rem 1.25rem;
+  list-style: disc;
+}
+
+.case-body li {
+  margin: 0.4rem 0;
+  line-height: 1.7;
+  color: color-mix(in srgb, var(--color-ink) 82%, transparent);
+}
+
+.case-body li::marker {
+  color: var(--color-teal);
+}
+
+.case-body strong {
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+/* In-progress / confidentiality notes are written as markdown italics */
+.case-body em {
+  font-style: normal;
+  color: var(--color-bark);
+}
+
+/* ---------- Experience snapshot crossfade (two stacked images) ---------- */
+@keyframes xfade {
+  0%, 42% { opacity: 1; }
+  50%, 92% { opacity: 0; }
+  100% { opacity: 1; }
+}
+.xfade-a { animation: xfade 8s linear infinite; }
+.xfade-b { animation: xfade 8s linear infinite; animation-delay: -4s; }
+@media (prefers-reduced-motion: reduce) {
+  .xfade-a, .xfade-b { animation: none; }
+  .xfade-b { opacity: 0; }
+}
+
+/* Four-image rotation (16s cycle, each image visible a quarter of it) */
+@keyframes xfade4 {
+  0%, 19% { opacity: 1; }
+  25%, 94% { opacity: 0; }
+  100% { opacity: 1; }
+}
+.xfade4-1 { animation: xfade4 16s linear infinite; }
+.xfade4-2 { animation: xfade4 16s linear infinite; animation-delay: -12s; }
+.xfade4-3 { animation: xfade4 16s linear infinite; animation-delay: -8s; }
+.xfade4-4 { animation: xfade4 16s linear infinite; animation-delay: -4s; }
+@media (prefers-reduced-motion: reduce) {
+  .xfade4-1, .xfade4-2, .xfade4-3, .xfade4-4 { animation: none; }
+  .xfade4-2, .xfade4-3, .xfade4-4 { opacity: 0; }
+}

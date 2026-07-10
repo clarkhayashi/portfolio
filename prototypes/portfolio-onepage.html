@@ -1,0 +1,744 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Clark Hayashi · Analytics, Marketing & AI Strategy</title>
+  <meta name="description" content="Business Analytics and Marketing graduate turning messy data, ideas, and operations into clear decisions. Analytics, AI workflows, marketing measurement, operations, leadership, and visual communication." />
+
+  <!--
+    SINGLE-FILE VERSION of the portfolio. No build step, no npm.
+    Open directly in a browser, or upload to GitHub Pages / Netlify Drop as-is.
+
+    Notes:
+    - Fonts/headshot use relative paths (public/…). Keep this file in the
+      project root, or copy the public/ folder alongside it wherever you host.
+      If the files are missing, clean fallbacks load instead.
+    - Case studies are expandable rows (click a project to open it).
+    - To edit: everything is in this one file. Search for the section comments.
+  -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ---------- Fonts ---------- */
+    @font-face {
+      font-family: "Satoshi";
+      src: url("public/fonts/satoshi/Satoshi-Regular.woff2") format("woff2");
+      font-weight: 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "Satoshi";
+      src: url("public/fonts/satoshi/Satoshi-Medium.woff2") format("woff2");
+      font-weight: 500; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "Satoshi";
+      src: url("public/fonts/satoshi/Satoshi-Bold.woff2") format("woff2");
+      font-weight: 700; font-style: normal; font-display: swap;
+    }
+
+    /* ---------- Tokens ---------- */
+    :root {
+      --paper: #f7f4ef;
+      --ink: #1c1c1c;
+      --teal: #5d8c88;
+      --bark: #6b5642;
+      --crimson: #8a1538;
+      --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+      --sans: "Satoshi", system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+
+    /* ---------- Base ---------- */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 400;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    ::selection { background: rgba(93, 140, 136, 0.3); }
+    a { color: inherit; }
+    a:focus-visible, summary:focus-visible {
+      outline: 2px solid var(--teal); outline-offset: 3px; border-radius: 2px;
+    }
+    img { max-width: 100%; display: block; }
+
+    .wrap { max-width: 1000px; margin: 0 auto; padding: 0 1.5rem; }
+    .prose { max-width: 70ch; }
+
+    h1, h2, h3, .serif { font-family: var(--serif); font-weight: 600; letter-spacing: -0.01em; }
+    h1, h2 { font-weight: 700; }
+    h2 { font-size: clamp(1.75rem, 3.5vw, 2.25rem); line-height: 1.15; }
+    h3 { font-size: 1.25rem; line-height: 1.3; }
+
+    .eyebrow {
+      font-size: 0.72rem; font-weight: 500; text-transform: uppercase;
+      letter-spacing: 0.14em; color: rgba(107, 86, 66, 0.75);
+    }
+    .muted { color: rgba(28, 28, 28, 0.62); }
+    .soft  { color: rgba(28, 28, 28, 0.75); }
+
+    section { padding-top: 4.5rem; }
+    @media (min-width: 768px) { section { padding-top: 6rem; } }
+
+    /* ---------- Buttons ---------- */
+    .btn {
+      display: inline-flex; align-items: center;
+      border-radius: 999px; padding: 0.6rem 1.25rem;
+      font-size: 0.875rem; font-weight: 500; text-decoration: none;
+      transition: all 0.15s ease;
+    }
+    .btn-solid { background: var(--ink); color: var(--paper); }
+    .btn-solid:hover { background: var(--teal); }
+    .btn-ghost { border: 1px solid rgba(28, 28, 28, 0.25); color: rgba(28, 28, 28, 0.85); }
+    .btn-ghost:hover { border-color: var(--teal); color: var(--teal); }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+    /* ---------- Header ---------- */
+    header {
+      display: flex; align-items: baseline; justify-content: space-between;
+      max-width: 1000px; margin: 0 auto; padding: 1.75rem 1.5rem;
+    }
+    .wordmark { font-family: var(--serif); font-weight: 700; font-size: 2.1rem; text-decoration: none; transition: color 0.15s; }
+    .wordmark:hover { color: var(--teal); }
+    nav { display: flex; gap: 1.5rem; font-size: 0.875rem; font-weight: 500; }
+    nav a { text-decoration: none; color: rgba(28, 28, 28, 0.8); transition: color 0.15s; }
+    nav a:hover { color: var(--teal); }
+
+    /* ---------- Hero ---------- */
+    .hero { padding: 0.5rem 0 3.5rem; }
+    .hero-grid { display: grid; gap: 2.5rem; align-items: center; }
+    @media (min-width: 768px) {
+      .hero { padding: 2rem 0 5rem; }
+      .hero-grid { grid-template-columns: 1fr auto; }
+    }
+    .hero h1 {
+      max-width: 22ch;
+      font-size: clamp(2.4rem, 5.5vw, 3.5rem);
+      line-height: 1.06;
+    }
+    .hero .sub { margin-top: 1.5rem; max-width: 54ch; font-size: 1.125rem; }
+    .hero .rooted { margin-top: 0.8rem; font-size: 0.875rem; color: rgba(107, 86, 66, 0.85); }
+    .hero .btn-row { margin-top: 2rem; }
+    .headshot {
+      width: 12rem; height: 12rem; border-radius: 1rem; object-fit: cover;
+      order: -1;
+    }
+    @media (min-width: 768px) { .headshot { width: 18rem; height: 18rem; order: 0; } }
+
+    /* ---------- Identity strip ---------- */
+    .strip { border-top: 1px solid rgba(28,28,28,0.1); border-bottom: 1px solid rgba(28,28,28,0.1); }
+    .strip ul {
+      list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem 0.75rem;
+      max-width: 1000px; margin: 0 auto; padding: 1.25rem 1.5rem;
+      font-size: 0.72rem; font-weight: 500; text-transform: uppercase;
+      letter-spacing: 0.14em; color: rgba(28,28,28,0.55);
+    }
+    .strip li + li::before { content: "·"; color: rgba(93,140,136,0.6); margin-right: 0.75rem; }
+
+    /* ---------- Lanes ---------- */
+    .lane h3 { font-size: 1.35rem; font-weight: 700; }
+    .lane { display: grid; gap: 0.35rem; padding: 1.5rem 0; border-top: 1px solid rgba(28,28,28,0.1); }
+    .lanes { border-bottom: 1px solid rgba(28,28,28,0.1); margin-top: 2rem; }
+    @media (min-width: 768px) { .lane { grid-template-columns: 230px 1fr; gap: 2rem; padding: 1.75rem 0; } }
+    .lane p { max-width: 60ch; }
+
+    /* ---------- Work rows (expandable) ---------- */
+    .worklist { border-bottom: 1px solid rgba(28,28,28,0.1); margin-top: 2.5rem; }
+    details.project { border-top: 1px solid rgba(28,28,28,0.1); }
+    details.project > summary {
+      list-style: none; cursor: pointer; padding: 2.25rem 0;
+      display: grid; gap: 0.75rem;
+    }
+    details.project > summary::-webkit-details-marker { display: none; }
+    @media (min-width: 768px) {
+      details.project > summary { grid-template-columns: 3.5rem 1fr auto; gap: 1.5rem; padding: 2.75rem 0; }
+    }
+    .pnum { font-size: 0.875rem; font-weight: 500; color: rgba(107,86,66,0.6); padding-top: 0.25rem; }
+    .ptitle { font-family: var(--serif); font-weight: 700; font-size: 1.5rem; line-height: 1.3; transition: color 0.15s; }
+    @media (min-width: 768px) { .ptitle { font-size: 1.7rem; } }
+    details.project > summary:hover .ptitle { color: var(--teal); }
+    .pdesc { margin-top: 0.5rem; max-width: 58ch; color: rgba(28,28,28,0.7); }
+    .ptags { margin-top: 0.75rem; font-size: 0.875rem; color: rgba(28,28,28,0.45); }
+    .pproof { display: block; margin-top: 0.5rem; font-size: 0.875rem; font-weight: 500; color: var(--bark); }
+    .popen { font-size: 0.8rem; font-weight: 500; color: var(--teal); margin-top: 0.6rem; }
+    details.project[open] .popen .when-closed { display: none; }
+    details.project:not([open]) .popen .when-open { display: none; }
+
+    .status {
+      display: inline-flex; align-items: center; gap: 0.5rem; white-space: nowrap;
+      font-size: 0.72rem; font-weight: 500; text-transform: uppercase;
+      letter-spacing: 0.14em; color: rgba(28,28,28,0.55); padding-top: 0.35rem;
+    }
+    .dot { width: 6px; height: 6px; border-radius: 999px; }
+    .dot-teal { background: var(--teal); }
+    .dot-red { background: var(--crimson); }
+    .dot-bark { background: var(--bark); }
+
+    .casebody { max-width: 70ch; padding: 0 0 2.75rem; }
+    @media (min-width: 768px) { .casebody { padding-left: 5rem; } }
+    .casebody h4 {
+      font-family: var(--serif); font-weight: 600; font-size: 1.35rem;
+      margin: 2rem 0 0.5rem;
+    }
+    .casebody p { margin: 0.75rem 0; color: rgba(28,28,28,0.82); }
+    .casebody ul { margin: 0.75rem 0 0.75rem 1.25rem; }
+    .casebody li { margin: 0.4rem 0; color: rgba(28,28,28,0.82); }
+    .casebody li::marker { color: var(--teal); }
+    .note { color: var(--bark); }
+
+    /* ---------- Wave divider ---------- */
+    .wave { padding: 2.5rem 0 0; }
+    .wave svg { width: 9rem; color: rgba(93,140,136,0.35); }
+
+    /* ---------- How I Work ---------- */
+    .steps { display: grid; gap: 2rem; margin-top: 2rem; align-items: start; margin-bottom: 1rem; }
+    @media (min-width: 768px) { .steps { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; } }
+    .step .n { font-size: 0.875rem; font-weight: 500; color: rgba(107,86,66,0.6); }
+    .step h3 { margin-top: 0.25rem; font-size: 1.35rem; font-weight: 700; }
+    .step p { margin-top: 0.5rem; color: rgba(28,28,28,0.7); }
+
+    /* ---------- About sub-blocks ---------- */
+    .snap {
+      border-top: 1px solid rgba(28,28,28,0.1); padding: 1.25rem 0;
+      display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: start;
+    }
+    .snap h3 { font-size: 1.25rem; font-weight: 700; margin-top: 0.1rem; display: inline; }
+    .snap .dates { display: inline; margin-left: 0.6rem; font-size: 0.85rem; color: rgba(28,28,28,0.45); }
+    .snap .snapimg { width: 168px; height: 110px; object-fit: cover; border-radius: 0.5rem; margin-top: 0.25rem; }
+    .snap .snaplogo { object-fit: contain; object-position: right center; padding: 4px 0 4px 4px; width: 168px; height: 110px; }
+    .snap .xwrap { position: relative; width: 168px; height: 110px; margin-top: 0.25rem; }
+    .snap .xwrap img { position: absolute; inset: 0; width: 100%; height: 100%; margin-top: 0; }
+    @keyframes xfade { 0%, 42% { opacity: 1; } 50%, 92% { opacity: 0; } 100% { opacity: 1; } }
+    .xfade-a { animation: xfade 8s linear infinite; }
+    .xfade-b { animation: xfade 8s linear infinite; animation-delay: -4s; }
+    @media (prefers-reduced-motion: reduce) { .xfade-a, .xfade-b { animation: none; } .xfade-b { opacity: 0; } }
+    @keyframes xfade4 { 0%, 19% { opacity: 1; } 25%, 94% { opacity: 0; } 100% { opacity: 1; } }
+    .xfade4-1 { animation: xfade4 16s linear infinite; }
+    .xfade4-2 { animation: xfade4 16s linear infinite; animation-delay: -12s; }
+    .xfade4-3 { animation: xfade4 16s linear infinite; animation-delay: -8s; }
+    .xfade4-4 { animation: xfade4 16s linear infinite; animation-delay: -4s; }
+    @media (prefers-reduced-motion: reduce) { .xfade4-1, .xfade4-2, .xfade4-3, .xfade4-4 { animation: none; } .xfade4-2, .xfade4-3, .xfade4-4 { opacity: 0; } }
+    .snap p.detail { margin-top: 0.25rem; color: rgba(28,28,28,0.7); }
+    /* ---------- Rooted Perspective gallery ---------- */
+    .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin-top: 2rem; }
+    @media (min-width: 768px) { .gallery { grid-template-columns: repeat(4, 1fr); } }
+    .gallery img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 0.5rem; }
+    .gallery figcaption {
+      margin-top: 0.5rem; font-size: 0.72rem; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.14em; color: rgba(107,86,66,0.75);
+    }
+
+    .bgxp { margin-top: 2rem; }
+    .bgxp > summary {
+      list-style: none; cursor: pointer; font-size: 0.8rem; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.14em; color: rgba(107,86,66,0.8);
+      transition: color 0.15s;
+    }
+    .bgxp > summary:hover { color: var(--teal); }
+    .bgxp > summary::-webkit-details-marker { display: none; }
+    .bgxp[open] .when-closed { display: none; }
+    .bgxp:not([open]) .when-open { display: none; }
+    .bgxp > .snap:first-of-type, .bgxp summary + .snap { margin-top: 1rem; }
+    .nowlist { list-style: none; margin-top: 1.25rem; }
+    .nowlist li { display: flex; gap: 0.75rem; margin: 0.6rem 0; color: rgba(28,28,28,0.75); }
+    .nowlist li::before {
+      content: ""; flex-shrink: 0; width: 6px; height: 6px; border-radius: 999px;
+      background: var(--teal); margin-top: 0.65rem;
+    }
+
+    /* ---------- Contact card ---------- */
+    .contact-card {
+      background: var(--ink); color: var(--paper);
+      border-radius: 1rem; padding: 2.5rem 2rem;
+    }
+    @media (min-width: 768px) { .contact-card { padding: 3.5rem 3rem; } }
+    .contact-card p { margin-top: 0.75rem; max-width: 52ch; color: rgba(247,244,239,0.7); }
+    .contact-card .btn-row { margin-top: 1.75rem; }
+    .btn-paper { background: var(--paper); color: var(--ink); }
+    .btn-paper:hover { background: var(--teal); color: var(--paper); }
+    .btn-outline { border: 1px solid rgba(247,244,239,0.3); color: var(--paper); }
+    .btn-outline:hover { border-color: var(--teal); color: var(--teal); }
+
+    /* ---------- Footer ---------- */
+    footer { margin-top: 6rem; border-top: 1px solid rgba(28,28,28,0.1); }
+    .foot {
+      max-width: 1000px; margin: 0 auto; padding: 2.5rem 1.5rem;
+      display: flex; flex-direction: column; gap: 0.75rem;
+      font-size: 0.875rem; color: rgba(28,28,28,0.6);
+    }
+    @media (min-width: 768px) { .foot { flex-direction: row; align-items: center; justify-content: space-between; } }
+    .foot a { text-decoration: none; transition: color 0.15s; }
+    .foot a:hover { color: var(--teal); }
+    .foot .links { display: flex; flex-wrap: wrap; gap: 1.25rem; }
+
+    .skip {
+      position: absolute; left: -9999px; top: 1rem; z-index: 50;
+      background: var(--paper); padding: 0.5rem 0.75rem;
+    }
+    .skip:focus { left: 1.5rem; }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header>
+    <a class="wordmark" href="#top">Clark Hayashi</a>
+    <nav aria-label="Main">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="public/resume.pdf">Resume</a>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <!-- ================= HERO ================= -->
+    <div class="wrap hero" id="top">
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow" style="color:var(--teal); margin-bottom:1rem;">Business / Marketing Analyst · Measurement · Dashboards · AI Workflows</p>
+          <h1>I turn messy data, ideas, and operations into clear decisions.</h1>
+          <p class="sub soft">Business Analytics &amp; Marketing graduate from Seattle University. Recent work: AI use-case prioritization at Bank of Hawaii, participation dashboards for Seattle U Recreation, and GA4/SEO lead tracking for a real estate business.</p>
+          <p class="rooted">Rooted in Hawai‘i. Built in Seattle. Expanded through Tokyo and Italy.</p>
+          <div class="btn-row">
+            <a class="btn btn-solid" href="#work">View Work</a>
+            <a class="btn btn-ghost" href="public/resume.pdf">Resume</a>
+            <a class="btn btn-ghost" href="https://www.linkedin.com/in/clark-hayashi" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a class="btn btn-ghost" href="mailto:hayashiclark@gmail.com">Email</a>
+          </div>
+        </div>
+        <img class="headshot" src="public/headshot.jpg" alt="Clark Hayashi" width="240" height="240" />
+      </div>
+    </div>
+
+    <!-- ================= IDENTITY STRIP ================= -->
+    <div class="strip">
+      <ul>
+        <li>Business Analytics + Marketing</li>
+        <li>Marketing Measurement</li>
+        <li>AI Strategy</li>
+        <li>Operations</li>
+        <li>Visual Communication</li>
+        <li>Seattle / Hawai‘i / Japan</li>
+      </ul>
+    </div>
+
+    <!-- ================= WHAT I BRING ================= -->
+    <section class="wrap" id="bring">
+      <h2>What I Bring</h2>
+      <p class="muted" style="margin-top:0.75rem;">Five lanes, one job: make things clearer.</p>
+      <div class="lanes">
+        <div class="lane">
+          <h3>Analytics + Data</h3>
+          <p class="soft">I structure messy data into dashboards, reports, and recommendations a team can act on. Core tools: Excel, Tableau, Python; currently deepening SQL.</p>
+        </div>
+        <div class="lane">
+          <h3>Marketing + SEO</h3>
+          <p class="soft">Hands-on measurement work: GA4, Google Tag Manager, Search Console, UTM strategy, local SEO, and content performance. Currently applied to real estate lead tracking.</p>
+        </div>
+        <div class="lane">
+          <h3>AI + Workflow Strategy</h3>
+          <p class="soft">Enterprise AI use-case prioritization, scoring frameworks, and dashboards that translate AI ideas into business value people can actually evaluate.</p>
+        </div>
+        <div class="lane">
+          <h3>Leadership + Operations</h3>
+          <p class="soft">Proven across organizations, from Scouts BSA to UREC to SUCUI: I've run programs, trained 40+ officials, and built the schedules, reporting, and playbooks that help people execute better.</p>
+        </div>
+        <div class="lane">
+          <h3>Visual Communication</h3>
+          <p class="soft">I turn complex work into clear artifacts: dashboards, decks, short-form video, and case studies people actually understand. Tools: Photoshop, Premiere Pro, Final Cut Pro. This site included.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SELECTED WORK ================= -->
+    <section class="wrap" id="work">
+      <h2>Selected Work</h2>
+      <p class="muted" style="margin-top:0.75rem; max-width:58ch;">Completed work leads; click any project for the write-up. Anything unfinished says so.</p>
+
+      <div class="worklist">
+
+        <details class="project">
+          <summary>
+            <span class="pnum">01</span>
+            <span>
+              <span class="eyebrow">AI + Workflow Strategy</span>
+              <span class="ptitle" style="display:block; margin-top:0.35rem;">AI Use Case Prioritization</span>
+              <span class="pdesc" style="display:block;">One of Bank of Hawaii's first AI interns. Gathered AI use cases across the organization and built the repository, scoring model, and Power BI dashboard used to prioritize them.</span>
+              <span class="ptags" style="display:block;">AI Strategy · Power BI · Stakeholder Research</span><span class="pproof">50+ use cases · 19+ stakeholder interviews · presented to 60+</span>
+              <span class="popen" style="display:block;"><span class="when-closed">Read the summary ↓</span><span class="when-open">Close ↑</span></span>
+            </span>
+            <span class="status"><span class="dot dot-bark"></span>Completed · summarized</span>
+          </summary>
+          <div class="casebody">
+            <p class="note">Details are summarized at a high level to respect confidentiality.</p>
+            <p>In summer 2025, I had the opportunity to be one of the first AI Interns at Bank of Hawaii. I spoke with 19+ employees and AI Ambassadors to gather 50+ AI use cases across the organization, created an Excel repository, and built a Power BI dashboard to help the AI Development Center evaluate and prioritize them. I also designed a scoring model to make insights more accessible and easier to understand.</p>
+            <p>That's the whole story I can tell here. The work belongs to the bank. I'm glad to talk through the approach and what I learned in conversation.</p>
+            <p><a class="btn btn-solid" href="https://www.linkedin.com/feed/update/urn:li:activity:7371946885185642496/" target="_blank" rel="noopener noreferrer">Read the LinkedIn post →</a></p>
+          </div>
+        </details>
+
+        <details class="project">
+          <summary>
+            <span class="pnum">02</span>
+            <span>
+              <span class="eyebrow">Operations Analytics</span>
+              <span class="ptitle" style="display:block; margin-top:0.35rem;">Intramural Sports Participation Analysis</span>
+              <span class="pdesc" style="display:block;">Seven years of participation data across a 469-participant, 64-team program, translated into dashboards UREC leadership used for scheduling, marketing, and retention planning.</span>
+              <span class="ptags" style="display:block;">Excel · Tableau · Stakeholder Reporting</span><span class="pproof">7 years of data · 64+ teams · 469+ participants</span>
+              <span class="popen" style="display:block;"><span class="when-closed">Read the case study ↓</span><span class="when-open">Close ↑</span></span>
+            </span>
+            <span class="status"><span class="dot dot-teal"></span>Delivered · write-up in progress</span>
+          </summary>
+          <div class="casebody">
+            <h4>Overview</h4>
+            <p>Seattle University Recreation runs a 64-team, 469-participant intramural program. I analyzed seven years of participation records (2018–2025) and presented dashboards to UREC leadership to support scheduling, marketing, and retention decisions.</p>
+            <h4>Context</h4>
+            <p>This wasn't an outside consulting exercise. I worked inside this program for nearly four years as an official and later as Intramural Sports Manager. I knew where the operational pain was before opening the data.</p>
+            <h4>My Role</h4>
+            <p>Sole analyst: data consolidation and cleaning in Excel, dashboard design in Tableau, and the presentation to UREC leadership. Separately, I managed the program's 40+ student officials.</p>
+            <h4>Approach</h4>
+            <ul>
+              <li>Consolidated and cleaned participation data across sports, seasons, and class years (2018–2025)</li>
+              <li>Analyzed engagement trends: which leagues were growing, which were declining, and when students actually sign up</li>
+              <li>Built Tableau dashboards highlighting participation patterns by sport, season, and class year</li>
+              <li>Presented findings to UREC leadership to inform scheduling, marketing, and retention planning</li>
+            </ul>
+            <h4>Key Findings &amp; Artifacts</h4>
+            <p class="note">Content in progress. This section will be updated with public-safe findings and artifacts.</p>
+          </div>
+        </details>
+
+        <details class="project">
+          <summary>
+            <span class="pnum">03</span>
+            <span>
+              <span class="eyebrow">Analytics + Data</span>
+              <span class="ptitle" style="display:block; margin-top:0.35rem;">Seattle Building Permit Analysis</span>
+              <span class="pdesc" style="display:block;">Interactive Tableau dashboard on Seattle building permit data, built with an Applied Analytics SU team. Analyzed trends in construction activity and permitting, then presented findings to the club.</span>
+              <span class="ptags" style="display:block;">Tableau · Team Case Study · Public Data</span><span class="pproof">Team of 9 analysts · live, interactive dashboard</span>
+              <span class="popen" style="display:block;"><span class="when-closed">Details ↓</span><span class="when-open">Close ↑</span></span>
+            </span>
+            <span class="status"><span class="dot dot-teal"></span>Completed · view live</span>
+          </summary>
+          <div class="casebody">
+            <p>Fall 2023 case study with Applied Analytics SU: our team cleaned Seattle building permit data and built an interactive Tableau dashboard to surface trends in construction activity and permitting timelines, then presented the findings. The dashboard is live on Tableau Public.</p>
+            <p><a class="btn btn-solid" href="https://public.tableau.com/app/profile/daniel.rios5181/viz/SeattleBuildingPermitAnalysis/Dashboard2" target="_blank" rel="noopener noreferrer">Open the live dashboard &rarr;</a>
+            <a class="btn btn-ghost" href="https://www.linkedin.com/feed/update/urn:li:activity:7152459299229782017/" target="_blank" rel="noopener noreferrer" style="margin-left:0.5rem;">Club announcement &rarr;</a></p>
+          </div>
+        </details>
+
+        <details class="project">
+          <summary>
+            <span class="pnum">04</span>
+            <span>
+              <span class="eyebrow">Marketing + SEO</span>
+              <span class="ptitle" style="display:block; margin-top:0.35rem;">Real Estate Lead Analytics</span>
+              <span class="pdesc" style="display:block;">GA4, Google Tag Manager, Search Console, UTM strategy, and local SEO reporting for a family real estate business. Results publish after a full month of clean data.</span>
+              <span class="ptags" style="display:block;">GA4 · GTM · Search Console</span><span class="pproof">Full measurement stack, built from zero</span>
+              <span class="popen" style="display:block;"><span class="when-closed">Read the write-up ↓</span><span class="when-open">Close ↑</span></span>
+            </span>
+            <span class="status"><span class="dot dot-red"></span>Currently building</span>
+          </summary>
+          <div class="casebody">
+            <h4>Overview</h4>
+            <p>A ground-up measurement project for a family real estate business: designing and implementing the tracking needed to know which marketing channels and listings actually generate leads.</p>
+            <h4>Problem</h4>
+            <p>Before this project, there was no reliable way to connect marketing activity to leads. Decisions about where to spend marketing time and money were made without data.</p>
+            <h4>Approach</h4>
+            <ul>
+              <li>Defined an event taxonomy for lead-generation actions (form submits, phone clicks, showing requests)</li>
+              <li>Implementing those events through Google Tag Manager</li>
+              <li>Designed a UTM tagging strategy so every campaign is attributable</li>
+              <li>Connected GA4 with Google Search Console to link organic search behavior to on-site conversions</li>
+              <li>Building a monthly reporting template plus local SEO experiments to measure search visibility</li>
+            </ul>
+            <h4>Results</h4>
+            <p class="note">Content in progress. Results will be published after a full month of clean data. No numbers appear here before then.</p>
+          </div>
+        </details>
+
+        <details class="project">
+          <summary>
+            <span class="pnum">05</span>
+            <span>
+              <span class="eyebrow">Analytics + Data</span>
+              <span class="ptitle" style="display:block; margin-top:0.35rem;">Tokyo Airbnb Pricing &amp; Marketplace Analysis</span>
+              <span class="pdesc" style="display:block;">Pricing distribution, submarket trends, and host recommendations from 25,000+ Tokyo Airbnb listings, analyzed in Python and visualized in Tableau.</span>
+              <span class="ptags" style="display:block;">Python · Tableau · Pricing Analytics</span><span class="pproof">25,000+ listings analyzed</span>
+              <span class="popen" style="display:block;"><span class="when-closed">Read the case study ↓</span><span class="when-open">Close ↑</span></span>
+            </span>
+            <span class="status"><span class="dot dot-teal"></span>Case study · in progress</span>
+          </summary>
+          <div class="casebody">
+            <h4>Overview</h4>
+            <p>An independent analytics project examining how pricing behaves across 25,000+ Tokyo Airbnb listings: pricing distribution, submarket trends, and host performance, translated into pricing and positioning recommendations for hosts.</p>
+            <h4>Problem</h4>
+            <p>Airbnb hosts largely price by intuition. Across a market this size, that produces systematic gaps: comparable units priced far apart, and hosts leaving revenue on the table without knowing it.</p>
+            <h4>My Role</h4>
+            <p>Solo analyst: data cleaning and analysis in Python, visualization in Tableau, and a final strategy deck translating the findings into host-facing recommendations.</p>
+            <h4>Approach</h4>
+            <ul>
+              <li>Cleaned and analyzed 25,000+ listings in Python</li>
+              <li>Evaluated pricing distribution, submarket trends, and host performance</li>
+              <li>Quantified price variance across submarkets and listing types to identify pricing gaps versus comparable units</li>
+              <li>Built Tableau visualizations of the pricing landscape</li>
+              <li>Translated the analysis into revenue and positioning recommendations for hosts</li>
+            </ul>
+            <h4>Key Findings &amp; Artifacts</h4>
+            <p class="note">Content in progress. This section will be updated with public-safe findings and artifacts.</p>
+          </div>
+        </details>
+
+        <details class="project">
+          <summary>
+            <span class="pnum">06</span>
+            <span>
+              <span class="eyebrow">Visual Communication</span>
+              <span class="ptitle" style="display:block; margin-top:0.35rem;">Portfolio Website</span>
+              <span class="pdesc" style="display:block;">This site, designed and built with AI-assisted workflows, from brand system to deployment. The proof for the visual communication lane is the thing you're reading.</span>
+              <span class="ptags" style="display:block;">HTML/CSS · Astro · AI Workflow</span>
+              <span class="popen" style="display:block;"><span class="when-closed">More ↓</span><span class="when-open">Close ↑</span></span>
+            </span>
+            <span class="status"><span class="dot dot-teal"></span>Live · this site</span>
+          </summary>
+          <div class="casebody">
+            <p>Designed from a personal brand system (colors, type, wave motif) and built two ways: a maintainable Astro + Tailwind project deployed on Vercel, and this dependency-free single-file version. Both were built with AI-assisted workflows, the same analyze → translate → build approach I use for analytics work.</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="wrap wave" aria-hidden="true">
+      <svg viewBox="0 0 380 30" fill="none"><path d="M4 18c22-14 44-14 66 0s44 14 66 0 44-14 66 0 44 14 66 0 44-14 66 0" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+    </div>
+
+    <!-- ================= HOW I WORK ================= -->
+    <section class="wrap" id="how">
+      <h2>How I Work</h2>
+      <div class="steps">
+        <div class="step">
+          <p class="n">01</p>
+          <h3>Analyze</h3>
+          <p>Start with the decision someone actually needs to make, then dig into the messy data, workflows, and business questions behind it. If the output doesn't change a decision, it isn't done.</p>
+        </div>
+        <div class="step">
+          <p class="n">02</p>
+          <h3>Translate</h3>
+          <p>Turn findings into clear stories: dashboards, decks, and recommendations in plain language. Data explains what's happening; talking to people explains why.</p>
+        </div>
+        <div class="step">
+          <p class="n">03</p>
+          <h3>Build</h3>
+          <p>Ship practical systems, reporting, and workflows teams actually use. A dashboard a team opens twice a week beats a perfect model nobody touches.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= ABOUT ================= -->
+    <section class="wrap" id="about">
+      <h2>About</h2>
+      <div class="prose" style="margin-top:1.5rem;">
+        <p style="font-size:1.125rem;">Hi, I'm Clark Hayashi.</p>
+        <p class="soft" style="margin-top:1rem;">I'm a Business Analytics and Marketing graduate from Seattle University with a minor in Japanese, originally from Hawai‘i. My background blends analytics, marketing, AI, operations, global study, sports leadership, visual communication, and service. Most of it comes down to the same move: taking something messy (a dataset, a process, a pile of competing ideas) and turning it into something a team can act on.</p>
+        <p class="soft" style="margin-top:1rem;">At Bank of Hawaii, as one of the bank's first AI interns, that meant interviewing people across the organization about where AI could actually help, then building the scoring framework and Power BI dashboard leadership used to prioritize the opportunities. The rest of the record is below. One note from four years of refereeing flag football: it teaches you more about making fast calls with incomplete information than most classrooms do.</p>
+      </div>
+
+      <!-- Experience snapshot -->
+      <div class="prose" style="margin-top:3rem;">
+        <h2 style="font-size:1.75rem;">Experience Snapshot</h2>
+        <p class="muted" style="margin:0.75rem 0 1.5rem;">The full picture. The <a href="public/resume.pdf" style="color:var(--teal); font-weight:500;">resume</a> is the one-page version.</p>
+
+        <div class="snap">
+          <div>
+          <p class="eyebrow">Bank of Hawaii</p>
+          <h3>AI Intern</h3><span class="dates">Summer 2025</span>
+          <p class="detail">Gathered 50+ AI use cases through conversations with 19+ employees and AI Ambassadors; built the Excel repository, scoring framework, and Power BI dashboard used to prioritize them. Presented to 60+ employees and senior leaders.</p>
+          <p style="margin-top:0.5rem;"><a href="https://www.linkedin.com/feed/update/urn:li:activity:7371946885185642496/" target="_blank" rel="noopener noreferrer" style="color:var(--teal); font-weight:500; font-size:0.875rem; text-decoration:none;">Read the LinkedIn post &rarr;</a></p>
+          </div>
+          <div class="xwrap">
+            <img class="snapimg snaplogo xfade-a" src="public/images/logos/bank-of-hawaii.png" alt="Bank of Hawaii logo" loading="lazy" />
+            <img class="snapimg xfade-b" src="public/images/boh/boh-volunteer-group.jpg" alt="Bank of Hawaii volunteer event group photo" loading="lazy" />
+          </div>
+        </div>
+        <div class="snap">
+          <div>
+          <p class="eyebrow">Seattle University Credit Union Initiative</p>
+          <h3>Co-founder &amp; COO</h3><span class="dates">2024 to present</span>
+          <p class="detail">Student-led credit union initiative: operations, reporting, and coordination across teams; financial literacy programming; grew membership from 23 to 54 students. Won the $20K Harriet Stephenson Business Plan Competition and the eBay Best Marketplace Idea Prize at UW's 2025 Dempsey Startup Competition (competing as Seattle Financial Initiative), a 174-team regional field. Now advising the team post-graduation.</p>
+          <p style="margin-top:0.5rem;"><a href="https://www.linkedin.com/company/seattle-university-credit-union-initiative/" target="_blank" rel="noopener noreferrer" style="color:var(--teal); font-weight:500; font-size:0.875rem; text-decoration:none;">SUCUI on LinkedIn &rarr;</a><a href="https://medium.com/foster-school-of-business/2025-dempsey-startup-competition-awards-bbd5b05b75af" target="_blank" rel="noopener noreferrer" style="color:var(--teal); font-weight:500; font-size:0.875rem; text-decoration:none; margin-left:1.25rem;">Dempsey recap &rarr;</a></p>
+          </div>
+          <div class="xwrap">
+            <img class="snapimg snaplogo xfade-a" src="public/images/logos/sucui.png" alt="Seattle University Credit Union Initiative logo" loading="lazy" />
+            <img class="snapimg xfade-b" src="public/images/sucui/sucui-team.jpg" alt="The SUCUI team at an event booth" loading="lazy" />
+          </div>
+        </div>
+        <div class="snap">
+          <div>
+          <p class="eyebrow">Seattle University Recreation</p>
+          <h3>Intramural Sports Official &rarr; Manager</h3><span class="dates">2022 to 2026</span>
+          <p class="detail">Four years in the program: started as a student official in fall 2022, promoted to Intramural Sports Manager senior year. Trained and mentored 40 officials supporting 64+ teams and 469+ participants, ran operations, scheduling, and conflict resolution, and produced digital media with 3× the engagement of standard department posts.</p>
+          </div>
+          <img class="snapimg snaplogo" src="public/images/logos/su-rec.png" alt="Seattle University Recreation logo" loading="lazy" />
+        </div>
+        <div class="snap">
+          <div>
+          <p class="eyebrow">Applied Analytics SU · Seattle University</p>
+          <h3>Analyst</h3><span class="dates">2023 to 2026</span>
+          <p class="detail">Student analytics club: analyzing real-world datasets in Tableau with statistical and predictive modeling, plus workshops, case competitions, and industry speakers. Fall 2023 case study: co-built an interactive Tableau dashboard on Seattle building permit data with a team of analysts, then presented trends in construction activity and permitting.</p>
+          <p style="margin-top:0.5rem;"><a href="https://public.tableau.com/app/profile/daniel.rios5181/viz/SeattleBuildingPermitAnalysis/Dashboard2" target="_blank" rel="noopener noreferrer" style="color:var(--teal); font-weight:500; font-size:0.875rem; text-decoration:none;">View the Tableau dashboard &rarr;</a><a href="https://www.linkedin.com/feed/update/urn:li:activity:7152459299229782017/" target="_blank" rel="noopener noreferrer" style="color:var(--teal); font-weight:500; font-size:0.875rem; text-decoration:none; margin-left:1.25rem;">Club announcement &rarr;</a></p>
+          </div>
+          <img class="snapimg snaplogo" src="public/images/logos/applied-analytics.png" alt="Applied Analytics Seattle University club logo" loading="lazy" />
+        </div>
+        <div class="snap">
+          <div>
+          <p class="eyebrow">Seattle University</p>
+          <h3>BBA, Business Analytics &amp; Marketing</h3><span class="dates">2022 to 2026</span>
+          <p class="detail">Minor in Japanese. Magna Cum Laude, GPA 3.71. Achievement Scholarship and Senator Daniel K. Akaka Scholarship recipient; Dean's List and President's List.</p>
+          </div>
+          <img class="snapimg snaplogo" src="public/images/logos/su-seal.png" alt="Seattle University seal" loading="lazy" />
+        </div>
+        
+        <details class="bgxp">
+          <summary>Background · sports, culture &amp; first jobs (7 more) <span class="when-closed">&darr;</span><span class="when-open">&uarr;</span></summary>
+          <div class="snap">
+          <div>
+          <p class="eyebrow">Seattle University Athletics</p>
+          <h3>NCAA D1 Women's Basketball Practice Player</h3><span class="dates">2023 to 2025</span>
+          <p class="detail">Scout-team role for the varsity program: learned opposing teams' schemes each week, then scrimmaged against the squad in practice so they could prepare for specific matchups.</p>
+          </div>
+          <img class="snapimg snaplogo" src="public/images/logos/su-athletics.png" alt="Seattle University athletics mark" loading="lazy" />
+        </div>
+          <div class="snap">
+          <div>
+          <p class="eyebrow">Hui o Nani Hawai‘i · Seattle University</p>
+          <h3>Member</h3><span class="dates">2022 to 2026</span>
+          <p class="detail">One of SU's largest cultural clubs. Helped organize the annual Lū‘au, celebrating Hawaiian culture in front of an audience of 300+.</p>
+          </div>
+          <img class="snapimg snaplogo" src="public/images/logos/hui-o-nani.png" alt="Hui o Nani Hawai‘i club logo" loading="lazy" />
+        </div>
+          <div class="snap">
+          <div>
+          <p class="eyebrow">Sophia University, Tokyo</p>
+          <h3>Study Abroad</h3><span class="dates">Spring &amp; Summer 2024</span>
+          <p class="detail">Coursework spanning Japanese language, Anthropology of Japan, management, and the Philosophy of AI. Outside class: the APES basketball circle, the Japanese Language Club, and Peer Cafe. The foundation of an ongoing Japan connection.</p>
+          </div>
+          <div class="xwrap">
+            <img class="snapimg snaplogo xfade-a" src="public/images/logos/sophia.png" alt="Sophia University seal" loading="lazy" />
+            <img class="snapimg xfade-b" src="public/images/japan/sophia-basketball-group.jpg" alt="APES basketball circle group photo at Sophia University" loading="lazy" />
+          </div>
+        </div>
+          <div class="snap">
+          <div>
+          <p class="eyebrow">Albers School of Business</p>
+          <h3>Italy Study Tour</h3><span class="dates">2025</span>
+          <p class="detail">An Albers course spanning spring quarter and summer, capped by a 10-day immersion in Sansepolcro and Tuscany studying leadership, marketing, and global business: family wineries, Nestl&eacute;'s Perugina chocolate operation, the B Corp-certified textile firm Busatti, and leadership lessons from St. Francis of Assisi to the Florentine republic in Arezzo.</p>
+          <p style="margin-top:0.5rem;"><a href="https://www.linkedin.com/feed/update/urn:li:activity:7374272355684028416/" target="_blank" rel="noopener noreferrer" style="color:var(--teal); font-weight:500; font-size:0.875rem; text-decoration:none;">See the program recap &rarr;</a></p>
+          </div>
+          <div class="xwrap">
+            <img class="snapimg xfade4-1" src="public/images/italy/italy-study-tour-group.jpg" alt="Italy study tour group at a Tuscan vineyard" loading="lazy" />
+            <img class="snapimg xfade4-2" src="public/images/italy/assisi-basilica.jpg" alt="Basilica of St. Francis in Assisi" loading="lazy" />
+            <img class="snapimg xfade4-3" src="public/images/italy/rome-skyline.jpg" alt="Rome skyline with the Colosseum in the distance" loading="lazy" />
+            <img class="snapimg xfade4-4" src="public/images/italy/colosseum.jpg" alt="The Colosseum in Rome" loading="lazy" />
+          </div>
+        </div>
+          <div class="snap">
+          <div>
+          <p class="eyebrow">Navy Exchange · Honolulu</p>
+          <h3>Sales Associate</h3><span class="dates">2020 to 2021</span>
+          <p class="detail">First job, back home during the pandemic: sales, customer service, and cash handling in service of military members and their families.</p>
+          </div>
+          <img class="snapimg snaplogo" src="public/images/logos/nex.png" alt="Navy Exchange logo" loading="lazy" />
+        </div>
+          <div class="snap">
+          <div>
+          <p class="eyebrow">Punahou School · Honolulu</p>
+          <h3>High School · Class of 2022</h3><span class="dates">2018 to 2022</span>
+          <p class="detail">Varsity basketball co-captain, voted the team's Most Inspirational Player; also varsity golf and cross country. JROTC cadet, earning the Mayor's Award of Recognition. Worked the annual Carnival every February for a class that raised $337K for financial aid.</p>
+          </div>
+          <img class="snapimg snaplogo" src="public/images/logos/punahou.png" alt="Punahou School seal" loading="lazy" />
+        </div>
+          <div class="snap" style="border-bottom:1px solid rgba(28,28,28,0.1);">
+          <div>
+          <p class="eyebrow">Boy Scouts of America · Troop 9, Moanalua</p>
+          <h3>Eagle Scout</h3><span class="dates">2020 to 2022</span>
+          <p class="detail">Senior Patrol Leader for 40+ scouts ages 10 to 17; mentored 10 youth leaders; led a 199-hour library transformation as my Eagle project. After earning Eagle, served as Junior Assistant Scoutmaster until aging out.</p>
+          </div>
+          <img class="snapimg snaplogo" src="public/images/logos/eagle-scout.png" alt="Eagle Scout badge" loading="lazy" />
+        </div>
+          
+        </details>
+      </div>
+
+      <!-- Rooted Perspective -->
+      <div class="prose" style="margin-top:3rem;">
+        <h2 style="font-size:1.75rem;">Rooted Perspective</h2>
+        <p class="soft" style="margin-top:1rem;">I grew up in Hawai‘i, where community isn't a value statement; it's just how things get done. Seattle is where I learned to work: analytics and marketing classes, a student credit union, four years of intramural sports. A semester at Sophia University in Tokyo and a study tour through Tuscany stretched that further. Being the person who doesn't fully speak the language or know the customs teaches you to pay close attention.</p>
+        <p class="soft" style="margin-top:1rem;">Sports run through all of it: co-captaining my high school varsity basketball team, officiating and managing intramural leagues, and scrimmaging against a D1 women's basketball team as a practice player. None of this shows up on a dashboard, but it shapes how I build one. I ask who will actually use the thing, I over-communicate rather than assume, and I finish what I start, a habit Scouting drilled in early. The question underneath every project stays the same: how do I make this clearer, more useful, and more human?</p>
+      </div>
+      <div class="gallery prose">
+        <figure>
+          <img src="public/images/hawaii/hawaii-coast.jpg" alt="Coastline in Hawai‘i with mountains meeting the ocean" loading="lazy" />
+          <figcaption>Hawai‘i</figcaption>
+        </figure>
+        <figure>
+          <img src="public/images/seattle/seattle-space-needle.jpg" alt="Seattle skyline with the Space Needle from Gas Works Park" loading="lazy" />
+          <figcaption>Seattle</figcaption>
+        </figure>
+        <figure>
+          <img src="public/images/japan/tokyo-skytree-dusk.jpg" alt="Tokyo skyline with the Skytree at dusk" loading="lazy" />
+          <figcaption>Tokyo</figcaption>
+        </figure>
+        <figure>
+          <img src="public/images/italy/tuscan-vineyards.jpg" alt="Vineyard hills in the Italian countryside at golden hour" loading="lazy" />
+          <figcaption>Italy</figcaption>
+        </figure>
+      </div>
+
+      <!-- Building now -->
+      <div class="prose" style="margin-top:3rem;">
+        <h2 style="font-size:1.75rem;">What I'm Building Now</h2>
+        <ul class="nowlist">
+          <li>This portfolio, and the public-safe case study write-ups behind it</li>
+          <li>GA4, Tag Manager, and lead tracking for a family real estate business</li>
+          <li>Marketing analytics and local SEO practice on a real, live project</li>
+          <li>Deepening SQL, Python, GA4, and Search Console</li>
+          <li>Longer term: JLPT N3 and keeping the Japan connection alive</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ================= CONTACT ================= -->
+    <section class="wrap" id="contact">
+      <div class="contact-card">
+        <h2>Open to analyst roles across business, data, and marketing.</h2>
+        <p>If your team needs someone who can take a messy problem and hand back a clear decision, let's talk.</p>
+        <div class="btn-row">
+          <a class="btn btn-paper" href="mailto:hayashiclark@gmail.com">hayashiclark@gmail.com</a>
+          <a class="btn btn-outline" href="https://www.linkedin.com/in/clark-hayashi" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="foot">
+      <p>Clark Hayashi · Seattle, via Hawai‘i and Japan</p>
+      <p class="links">
+        <a href="mailto:hayashiclark@gmail.com">hayashiclark@gmail.com</a>
+        <a href="https://www.linkedin.com/in/clark-hayashi" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <span>© 2026</span>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

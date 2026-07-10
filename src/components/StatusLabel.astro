@@ -1,0 +1,21 @@
+---
+interface Props {
+  label: string;
+  type?: "progress" | "building" | "private";
+}
+
+const { label, type = "progress" } = Astro.props;
+
+const dot: Record<string, string> = {
+  progress: "bg-teal",
+  building: "bg-crimson",
+  private: "bg-bark",
+};
+---
+
+<span
+  class="inline-flex items-center gap-2 whitespace-nowrap text-xs font-medium uppercase tracking-[0.14em] text-ink/55"
+>
+  <span class:list={["h-1.5 w-1.5 rounded-full", dot[type]]} aria-hidden="true"></span>
+  {label}
+</span>

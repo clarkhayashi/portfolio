@@ -1,0 +1,31 @@
+---
+const current = Astro.url.pathname;
+const links = [
+  { href: "/work", label: "Work" },
+  { href: "/about", label: "About" },
+  { href: "/resume.pdf", label: "Resume" },
+];
+---
+
+<header class="mx-auto flex max-w-[1000px] items-baseline justify-between px-6 py-7 md:py-9">
+  <a href="/" class="font-serif text-[2.1rem] font-bold tracking-tight transition-colors hover:text-teal">
+    Clark Hayashi
+  </a>
+  <nav aria-label="Main" class="flex gap-5 text-sm font-medium md:gap-8">
+    {
+      links.map((l) => (
+        <a
+          href={l.href}
+          class:list={[
+            "transition-colors hover:text-teal",
+            current.startsWith(l.href) && l.href !== "/resume.pdf"
+              ? "text-teal"
+              : "text-ink/80",
+          ]}
+        >
+          {l.label}
+        </a>
+      ))
+    }
+  </nav>
+</header>

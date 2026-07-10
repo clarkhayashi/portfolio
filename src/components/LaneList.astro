@@ -1,0 +1,18 @@
+---
+/**
+ * "What I Bring" lanes, rendered as quiet editorial rows.
+ * Content lives in src/data/lanes.ts.
+ */
+import { lanes } from "../data/lanes";
+---
+
+<div class="border-b border-ink/10">
+  {
+    lanes.map((lane) => (
+      <div class="grid gap-1.5 border-t border-ink/10 py-6 md:grid-cols-[230px_1fr] md:gap-8 md:py-7">
+        <h3 class="font-serif text-[1.35rem] font-bold tracking-tight">{lane.title}</h3>
+        <p class="max-w-[60ch] leading-relaxed text-ink/70">{lane.description}</p>
+      </div>
+    ))
+  }
+</div>

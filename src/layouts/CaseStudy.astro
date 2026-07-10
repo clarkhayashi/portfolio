@@ -1,0 +1,28 @@
+---
+import Base from "./Base.astro";
+import StatusLabel from "../components/StatusLabel.astro";
+
+const { frontmatter } = Astro.props;
+---
+
+<Base title={`${frontmatter.title} · Clark Hayashi`} description={frontmatter.summary}>
+  <article class="mx-auto max-w-[70ch] px-6 pb-10 pt-10 md:pt-16">
+    <a href="/work" class="text-sm font-medium text-teal transition-colors hover:text-ink"
+      >← All work</a
+    >
+    <div class="mt-8">
+      <StatusLabel label={frontmatter.statusLabel} type={frontmatter.statusType} />
+    </div>
+    <h1
+      class="mt-4 font-serif text-4xl font-semibold leading-[1.1] tracking-tight md:text-5xl"
+    >
+      {frontmatter.title}
+    </h1>
+    <p class="mt-5 text-lg leading-relaxed text-ink/70">{frontmatter.summary}</p>
+    <p class="mt-4 text-sm text-ink/45">{frontmatter.tags?.join(" · ")}</p>
+
+    <div class="case-body mt-6">
+      <slot />
+    </div>
+  </article>
+</Base>
