@@ -1,6 +1,7 @@
 # Clark Hayashi Portfolio · Handover (living continuity record)
 
-Last updated: 2026-07-10. Read `CLAUDE.md` (project constitution) first.
+Last updated: 2026-07-10 (second session). Read `CLAUDE.md` (project
+constitution) first.
 Detailed audits linked at the bottom. This file is the single source of truth
 for current state; update it at the end of every working session.
 
@@ -13,16 +14,16 @@ new type system). Clark has not yet chosen.
 
 # Current implementation state
 
-Verified directly against the codebase on 2026-07-10; `npx astro build`
-passes, 8 pages built.
+Verified directly against the codebase on 2026-07-10 (both sessions);
+`npx astro build` passes, 9 pages built.
 
 **Astro site (canonical, builds clean):**
-- Pages: `/` (index.astro), `/about`, `/journey`, `/work` + 4 case-study
-  markdown pages (ai-use-case-prioritization, intramural-participation,
-  real-estate-lead-analytics, tokyo-airbnb-pricing).
+- Pages: `/` (index.astro), `/about`, `/journey`, `/work` + 5 case-study
+  markdown pages (ai-use-case-prioritization, hawaii-value-stays,
+  intramural-participation, real-estate-lead-analytics, tokyo-airbnb-pricing).
 - Components: Header, Footer, ButtonLink, StatusLabel, ProjectRow, WorkList,
   LaneList, WaveDivider, ExperienceRow.
-- Data files: projects.ts (7 work items), lanes.ts (5 lanes), experience.ts
+- Data files: projects.ts (8 work items), lanes.ts (5 lanes), experience.ts
   (12 entries: 5 main + 7 background), journey.ts (6 stops, correct order).
 - /journey: scroll-driven canvas atlas globe, zero libraries, world-atlas
   land-110m fetched at runtime from jsDelivr with silent fallback.
@@ -37,12 +38,17 @@ Permit = completed, live external Tableau link. Intramural + Tokyo Airbnb =
 shells awaiting real Key Findings/Artifacts. Real Estate = currently
 building, no results yet (correct). Journey page + Portfolio = live.
 
-**Not yet published, discovered in repo:** `drafts/hawaii-value-stays.md`
-(Hawai'i Airbnb vs hotels case study, ~36,000 listings, BUAN 4220; marked
-"liked, approved for the site" in `archive/hawaii-airbnb-buan4220/README.md`)
-is NOT yet wired into projects.ts or `src/pages/work/`. Publishing it is an
-open task. `archive/tokyo-airbnb-group-project/` is reference-only, never
-publish directly.
+**Hawai'i value-stays: PUBLISHED (2026-07-10, second session).**
+`src/pages/work/hawaii-value-stays.md` created + projects.ts entry (after
+Seattle Building Permit). Clark's answers, on record: dataset = Inside
+Airbnb; framed as Clark's own separate build, inspired by the class
+original, with NO team credit (Clark: "do not need to mention, separate
+project, inspo from our original"); Reflection drafted by Claude AWAITING
+Clark's review; Recommendations kept from draft but Clark chose "I'll
+tweak" without providing text yet. Draft file kept in `drafts/` with a
+superseded note. Artifacts section still a placeholder pending Clark's
+Tableau Public publish. `archive/tokyo-airbnb-group-project/` remains
+reference-only, never publish directly.
 
 # Stable decisions
 
@@ -61,7 +67,26 @@ the experiment on 2026-07-10: Honolulu (2004–2022) → Seattle (2022) → Toky
 facts"): basketball MIP not golf, "audience of 300+", no VP of Finance, no
 "June 2026", "Dean's List and President's List".
 
-# Recent session changes (2026-07-10 session)
+# Recent session changes (2026-07-10, second session)
+
+1. **Verified repo against CLAUDE.md + this handover:** build re-run (passed,
+   8 pages pre-change), chronology consistent in journey.ts + both prototypes,
+   no em dashes in src/, audit docs present. Only discrepancy found: all work
+   sat uncommitted on a single-commit repo.
+2. **Git checkpoint commit** of all prior work (a stale `.git/index.lock` had
+   to be removed; file deletion was user-approved for that purpose only; the
+   never-delete rule for workspace files still stands).
+3. **Homepage decision asked; still OPEN.** Clark: "not ready to decide but I
+   do like the experiment and def see the potential." Do not port anything yet.
+4. **Published the Hawai'i value-stays case study** (see above) and marked the
+   draft superseded. Build verified after: 9 pages, new page linked from `/`
+   and `/work`, zero em dashes in output.
+5. NOT done: prototypes (`portfolio-onepage.html`, experiment) do NOT yet show
+   the new Hawai'i work row; sync deliberately deferred until the homepage
+   decision (additions are not "factual corrections" under the propagation rule,
+   but the one-page mirror is now one row behind).
+
+# Prior session changes (2026-07-10, first session)
 
 1. **Chronology fix (canonical):** journey.ts had Italy before BOH; swapped
    stops 4/5 in journey.ts AND prototypes/journey.html; Sansepolcro year
@@ -118,8 +143,9 @@ facts"): basketball MIP not golf, "audience of 300+", no VP of Finance, no
 - Globe requires network for coastlines (graceful fallback coded, untested).
 - Intramural + Tokyo Airbnb case studies have empty Key Findings/Artifacts:
   the site is copy-complete but evidence-light (see audit, Phase 6).
-- Hawai'i value-stays draft approved but unpublished; needs artifacts and a
-  projects.ts entry, and would change work-row numbering.
+- Hawai'i value-stays now published but carries three open items: Reflection
+  awaiting Clark's review, Recommendations awaiting Clark's tweak, Artifacts
+  awaiting his Tableau Public publish.
 - LinkedIn URL (`linkedin.com/in/clark-hayashi`) unconfirmed; GPA display
   (3.71) awaiting Clark's confirmation.
 - Domain not purchased; `site` in astro.config.mjs + robots.txt are placeholders.
@@ -138,9 +164,14 @@ facts"): basketball MIP not golf, "audience of 300+", no VP of Finance, no
 **Should improve**
 5. Fill Key Findings/Artifacts for intramural + Tokyo Airbnb (2–3 findings +
    1 dashboard screenshot each; highest-impact proof gap).
-6. Publish the Hawai'i value-stays case study from the approved draft.
+6. Hawai'i value-stays follow-ups: Clark reviews the Reflection, supplies his
+   Recommendations tweak, publishes his workbook to Tableau Public
+   (profile/clark.hayashi), then add the VerifiedLink + 2–3 chart crops
+   (consistency check: published numbers must match Key Findings).
 7. Browser-test the experiment (desktop + phone): globe legibility, stipple
    performance, swipe, keyboard, reduced motion.
+7b. After the homepage decision: sync the Hawai'i work row into the surviving
+   prototype(s).
 
 **Optional polish**
 8. Real Estate results after one clean month of GA4 data.
@@ -149,9 +180,14 @@ facts"): basketball MIP not golf, "audience of 300+", no VP of Finance, no
 
 # Immediate next task
 
-Ask Clark to open `prototypes/portfolio-journey-experiment.html` next to
-`portfolio-onepage.html` and the Astro site, and pick a direction. Everything
-else queues behind that decision (except resume.pdf, which blocks regardless).
+The homepage question was asked on 2026-07-10 (second session); Clark is not
+ready to decide but likes the experiment. Next: get his decision (he should
+open `prototypes/portfolio-journey-experiment.html` next to
+`portfolio-onepage.html` and the Astro site, ideally in a real browser).
+Meanwhile the top direction-independent work is: (a) Clark's three Hawai'i
+follow-ups (Reflection review, Recommendations tweak, Tableau Public publish),
+(b) resume.pdf (blocks launch regardless), (c) Key Findings for intramural +
+Tokyo Airbnb.
 
 # Fresh-session startup instruction
 

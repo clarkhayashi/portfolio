@@ -8,6 +8,13 @@ statusType: "progress"
 ---
 
 <!--
+SUPERSEDED 2026-07-10 — published to src/pages/work/hawaii-value-stays.md
+with Clark's answers: Inside Airbnb dataset; reframed as Clark's own separate
+build (inspired by the class original, no team credit per Clark); Reflection
+drafted for his review; Recommendations pending his tweak. This file is kept
+as source material per the never-delete rule.
+
+Original draft header follows:
 DRAFT — lives in drafts/, not src/pages/work/. Nothing on the site changes
 until Clark moves this file and adds the projects.ts entry below.
 

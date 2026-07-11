@@ -58,6 +58,17 @@ export const projects: Project[] = [
     statusType: "progress",
   },
   {
+    title: "Finding the Best Value Stays in Hawai'i",
+    description:
+      "Airbnb vs. hotel value across the Hawaiian islands: ~36,000 Inside Airbnb listings, island and neighborhood pricing, ratings, and zoning context, built into an interactive Tableau dashboard.",
+    tags: ["Tableau", "Data Visualization"],
+    lane: "Analytics + Data",
+    proof: "~36,000 listings · interactive dashboard",
+    href: "/work/hawaii-value-stays",
+    statusLabel: "Completed · artifacts publishing",
+    statusType: "progress",
+  },
+  {
     title: "Real Estate Lead Analytics",
     description:
       "GA4, Google Tag Manager, Search Console, UTM strategy, and local SEO reporting for a family real estate business. Results publish after a full month of clean data.",
