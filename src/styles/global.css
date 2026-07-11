@@ -28,6 +28,7 @@
   --color-paper: #f7f4ef;
   --color-ink: #1c1c1c;
   --color-teal: #5d8c88;
+  --color-teal-deep: #4f7773;
   --color-bark: #6b5642;
   --color-crimson: #8a1538;
 
@@ -120,3 +121,19 @@ button:focus-visible {
   .xfade4-1, .xfade4-2, .xfade4-3, .xfade4-4 { animation: none; }
   .xfade4-2, .xfade4-3, .xfade4-4 { opacity: 0; }
 }
+
+/* ---------- Paper grain (barely there; makes the paper literal) ---------- */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0.032;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---------- Typographic care ---------- */
+h1, h2, h3 { text-wrap: balance; }
+body { font-variant-numeric: tabular-nums; }

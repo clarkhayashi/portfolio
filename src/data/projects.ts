@@ -80,6 +80,17 @@ export const projects: Project[] = [
     statusType: "progress",
   },
   {
+    title: "The Journey Page",
+    description:
+      "A scroll-driven atlas globe tracing Hawai'i to Seattle to Tokyo to Tuscany and home again. Orthographic projection, real coastlines, and great-circle route math written by hand in canvas.",
+    tags: ["Canvas", "Scrollytelling", "Vanilla JS"],
+    lane: "Visual Communication",
+    proof: "0 libraries · hand-written projection math",
+    href: "/journey",
+    statusLabel: "Live · interactive",
+    statusType: "progress",
+  },
+  {
     title: "Portfolio Website",
     description:
       "This site, designed and built with Astro, Tailwind, and AI-assisted workflows, from brand system to deployment. The proof for the visual communication lane is the thing you're reading.",

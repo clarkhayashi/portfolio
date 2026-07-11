@@ -1,13 +1,23 @@
 # Prototypes
 
-Archived design concepts kept for reference. These are **not** part of the Astro build.
+Standalone HTML files, not part of the Astro build. All three use
+`../public/...` relative paths, so they render by double-clicking **as long
+as they stay in this folder** next to the project's `public/` directory.
+(An earlier version of this README claimed the opposite; that was stale.)
 
 ## portfolio-onepage.html
+Self-contained one-page version of the full site (no build step). Kept in
+content sync with the Astro site.
 
-A self-contained, no-build single-file version of the portfolio (an early
-alternative concept). It uses relative `public/…` paths that assume it sits at
-the project root, so **it may not render standalone from this `prototypes/`
-folder** — images and fonts will 404 unless it is moved back to the root or
-served alongside a copy of `public/`.
+## journey.html
+Standalone version of the /journey page: scroll-driven atlas globe,
+coastlines fetched at view time from jsDelivr (needs internet once).
 
-Kept as a source concept only. The live site is the Astro app in `src/`.
+## portfolio-journey-experiment.html
+2026-07-10 product-design experiment: journey globe integrated into the
+homepage as a stepper (no scroll hijack), redesigned globe (sage ocean,
+stippled land), trimmed hero/CTAs, and a trial type system
+(Archivo / Fraunces / IBM Plex Sans). Pending Clark's adopt/reject decision;
+see `docs/CLARK_PORTFOLIO_HANDOVER.md`.
+
+The live site remains the Astro app in `src/`.

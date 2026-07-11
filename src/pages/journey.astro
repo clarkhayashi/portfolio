@@ -1,0 +1,290 @@
+---
+import Base from "../layouts/Base.astro";
+import { journey } from "../data/journey";
+
+const stops = journey.map((s) => ({ place: s.place, lon: s.lon, lat: s.lat, years: s.years }));
+---
+
+<Base
+  title="Journey · Clark Hayashi"
+  description="A scroll-driven atlas of the places that shaped how I work: Hawai'i, Seattle, Tokyo, Tuscany, and home again."
+>
+  <!-- Intro -->
+  <section class="mx-auto max-w-[1000px] px-6 pb-10 pt-6 md:pt-12">
+    <p class="mb-4 text-xs font-medium uppercase tracking-[0.16em] text-teal-deep">
+      The Journey
+    </p>
+    <h1 class="max-w-[18ch] font-serif text-[2.6rem] font-bold leading-[1.06] tracking-tight md:text-[3.5rem]">
+      Four places taught me how to work.
+    </h1>
+    <p class="mt-5 max-w-[52ch] text-lg leading-relaxed text-ink/70">
+      One island, one city, two study-abroad chapters, and a loop back home.
+      Scroll to travel; click a stop to jump.
+    </p>
+  </section>
+
+  <!-- Journey -->
+  <section class="mx-auto max-w-[1100px] px-4 md:px-6">
+    <div class="grid md:grid-cols-2 md:gap-10">
+      <!-- Pinned globe -->
+      <div class="sticky top-0 z-10 -mx-4 bg-paper px-4 pb-2 pt-2 md:top-16 md:mx-0 md:h-[calc(100vh-8rem)] md:self-start md:bg-transparent md:px-0">
+        <div id="globe-box" class="mx-auto aspect-square max-h-[38vh] w-auto md:max-h-none md:w-full md:max-w-[520px]">
+          <canvas id="globe" class="h-full w-full" aria-hidden="true"></canvas>
+        </div>
+        <div id="stop-index" class="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-1 md:mt-4" role="tablist" aria-label="Journey stops">
+        </div>
+      </div>
+
+      <!-- Chapters -->
+      <div id="chapters" class="pt-8 md:pt-[16vh]">
+        {
+          journey.map((s, i) => (
+            <article
+              data-idx={i}
+              id={`stop-${i + 1}`}
+              class="chapter flex min-h-[78vh] flex-col justify-center border-t border-ink/10 py-14 first:border-t-0 md:min-h-[92vh]"
+            >
+              <p class="text-xs font-medium uppercase tracking-[0.16em] text-bark/70">
+                Stop 0{i + 1} · {s.place}
+              </p>
+              <h2 class="mt-2 font-serif text-3xl font-bold tracking-tight md:text-4xl">
+                {s.title}
+              </h2>
+              <p class="mt-1 font-serif text-lg italic text-teal-deep">{s.years}</p>
+              <p class="mt-4 max-w-[52ch] leading-relaxed text-ink/75">{s.story}</p>
+              {s.photo && (
+                <img
+                  src={s.photo.src}
+                  alt={s.photo.alt}
+                  class="mt-6 aspect-[3/2] w-full max-w-[440px] rounded-xl object-cover"
+                  loading="lazy"
+                  width="440"
+                  height="293"
+                />
+              )}
+              {s.links && (
+                <p class="mt-5 flex flex-wrap gap-x-5 gap-y-1">
+                  {s.links.map((l) => (
+                    <a
+                      href={l.href}
+                      {...(l.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                      class="text-sm font-medium text-teal-deep transition-colors hover:text-ink"
+                    >
+                      {l.label} →
+                    </a>
+                  ))}
+                </p>
+              )}
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <noscript>
+    <p class="mx-auto max-w-[1000px] px-6 py-8 text-ink/60">
+      The interactive globe needs JavaScript; the story above reads fine without it.
+    </p>
+  </noscript>
+
+  <script define:vars={{ stops }}>
+    const D = Math.PI / 180;
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const canvas = document.getElementById("globe");
+    const box = document.getElementById("globe-box");
+    const ctx = canvas.getContext("2d");
+    let W = 0, H = 0, R = 0, CX = 0, CY = 0;
+    let l0 = stops[0].lon, p0 = stops[0].lat * 0.55;
+    let active = 0, reached = 0;
+    let land = null;
+
+    function resize() {
+      const rect = box.getBoundingClientRect();
+      const size = Math.min(rect.width, rect.height || rect.width);
+      const dpr = Math.min(devicePixelRatio || 1, 2);
+      canvas.width = size * dpr;
+      canvas.height = size * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      W = H = size;
+      R = size * 0.42;
+      CX = size / 2;
+      CY = size / 2;
+    }
+
+    function proj(lon, lat) {
+      const la = lon * D, ph = lat * D, L = l0 * D, P = p0 * D;
+      const cosc = Math.sin(P) * Math.sin(ph) + Math.cos(P) * Math.cos(ph) * Math.cos(la - L);
+      return {
+        x: CX + R * Math.cos(ph) * Math.sin(la - L),
+        y: CY - R * (Math.cos(P) * Math.sin(ph) - Math.sin(P) * Math.cos(ph) * Math.cos(la - L)),
+        v: cosc > 0.02,
+      };
+    }
+
+    function slerp(a, b, t) {
+      const v = (s) => [Math.cos(s.lat * D) * Math.cos(s.lon * D), Math.cos(s.lat * D) * Math.sin(s.lon * D), Math.sin(s.lat * D)];
+      const A = v(a), B = v(b);
+      const dot = Math.max(-1, Math.min(1, A[0] * B[0] + A[1] * B[1] + A[2] * B[2]));
+      const om = Math.acos(dot);
+      if (om < 1e-6) return a;
+      const s1 = Math.sin((1 - t) * om) / Math.sin(om), s2 = Math.sin(t * om) / Math.sin(om);
+      const P = [A[0] * s1 + B[0] * s2, A[1] * s1 + B[1] * s2, A[2] * s1 + B[2] * s2];
+      return { lon: Math.atan2(P[1], P[0]) / D, lat: Math.asin(Math.max(-1, Math.min(1, P[2]))) / D };
+    }
+
+    function polyline(pts, close) {
+      let pen = false;
+      ctx.beginPath();
+      for (const [lon, lat] of pts) {
+        const p = proj(lon, lat);
+        if (p.v) { pen ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y); pen = true; }
+        else pen = false;
+      }
+      if (close && pen) ctx.closePath();
+      ctx.stroke();
+    }
+
+    function decodeTopo(topo) {
+      const t = topo.transform;
+      const arcs = topo.arcs.map((arc) => {
+        let x = 0, y = 0;
+        return arc.map(([dx, dy]) => {
+          x += dx; y += dy;
+          return [x * t.scale[0] + t.translate[0], y * t.scale[1] + t.translate[1]];
+        });
+      });
+      const ring = (idxs) => {
+        let pts = [];
+        for (const i of idxs) {
+          const a = i < 0 ? arcs[~i].slice().reverse() : arcs[i];
+          pts = pts.concat(pts.length ? a.slice(1) : a);
+        }
+        return pts;
+      };
+      const out = [];
+      const g = topo.objects.land.geometries ? topo.objects.land.geometries : [topo.objects.land];
+      for (const geom of g) {
+        const polys = geom.type === "Polygon" ? [geom.arcs] : geom.arcs;
+        for (const poly of polys) for (const r of poly) out.push(ring(r));
+      }
+      return out;
+    }
+
+    fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/land-110m.json")
+      .then((r) => r.json())
+      .then((topo) => { land = decodeTopo(topo); })
+      .catch(() => {});
+
+    const seen = new Set();
+    const chips = document.getElementById("stop-index");
+    stops.forEach((s, i) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.textContent = `0${i + 1} ${s.place}`;
+      b.setAttribute("aria-label", `Jump to stop ${i + 1}, ${s.place}`);
+      b.style.cssText = "border:0;background:none;cursor:pointer;padding:6px 4px;font:500 0.7rem/1 Satoshi,sans-serif;letter-spacing:0.13em;text-transform:uppercase;";
+      b.dataset.i = i;
+      b.onclick = () => document.getElementById(`stop-${i + 1}`).scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+      chips.appendChild(b);
+    });
+
+    function paintChips() {
+      [...chips.children].forEach((b, i) => {
+        b.style.color = i === active ? "#8A1538" : i <= reached ? "#4F7773" : "rgba(28,28,28,0.4)";
+      });
+    }
+
+    const io = new IntersectionObserver(
+      (es) => es.forEach((e) => { if (e.isIntersecting) { active = +e.target.dataset.idx; paintChips(); } }),
+      { threshold: 0.45 }
+    );
+    document.querySelectorAll(".chapter").forEach((c) => io.observe(c));
+
+    function easeAngle(cur, tgt, f) {
+      const d = ((tgt - cur + 540) % 360) - 180;
+      return cur + d * f;
+    }
+
+    function draw() {
+      const f = reduced ? 1 : 0.045;
+      l0 = easeAngle(l0, stops[active].lon, f);
+      p0 += (stops[active].lat * 0.55 - p0) * f;
+      reached += ((active) - reached) * (reduced ? 1 : 0.05);
+
+      ctx.clearRect(0, 0, W, H);
+      ctx.lineWidth = 1;
+
+      ctx.beginPath();
+      ctx.arc(CX, CY, R, 0, 7);
+      ctx.strokeStyle = "rgba(28,28,28,0.5)";
+      ctx.lineWidth = 1.4;
+      ctx.stroke();
+
+      ctx.lineWidth = 0.7;
+      ctx.strokeStyle = "rgba(28,28,28,0.12)";
+      for (let m = -180; m < 180; m += 20) {
+        const pts = [];
+        for (let la = -90; la <= 90; la += 4) pts.push([m, la]);
+        polyline(pts);
+      }
+      for (let pa = -60; pa <= 60; pa += 20) {
+        const pts = [];
+        for (let lo = -180; lo <= 180; lo += 4) pts.push([lo, pa]);
+        polyline(pts);
+      }
+
+      if (land) {
+        ctx.lineWidth = 0.9;
+        ctx.strokeStyle = "rgba(28,28,28,0.34)";
+        for (const ringPts of land) polyline(ringPts, true);
+      }
+
+      ctx.lineWidth = 2.2;
+      ctx.strokeStyle = "#4F7773";
+      ctx.lineCap = "round";
+      for (let i = 0; i < stops.length - 1; i++) {
+        const t = Math.max(0, Math.min(1, reached - i));
+        if (t <= 0) continue;
+        const a = stops[i], b = stops[i + 1];
+        let pen = false;
+        ctx.beginPath();
+        for (let k = 0; k <= 40 * t; k++) {
+          const g = slerp(a, b, k / 40);
+          const p = proj(g.lon, g.lat);
+          if (p.v) { pen ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y); pen = true; }
+          else pen = false;
+        }
+        ctx.stroke();
+      }
+
+      const labeled = new Set();
+      stops.forEach((s, i) => {
+        const p = proj(s.lon, s.lat);
+        if (!p.v) return;
+        const isActive = i === active;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, isActive ? 5.5 : 3.5, 0, 7);
+        ctx.fillStyle = isActive ? "#8A1538" : i <= reached + 0.5 ? "#4F7773" : "rgba(28,28,28,0.3)";
+        ctx.fill();
+        if (!labeled.has(s.place)) {
+          labeled.add(s.place);
+          ctx.fillStyle = "rgba(28,28,28,0.8)";
+          ctx.font = `600 ${Math.max(12, R * 0.062)}px "Cormorant Garamond", Georgia, serif`;
+          ctx.fillText(s.place, p.x + 9, p.y + 4);
+        }
+      });
+
+      ctx.fillStyle = "rgba(107,86,66,0.85)";
+      ctx.font = `italic 600 ${Math.max(14, R * 0.082)}px "Cormorant Garamond", Georgia, serif`;
+      ctx.fillText(`${stops[active].place} · ${stops[active].years}`, 8, 24);
+
+      requestAnimationFrame(draw);
+    }
+
+    resize();
+    new ResizeObserver(resize).observe(box);
+    paintChips();
+    requestAnimationFrame(draw);
+  </script>
+</Base>

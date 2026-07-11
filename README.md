@@ -1,6 +1,8 @@
 # Clark Hayashi — Portfolio
 
-Personal portfolio site. Astro + Tailwind CSS v4, fully static, no CMS, no client-side JavaScript.
+Personal portfolio site. Astro + Tailwind CSS v4, fully static, no CMS. Client-side JavaScript only on the /journey globe.
+
+> **Session continuity:** stable rules live in `CLAUDE.md`; current state and next tasks live in `docs/CLARK_PORTFOLIO_HANDOVER.md`. Read those first in any new session.
 
 ## Quick start
 
@@ -24,6 +26,7 @@ npm run preview   # preview the production build
 | Change the work list (titles, descriptions, order, statuses, lanes) | `src/data/projects.ts` |
 | Change the "What I Bring" lanes (rename, reorder, add) | `src/data/lanes.ts` |
 | Change the About-page experience snapshot | `src/data/experience.ts` |
+| Edit the Journey page story/stops | `src/data/journey.ts` (spec: `docs/journey-brief.md`) |
 | Edit a case study | `src/pages/work/<slug>.md` |
 | Add a new project | Add an entry in `projects.ts` + copy an existing `.md` in `src/pages/work/` |
 | Change homepage copy (hero, How I Work, contact) | `src/pages/index.astro` |
@@ -85,6 +88,7 @@ src/
 │                           # ProjectRow, WorkList, LaneList, WaveDivider
 └── pages/
     ├── index.astro         # home
+    ├── journey.astro       # scroll-driven atlas globe (data: data/journey.ts)
     ├── about.astro
     └── work/
         ├── index.astro     # /work

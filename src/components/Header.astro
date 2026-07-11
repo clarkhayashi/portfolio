@@ -2,6 +2,7 @@
 const current = Astro.url.pathname;
 const links = [
   { href: "/work", label: "Work" },
+  { href: "/journey", label: "Journey" },
   { href: "/about", label: "About" },
   { href: "/resume.pdf", label: "Resume" },
 ];
@@ -17,9 +18,9 @@ const links = [
         <a
           href={l.href}
           class:list={[
-            "transition-colors hover:text-teal",
+            "transition-colors hover:text-teal-deep",
             current.startsWith(l.href) && l.href !== "/resume.pdf"
-              ? "text-teal"
+              ? "text-teal-deep"
               : "text-ink/80",
           ]}
         >
