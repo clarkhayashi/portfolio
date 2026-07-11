@@ -39,10 +39,10 @@ Status label types: `progress` (teal dot), `building` (red dot), `private` (brow
 
 ## TODO before launch (needs Clark)
 
-- [ ] **`public/resume.pdf` is missing — launch blocker.** The Resume nav link will 404 until you export your resume as PDF and drop it in `public/`.
+- [x] `public/resume.pdf` installed 2026-07-10 (ClarkHayashiResume2026, fact-checked against site copy).
 - [ ] Buy the domain, add it in Vercel, and update `site` in `astro.config.mjs` + `public/robots.txt` (currently a Vercel placeholder — canonical URLs, OG tags, and the sitemap depend on it).
 - [ ] Fill the *Key Findings / Recommendations / Artifacts* sections in `tokyo-airbnb-pricing.md` and `intramural-participation.md` with real, public-safe results. Add chart/dashboard images to `public/images/`.
-- [ ] Confirm the LinkedIn URL (`linkedin.com/in/clark-hayashi`) and fix the old email on your LinkedIn profile (site uses hayashiclark@gmail.com everywhere).
+- [x] LinkedIn URL confirmed 2026-07-10 (`linkedin.com/in/clark-hayashi`). Still to do on LinkedIn itself: fix the old email (site uses hayashiclark@gmail.com everywhere).
 - [ ] Confirm the Experience Snapshot details in `src/data/experience.ts` (GPA shown as 3.71; remove it if you'd rather lead with Magna Cum Laude only).
 - [x] Dates confirmed: SUCUI "2024 to present" (now advising), UREC start Oct 2022, NCAA/Hui per old resume.
 - [ ] Optional: GA4 — create a property and add the tag snippet to `src/layouts/Base.astro` (production only).

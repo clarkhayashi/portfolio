@@ -172,7 +172,12 @@ built HTML, all referenced images/fonts exist on disk, DESIGN.md lints 0/0.
 
 # Known issues and uncertainties
 
-- `public/resume.pdf` missing → Resume links 404 sitewide. Launch blocker.
+- ~~resume.pdf missing~~ RESOLVED 2026-07-10: Clark supplied
+  ClarkHayashiResume2026.pdf; installed at `public/resume.pdf`, fact-checked
+  against site copy (email, President's List, 50+/60+, $20K+$2.5K, 23→54,
+  40+/64+/469+ all match). Zero broken links sitewide now. Note: resume
+  shows GPA 3.7 and "Interviewed 19"; site shows 3.71 and "19+". Not
+  contradictions, but if Clark wants exact parity, pick one.
 - Experiment unrendered in a browser; stipple precompute (~12k point-in-
   polygon tests at load) is untested on low-end phones.
 - Globe requires network for coastlines (graceful fallback coded, untested).
@@ -181,21 +186,21 @@ built HTML, all referenced images/fonts exist on disk, DESIGN.md lints 0/0.
 - Hawai'i value-stays now published but carries three open items: Reflection
   awaiting Clark's review, Recommendations awaiting Clark's tweak, Artifacts
   awaiting his Tableau Public publish.
-- LinkedIn URL (`linkedin.com/in/clark-hayashi`) unconfirmed; GPA display
-  (3.71) awaiting Clark's confirmation; $22.5K competition total awaiting
-  Clark's confirmation of the eBay prize amount.
+- LinkedIn URL and $22.5K total ($20K Harriet Stephenson + $2.5K eBay Best
+  Marketplace Idea Prize): both CONFIRMED by Clark 2026-07-10 (now in
+  CLAUDE.md settled facts). GPA display (3.71 vs resume's 3.7) still awaiting
+  Clark's preference.
 - Domain not purchased; `site` in astro.config.mjs + robots.txt are placeholders.
 - Two type systems now coexist (canonical vs experiment) pending Clark's call.
 
 # Prioritized next actions
 
 **Must fix before launch**
-1. Clark: export `public/resume.pdf` (must match site facts: basketball MIP,
-   President's List, hayashiclark@gmail.com).
+1. ~~resume.pdf~~ DONE 2026-07-10 (installed and fact-checked).
 2. Decide homepage direction (Astro as-is vs experiment); if experiment wins,
    port it into `src/` and update DESIGN.md fonts/sections deliberately.
 3. Domain: buy, set in Vercel, update astro.config.mjs `site` + robots.txt.
-4. Confirm LinkedIn URL and GPA display.
+4. ~~Confirm LinkedIn URL~~ DONE. Confirm GPA display (3.71 vs resume's 3.7).
 
 **Should improve**
 5. Fill Key Findings/Artifacts for intramural + Tokyo Airbnb (2–3 findings +
@@ -216,14 +221,12 @@ built HTML, all referenced images/fonts exist on disk, DESIGN.md lints 0/0.
 
 # Immediate next task
 
-The homepage question was asked on 2026-07-10 (second session); Clark is not
-ready to decide but likes the experiment. Next: get his decision (he should
-open `prototypes/portfolio-journey-experiment.html` next to
-`portfolio-onepage.html` and the Astro site, ideally in a real browser).
-Meanwhile the top direction-independent work is: (a) Clark's three Hawai'i
-follow-ups (Reflection review, Recommendations tweak, Tableau Public publish),
-(b) resume.pdf (blocks launch regardless), (c) Key Findings for intramural +
-Tokyo Airbnb.
+Resume.pdf is in; the launch path now runs through Clark's homepage decision
+(he likes the experiment but hasn't committed; he's been browsing it, the
+file:// tab was open at #experience). Next: get his decision. Remaining
+direction-independent work: (a) Clark's three Hawai'i follow-ups (Reflection
+review, Recommendations tweak, Tableau Public publish), (b) Key Findings for
+intramural + Tokyo Airbnb, (c) domain purchase, (d) GPA display choice.
 
 # Fresh-session startup instruction
 

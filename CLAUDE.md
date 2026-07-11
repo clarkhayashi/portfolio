@@ -48,8 +48,9 @@ work at a named bank.
   Power BI dashboard + scoring framework, readout to 60+. Details stay
   public-safe/summarized; work belongs to the bank.
 - SUCUI: Co-founder & COO, 2024 to present (now advising). $20K Harriet
-  Stephenson win + eBay Best Marketplace Idea Prize at UW Dempsey 2025
-  (competed as Seattle Financial Initiative, 174-team field). Membership 23→54.
+  Stephenson win + $2.5K eBay Best Marketplace Idea Prize at UW Dempsey 2025
+  (competed as Seattle Financial Initiative, 174-team field); $22.5K total
+  confirmed by Clark 2026-07-10. Membership 23→54.
   Do NOT list "VP of Finance" or an "→ Advisor" role suffix.
 - UREC: "Intramural Sports Official → Manager", 2022–2026. 40+ officials,
   64+ teams, 469+ participants, 7 years of data analyzed.
@@ -58,6 +59,9 @@ work at a named bank.
 - Hui o Nani: "audience of 300+" (not "300+ participants").
 - Education line: "Dean's List and President's List" (never "multiple-time
   Dean's List"); do not attach "June 2026" to the degree.
+- LinkedIn URL: linkedin.com/in/clark-hayashi (confirmed by Clark 2026-07-10).
+- Resume: `public/resume.pdf` = ClarkHayashiResume2026, supplied by Clark
+  2026-07-10; fact-checked against site copy at install time.
 - Applied Analytics SU: Fall 2023 Seattle Building Permit dashboard, team
   project, live on Tableau Public (Daniel Rios' profile).
 - Tokyo Airbnb pricing analysis (25,000+ listings) is Clark's SOLO project;
