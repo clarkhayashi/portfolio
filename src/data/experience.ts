@@ -181,16 +181,16 @@ export const experience: ExperienceItem[] = [
         alt: "Italy study tour group at a Tuscan vineyard",
       },
       {
+        src: "/images/italy/wine-barrels.jpg",
+        alt: "Oak wine barrels aging in a Tuscan winery cellar",
+      },
+      {
         src: "/images/italy/assisi-basilica.jpg",
         alt: "Basilica of St. Francis in Assisi",
       },
       {
-        src: "/images/italy/rome-skyline.jpg",
-        alt: "Rome skyline with the Colosseum in the distance",
-      },
-      {
-        src: "/images/italy/colosseum.jpg",
-        alt: "The Colosseum in Rome",
+        src: "/images/italy/arezzo-tower.jpg",
+        alt: "Bell tower rising over a park in Arezzo, Tuscany",
       },
     ],
   },
