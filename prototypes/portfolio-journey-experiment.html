@@ -92,7 +92,7 @@ header.site nav a.chip:hover{border-color:var(--teal-deep);color:var(--teal-deep
 .stop-card h3{font-size:clamp(1.55rem,3vw,2.05rem);margin-top:0.45rem;font-weight:600}
 .stop-card .years{margin-top:0.15rem;font-family:var(--serif);font-style:italic;font-weight:600;font-size:1.05rem;color:var(--teal-deep)}
 .stop-card .story{margin-top:0.9rem;max-width:52ch;color:rgba(28,28,28,0.78)}
-.stop-card img{margin-top:1.15rem;width:100%;max-width:400px;height:auto;border-radius:12px}
+.stop-card img{margin-top:1.15rem;width:auto;height:auto;max-width:min(100%,400px);max-height:400px;border-radius:12px;outline:1px solid rgba(28,28,28,0.08);outline-offset:-1px}
 .stop-card .links{margin-top:1.05rem;display:flex;flex-wrap:wrap;gap:0.3rem 1.35rem}
 .stop-card .links a{font-size:0.87rem;font-weight:500;color:var(--teal-deep);text-decoration:none}
 .stop-card .links a:hover{color:var(--ink)}
@@ -244,7 +244,7 @@ footer{border-top:1px solid rgba(28,28,28,0.1);margin-top:1rem}
             <h3>Where I&#8217;m from</h3>
             <p class="years">2004 to 2022</p>
             <p class="story">I grew up on O&#699;ahu, where community isn&#8217;t a value statement; it&#8217;s how things get done. Punahou basketball and a varsity co-captain year, a 199-hour Eagle project rebuilding a library, and a first job ringing up military families at the Navy Exchange.</p>
-            <img src="../public/images/hawaii/hawaii-sunset.jpg" alt="Sunset over the Hawai&#699;i coastline" />
+            <img src="../public/images/hawaii/hawaii-sunset.jpg" alt="Sunset over the Hawai&#699;i coastline" width="1200" height="1600" />
             <p class="links"><a href="#experience">The Hawai&#699;i years ↓</a></p>
           </article>
           <article class="stop-card" data-idx="1">
@@ -252,7 +252,7 @@ footer{border-top:1px solid rgba(28,28,28,0.1);margin-top:1rem}
             <h3>Where I learned to work</h3>
             <p class="years">2022</p>
             <p class="story">Seattle University: Business Analytics and Marketing by day, refereeing flag football by night. I started as an intramural official and left running the program; along the way I co-founded a student credit union initiative that won $22.5K across two business plan competitions.</p>
-            <img src="../public/images/seattle/seattle-space-needle.jpg" alt="Seattle skyline with the Space Needle from Gas Works Park" loading="lazy" />
+            <img src="../public/images/seattle/seattle-space-needle.jpg" alt="Seattle skyline with the Space Needle from Gas Works Park" loading="lazy" width="1600" height="1200" />
             <p class="links"><a href="#w-urec">The intramural dashboards ↓</a><a href="https://www.linkedin.com/company/seattle-university-credit-union-initiative/" target="_blank" rel="noopener noreferrer">SUCUI ↗</a></p>
           </article>
           <article class="stop-card" data-idx="2">
@@ -260,7 +260,7 @@ footer{border-top:1px solid rgba(28,28,28,0.1);margin-top:1rem}
             <h3>Where I learned to pay attention</h3>
             <p class="years">2024</p>
             <p class="story">A semester at Sophia University: Japanese language, Anthropology of Japan, and a Philosophy of AI course a full year before AI became my job. Being the person who doesn&#8217;t fully speak the language teaches you to listen harder than any classroom does.</p>
-            <img src="../public/images/japan/cherry-blossoms.jpg" alt="Cherry blossoms against a blue sky in Japan" loading="lazy" />
+            <img src="../public/images/japan/cherry-blossoms.jpg" alt="Cherry blossoms against a blue sky in Japan" loading="lazy" width="1067" height="1600" />
             <p class="links"><a href="#w-tokyo">The Tokyo Airbnb analysis ↓</a></p>
           </article>
           <article class="stop-card" data-idx="3">
@@ -268,7 +268,7 @@ footer{border-top:1px solid rgba(28,28,28,0.1);margin-top:1rem}
             <h3>Home, with something to give back</h3>
             <p class="years">Summer 2025</p>
             <p class="story">Back to the islands as one of Bank of Hawaii&#8217;s first AI interns: 50+ use cases gathered across the organization, a scoring framework, a Power BI dashboard, and a readout to 60+ employees and senior leaders. The journey loops home before its last leg.</p>
-            <img src="../public/images/boh/boh-volunteer-group.jpg" alt="Bank of Hawaii volunteer event group photo" loading="lazy" />
+            <img src="../public/images/boh/boh-volunteer-group.jpg" alt="Bank of Hawaii volunteer event group photo" loading="lazy" width="1280" height="720" />
             <p class="links"><a href="#w-boh">The internship, summarized ↓</a><a href="https://www.linkedin.com/feed/update/urn:li:activity:7371946885185642496/" target="_blank" rel="noopener noreferrer">LinkedIn post ↗</a></p>
           </article>
           <article class="stop-card" data-idx="4">
@@ -276,7 +276,7 @@ footer{border-top:1px solid rgba(28,28,28,0.1);margin-top:1rem}
             <h3>Where business got global</h3>
             <p class="years">September 2025</p>
             <p class="story">Ten days across Tuscany with the Albers School: family wineries, Nestle&#8217;s Perugina chocolate operation, a B Corp textile mill older than most countries. Small firms, long views, and marketing that has survived centuries of change.</p>
-            <img src="../public/images/italy/italy-study-tour-group.jpg" alt="Italy study tour group at a Tuscan vineyard" loading="lazy" />
+            <img src="../public/images/italy/italy-study-tour-group.jpg" alt="Italy study tour group at a Tuscan vineyard" loading="lazy" width="1600" height="1200" />
             <p class="links"><a href="https://www.linkedin.com/feed/update/urn:li:activity:7374272355684028416/" target="_blank" rel="noopener noreferrer">Program recap ↗</a></p>
           </article>
           <article class="stop-card" data-idx="5">
@@ -284,7 +284,7 @@ footer{border-top:1px solid rgba(28,28,28,0.1);margin-top:1rem}
             <h3>Now</h3>
             <p class="years">2026</p>
             <p class="story">Back in Seattle with the degree finished and the route drawn. Building case studies, a live measurement project, and whatever messy problem lands on the desk next.</p>
-            <img src="../public/images/seattle/lumen-field-worldcup.jpg" alt="Lumen Field in Seattle during the 2026 World Cup year" loading="lazy" />
+            <img src="../public/images/seattle/lumen-field-worldcup.jpg" alt="Lumen Field in Seattle during the 2026 World Cup year" loading="lazy" width="1200" height="1600" />
             <p class="links"><a href="#work">See the work ↓</a><a href="mailto:hayashiclark@gmail.com">Email me</a></p>
           </article>
         </div>

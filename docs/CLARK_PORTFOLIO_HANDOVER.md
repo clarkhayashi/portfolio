@@ -219,6 +219,28 @@ built HTML, all referenced images/fonts exist on disk, DESIGN.md lints 0/0.
 9. Intramural/championship photos into `public/images/intramurals/`.
 10. GA4 property + tag in Base.astro (production only).
 
+# Image pass on the experiment (2026-07-10, in progress)
+
+Clark: "lowkey I like the journey experiment the best" — still not a formal
+decision, but investment goes to the experiment now. Decisions made with him:
+- Experience tiles stay LOGO-FIRST (proof anchor); Journey stays scenic-first.
+- Italy tile rotation APPROVED to become: study-tour group → vineyard
+  overlook → wine barrels → St. Francis statue (his own photos; the two Rome
+  shots retire to bench). BLOCKED: he pasted the photos as chat images, not
+  files; waiting on re-attach. When they arrive: save to public/images/italy/
+  as vineyard-overlook.jpg, wine-barrels.jpg, st-francis-statue.jpg; update
+  the experiment rotation AND experience.ts Italy `images` array (keep both
+  in sync); update PHOTO-NOTES.md.
+- Tokyo/Fuji + Seattle aerial photos he liked are STOCK → declined
+  (copyright + authenticity; no-stock rule stands). Suggested he shoot his
+  own Seattle replacement (Kerry Park / Gas Works).
+- Journey stop photos: NO forced cropping (his instruction: "do not crop
+  OD"). Implemented instead: natural aspect ratios bounded to a 400px box
+  (portraits 300×400, landscapes 400×300/225), intrinsic width/height attrs
+  on all 6 stop photos (no layout shift), 1px ink-8% outline hairline.
+- Tokyo stop keeps cherry-blossoms for now (he was indifferent; bench
+  options: asakusa-sensoji, market-lanterns).
+
 # Immediate next task
 
 Resume.pdf is in; the launch path now runs through Clark's homepage decision
