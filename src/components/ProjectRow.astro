@@ -29,7 +29,7 @@ const Tag = href ? "a" : "div";
     <div>
       {
         lane && (
-          <p class="mb-1.5 text-xs font-medium uppercase tracking-[0.14em] text-bark/70">
+          <p class="mb-1.5 text-xs font-medium uppercase tracking-[0.14em] text-bark">
             {lane}
           </p>
         )
@@ -57,7 +57,7 @@ const Tag = href ? "a" : "div";
           </p>
         )
       }
-      <p class="mt-2 text-sm text-ink/45">{tags.join(" · ")}</p>
+      <p class="mt-2 text-sm text-ink/65">{tags.join(" · ")}</p>
     </div>
     <div class="md:pt-1.5">
       <StatusLabel label={statusLabel} type={statusType} />

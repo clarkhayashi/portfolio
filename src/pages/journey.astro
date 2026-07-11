@@ -44,7 +44,7 @@ const stops = journey.map((s) => ({ place: s.place, lon: s.lon, lat: s.lat, year
               id={`stop-${i + 1}`}
               class="chapter flex min-h-[78vh] flex-col justify-center border-t border-ink/10 py-14 first:border-t-0 md:min-h-[92vh]"
             >
-              <p class="text-xs font-medium uppercase tracking-[0.16em] text-bark/70">
+              <p class="text-xs font-medium uppercase tracking-[0.16em] text-bark">
                 Stop 0{i + 1} · {s.place}
               </p>
               <h2 class="mt-2 font-serif text-3xl font-bold tracking-tight md:text-4xl">
@@ -83,7 +83,7 @@ const stops = journey.map((s) => ({ place: s.place, lon: s.lon, lat: s.lat, year
   </section>
 
   <noscript>
-    <p class="mx-auto max-w-[1000px] px-6 py-8 text-ink/60">
+    <p class="mx-auto max-w-[1000px] px-6 py-8 text-ink/70">
       The interactive globe needs JavaScript; the story above reads fine without it.
     </p>
   </noscript>

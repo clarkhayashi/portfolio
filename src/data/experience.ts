@@ -80,7 +80,7 @@ export const experience: ExperienceItem[] = [
     role: "Intramural Sports Official → Manager",
     dates: "2022 to 2026",
     detail:
-      "Four years in the program: started as a student official in fall 2022, promoted to Intramural Sports Manager senior year. Trained and mentored 40 officials supporting 64+ teams and 469+ participants, ran operations, scheduling, and conflict resolution, and produced digital media with 3× the engagement of standard department posts.",
+      "Four years in the program: started as a student official in fall 2022, promoted to Intramural Sports Manager senior year. Trained and mentored 40+ officials supporting 64+ teams and 469+ participants, ran operations, scheduling, and conflict resolution, and produced digital media with 3× the engagement of standard department posts.",
     image: {
       src: "/images/logos/su-rec.png",
       alt: "Seattle University Recreation logo",

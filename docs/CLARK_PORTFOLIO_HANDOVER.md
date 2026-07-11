@@ -1,7 +1,7 @@
 # Clark Hayashi Portfolio · Handover (living continuity record)
 
-Last updated: 2026-07-10 (second session). Read `CLAUDE.md` (project
-constitution) first.
+Last updated: 2026-07-10 (third session: full audit pass). Read `CLAUDE.md`
+(project constitution) first.
 Detailed audits linked at the bottom. This file is the single source of truth
 for current state; update it at the end of every working session.
 
@@ -67,7 +67,42 @@ the experiment on 2026-07-10: Honolulu (2004–2022) → Seattle (2022) → Toky
 facts"): basketball MIP not golf, "audience of 300+", no VP of Finance, no
 "June 2026", "Dean's List and President's List".
 
-# Recent session changes (2026-07-10, second session)
+# Recent session changes (2026-07-10, third session: audit pass)
+
+Full ownership audit of docs vs repo, then targeted fixes. Build passes
+(9 pages), zero broken internal links except /resume.pdf, zero em dashes in
+built HTML, all referenced images/fonts exist on disk, DESIGN.md lints 0/0.
+
+1. **Factual consistency fixes (settled facts, propagated everywhere):**
+   "40 officials" → "40+ officials" (experience.ts + both prototypes);
+   BOH case page upgraded from "19 employees" to the settled "19+ employees
+   ... 50+ AI use cases" and now ends with the 60+ readout sentence (src md +
+   both prototypes, all three identical); intramural overview now "64+ teams
+   and 469+ participants".
+2. **Accessibility contrast pass (canonical site only):** computed WCAG AA
+   against paper #F7F4EF. Failing small text fixed: ink/45 and ink/55
+   metadata → ink/65 (5.0:1); supporting ink/60 → ink/70; small bark/70 and
+   bark/80 text (eyebrows, org lines, figcaptions, hero location) → full
+   bark (6.3:1); ExperienceRow small links text-teal (3.4:1, violated
+   DESIGN.md's own rule) → text-teal-deep (4.5:1). Decorative elements
+   (ghost numerals bark/25, hover arrows, wave, How-I-Work step numbers)
+   deliberately untouched. DESIGN.md hierarchy paragraph updated to record
+   the 65% floor; linted clean after the edit.
+   NOTE: the prototypes still use the old lower-contrast values; if the
+   experiment is promoted, apply the same floor during the port.
+3. **Link verification:** Tableau Building Permit dashboard confirmed live in
+   a real Chrome tab (title renders). Tableau cannot be verified by plain
+   fetch (client-rendered); don't mistake fetch failures for a dead link.
+4. **Browser testing attempted:** experiment loads in Chrome via file://
+   (title correct; Clark had it open at #experience). Visual globe/stipple
+   check STILL not eyeball-verified: screen-capture approval timed out and
+   Chrome's "Allow JavaScript from Apple Events" is off, so no DOM probing.
+5. Verified NOT issues: $22.5K total (journey.ts, index, prototypes) is
+   consistent everywhere but the eBay prize amount is unconfirmed by a
+   source doc; website_copy.md says "$20,000 Harriet Stephenson" only. Ask
+   Clark once: is $22.5K (20K + 2.5K eBay) right?
+
+# Prior session changes (2026-07-10, second session)
 
 1. **Verified repo against CLAUDE.md + this handover:** build re-run (passed,
    8 pages pre-change), chronology consistent in journey.ts + both prototypes,
@@ -147,7 +182,8 @@ facts"): basketball MIP not golf, "audience of 300+", no VP of Finance, no
   awaiting Clark's review, Recommendations awaiting Clark's tweak, Artifacts
   awaiting his Tableau Public publish.
 - LinkedIn URL (`linkedin.com/in/clark-hayashi`) unconfirmed; GPA display
-  (3.71) awaiting Clark's confirmation.
+  (3.71) awaiting Clark's confirmation; $22.5K competition total awaiting
+  Clark's confirmation of the eBay prize amount.
 - Domain not purchased; `site` in astro.config.mjs + robots.txt are placeholders.
 - Two type systems now coexist (canonical vs experiment) pending Clark's call.
 

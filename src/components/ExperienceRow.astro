@@ -10,14 +10,14 @@ const { item } = Astro.props;
 
 <div class="grid grid-cols-[1fr_auto] items-start gap-4 border-t border-ink/10 py-5">
   <div>
-    <p class="font-sans text-sm font-medium uppercase tracking-[0.12em] text-bark/70">
+    <p class="font-sans text-sm font-medium uppercase tracking-[0.12em] text-bark">
       {item.org}
     </p>
     <div class="flex flex-wrap items-baseline gap-x-3">
       <h3 class="mt-0.5 font-serif text-xl font-bold tracking-tight">
         {item.role}
       </h3>
-      <p class="text-sm text-ink/45">{item.dates}</p>
+      <p class="text-sm text-ink/65">{item.dates}</p>
     </div>
     <p class="mt-1 leading-relaxed text-ink/70">{item.detail}</p>
     {
@@ -26,7 +26,7 @@ const { item } = Astro.props;
           href={item.link.href}
           target="_blank"
           rel="noopener noreferrer"
-          class="mt-2 inline-block text-sm font-medium text-teal transition-colors hover:text-ink"
+          class="mt-2 inline-block text-sm font-medium text-teal-deep transition-colors hover:text-ink"
         >
           {item.link.label}
         </a>
@@ -38,7 +38,7 @@ const { item } = Astro.props;
           href={item.link2.href}
           target="_blank"
           rel="noopener noreferrer"
-          class="ml-5 mt-2 inline-block text-sm font-medium text-teal transition-colors hover:text-ink"
+          class="ml-5 mt-2 inline-block text-sm font-medium text-teal-deep transition-colors hover:text-ink"
         >
           {item.link2.label}
         </a>

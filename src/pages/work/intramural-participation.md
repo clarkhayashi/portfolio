@@ -9,7 +9,7 @@ statusType: "progress"
 
 ## Overview
 
-Seattle University Recreation runs a 64-team, 469-participant intramural program. I analyzed seven years of participation records (2018–2025) and presented dashboards to UREC leadership to support scheduling, marketing, and retention decisions.
+Seattle University Recreation runs an intramural program of 64+ teams and 469+ participants. I analyzed seven years of participation records (2018–2025) and presented dashboards to UREC leadership to support scheduling, marketing, and retention decisions.
 
 ## Problem
 

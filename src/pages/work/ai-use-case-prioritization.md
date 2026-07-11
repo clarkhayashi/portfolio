@@ -9,7 +9,7 @@ statusType: "private"
 
 *Details are summarized at a high level to respect confidentiality.*
 
-In summer 2025, I had the opportunity to be one of the first AI Interns at Bank of Hawaii. I spoke with 19 employees and AI Ambassadors to gather AI use cases across the organization, created an Excel repository, and built a Power BI dashboard to help the AI Development Center evaluate and prioritize them. I also designed a scoring model to make insights more accessible and easier to understand.
+In summer 2025, I had the opportunity to be one of the first AI Interns at Bank of Hawaii. I spoke with 19+ employees and AI Ambassadors to gather 50+ AI use cases across the organization, created an Excel repository, and built a Power BI dashboard to help the AI Development Center evaluate and prioritize them. I also designed a scoring model to make insights more accessible and easier to understand, and presented the results to 60+ employees and senior leaders.
 
 That's the whole story I can tell here. The work belongs to the bank. I'm glad to talk through the approach and what I learned in conversation.
 

@@ -86,7 +86,10 @@ never template-grid. When in doubt, choose calm over loud.
 - **Crimson (#8A1538):** Micro-accent only, reserved for the "currently building" status dot. Never large areas.
 
 Text hierarchy comes from ink at opacity steps: 100% headings, 75–80% body,
-60–70% supporting, 45–55% metadata.
+70% supporting, 65% metadata. 65% ink is the floor for any text that carries
+information: it is the lowest step that passes WCAG AA (4.5:1) on paper.
+Small bark text is full-strength bark for the same reason; bark tints below
+90% are reserved for decoration (ghost numerals at 25%).
 
 ## Typography
 
