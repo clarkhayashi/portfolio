@@ -44,6 +44,14 @@ export const experience: ExperienceItem[] = [
         fit: "contain",
       },
       {
+        src: "/images/boh/clark-peter-ho.jpg",
+        alt: "Clark receiving a certificate from Bank of Hawaii CEO Peter Ho",
+      },
+      {
+        src: "/images/boh/boh-intern-cohort.jpg",
+        alt: "Bank of Hawaii intern cohort group photo",
+      },
+      {
         src: "/images/boh/boh-volunteer-group.jpg",
         alt: "Bank of Hawaii volunteer event group photo",
       },
@@ -73,6 +81,14 @@ export const experience: ExperienceItem[] = [
         src: "/images/sucui/sucui-team.jpg",
         alt: "The SUCUI team at an event booth",
       },
+      {
+        src: "/images/sucui/sucui-group.jpg",
+        alt: "SUCUI members gathered around a table on campus",
+      },
+      {
+        src: "/images/sucui/sucui-team-2.jpg",
+        alt: "The SUCUI team at an event, alternate view",
+      },
     ],
   },
   {
@@ -81,11 +97,17 @@ export const experience: ExperienceItem[] = [
     dates: "2022 to 2026",
     detail:
       "Four years in the program: started as a student official in fall 2022, promoted to Intramural Sports Manager senior year. Trained and mentored 40+ officials supporting 64+ teams and 469+ participants, ran operations, scheduling, and conflict resolution, and produced digital media with 3× the engagement of standard department posts.",
-    image: {
-      src: "/images/logos/su-rec.png",
-      alt: "Seattle University Recreation logo",
-      fit: "contain",
-    },
+    images: [
+      {
+        src: "/images/logos/su-rec.png",
+        alt: "Seattle University Recreation logo",
+        fit: "contain",
+      },
+      {
+        src: "/images/intramurals/intramural-champs.jpg",
+        alt: "Intramural championship team with the champion's belt",
+      },
+    ],
   },
   {
     org: "Seattle University Athletics",

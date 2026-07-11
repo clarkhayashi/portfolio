@@ -219,7 +219,28 @@ built HTML, all referenced images/fonts exist on disk, DESIGN.md lints 0/0.
 9. Intramural/championship photos into `public/images/intramurals/`.
 10. GA4 property + tag in Base.astro (production only).
 
-# Image pass on the experiment (2026-07-10, in progress)
+# Image pass, round 2 (2026-07-10, completed)
+
+Clark pointed at the ImagesForSite folder ("find them and use them all").
+Identified and shipped, with his explicit approval on each:
+- Italy rotation (experiment + experience.ts, in sync): group → wine-barrels
+  (NEW) → assisi-basilica → arezzo-tower (NEW). Journey Sansepolcro stop
+  photo: assisi-basilica-overlook (NEW), fixing the group-photo duplication.
+- BOH rotation now 4-frame: logo → clark-peter-ho (Clark + CEO Peter Ho;
+  strongest proof photo on the site) → boh-intern-cohort → volunteer group.
+- UREC tile now crossfades logo → intramural-champs (championship belt;
+  intramurals/ no longer empty).
+- SUCUI rotation now 4-frame: logo → team → sucui-group (NEW) → team-2.
+- All new files resized to 1600px q82; sources logged in PHOTO-NOTES.md.
+- Discovered: the pasted "vineyard" and "basilica" chat images ARE
+  tuscan-vineyards.jpg and assisi-basilica.jpg (same shots). The St. Francis
+  STATUE photo is still not on disk anywhere; Clark must send the file.
+- Crossfade note: 2 or 4 frames only (3 leaves a blank quarter in the 16s
+  cycle). The experiment now has 5 animated tiles on one page vs DESIGN.md's
+  "~4" guideline; on the canonical About page only 3 are visible pre-expand.
+  Acceptable, but don't add more.
+
+# Image pass on the experiment (2026-07-10, first round)
 
 Clark: "lowkey I like the journey experiment the best" — still not a formal
 decision, but investment goes to the experiment now. Decisions made with him:
