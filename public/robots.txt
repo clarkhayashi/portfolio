@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
 
-# Update this URL when the custom domain goes live
-Sitemap: https://clarkhayashi.vercel.app/sitemap-index.xml
+Sitemap: https://clarkhayashi.com/sitemap-index.xml
