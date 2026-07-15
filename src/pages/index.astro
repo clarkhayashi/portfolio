@@ -4,6 +4,7 @@ import ButtonLink from "../components/ButtonLink.astro";
 import WorkList from "../components/WorkList.astro";
 import LaneList from "../components/LaneList.astro";
 import WaveDivider from "../components/WaveDivider.astro";
+import JourneyStepper from "../components/JourneyStepper.astro";
 
 const identity = [
   "Business Analytics + Marketing",
@@ -96,19 +97,10 @@ const framework = [
     </ul>
   </section>
 
-  <!-- What I Bring -->
-  <section class="mx-auto max-w-[1000px] px-6 pt-16 md:pt-24">
-    <h2 class="font-serif text-3xl font-bold tracking-tight md:text-4xl">
-      What I Bring
-    </h2>
-    <p class="mb-8 mt-3 max-w-[58ch] text-ink/70">
-      Five lanes, one job: make things clearer.
-    </p>
-    <LaneList />
-  </section>
+  <JourneyStepper />
 
   <!-- Selected Work -->
-  <section class="mx-auto max-w-[1000px] px-6 pt-16 md:pt-24">
+  <section id="selected-work" class="mx-auto max-w-[1000px] px-6 pt-16 md:pt-24">
     <h2 class="font-serif text-3xl font-bold tracking-tight md:text-4xl">
       Selected Work
     </h2>
@@ -116,6 +108,13 @@ const framework = [
       Completed work leads. Anything unfinished says so.
     </p>
     <WorkList />
+  </section>
+
+  <!-- What I Bring -->
+  <section class="mx-auto max-w-[1000px] px-6 pt-16 md:pt-24">
+    <h2 class="font-serif text-3xl font-bold tracking-tight md:text-4xl">What I Bring</h2>
+    <p class="mb-8 mt-3 max-w-[58ch] text-ink/70">Five lanes, one job: make things clearer. The work above is the evidence.</p>
+    <LaneList />
   </section>
 
   <WaveDivider />

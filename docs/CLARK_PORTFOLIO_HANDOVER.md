@@ -13,6 +13,13 @@ As of 2026-07-15, the Journey Experiment is the preferred homepage direction;
 Astro remains the production source of truth and must not be replaced by the
 single-file prototype.
 
+**Port status (2026-07-15):** the core port is complete. The homepage now uses
+`src/components/JourneyStepper.astro`, a keyboard, click, button, and swipe
+accessible six-stop globe driven directly by `src/data/journey.ts`. Homepage
+order is now hero → credibility strip → journey stepper → selected work →
+lanes → how I work → about → contact. The dedicated `/journey` scrollytelling
+page remains available for the longer version. Production build passes.
+
 # Current implementation state
 
 Verified directly against the codebase on 2026-07-10 (both sessions);

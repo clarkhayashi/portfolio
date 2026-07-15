@@ -1,0 +1,132 @@
+---
+import { journey } from "../data/journey";
+
+const stops = journey.map(({ place, lon, lat, years }) => ({ place, lon, lat, years }));
+---
+
+<section id="journey-home" class="border-y border-ink/10 bg-teal/[0.055]" tabindex="0" aria-label="Clark's journey, six stops" aria-roledescription="carousel">
+  <div class="mx-auto max-w-[1080px] px-6 py-14 md:py-20">
+    <p class="text-xs font-medium uppercase tracking-[0.16em] text-teal-deep">The Journey · Six Stops</p>
+    <h2 class="mt-3 max-w-[23ch] font-serif text-3xl font-bold leading-tight tracking-tight md:text-[2.6rem]">
+      Rooted in Hawai‘i. Built in Seattle. Stretched through Tokyo and Tuscany.
+    </h2>
+    <p class="mt-4 max-w-[58ch] leading-relaxed text-ink/70">
+      The work came out of these six stops, in this order. Step through the route, then follow it into the proof.
+    </p>
+
+    <div class="mt-10 grid items-center gap-10 lg:grid-cols-[minmax(320px,430px)_1fr] lg:gap-14">
+      <div id="journey-globe-column" class="touch-pan-y">
+        <div id="home-globe-box" class="mx-auto aspect-square w-full max-w-[430px]">
+          <canvas id="home-globe" class="h-full w-full cursor-pointer" aria-hidden="true"></canvas>
+        </div>
+        <div class="mt-4 flex items-center justify-center gap-4">
+          <button id="journey-prev" type="button" class="grid h-11 w-11 place-items-center rounded-full border border-ink/30 transition-colors hover:border-teal-deep hover:text-teal-deep" aria-label="Previous stop">←</button>
+          <span id="journey-progress" class="text-xs font-medium tracking-[0.12em] text-bark" aria-hidden="true">01 / 06</span>
+          <button id="journey-next" type="button" class="grid h-11 w-11 place-items-center rounded-full border border-ink/30 transition-colors hover:border-teal-deep hover:text-teal-deep" aria-label="Next stop">→</button>
+        </div>
+        <div id="journey-chips" class="mt-3 flex flex-wrap justify-center gap-x-4 gap-y-1" role="tablist" aria-label="Journey stops"></div>
+        <p class="mt-2 text-center text-xs text-ink/45">Click the globe, swipe, or use the arrow keys</p>
+      </div>
+
+      <div class="flex min-h-[470px] flex-col justify-center" aria-live="polite">
+        {journey.map((stop, index) => (
+          <article class="journey-card" data-index={index} hidden={index !== 0}>
+            <p class="text-xs font-medium uppercase tracking-[0.16em] text-bark">Stop 0{index + 1} · {stop.place}</p>
+            <h3 class="mt-2 font-serif text-3xl font-bold tracking-tight">{stop.title}</h3>
+            <p class="mt-1 font-serif text-lg font-semibold italic text-teal-deep">{stop.years}</p>
+            <p class="mt-4 max-w-[54ch] leading-relaxed text-ink/75">{stop.story}</p>
+            {stop.photo && <img src={stop.photo.src} alt={stop.photo.alt} width="640" height="480" loading={index === 0 ? "eager" : "lazy"} class="mt-6 max-h-[260px] w-auto max-w-full rounded-xl border border-ink/10 object-contain" />}
+            <p class="mt-5 flex flex-wrap gap-x-5 gap-y-2">
+              {stop.links?.map((link) => <a href={link.href} target={link.external ? "_blank" : undefined} rel={link.external ? "noopener noreferrer" : undefined} class="text-sm font-medium text-teal-deep transition-colors hover:text-ink">{link.label} →</a>)}
+              {index === journey.length - 1 && <a href="#selected-work" class="text-sm font-medium text-teal-deep transition-colors hover:text-ink">See selected work ↓</a>}
+            </p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script define:vars={{ stops }}>
+  const canvas = document.getElementById("home-globe");
+  const box = document.getElementById("home-globe-box");
+  const ctx = canvas.getContext("2d");
+  const cards = [...document.querySelectorAll(".journey-card")];
+  const chipsBox = document.getElementById("journey-chips");
+  const prev = document.getElementById("journey-prev");
+  const next = document.getElementById("journey-next");
+  const progress = document.getElementById("journey-progress");
+  const region = document.getElementById("journey-home");
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const D = Math.PI / 180;
+  let size = 0, radius = 0, center = 0, index = 0, reached = 0;
+  let viewLon = stops[0].lon, viewLat = stops[0].lat * 0.55;
+  let land = null;
+
+  function resize() {
+    const rect = box.getBoundingClientRect();
+    size = Math.min(rect.width, rect.height || rect.width);
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    canvas.width = size * dpr; canvas.height = size * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    radius = size * 0.43; center = size / 2;
+  }
+  function project(lon, lat) {
+    const la = lon * D, ph = lat * D, L = viewLon * D, P = viewLat * D;
+    const c = Math.sin(P) * Math.sin(ph) + Math.cos(P) * Math.cos(ph) * Math.cos(la - L);
+    return { x: center + radius * Math.cos(ph) * Math.sin(la - L), y: center - radius * (Math.cos(P) * Math.sin(ph) - Math.sin(P) * Math.cos(ph) * Math.cos(la - L)), visible: c > 0.02 };
+  }
+  function slerp(a, b, t) {
+    const vector = (s) => [Math.cos(s.lat * D) * Math.cos(s.lon * D), Math.cos(s.lat * D) * Math.sin(s.lon * D), Math.sin(s.lat * D)];
+    const A = vector(a), B = vector(b);
+    const dot = Math.max(-1, Math.min(1, A[0]*B[0] + A[1]*B[1] + A[2]*B[2]));
+    const omega = Math.acos(dot); if (omega < 1e-6) return a;
+    const a1 = Math.sin((1-t)*omega)/Math.sin(omega), b1 = Math.sin(t*omega)/Math.sin(omega);
+    const P = [A[0]*a1+B[0]*b1, A[1]*a1+B[1]*b1, A[2]*a1+B[2]*b1];
+    return { lon: Math.atan2(P[1],P[0])/D, lat: Math.asin(Math.max(-1,Math.min(1,P[2])))/D };
+  }
+  function line(points, close = false) {
+    let pen = false; ctx.beginPath();
+    for (const [lon, lat] of points) { const p = project(lon, lat); if (p.visible) { pen ? ctx.lineTo(p.x,p.y) : ctx.moveTo(p.x,p.y); pen = true; } else pen = false; }
+    if (close && pen) ctx.closePath(); ctx.stroke();
+  }
+  function decode(topo) {
+    const t = topo.transform;
+    const arcs = topo.arcs.map((arc) => { let x=0,y=0; return arc.map(([dx,dy]) => { x+=dx;y+=dy;return [x*t.scale[0]+t.translate[0],y*t.scale[1]+t.translate[1]]; }); });
+    const ring = (ids) => { let out=[]; for (const id of ids) { const arc=id<0?arcs[~id].slice().reverse():arcs[id]; out=out.concat(out.length?arc.slice(1):arc); } return out; };
+    const out=[]; const geometries=topo.objects.land.geometries || [topo.objects.land];
+    for (const geometry of geometries) { const polygons=geometry.type === "Polygon" ? [geometry.arcs] : geometry.arcs; for (const polygon of polygons) for (const r of polygon) out.push(ring(r)); }
+    return out;
+  }
+  fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/land-110m.json").then(r=>r.json()).then(t=>land=decode(t)).catch(()=>{});
+
+  stops.forEach((stop, i) => { const button=document.createElement("button"); button.type="button"; button.textContent=`0${i+1} ${stop.place}`; button.setAttribute("role","tab"); button.className="px-1 py-2 text-[0.67rem] font-medium uppercase tracking-[0.12em]"; button.onclick=()=>go(i); chipsBox.appendChild(button); });
+  const chips=[...chipsBox.children];
+  function paint() {
+    cards.forEach((card,i)=>card.hidden=i!==index);
+    chips.forEach((chip,i)=>{ chip.style.color=i===index?"#8A1538":i<index?"#4F7773":"rgba(28,28,28,.42)"; chip.setAttribute("aria-selected",i===index?"true":"false"); });
+    progress.textContent=`0${index+1} / 0${stops.length}`; prev.disabled=index===0; next.textContent=index===stops.length-1?"↓":"→";
+  }
+  function go(i) { index=Math.max(0,Math.min(stops.length-1,i)); if(reduced){viewLon=stops[index].lon;viewLat=stops[index].lat*.55;reached=index;} paint(); }
+  prev.onclick=()=>go(index-1); next.onclick=()=>index===stops.length-1?document.getElementById("selected-work").scrollIntoView({behavior:reduced?"auto":"smooth"}):go(index+1);
+  region.addEventListener("keydown",e=>{if(e.key==="ArrowRight"){e.preventDefault();go(index+1);}if(e.key==="ArrowLeft"){e.preventDefault();go(index-1);}});
+  canvas.addEventListener("click",e=>{const r=canvas.getBoundingClientRect();for(let i=0;i<stops.length;i++){const p=project(stops[i].lon,stops[i].lat);if(p.visible&&Math.hypot(p.x-(e.clientX-r.left),p.y-(e.clientY-r.top))<16){go(i);return;}}go((index+1)%stops.length);});
+  let touchX=null; document.getElementById("journey-globe-column").addEventListener("touchstart",e=>touchX=e.changedTouches[0].clientX,{passive:true}); document.getElementById("journey-globe-column").addEventListener("touchend",e=>{if(touchX===null)return;const dx=e.changedTouches[0].clientX-touchX;touchX=null;if(dx<-45)go(index+1);if(dx>45)go(index-1);},{passive:true});
+  function ease(cur,target,f){const d=((target-cur+540)%360)-180;return cur+d*f;}
+  function draw() {
+    const f=reduced?1:.05; viewLon=ease(viewLon,stops[index].lon,f); viewLat+=(stops[index].lat*.55-viewLat)*f; reached+=(index-reached)*(reduced?1:.055); ctx.clearRect(0,0,size,size);
+    ctx.beginPath();ctx.arc(center,center,radius,0,7);ctx.fillStyle="#DEE5DF";ctx.fill();ctx.strokeStyle="rgba(28,28,28,.4)";ctx.lineWidth=1.3;ctx.stroke();
+    ctx.lineWidth=.6;ctx.strokeStyle="rgba(28,28,28,.09)";for(let m=-180;m<180;m+=20){const pts=[];for(let lat=-90;lat<=90;lat+=4)pts.push([m,lat]);line(pts);}for(let lat=-60;lat<=60;lat+=20){const pts=[];for(let lon=-180;lon<=180;lon+=4)pts.push([lon,lat]);line(pts);}
+    if(land){ctx.lineWidth=.9;ctx.strokeStyle="rgba(28,28,28,.42)";for(const ring of land)line(ring,true);}
+    ctx.lineCap="round";ctx.setLineDash([2,6]);ctx.lineWidth=1.2;ctx.strokeStyle="rgba(79,119,115,.5)";for(let i=0;i<stops.length-1;i++){const pts=[];for(let k=0;k<=40;k++){const p=slerp(stops[i],stops[i+1],k/40);pts.push([p.lon,p.lat]);}line(pts);}ctx.setLineDash([]);ctx.lineWidth=2.4;ctx.strokeStyle="#4F7773";for(let i=0;i<stops.length-1;i++){const t=Math.max(0,Math.min(1,reached-i));if(!t)continue;const pts=[];for(let k=0;k<=40*t;k++){const p=slerp(stops[i],stops[i+1],k/40);pts.push([p.lon,p.lat]);}line(pts);}
+    const labeled=new Set();stops.forEach((s,i)=>{const p=project(s.lon,s.lat);if(!p.visible)return;ctx.beginPath();ctx.arc(p.x,p.y,i===index?5:3.4,0,7);ctx.fillStyle=i===index?"#8A1538":i<=reached+.5?"#4F7773":"rgba(28,28,28,.35)";ctx.fill();if(!labeled.has(s.place)){labeled.add(s.place);ctx.fillStyle="rgba(28,28,28,.82)";ctx.font=`500 ${Math.max(11,radius*.052)}px Satoshi,sans-serif`;ctx.fillText(s.place,p.x+10,p.y+4);}});requestAnimationFrame(draw);
+  }
+  resize();new ResizeObserver(resize).observe(box);paint();requestAnimationFrame(draw);
+</script>
+
+<style>
+  .journey-card:not([hidden]) { animation: card-in 0.35s ease; }
+  @keyframes card-in { from { opacity: 0; transform: translateY(6px); } }
+  button:disabled { opacity: .3; cursor: default; }
+  @media (prefers-reduced-motion: reduce) { .journey-card:not([hidden]) { animation: none; } }
+</style>
