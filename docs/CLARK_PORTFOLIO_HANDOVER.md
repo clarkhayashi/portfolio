@@ -1,16 +1,17 @@
 # Clark Hayashi Portfolio · Handover (living continuity record)
 
-Last updated: 2026-07-10 (third session: full audit pass). Read `CLAUDE.md`
+Last updated: 2026-07-15 (GitHub and portfolio integration pass). Read `CLAUDE.md`
 (project constitution) first.
 Detailed audits linked at the bottom. This file is the single source of truth
 for current state; update it at the end of every working session.
 
 # Current objective
 
-Get the site launch-ready, and decide between two competing homepage
-directions: the canonical Astro site (`src/`) versus the new
-`prototypes/portfolio-journey-experiment.html` (journey-globe-as-homepage,
-new type system). Clark has not yet chosen.
+Get the site launch-ready by porting the strongest parts of
+`prototypes/portfolio-journey-experiment.html` into the canonical Astro site.
+As of 2026-07-15, the Journey Experiment is the preferred homepage direction;
+Astro remains the production source of truth and must not be replaced by the
+single-file prototype.
 
 # Current implementation state
 
@@ -23,7 +24,7 @@ Verified directly against the codebase on 2026-07-10 (both sessions);
   intramural-participation, real-estate-lead-analytics, tokyo-airbnb-pricing).
 - Components: Header, Footer, ButtonLink, StatusLabel, ProjectRow, WorkList,
   LaneList, WaveDivider, ExperienceRow.
-- Data files: projects.ts (8 work items), lanes.ts (5 lanes), experience.ts
+- Data files: projects.ts (9 work items), lanes.ts (5 lanes), experience.ts
   (12 entries: 5 main + 7 background), journey.ts (6 stops, correct order).
 - /journey: scroll-driven canvas atlas globe, zero libraries, world-atlas
   land-110m fetched at runtime from jsDelivr with silent fallback.
@@ -37,6 +38,13 @@ Verified directly against the codebase on 2026-07-10 (both sessions);
 Permit = completed, live external Tableau link. Intramural + Tokyo Airbnb =
 shells awaiting real Key Findings/Artifacts. Real Estate = currently
 building, no results yet (correct). Journey page + Portfolio = live.
+
+**GitHub integration (2026-07-15):** the Astro portfolio remains the intended
+front door. `clarkhayashi/my-websites` is treated as a small public web lab,
+not a competing portfolio. Clark's Reading Notes is now linked as an external
+personal project in `projects.ts`; the footer links GitHub and Reading Notes.
+The portfolio build still passes with 9 generated pages. GitHub profile and
+repository metadata still need a public cleanup before launch.
 
 **Hawai'i value-stays: PUBLISHED (2026-07-10, second session).**
 `src/pages/work/hawaii-value-stays.md` created + projects.ts entry (after

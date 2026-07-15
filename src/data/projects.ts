@@ -102,6 +102,18 @@ export const projects: Project[] = [
     statusType: "progress",
   },
   {
+    title: "Clark's Reading Notes",
+    description:
+      "A lightweight, searchable reading shelf for honest notes on books I finished, paused, or plan to revisit. Built as a portable static site with local assets and no third-party JavaScript.",
+    tags: ["Vanilla JavaScript", "Information Design", "Static Web"],
+    lane: "Visual Communication",
+    proof: "11 books · search and status filters · 0 dependencies",
+    href: "https://clarkhayashi.github.io/my-websites/clark-reading-notes/",
+    external: true,
+    statusLabel: "Live · personal project",
+    statusType: "progress",
+  },
+  {
     title: "Portfolio Website",
     description:
       "This site, designed and built with Astro, Tailwind, and AI-assisted workflows, from brand system to deployment. The proof for the visual communication lane is the thing you're reading.",
