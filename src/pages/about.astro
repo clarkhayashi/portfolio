@@ -16,6 +16,21 @@ const buildingNow = [
   "Deepening SQL, Python, GA4, and Search Console",
   "Longer term: JLPT N3 and keeping the Japan connection alive",
 ];
+const framework = [
+  {
+    title: "Analyze",
+    body: "Start with the decision, then investigate the data, workflow, and people behind it.",
+  },
+  {
+    title: "Translate",
+    body: "Turn findings into a clear story, dashboard, or recommendation people can understand.",
+  },
+  {
+    title: "Build",
+    body: "Ship a practical system or next step the team can actually use.",
+  },
+];
+
 ---
 
 <Base
@@ -65,6 +80,32 @@ const buildingNow = [
         }
       </div>
     </section>
+
+
+    <!-- How I Work: intentionally collapsed so the About page stays scannable -->
+    <details class="group mt-10 border-y border-ink/10">
+      <summary class="flex cursor-pointer list-none items-center justify-between gap-5 py-5">
+        <span>
+          <span class="block font-serif text-2xl font-bold tracking-tight">How I Work</span>
+          <span class="mt-1 block text-sm text-ink/65">Analyze → Translate → Build</span>
+        </span>
+        <span class="text-sm font-medium text-teal-deep group-open:hidden">Open ↓</span>
+        <span class="hidden text-sm font-medium text-teal-deep group-open:inline">Close ↑</span>
+      </summary>
+      <div class="grid gap-6 pb-7 md:grid-cols-3">
+        {
+          framework.map((step, i) => (
+            <div>
+              <p class="text-xs font-medium uppercase tracking-[0.14em] text-bark">
+                0{i + 1}
+              </p>
+              <h3 class="mt-1 font-serif text-xl font-bold">{step.title}</h3>
+              <p class="mt-2 leading-relaxed text-ink/70">{step.body}</p>
+            </div>
+          ))
+        }
+      </div>
+    </details>
 
     <!-- Experience snapshot -->
     <section class="mt-14">
