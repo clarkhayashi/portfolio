@@ -1,13 +1,21 @@
 ---
 import ProjectRow from "./ProjectRow.astro";
-import { projects } from "../data/projects";
+import { projects as allProjects } from "../data/projects";
+import type { Project } from "../data/projects";
+
+interface Props {
+  items?: Project[];
+  startAt?: number;
+}
+
+const { items = allProjects, startAt = 1 } = Astro.props;
 ---
 
 <div class="border-b border-ink/10">
   {
-    projects.map((p, i) => (
+    items.map((p, i) => (
       <ProjectRow
-        number={String(i + 1).padStart(2, "0")}
+        number={String(i + startAt).padStart(2, "0")}
         title={p.title}
         description={p.description}
         tags={p.tags}
