@@ -20,9 +20,9 @@ export const lanes: Lane[] = [
       "Hands-on measurement work: GA4, Google Tag Manager, Search Console, UTM strategy, local SEO, and content performance. Currently applied to real estate lead tracking.",
   },
   {
-    title: "AI + Workflow Strategy",
+    title: "AI-Enabled Workflows",
     description:
-      "Enterprise AI use-case prioritization, scoring frameworks, and dashboards that translate AI ideas into business value people can actually evaluate.",
+      "I use AI to accelerate research, analysis, prototyping, and documentation while keeping the business question, source quality, and final judgment human-led.",
   },
   {
     title: "Leadership + Operations",
