@@ -2,21 +2,17 @@
 const current = Astro.url.pathname;
 const links = [
   { href: "/work", label: "Work" },
+  { href: "/journey", label: "Journey" },
   { href: "/about", label: "About" },
   { href: "/resume.pdf", label: "Resume" },
 ];
 ---
 
-<header class="mx-auto flex max-w-[1000px] items-center justify-between px-5 py-5 sm:px-6 md:py-8">
-  <a
-    href="/"
-    aria-label="Clark Hayashi, home"
-    class="font-serif text-[1.65rem] font-bold tracking-tight transition-colors hover:text-teal md:text-[2.1rem]"
-  >
-    <span class="sm:hidden">Clark H.</span>
-    <span class="hidden sm:inline">Clark Hayashi</span>
+<header class="mx-auto flex max-w-[1000px] items-baseline justify-between px-6 py-7 md:py-9">
+  <a href="/" class="font-serif text-[2.1rem] font-bold tracking-tight transition-colors hover:text-teal">
+    Clark Hayashi
   </a>
-  <nav aria-label="Main" class="flex gap-4 text-[0.82rem] font-medium sm:gap-6 sm:text-sm md:gap-8">
+  <nav aria-label="Main" class="flex gap-5 text-sm font-medium md:gap-8">
     {
       links.map((l) => (
         <a
