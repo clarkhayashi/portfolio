@@ -1,81 +1,20 @@
 ---
 import Base from "../../layouts/Base.astro";
 import WorkList from "../../components/WorkList.astro";
-import { projects } from "../../data/projects";
-
-const pick = (titles: string[]) =>
-  titles
-    .map((title) => projects.find((project) => project.title === title))
-    .filter((project): project is (typeof projects)[number] => Boolean(project));
-
-const featured = pick([
-  "Finding the Best Value Stays in Hawai'i",
-  "Intramural Sports Participation Analysis",
-]);
-
-const building = pick(["Real Estate Lead Analytics"]);
-
-const moreAnalytics = pick([
-  "Seattle Building Permit Analysis",
-  "Tokyo Airbnb Pricing & Marketplace Analysis",
-]);
-
-const sideQuests = pick([
-  "The Journey Page",
-  "Clark's Reading Notes",
-]);
 ---
 
 <Base
   title="Work · Clark Hayashi"
-  description="Public analytics, marketing measurement, and operations projects by Clark Hayashi, organized by finished case studies, active builds, and side quests."
+  description="Public projects focused on turning real questions into decisions through pricing analysis, operational dashboards, marketing measurement, and data storytelling."
 >
-  <section class="mx-auto max-w-[1000px] px-6 pb-6 pt-8 md:pt-14">
-    <p class="text-xs font-medium uppercase tracking-[0.16em] text-teal-deep">Work</p>
-    <h1 class="mt-2 font-serif text-4xl font-semibold tracking-tight md:text-5xl">
-      Start with the strongest proof.
-    </h1>
-    <p class="mt-4 max-w-[60ch] leading-relaxed text-ink/70">
-      Finished case studies lead. Active builds are labeled. Employer work stays
-      in Experience with approved public proof only.
+  <section class="mx-auto max-w-[1000px] px-6 pb-10 pt-10 md:pt-16">
+    <h1 class="font-serif text-4xl font-semibold tracking-tight md:text-5xl">Work</h1>
+    <p class="mb-10 mt-4 max-w-[58ch] leading-relaxed text-ink/70">
+      Public projects focused on turning real questions into decisions. The
+      statuses are honest: finished work leads, work in progress is labeled,
+      and confidential employer work stays in Experience with approved public
+      proof only.
     </p>
-  </section>
-
-  <section class="mx-auto max-w-[1000px] px-6 pt-8 md:pt-12">
-    <h2 class="font-serif text-3xl font-bold tracking-tight">Featured Cases</h2>
-    <p class="mb-5 mt-2 text-ink/65">The two projects to open first.</p>
-    <WorkList items={featured} startAt={1} />
-  </section>
-
-  <section class="mx-auto max-w-[1000px] px-6 pt-12 md:pt-16">
-    <h2 class="font-serif text-2xl font-bold tracking-tight">Building Now</h2>
-    <p class="mb-5 mt-2 text-ink/65">Live work with results published only after the data is clean.</p>
-    <WorkList items={building} startAt={3} />
-  </section>
-
-  <section class="mx-auto max-w-[1000px] px-6 pt-10">
-    <details class="group border-y border-ink/10">
-      <summary class="flex cursor-pointer list-none items-center justify-between gap-5 py-5">
-        <span>
-          <span class="block font-serif text-2xl font-bold tracking-tight">More Analytics</span>
-          <span class="mt-1 block text-sm text-ink/65">Team and in-progress analyses</span>
-        </span>
-        <span class="text-sm font-medium text-teal-deep group-open:hidden">Show 2 ↓</span>
-        <span class="hidden text-sm font-medium text-teal-deep group-open:inline">Hide ↑</span>
-      </summary>
-      <WorkList items={moreAnalytics} startAt={4} />
-    </details>
-
-    <details class="group border-b border-ink/10">
-      <summary class="flex cursor-pointer list-none items-center justify-between gap-5 py-5">
-        <span>
-          <span class="block font-serif text-2xl font-bold tracking-tight">Side Quests</span>
-          <span class="mt-1 block text-sm text-ink/65">Interactive storytelling and personal builds</span>
-        </span>
-        <span class="text-sm font-medium text-teal-deep group-open:hidden">Show 2 ↓</span>
-        <span class="hidden text-sm font-medium text-teal-deep group-open:inline">Hide ↑</span>
-      </summary>
-      <WorkList items={sideQuests} startAt={6} />
-    </details>
+    <WorkList />
   </section>
 </Base>
