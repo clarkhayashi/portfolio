@@ -24,17 +24,6 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    title: "AI Use Case Prioritization",
-    description:
-      "One of Bank of Hawaii's first AI interns. Gathered AI use cases across the organization and built the repository, scoring model, and Power BI dashboard used to prioritize them. Summarized publicly at a high level.",
-    tags: ["AI Strategy", "Power BI", "Stakeholder Research"],
-    lane: "AI + Workflow Strategy",
-    proof: "50+ use cases · 19+ stakeholder interviews · presented to 60+",
-    href: "/work/ai-use-case-prioritization",
-    statusLabel: "Completed · summarized",
-    statusType: "private",
-  },
-  {
     title: "Intramural Sports Participation Analysis",
     description:
       "Seven years of participation data across a 469-participant, 64-team program, translated into dashboards UREC leadership used for scheduling, marketing, and retention planning.",
@@ -111,15 +100,6 @@ export const projects: Project[] = [
     href: "https://clarkhayashi.github.io/my-websites/clark-reading-notes/",
     external: true,
     statusLabel: "Live · personal project",
-    statusType: "progress",
-  },
-  {
-    title: "Portfolio Website",
-    description:
-      "This site, designed and built with Astro, Tailwind, and AI-assisted workflows, from brand system to deployment. The proof for the visual communication lane is the thing you're reading.",
-    tags: ["Astro", "Tailwind", "AI Workflow"],
-    lane: "Visual Communication",
-    statusLabel: "Live · this site",
     statusType: "progress",
   },
 ];
