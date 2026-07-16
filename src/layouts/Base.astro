@@ -9,8 +9,8 @@ interface Props {
 }
 
 const {
-  title = "Clark Hayashi · Analytics, Marketing & AI Strategy",
-  description = "Business Analytics and Marketing graduate turning messy data, ideas, and operations into clear decisions. Analytics, AI workflows, marketing measurement, operations, leadership, and visual communication.",
+  title = "Clark Hayashi · Business & Marketing Analyst",
+  description = "Business and marketing analyst turning messy data into clear decisions through analytics, measurement, dashboards, and AI-enabled workflows.",
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -36,7 +36,6 @@ const ogImage = new URL("/headshot.jpg", Astro.site);
     <meta property="og:image" content={ogImage} />
     <meta name="twitter:card" content="summary" />
 
-    <!-- Cormorant Garamond via Google Fonts (Satoshi is self-hosted) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
