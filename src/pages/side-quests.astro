@@ -8,7 +8,6 @@ import Base from "../layouts/Base.astro";
 >
   <main class="quests-shell">
     <section class="quests-intro" aria-labelledby="side-quests-title">
-      <p class="eyebrow">Off the clock, still curious</p>
       <h1 id="side-quests-title">Side Quests</h1>
       <p class="intro-copy">
         The things I keep learning, making, and following when nobody assigned
@@ -24,10 +23,7 @@ import Base from "../layouts/Base.astro";
         rel="noopener noreferrer"
         data-tooltip="I’m learning Japanese 🇯🇵 · Follow me on Duolingo"
       >
-        <div class="card-topline">
-          <span class="card-kicker">Japanese</span>
-          <span class="external-mark" aria-hidden="true">↗</span>
-        </div>
+        <span class="external-mark" aria-hidden="true">↗</span>
 
         <div class="duo-copy">
           <p class="duo-streak">
@@ -50,9 +46,9 @@ import Base from "../layouts/Base.astro";
         <img
           class="duo-avatar"
           src="/duolingo-clark.svg"
-          alt="Clark's Duolingo avatar wearing a purple cap"
-          width="670"
-          height="563"
+          alt="Clark's Duo Cup avatar"
+          width="384"
+          height="531"
         />
       </a>
 
@@ -63,59 +59,49 @@ import Base from "../layouts/Base.astro";
         rel="noopener noreferrer"
         data-tooltip="What I’m listening to becomes what I’m thinking about"
       >
-        <div class="card-topline">
-          <span class="card-kicker">Listening + reading</span>
-          <span class="external-mark" aria-hidden="true">↗</span>
-        </div>
+        <span class="external-mark" aria-hidden="true">↗</span>
 
-        <div class="audible-mark" aria-label="Audible">
-          <span class="audible-waves" aria-hidden="true">
-            <i></i><i></i><i></i>
-          </span>
-          <strong>audible</strong>
-        </div>
+        <img
+          class="audible-logo"
+          src="/audible-logo.svg"
+          alt="Audible"
+          width="1920"
+          height="547"
+        />
 
         <div class="notes-copy">
           <h2>Reading Notes</h2>
-          <p>
-            Books and ideas worth keeping, connected in my own words
-          </p>
+          <p>Books and ideas worth keeping, connected in my own words</p>
         </div>
 
         <span class="card-action">Open my notes ↗</span>
       </a>
 
-      <a
+      <article
         class="quest-card strava-card"
-        href="https://strava.com/athletes/155679367"
-        target="_blank"
-        rel="noopener noreferrer"
-        data-tooltip="A running log for curiosity, consistency, and fresh air"
+        data-tooltip="Your Lunch Hike · Open the live activity on Strava"
       >
-        <div class="card-topline">
-          <span class="card-kicker">Movement</span>
-          <span class="external-mark" aria-hidden="true">↗</span>
+        <div class="strava-embed-shell">
+          <div
+            class="strava-embed-placeholder"
+            data-embed-type="activity"
+            data-embed-id="19068024693"
+            data-style="standard"
+            data-from-embed="false"
+            data-token="-vrpW4WL_5ZYnKOmhaa9H965qt9_m3zvr0zWO2qcltU"
+          ></div>
         </div>
 
-        <div class="strava-route" aria-hidden="true">
-          <span class="route-dot route-start"></span>
-          <span class="route-line"></span>
-          <span class="route-dot route-finish"></span>
+        <div class="strava-overlay">
+          <a
+            href="https://www.strava.com/activities/19068024693"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Open Lunch Hike on Strava ↗
+          </a>
         </div>
-
-        <div class="strava-copy">
-          <h2>Out for a run</h2>
-          <p>Routes, miles, and the occasional long way home</p>
-        </div>
-
-        <div class="strava-footer">
-          <span
-            class="strava-badge strava-badge-follow"
-            aria-label="Follow Clark on Strava"
-          ></span>
-          <span>Follow on Strava</span>
-        </div>
-      </a>
+      </article>
 
       <a
         class="quest-card github-card"
@@ -124,10 +110,7 @@ import Base from "../layouts/Base.astro";
         rel="noopener noreferrer"
         data-tooltip="Small builds, experiments, and code I wanted to understand"
       >
-        <div class="card-topline">
-          <span class="card-kicker">Experiments</span>
-          <span class="external-mark" aria-hidden="true">↗</span>
-        </div>
+        <span class="external-mark" aria-hidden="true">↗</span>
 
         <div class="code-window" aria-hidden="true">
           <div class="code-dots"><i></i><i></i><i></i></div>
@@ -150,6 +133,8 @@ import Base from "../layouts/Base.astro";
   <div id="quest-tooltip" role="tooltip" aria-hidden="true"></div>
 </Base>
 
+<script is:inline async src="https://strava-embeds.com/embed.js"></script>
+
 <script>
   const compactNumber = new Intl.NumberFormat("en-US", {
     notation: "compact",
@@ -169,8 +154,7 @@ import Base from "../layouts/Base.astro";
     .then((profile) => {
       if (streakNumber && Number.isFinite(profile.streak)) {
         streakNumber.textContent = String(profile.streak);
-        streakLabel.textContent =
-          profile.streak === 1 ? "day streak" : "day streak";
+        streakLabel.textContent = "day streak";
       }
 
       if (courseName && profile.course?.title) {
@@ -241,19 +225,8 @@ import Base from "../layouts/Base.astro";
     margin-bottom: clamp(2rem, 5vw, 4rem);
   }
 
-  .eyebrow,
-  .card-kicker {
-    margin: 0;
-    color: #427873;
-    font-size: 0.74rem;
-    font-weight: 750;
-    letter-spacing: 0.17em;
-    line-height: 1.3;
-    text-transform: uppercase;
-  }
-
   .quests-intro h1 {
-    margin: 0.6rem 0 0;
+    margin: 0;
     color: #101b2a;
     font-family: var(--font-serif, Georgia, serif);
     font-size: clamp(3.5rem, 8vw, 6.8rem);
@@ -303,23 +276,17 @@ import Base from "../layouts/Base.astro";
       inset 0 1px rgba(255, 255, 255, 0.5);
   }
 
-  .quest-card:focus-visible {
+  .quest-card:focus-visible,
+  .quest-card a:focus-visible {
     outline: 3px solid #66aaa3;
     outline-offset: 5px;
   }
 
-  .card-topline {
-    position: absolute;
-    z-index: 4;
-    top: clamp(1.4rem, 3vw, 2rem);
-    right: clamp(1.4rem, 3vw, 2rem);
-    left: clamp(1.4rem, 3vw, 2rem);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
   .external-mark {
+    position: absolute;
+    z-index: 5;
+    top: clamp(1.15rem, 2.5vw, 1.6rem);
+    right: clamp(1.15rem, 2.5vw, 1.6rem);
     display: grid;
     width: 2rem;
     height: 2rem;
@@ -327,12 +294,12 @@ import Base from "../layouts/Base.astro";
     border: 1px solid currentColor;
     border-radius: 50%;
     font-size: 0.9rem;
-    opacity: 0.55;
+    opacity: 0.5;
   }
 
   .duo-card {
     grid-column: span 7;
-    background: #e5e5e5;
+    background: #e7f6fc;
   }
 
   .duo-copy {
@@ -340,7 +307,7 @@ import Base from "../layouts/Base.astro";
     z-index: 3;
     width: 52%;
     align-self: flex-end;
-    padding: 7rem 0 3rem clamp(1.4rem, 3vw, 2.2rem);
+    padding: 4rem 0 3rem clamp(1.4rem, 3vw, 2.2rem);
   }
 
   .duo-streak {
@@ -348,7 +315,7 @@ import Base from "../layouts/Base.astro";
     align-items: baseline;
     gap: 0.5rem;
     margin: 0 0 0.8rem;
-    color: #8b4dcc;
+    color: #e2472f;
   }
 
   #duo-streak-number {
@@ -360,14 +327,13 @@ import Base from "../layouts/Base.astro";
 
   #duo-streak-label {
     font-size: 0.8rem;
-    font-weight: 750;
+    font-weight: 800;
     letter-spacing: 0.05em;
     text-transform: uppercase;
   }
 
   .duo-copy h2,
   .notes-copy h2,
-  .strava-copy h2,
   .github-copy h2 {
     margin: 0;
     font-family: var(--font-serif, Georgia, serif);
@@ -379,7 +345,6 @@ import Base from "../layouts/Base.astro";
 
   .duo-copy > p:last-child,
   .notes-copy p,
-  .strava-copy p,
   .github-copy p {
     margin: 0.85rem 0 0;
     font-size: 1rem;
@@ -390,10 +355,10 @@ import Base from "../layouts/Base.astro";
   .duo-avatar {
     position: absolute;
     z-index: 1;
-    right: -4%;
-    bottom: 0;
-    width: 58%;
-    height: auto;
+    right: 2%;
+    bottom: -4%;
+    width: 43%;
+    height: 92%;
     object-fit: contain;
     transform-origin: bottom center;
     animation: duo-float 5.5s ease-in-out infinite;
@@ -402,14 +367,14 @@ import Base from "../layouts/Base.astro";
   .duo-meta {
     position: absolute;
     z-index: 4;
-    right: 1.5rem;
-    bottom: 1.2rem;
+    right: 1.3rem;
+    bottom: 1.1rem;
     display: flex;
     gap: 0.35rem;
     padding: 0.45rem 0.65rem;
     border: 1px solid rgba(16, 27, 42, 0.12);
     border-radius: 999px;
-    background: rgba(247, 243, 236, 0.82);
+    background: rgba(247, 243, 236, 0.86);
     color: #101b2a;
     font-size: 0.72rem;
     font-weight: 700;
@@ -422,53 +387,17 @@ import Base from "../layouts/Base.astro";
     justify-content: flex-end;
     padding: clamp(1.4rem, 3vw, 2.2rem);
     background:
-      radial-gradient(circle at 68% 28%, rgba(255, 190, 86, 0.3), transparent 32%),
+      radial-gradient(circle at 70% 20%, rgba(255, 190, 86, 0.2), transparent 34%),
       #fff9ef;
   }
 
-  .audible-mark {
+  .audible-logo {
     position: absolute;
-    top: 5.1rem;
-    right: clamp(1.4rem, 3vw, 2.2rem);
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
-    color: #e87722;
-    font-size: clamp(1.5rem, 3vw, 2.2rem);
-    letter-spacing: -0.05em;
-  }
-
-  .audible-waves {
-    position: relative;
-    display: block;
-    width: 3.5rem;
-    height: 2.6rem;
-  }
-
-  .audible-waves i {
-    position: absolute;
-    bottom: 0.2rem;
-    left: 50%;
-    border: 3px solid currentColor;
-    border-top-color: transparent;
-    border-right-color: transparent;
-    border-radius: 50%;
-    transform: translateX(-50%) rotate(-45deg);
-  }
-
-  .audible-waves i:nth-child(1) {
-    width: 1.3rem;
-    height: 1.3rem;
-  }
-
-  .audible-waves i:nth-child(2) {
-    width: 2.2rem;
-    height: 2.2rem;
-  }
-
-  .audible-waves i:nth-child(3) {
-    width: 3.1rem;
-    height: 3.1rem;
+    top: clamp(2rem, 5vw, 3.4rem);
+    left: clamp(1.4rem, 3vw, 2.2rem);
+    width: min(62%, 15.5rem);
+    height: auto;
+    object-fit: contain;
   }
 
   .notes-copy {
@@ -489,94 +418,52 @@ import Base from "../layouts/Base.astro";
 
   .strava-card {
     grid-column: span 5;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: clamp(1.4rem, 3vw, 2.2rem);
-    background: #f35a23;
-    color: #fff8f0;
+    min-height: 360px;
+    background: #ffffff;
   }
 
-  .strava-card .card-kicker {
-    color: rgba(255, 255, 255, 0.78);
-  }
-
-  .strava-route {
+  .strava-embed-shell {
     position: absolute;
-    top: 5.3rem;
-    right: 2rem;
-    left: 2rem;
-    height: 7rem;
-    opacity: 0.9;
-    transform: rotate(-4deg);
+    inset: 0;
+    overflow: hidden;
+    background: #ffffff;
   }
 
-  .route-line {
+  .strava-embed-shell :global(.strava-embed-placeholder) {
+    width: 100%;
+  }
+
+  .strava-embed-shell :global(iframe) {
+    width: 132% !important;
+    min-width: 132% !important;
+    height: 900px !important;
+    border: 0 !important;
+    transform: scale(0.76);
+    transform-origin: top left;
+  }
+
+  .strava-overlay {
     position: absolute;
-    top: 50%;
-    right: 1.2rem;
-    left: 1.2rem;
-    height: 4px;
-    border-radius: 99px;
-    background:
-      repeating-linear-gradient(
-        90deg,
-        #fff8f0 0 14px,
-        transparent 14px 23px
-      );
-    transform: translateY(-50%) rotate(-7deg);
-    animation: route-dash 8s linear infinite;
-  }
-
-  .route-dot {
-    position: absolute;
-    z-index: 2;
-    width: 1rem;
-    height: 1rem;
-    border: 3px solid #fff8f0;
-    border-radius: 50%;
-  }
-
-  .route-start {
-    top: 62%;
-    left: 0.5rem;
-  }
-
-  .route-finish {
-    top: 26%;
-    right: 0.5rem;
-    background: #fff8f0;
-  }
-
-  .strava-copy {
-    max-width: 25rem;
-    padding-bottom: 4rem;
-  }
-
-  .strava-footer {
-    position: absolute;
-    right: clamp(1.4rem, 3vw, 2.2rem);
-    bottom: 1.3rem;
-    left: clamp(1.4rem, 3vw, 2.2rem);
+    z-index: 8;
+    right: 0;
+    bottom: 0;
+    left: 0;
     display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    font-size: 0.9rem;
-    font-weight: 750;
+    justify-content: flex-end;
+    padding: 3.5rem 1.25rem 1.15rem;
+    background: linear-gradient(transparent, rgba(255, 255, 255, 0.96) 56%);
+    pointer-events: none;
   }
 
-  .strava-badge {
-    display: inline-block;
-    width: 48px;
-    height: 48px;
-    flex: 0 0 48px;
-  }
-
-  .strava-badge-follow {
-    background: url("https://badges.strava.com/echelon-sprite-48.png") no-repeat 0 0;
-  }
-
-  .strava-card:hover .strava-badge-follow {
-    background-position: 0 -63px;
+  .strava-overlay a {
+    padding: 0.65rem 0.85rem;
+    border-radius: 999px;
+    background: #f35a23;
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-decoration: none;
+    pointer-events: auto;
   }
 
   .github-card {
@@ -591,13 +478,9 @@ import Base from "../layouts/Base.astro";
     color: #f7f3ec;
   }
 
-  .github-card .card-kicker {
-    color: #8ec2bd;
-  }
-
   .code-window {
     position: absolute;
-    top: 5.2rem;
+    top: 2rem;
     right: 2rem;
     width: min(48%, 19rem);
     height: 8.8rem;
@@ -668,12 +551,7 @@ import Base from "../layouts/Base.astro";
 
   @keyframes duo-float {
     0%, 100% { transform: translateY(0) rotate(-0.5deg); }
-    50% { transform: translateY(-9px) rotate(0.5deg); }
-  }
-
-  @keyframes route-dash {
-    from { background-position: 0 0; }
-    to { background-position: 180px 0; }
+    50% { transform: translateY(-7px) rotate(0.5deg); }
   }
 
   @keyframes code-pulse {
@@ -704,17 +582,23 @@ import Base from "../layouts/Base.astro";
     }
 
     .duo-copy {
-      width: 58%;
+      width: 57%;
       padding-bottom: 3.5rem;
     }
 
     .duo-avatar {
-      right: -10%;
-      width: 66%;
+      right: 0;
+      width: 46%;
     }
 
     .github-copy {
       max-width: 58%;
+    }
+
+    .strava-embed-shell :global(iframe) {
+      width: 100% !important;
+      min-width: 100% !important;
+      transform: none;
     }
   }
 
@@ -728,12 +612,13 @@ import Base from "../layouts/Base.astro";
     }
 
     .duo-copy {
-      width: 64%;
+      width: 62%;
     }
 
     .duo-avatar {
-      right: -18%;
-      width: 73%;
+      right: -2%;
+      width: 44%;
+      height: 84%;
     }
 
     .duo-meta {
@@ -751,7 +636,6 @@ import Base from "../layouts/Base.astro";
     }
 
     .notes-copy p,
-    .strava-copy p,
     .github-copy p,
     .duo-copy > p:last-child {
       font-size: 0.94rem;
@@ -761,7 +645,6 @@ import Base from "../layouts/Base.astro";
   @media (prefers-reduced-motion: reduce) {
     .quest-card,
     .duo-avatar,
-    .route-line,
     .code-line,
     #quest-tooltip {
       animation: none !important;
