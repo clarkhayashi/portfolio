@@ -2,13 +2,16 @@
 interface Props {
   href: string;
   variant?: "solid" | "ghost";
+  size?: "default" | "large";
   external?: boolean;
 }
 
-const { href, variant = "solid", external = false } = Astro.props;
+const { href, variant = "solid", size = "default", external = false } = Astro.props;
 
 const base =
-  "inline-flex items-center rounded-full px-5 py-2.5 text-sm font-medium transition-colors";
+  "inline-flex items-center justify-center rounded-full font-medium transition-colors";
+const sizes =
+  size === "large" ? "min-h-12 px-8 py-3.5 text-base" : "px-5 py-2.5 text-sm";
 const styles =
   variant === "solid"
     ? "bg-ink text-paper hover:bg-teal-deep"
@@ -17,7 +20,7 @@ const styles =
 
 <a
   href={href}
-  class:list={[base, styles]}
+  class:list={[base, sizes, styles]}
   {...external ? { target: "_blank", rel: "noopener noreferrer" } : {}}
 >
   <slot />
