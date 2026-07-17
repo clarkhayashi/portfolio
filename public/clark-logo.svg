@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 350" role="img" aria-labelledby="title desc">
+  <title id="title">Clark Hayashi</title>
+  <desc id="desc">A wave-shaped C carries a stylized 林. The two halves of the character also suggest two collaborating people and a subtle H.</desc>
+
+  <!-- The enclosing C, shaped as a rising ocean current. -->
+  <path
+    fill="#1C1C1C"
+    d="M56 248
+       C29 202 31 145 58 98
+       C99 28 190 7 270 34
+       C297 43 319 58 334 78
+       C320 67 303 59 279 52
+       C219 35 148 51 106 97
+       C67 140 61 197 84 235
+       Z"
+  />
+
+  <!-- The carried wave, including the small open current at lower left. -->
+  <path
+    fill="#1C1C1C"
+    fill-rule="evenodd"
+    d="M42 274
+       C80 238 117 234 154 252
+       C178 264 199 274 221 271
+       C244 267 266 249 293 239
+       C325 227 359 229 387 244
+       C397 249 405 255 412 262
+       C396 254 380 250 363 251
+       C325 252 292 270 257 290
+       C219 312 178 321 132 311
+       C102 305 75 292 55 281
+       C81 289 105 292 127 288
+       C149 284 168 276 185 266
+       C169 263 153 257 138 252
+       C107 243 78 251 42 274
+       Z
+
+       M72 281
+       C94 261 120 258 151 272
+       C136 278 118 281 99 282
+       C88 283 79 282 72 281
+       Z"
+  />
+
+  <!-- Two heads make the collaborative reading immediate. -->
+  <circle cx="171" cy="121" r="10.5" fill="#1C1C1C"/>
+  <circle cx="229" cy="121" r="10.5" fill="#1C1C1C"/>
+
+  <!-- A custom 林. Shared shoulders and trunks also form a quiet H. -->
+  <g
+    fill="none"
+    stroke="#1C1C1C"
+    stroke-width="13"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <path d="M137 154 C153 160 166 157 179 156 C193 155 207 158 222 157 C238 157 252 155 264 151"/>
+    <path d="M171 146 L171 226"/>
+    <path d="M229 146 L229 226"/>
+    <path d="M171 169 C159 187 149 199 138 208"/>
+    <path d="M171 170 C181 186 190 198 199 209"/>
+    <path d="M229 169 C219 185 210 198 201 209"/>
+    <path d="M229 170 C240 188 250 200 262 208"/>
+  </g>
+
+  <!-- Restrained brush fibers, retained only in the master-size mark. -->
+  <path fill="#1C1C1C" d="M317 62 C326 68 333 77 337 88 C331 80 325 73 319 69 Z"/>
+  <path fill="#1C1C1C" d="M347 239 C373 243 394 253 411 268 C392 255 374 248 351 246 Z"/>
+  <path fill="#1C1C1C" d="M353 243 C378 248 397 258 413 274 C396 261 378 253 355 250 Z"/>
+</svg>
