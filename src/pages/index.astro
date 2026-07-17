@@ -6,15 +6,6 @@ import LaneList from "../components/LaneList.astro";
 import WaveDivider from "../components/WaveDivider.astro";
 import JourneyStepper from "../components/JourneyStepper.astro";
 
-const identity = [
-  "Business Analytics + Marketing",
-  "Marketing Measurement",
-  "AI Strategy",
-  "Operations",
-  "Visual Communication",
-  "Seattle / Hawai‘i / Japan",
-];
-
 /* How I Work: Analyze → Translate → Build */
 const framework = [
   {
@@ -34,37 +25,28 @@ const framework = [
 
 <Base>
   <!-- Hero -->
-  <section class="mx-auto max-w-[1000px] px-6 pb-14 pt-4 md:pb-20 md:pt-10">
+  <section class="mx-auto max-w-[1000px] px-6 pb-12 pt-4 md:pb-14 md:pt-8">
     <div class="grid items-center gap-10 md:grid-cols-[1fr_auto]">
       <div>
         <p class="mb-4 text-xs font-medium uppercase tracking-[0.16em] text-teal-deep">
-          Business / Marketing Analyst · Measurement · Dashboards · AI Workflows
+          Business + Marketing Analyst
         </p>
         <h1
           class="max-w-[22ch] font-serif text-[2.6rem] font-bold leading-[1.06] tracking-tight md:text-[3.5rem]"
         >
           I turn <em class="italic">messy</em> data, ideas, and operations into clear decisions.
         </h1>
-        <p class="mt-6 max-w-[56ch] text-lg leading-relaxed text-ink/70">
-          Business Analytics &amp; Marketing graduate from Seattle University.
-          Recent work: Hawai‘i lodging value analysis, participation dashboards
-          for Seattle U Recreation, and GA4/SEO lead tracking for a real estate
-          business.
+        <p class="mt-6 max-w-[52ch] text-lg leading-relaxed text-ink/75">
+          I like taking scattered information, finding the pattern, and
+          explaining what matters in plain language. I use analysis, dashboards,
+          and practical AI tools to get there.
         </p>
         <p class="mt-3 text-sm text-bark">
           Rooted in Hawai‘i. Built in Seattle. Expanded through Tokyo and Italy.
         </p>
-        <div class="mt-8 flex flex-wrap gap-3">
-          <ButtonLink href="/work">View Work</ButtonLink>
-          <ButtonLink href="/resume.pdf" variant="ghost">Resume</ButtonLink>
-          <ButtonLink
-            href="https://www.linkedin.com/in/clark-hayashi"
-            variant="ghost"
-            external>LinkedIn</ButtonLink
-          >
-          <ButtonLink href="mailto:hayashiclark@gmail.com" variant="ghost"
-            >Email</ButtonLink
-          >
+        <div class="mt-8 flex flex-wrap gap-4">
+          <ButtonLink href="/work" size="large">View Work</ButtonLink>
+          <ButtonLink href="/resume.pdf" variant="ghost" size="large">Resume</ButtonLink>
         </div>
       </div>
       <img
@@ -75,26 +57,6 @@ const framework = [
         class="order-first h-48 w-48 rounded-2xl object-cover md:order-none md:h-72 md:w-72"
       />
     </div>
-  </section>
-
-  <!-- Identity / credibility strip -->
-  <section class="border-y border-ink/10">
-    <ul
-      class="mx-auto flex max-w-[1000px] flex-wrap justify-center gap-x-3 gap-y-2 px-6 py-5 text-xs font-medium uppercase tracking-[0.14em] text-ink/65"
-    >
-      {
-        identity.map((item, i) => (
-          <li class="flex items-center gap-3">
-            {i > 0 && (
-              <span class="text-teal/60" aria-hidden="true">
-                ·
-              </span>
-            )}
-            {item}
-          </li>
-        ))
-      }
-    </ul>
   </section>
 
   <JourneyStepper />
