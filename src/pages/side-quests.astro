@@ -30,11 +30,7 @@ import Base from "../layouts/Base.astro";
             <span id="duo-streak-number">—</span>
             <span id="duo-streak-label">public profile</span>
           </p>
-          <h2>Learning in public</h2>
-          <p>
-            Small daily reps, imperfect progress, and one more reason to keep
-            showing up
-          </p>
+          <h2>Studying Japanese</h2>
         </div>
 
         <div class="duo-meta" aria-live="polite">
@@ -46,9 +42,9 @@ import Base from "../layouts/Base.astro";
         <img
           class="duo-avatar"
           src="/duolingo-clark.svg"
-          alt="Clark's Duo Cup avatar"
-          width="384"
-          height="531"
+          alt="Clark's Duolingo avatar"
+          width="670"
+          height="563"
         />
       </a>
 
@@ -299,7 +295,7 @@ import Base from "../layouts/Base.astro";
 
   .duo-card {
     grid-column: span 7;
-    background: #e7f6fc;
+    background: #e5e5e5;
   }
 
   .duo-copy {
@@ -355,10 +351,10 @@ import Base from "../layouts/Base.astro";
   .duo-avatar {
     position: absolute;
     z-index: 1;
-    right: 2%;
-    bottom: -4%;
-    width: 43%;
-    height: 92%;
+    right: -4%;
+    bottom: 0;
+    width: 58%;
+    height: auto;
     object-fit: contain;
     transform-origin: bottom center;
     animation: duo-float 5.5s ease-in-out infinite;
@@ -386,9 +382,7 @@ import Base from "../layouts/Base.astro";
     flex-direction: column;
     justify-content: flex-end;
     padding: clamp(1.4rem, 3vw, 2.2rem);
-    background:
-      radial-gradient(circle at 70% 20%, rgba(255, 190, 86, 0.2), transparent 34%),
-      #fff9ef;
+    background: #ffffff;
   }
 
   .audible-logo {
@@ -587,8 +581,8 @@ import Base from "../layouts/Base.astro";
     }
 
     .duo-avatar {
-      right: 0;
-      width: 46%;
+      right: -10%;
+      width: 66%;
     }
 
     .github-copy {
@@ -616,9 +610,9 @@ import Base from "../layouts/Base.astro";
     }
 
     .duo-avatar {
-      right: -2%;
-      width: 44%;
-      height: 84%;
+      right: -18%;
+      width: 73%;
+      height: auto;
     }
 
     .duo-meta {
