@@ -21,7 +21,7 @@ import Base from "../layouts/Base.astro";
         href="https://www.duolingo.com/profile/ClarkHayashi"
         target="_blank"
         rel="noopener noreferrer"
-        data-tooltip="I’m learning Japanese 🇯🇵 · Follow me on Duolingo"
+        data-tooltip="Japanese first, plus chess and five other languages · Follow me on Duolingo"
       >
         <span class="external-mark" aria-hidden="true">↗</span>
 
@@ -88,15 +88,6 @@ import Base from "../layouts/Base.astro";
           ></div>
         </div>
 
-        <div class="strava-overlay">
-          <a
-            href="https://www.strava.com/activities/19068024693"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Open Lunch Hike on Strava ↗
-          </a>
-        </div>
       </article>
 
       <a
@@ -411,8 +402,9 @@ import Base from "../layouts/Base.astro";
   }
 
   .strava-card {
-    grid-column: span 5;
-    min-height: 360px;
+    grid-column: span 12;
+    height: 780px;
+    min-height: 780px;
     background: #ffffff;
   }
 
@@ -428,40 +420,14 @@ import Base from "../layouts/Base.astro";
   }
 
   .strava-embed-shell :global(iframe) {
-    width: 132% !important;
-    min-width: 132% !important;
-    height: 900px !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    height: 1220px !important;
     border: 0 !important;
-    transform: scale(0.76);
-    transform-origin: top left;
-  }
-
-  .strava-overlay {
-    position: absolute;
-    z-index: 8;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    display: flex;
-    justify-content: flex-end;
-    padding: 3.5rem 1.25rem 1.15rem;
-    background: linear-gradient(transparent, rgba(255, 255, 255, 0.96) 56%);
-    pointer-events: none;
-  }
-
-  .strava-overlay a {
-    padding: 0.65rem 0.85rem;
-    border-radius: 999px;
-    background: #f35a23;
-    color: #ffffff;
-    font-size: 0.8rem;
-    font-weight: 800;
-    text-decoration: none;
-    pointer-events: auto;
   }
 
   .github-card {
-    grid-column: span 7;
+    grid-column: span 12;
     flex-direction: column;
     justify-content: flex-end;
     padding: clamp(1.4rem, 3vw, 2.2rem);
@@ -589,10 +555,15 @@ import Base from "../layouts/Base.astro";
       max-width: 58%;
     }
 
+    .strava-card {
+      height: 760px;
+      min-height: 760px;
+    }
+
     .strava-embed-shell :global(iframe) {
       width: 100% !important;
       min-width: 100% !important;
-      transform: none;
+      height: 1200px !important;
     }
   }
 
