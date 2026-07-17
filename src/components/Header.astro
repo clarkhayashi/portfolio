@@ -63,7 +63,7 @@ const links = [
 
     <nav
       aria-label="Main"
-      class="flex w-full justify-between gap-4 text-[0.78rem] font-medium uppercase tracking-[0.13em] sm:w-auto sm:justify-start sm:gap-6 md:gap-8"
+      class="flex w-full justify-between gap-4 text-sm font-semibold uppercase tracking-[0.1em] sm:w-auto sm:justify-start sm:gap-6 md:gap-8"
     >
       {
         links.map((l) => (
@@ -73,7 +73,7 @@ const links = [
               "relative py-1 transition-colors after:absolute after:inset-x-0 after:-bottom-1 after:h-px after:origin-left after:bg-[#B84A56] after:transition-transform",
               current.startsWith(l.href) && l.href !== "/resume.pdf"
                 ? "text-[#F7F1E7] after:scale-x-100"
-                : "text-[#F7F1E7]/65 after:scale-x-0 hover:text-[#F7F1E7] hover:after:scale-x-100",
+                : "text-[#F7F1E7]/80 after:scale-x-0 hover:text-[#F7F1E7] hover:after:scale-x-100",
             ]}
           >
             {l.label}
