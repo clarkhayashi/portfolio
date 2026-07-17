@@ -8,45 +8,91 @@ const links = [
 ];
 ---
 
-<header
-  class="mx-auto flex max-w-[1000px] flex-col items-stretch gap-4 px-6 py-6 sm:flex-row sm:items-center sm:justify-between md:py-8"
->
-  <a
-    href="/"
-    aria-label="Clark Hayashi, home"
-    class="group flex w-fit items-center gap-3"
+<div class="denim-header">
+  <header
+    class="mx-auto flex max-w-[1000px] flex-col items-stretch gap-4 px-6 py-7 sm:flex-row sm:items-center sm:justify-between md:py-8"
   >
-    <img
-      src="/favicon.svg"
-      alt=""
-      width="52"
-      height="52"
-      class="h-11 w-11 shrink-0 transition-transform duration-200 group-hover:-rotate-3 md:h-[3.25rem] md:w-[3.25rem]"
-    />
-    <span
-      class="font-serif text-[2.35rem] font-bold leading-none tracking-[-0.025em] text-ink transition-colors group-hover:text-teal-deep md:text-[3rem]"
+    <a
+      href="/"
+      aria-label="Clark Hayashi, home"
+      class="group flex w-fit items-center gap-3"
     >
-      Clark Hayashi
-    </span>
-  </a>
-  <nav
-    aria-label="Main"
-    class="flex w-full justify-between gap-4 text-sm font-medium sm:w-auto sm:justify-start sm:gap-5 md:gap-8"
-  >
-    {
-      links.map((l) => (
-        <a
-          href={l.href}
-          class:list={[
-            "relative py-1 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-teal after:transition-transform hover:text-teal-deep hover:after:scale-x-100",
-            current.startsWith(l.href) && l.href !== "/resume.pdf"
-              ? "text-teal-deep after:scale-x-100"
-              : "text-ink/80",
-          ]}
-        >
-          {l.label}
-        </a>
-      ))
-    }
-  </nav>
-</header>
+      <svg
+        viewBox="0 0 64 64"
+        width="44"
+        height="44"
+        aria-hidden="true"
+        class="h-10 w-10 shrink-0 md:h-11 md:w-11"
+      >
+        <circle cx="47" cy="19" r="5" fill="#B84A56"></circle>
+        <path
+          d="M8 40c8-13 16-13 24-4s16 9 24-4"
+          stroke="#F7F1E7"
+          stroke-width="5.5"
+          fill="none"
+          stroke-linecap="round"
+        ></path>
+        <path
+          d="M14 50c6-9 12-9 18-3s12 6 18-3"
+          stroke="#9DB9B4"
+          stroke-width="4"
+          fill="none"
+          stroke-linecap="round"
+        ></path>
+      </svg>
+      <span
+        class="font-serif text-[2.15rem] font-bold leading-none tracking-[-0.02em] text-[#F7F1E7] transition-colors group-hover:text-white md:text-[2.4rem]"
+      >
+        Clark Hayashi
+      </span>
+    </a>
+
+    <nav
+      aria-label="Main"
+      class="flex w-full justify-between gap-4 text-[0.72rem] font-medium uppercase tracking-[0.13em] sm:w-auto sm:justify-start sm:gap-6 md:gap-8"
+    >
+      {
+        links.map((l) => (
+          <a
+            href={l.href}
+            class:list={[
+              "relative py-1 transition-colors after:absolute after:inset-x-0 after:-bottom-1 after:h-px after:origin-left after:bg-[#B84A56] after:transition-transform",
+              current.startsWith(l.href) && l.href !== "/resume.pdf"
+                ? "text-[#F7F1E7] after:scale-x-100"
+                : "text-[#F7F1E7]/65 after:scale-x-0 hover:text-[#F7F1E7] hover:after:scale-x-100",
+            ]}
+          >
+            {l.label}
+          </a>
+        ))
+      }
+    </nav>
+  </header>
+</div>
+
+<style>
+  .denim-header {
+    position: relative;
+    z-index: 20;
+    border-top: 3px solid #5d8c88;
+    background-color: #1d2b3a;
+    background-image:
+      linear-gradient(90deg, rgba(255, 255, 255, 0.018) 50%, transparent 50%),
+      linear-gradient(rgba(255, 255, 255, 0.012) 50%, transparent 50%);
+    background-size: 4px 4px;
+  }
+
+  .denim-header::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: -8px;
+    left: 0;
+    height: 9px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M0 9 Q7 -2 14 9' fill='none' stroke='%23DCE7E3' stroke-width='1.4'/%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+    background-position: left bottom;
+    background-size: 14px 9px;
+    pointer-events: none;
+  }
+</style>
