@@ -22,33 +22,51 @@ const buildingNow = [
   title="About · Clark Hayashi"
   description="Business Analytics and Marketing graduate from Seattle University, rooted in Hawai‘i. Analytics, marketing measurement, AI workflows, operations, and visual communication."
 >
-  <article class="mx-auto max-w-[72ch] px-6 pb-10 pt-10 md:pt-16">
-    <h1 class="font-serif text-4xl font-bold tracking-tight md:text-5xl">About</h1>
-
+  <article class="about-page mx-auto px-6 pb-10 pt-10 md:pt-16">
     <!-- Intro -->
-    <div class="mt-8 space-y-5 leading-relaxed text-ink/80">
-      <p class="text-lg">Hi, I'm Clark Hayashi.</p>
+    <section class="about-intro" aria-labelledby="about-title">
+      <h1
+        id="about-title"
+        class="about-title font-serif text-4xl font-bold tracking-tight md:text-5xl"
+      >
+        About
+      </h1>
 
-      <p>
-        I'm a Business Analytics and Marketing graduate from Seattle University
-        with a minor in Japanese, originally from Hawai‘i. My background blends
-        analytics, marketing, AI, operations, global study, sports leadership,
-        visual communication, and service. Most of it comes down to the
-        same move: taking something messy (a dataset, a process, a pile of
-        competing ideas) and turning it into something a team can act on.
-      </p>
+      <p class="about-hello text-lg text-ink/80">Hi, I'm Clark Hayashi.</p>
 
-      <p>
-        At Bank of Hawaii, as one of the bank's first AI interns, that meant
-        interviewing people across the organization about where AI could
-        actually help, then building the scoring framework and Power BI
-        dashboard leadership used to prioritize the opportunities. The rest of
-        the record is below. One note from four years of refereeing flag
-        football: it teaches you more about making fast calls with incomplete
-        information than most classrooms do.
-      </p>
-    </div>
+      <figure class="about-portrait">
+        <img
+          src="/images/headshot-cutout.svg"
+          alt="Clark Hayashi in a navy suit"
+          width="585"
+          height="640"
+          decoding="async"
+        />
+      </figure>
 
+      <div class="about-copy space-y-5 leading-relaxed text-ink/80">
+        <p>
+          I'm a Business Analytics and Marketing graduate from Seattle University
+          with a minor in Japanese, originally from Hawai‘i. My background blends
+          analytics, marketing, AI, operations, global study, sports leadership,
+          visual communication, and service. Most of it comes down to the
+          same move: taking something messy (a dataset, a process, a pile of
+          competing ideas) and turning it into something a team can act on.
+        </p>
+
+        <p>
+          At Bank of Hawaii, as one of the bank's first AI interns, that meant
+          interviewing people across the organization about where AI could
+          actually help, then building the scoring framework and Power BI
+          dashboard leadership used to prioritize the opportunities. The rest of
+          the record is below. One note from four years of refereeing flag
+          football: it teaches you more about making fast calls with incomplete
+          information than most classrooms do.
+        </p>
+      </div>
+    </section>
+
+    <div class="about-body">
     <!-- Professional lanes -->
     <section class="mt-14">
       <h2 class="font-serif text-3xl font-bold tracking-tight">What I Bring</h2>
@@ -215,5 +233,82 @@ const buildingNow = [
         <ButtonLink href="/resume.pdf" variant="ghost">Resume</ButtonLink>
       </div>
     </div>
+    </div>
   </article>
+
+  <style>
+    .about-page {
+      width: min(78rem, 100%);
+    }
+
+    .about-intro {
+      display: grid;
+      grid-template-areas:
+        "title portrait"
+        "hello portrait"
+        "copy portrait";
+      grid-template-columns: minmax(0, 1fr) minmax(17rem, 0.48fr);
+      column-gap: clamp(2rem, 6vw, 5.5rem);
+      align-items: start;
+    }
+
+    .about-title {
+      grid-area: title;
+    }
+
+    .about-hello {
+      grid-area: hello;
+      margin-top: 2rem;
+    }
+
+    .about-copy {
+      grid-area: copy;
+      margin-top: 2rem;
+    }
+
+    .about-portrait {
+      grid-area: portrait;
+      align-self: end;
+      margin: 0;
+    }
+
+    .about-portrait img {
+      display: block;
+      width: min(100%, 24rem);
+      height: auto;
+      margin-inline: auto 0;
+    }
+
+    .about-body {
+      max-width: 72ch;
+    }
+
+    @media (max-width: 767px) {
+      .about-intro {
+        grid-template-areas:
+          "title"
+          "hello"
+          "portrait"
+          "copy";
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .about-hello {
+        margin-top: 1.5rem;
+      }
+
+      .about-portrait {
+        margin-top: 1.5rem;
+      }
+
+      .about-portrait img {
+        width: min(78vw, 18rem);
+        margin-inline: auto;
+      }
+
+      .about-copy {
+        margin-top: 2rem;
+      }
+    }
+  </style>
 </Base>
