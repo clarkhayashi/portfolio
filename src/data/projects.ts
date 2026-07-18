@@ -35,6 +35,17 @@ export const projects: Project[] = [
     statusType: "progress",
   },
   {
+    title: "Growing Without Losing Home",
+    description:
+      "A solo, independent mainland growth strategy for Zippy's: Seattle-first market entry, stage-gated expansion, and a speculative campaign built around the orders people remember.",
+    tags: ["Marketing Strategy", "Consumer Insight", "Campaign Design"],
+    lane: "Marketing Strategy",
+    proof: "Solo project · 2024 thesis rebuilt in 2026",
+    href: "/work/zippys-growth-strategy",
+    statusLabel: "Completed · independent case study",
+    statusType: "progress",
+  },
+  {
     title: "Seattle Building Permit Analysis",
     description:
       "Interactive Tableau dashboard on Seattle building permit data, built with an Applied Analytics SU team. Analyzed trends in construction activity and permitting, then presented findings to the club. Live on Tableau Public.",
