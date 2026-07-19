@@ -9,6 +9,10 @@ const stops = journey.map(({ place, lon, lat, years, landmark, glyph }) => ({
   landmark,
   glyph,
 }));
+
+const uniqueStops = stops.filter(
+  (stop, index, all) => all.findIndex((candidate) => candidate.place === stop.place) === index,
+);
 ---
 
 <section
@@ -37,16 +41,30 @@ const stops = journey.map(({ place, lon, lat, years, landmark, glyph }) => ({
             aria-hidden="true"
           ></canvas>
 
-          <div
-            id="journey-landmark"
-            class="journey-landmark"
-            aria-live="polite"
-          >
-            <svg id="journey-landmark-icon" viewBox="0 0 28 28" aria-hidden="true"></svg>
-            <span>
-              <strong id="journey-landmark-place">{stops[0].place}</strong>
-              <small id="journey-landmark-name">{stops[0].landmark}</small>
-            </span>
+          <div id="journey-map-markers" class="absolute inset-0" aria-label="Journey landmarks">
+            {uniqueStops.map((stop) => (
+              <button
+                type="button"
+                class="journey-map-marker"
+                data-place={stop.place}
+                aria-label={`View ${stop.place}: ${stop.landmark}`}
+                hidden
+              >
+                <span class="journey-marker-dot" aria-hidden="true"></span>
+                <span class="journey-marker-bubble" aria-hidden="true">
+                  <svg viewBox="0 0 28 28">
+                    {stop.glyph === "wave" && <path d="M2 10c3.4-3.2 6.8-3.2 10.2 0s6.8 3.2 10.2 0 3.4-3.2 3.6-3.2M2 17c3.4-3.2 6.8-3.2 10.2 0s6.8 3.2 10.2 0 3.4-3.2 3.6-3.2" />}
+                    {stop.glyph === "needle" && <path d="M14 2v24M9 8h10M11 8 9 26M17 8l2 18M7 18h14M10 26h8" />}
+                    {stop.glyph === "tower" && <path d="m14 2-6 24m6-24 6 24M10.5 10h7M9 17h10M7 26h14" />}
+                    {stop.glyph === "hill" && <path d="M2 23c4-5 7-5 11-1 4-5 8-5 13 1M12 21V9h7v12M14 9V5h3v4M14 13h3" />}
+                  </svg>
+                  <span>
+                    <strong>{stop.place}</strong>
+                    <small>{stop.landmark}</small>
+                  </span>
+                </span>
+              </button>
+            ))}
           </div>
 
           <div class="journey-zoom" role="group" aria-label="Globe zoom controls">
@@ -77,7 +95,7 @@ const stops = journey.map(({ place, lon, lat, years, landmark, glyph }) => ({
           role="tablist"
           aria-label="Journey locations"
         ></div>
-        <p class="mt-2 text-center text-xs text-ink/50">Drag the globe · use + and − to zoom</p>
+        <p class="mt-2 text-center text-xs text-ink/50">Drag · select a landmark · zoom with + and −</p>
       </div>
 
       <div class="flex min-h-[470px] flex-col justify-center" aria-live="polite">
@@ -88,14 +106,15 @@ const stops = journey.map(({ place, lon, lat, years, landmark, glyph }) => ({
             <p class="mt-1 font-serif text-lg font-semibold italic text-teal-deep">{stop.years}</p>
             <p class="mt-4 max-w-[54ch] leading-relaxed text-ink/75">{stop.story}</p>
             {stop.photo && (
-              <img
-                src={stop.photo.src}
-                alt={stop.photo.alt}
-                width="640"
-                height="480"
-                loading={index === 0 ? "eager" : "lazy"}
-                class="mt-6 max-h-[260px] w-auto max-w-full rounded-xl border border-ink/10 object-contain"
-              />
+              <figure class="journey-photo mt-6">
+                <img
+                  src={stop.photo.src}
+                  alt={stop.photo.alt}
+                  width="960"
+                  height="600"
+                  loading={index === 0 ? "eager" : "lazy"}
+                />
+              </figure>
             )}
             <p class="mt-5 flex flex-wrap gap-x-5 gap-y-2">
               {stop.links?.map((link) => (
@@ -135,10 +154,7 @@ const stops = journey.map(({ place, lon, lat, years, landmark, glyph }) => ({
   const next = document.getElementById("journey-next");
   const nextPath = document.getElementById("journey-next-path");
   const currentPlace = document.getElementById("journey-current");
-  const landmark = document.getElementById("journey-landmark");
-  const landmarkPlace = document.getElementById("journey-landmark-place");
-  const landmarkName = document.getElementById("journey-landmark-name");
-  const landmarkIcon = document.getElementById("journey-landmark-icon");
+  const mapMarkers = [...document.querySelectorAll(".journey-map-marker")];
   const zoomIn = document.getElementById("journey-zoom-in");
   const zoomOut = document.getElementById("journey-zoom-out");
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -151,16 +167,7 @@ const stops = journey.map(({ place, lon, lat, years, landmark, glyph }) => ({
     grid: "rgba(247,244,239,.13)",
     route: "#9BD7D4",
     routeGlow: "rgba(155,215,212,.18)",
-    active: "#A62B4E",
-    marker: "rgba(247,244,239,.78)",
     rim: "rgba(247,244,239,.36)",
-  };
-
-  const glyphs = {
-    wave: '<path d="M2 10c3.4-3.2 6.8-3.2 10.2 0s6.8 3.2 10.2 0 3.4-3.2 3.6-3.2M2 17c3.4-3.2 6.8-3.2 10.2 0s6.8 3.2 10.2 0 3.4-3.2 3.6-3.2"/>',
-    needle: '<path d="M14 2v24M9 8h10M11 8l-2 18M17 8l2 18M7 18h14M10 26h8"/>',
-    tower: '<path d="M14 2 8 26M14 2l6 24M10.5 10h7M9 17h10M7 26h14"/>',
-    hill: '<path d="M2 23c4-5 7-5 11-1 4-5 8-5 13 1M12 21V9h7v12M14 9V5h3v4M14 13h3"/>',
   };
 
   let size = 0;
@@ -253,15 +260,9 @@ const stops = journey.map(({ place, lon, lat, years, landmark, glyph }) => ({
     chipsBox.appendChild(button);
   });
   const chips = [...chipsBox.children];
-
-  function updateLandmark() {
-    const stop = stops[index];
-    landmarkPlace.textContent = stop.place;
-    landmarkName.textContent = stop.landmark;
-    landmarkIcon.innerHTML = glyphs[stop.glyph] || glyphs.wave;
-    landmark.classList.remove("is-changing");
-    if (!reduced) requestAnimationFrame(() => landmark.classList.add("is-changing"));
-  }
+  mapMarkers.forEach((button) => {
+    button.onclick = () => go(locationIndex.get(button.dataset.place));
+  });
 
   function paint() {
     cards.forEach((card, i) => (card.hidden = i !== index));
@@ -270,12 +271,14 @@ const stops = journey.map(({ place, lon, lat, years, landmark, glyph }) => ({
       chip.style.color = selected ? "#8A1538" : "rgba(28,28,28,.62)";
       chip.setAttribute("aria-selected", selected ? "true" : "false");
     });
+    mapMarkers.forEach((marker) => {
+      marker.setAttribute("aria-pressed", marker.dataset.place === stops[index].place ? "true" : "false");
+    });
     currentPlace.textContent = stops[index].place;
     prev.disabled = index === 0;
     const last = index === stops.length - 1;
     next.setAttribute("aria-label", last ? "Continue to selected work" : "Next place");
     nextPath.setAttribute("d", last ? "M5 9l7 7 7-7" : "m9 5 7 7-7 7");
-    updateLandmark();
   }
 
   function shortestAngle(from, to, amount) {
@@ -356,6 +359,22 @@ const stops = journey.map(({ place, lon, lat, years, landmark, glyph }) => ({
       y: center - scale * (Math.cos(phi0) * Math.sin(phi) - Math.sin(phi0) * Math.cos(phi) * Math.cos(lambda - lambda0)),
       visible: cosc > 0,
     };
+  }
+
+  function updateMapMarkers() {
+    const bubbleHalf = size < 380 ? 84 : 94;
+    mapMarkers.forEach((marker) => {
+      const stop = uniqueLocations.find((candidate) => candidate.place === marker.dataset.place);
+      if (!stop) return;
+      const point = projectPoint(stop.lon, stop.lat);
+      marker.hidden = !point.visible;
+      if (!point.visible) return;
+      const bubbleCenter = Math.max(bubbleHalf, Math.min(size - bubbleHalf, point.x));
+      marker.style.left = `${point.x}px`;
+      marker.style.top = `${point.y}px`;
+      marker.style.setProperty("--bubble-shift", `${bubbleCenter - point.x}px`);
+      marker.dataset.active = stop.place === stops[index].place ? "true" : "false";
+    });
   }
 
   function slerp(a, b, t) {
@@ -496,27 +515,6 @@ const stops = journey.map(({ place, lon, lat, years, landmark, glyph }) => ({
     }
   }
 
-  function drawMarkers() {
-    uniqueLocations.forEach((stop) => {
-      const point = projectPoint(stop.lon, stop.lat);
-      if (!point.visible) return;
-      const active = stop.place === stops[index].place;
-      ctx.beginPath();
-      ctx.arc(point.x, point.y, active ? 7 : 3.2, 0, Math.PI * 2);
-      ctx.fillStyle = active ? colors.land : colors.marker;
-      ctx.fill();
-      if (active) {
-        ctx.strokeStyle = colors.active;
-        ctx.lineWidth = 2.5;
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.arc(point.x, point.y, 2.5, 0, Math.PI * 2);
-        ctx.fillStyle = colors.active;
-        ctx.fill();
-      }
-    });
-  }
-
   function render(now = performance.now()) {
     raf = 0;
     const moving = updateCamera(now);
@@ -524,7 +522,6 @@ const stops = journey.map(({ place, lon, lat, years, landmark, glyph }) => ({
 
     if (!d3 || !landGeo || !graticule) {
       drawFallback();
-      drawMarkers();
     } else {
       const projection = d3
         .geoOrthographic()
@@ -555,7 +552,6 @@ const stops = journey.map(({ place, lon, lat, years, landmark, glyph }) => ({
       ctx.stroke();
 
       drawRoute(path);
-      drawMarkers();
 
       ctx.beginPath();
       path({ type: "Sphere" });
@@ -563,6 +559,8 @@ const stops = journey.map(({ place, lon, lat, years, landmark, glyph }) => ({
       ctx.lineWidth = 1.4;
       ctx.stroke();
     }
+
+    updateMapMarkers();
 
     if (moving || drag) requestDraw();
   }
@@ -593,41 +591,135 @@ const stops = journey.map(({ place, lon, lat, years, landmark, glyph }) => ({
     touch-action: pan-y;
   }
 
-  .journey-landmark {
-    position: absolute;
-    left: 50%;
-    bottom: 1.5%;
-    min-width: 190px;
-    transform: translateX(-50%);
-    display: flex;
-    align-items: center;
-    gap: 11px;
-    padding: 9px 14px 9px 10px;
-    border: 1px solid rgba(17, 45, 56, 0.18);
-    border-radius: 999px;
-    background: rgba(247, 244, 239, 0.96);
-    color: #112d38;
+  #journey-map-markers {
+    z-index: 2;
     pointer-events: none;
   }
 
-  .journey-landmark svg {
-    width: 32px;
-    height: 32px;
-    flex: 0 0 auto;
+  .journey-map-marker {
+    --bubble-shift: 0px;
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    transform: translate(-50%, -50%);
+    border: 0;
+    background: transparent;
+    color: #112d38;
+    cursor: pointer;
+    pointer-events: auto;
+    z-index: 1;
+  }
+
+  .journey-marker-dot {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 11px;
+    height: 11px;
+    transform: translate(-50%, -50%);
+    border: 2px solid #f7f4ef;
+    border-radius: 999px;
+    background: #4f7773;
+    transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease;
+  }
+
+  .journey-marker-dot::after {
+    content: "";
+    position: absolute;
+    inset: 3px;
+    border-radius: inherit;
+    background: #f7f4ef;
+    opacity: 0;
+  }
+
+  .journey-map-marker[data-active="true"] { z-index: 3; }
+  .journey-map-marker[data-active="true"] .journey-marker-dot {
+    width: 18px;
+    height: 18px;
+    border-color: #8a1538;
+    background: #f7f4ef;
+  }
+  .journey-map-marker[data-active="true"] .journey-marker-dot::after { background: #8a1538; opacity: 1; }
+
+  .journey-marker-bubble {
+    position: absolute;
+    left: 50%;
+    top: -8px;
+    width: 188px;
+    transform: translate(calc(-50% + var(--bubble-shift)), calc(-100% - 8px)) scale(0.96);
+    transform-origin: bottom center;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid rgba(17, 45, 56, 0.22);
+    border-radius: 14px;
+    background: #f7f4ef;
+    color: #112d38;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.2s;
+  }
+
+  .journey-marker-bubble::after {
+    content: "";
+    position: absolute;
+    left: calc(50% - var(--bubble-shift));
+    bottom: -5px;
+    width: 9px;
+    height: 9px;
+    transform: translateX(-50%) rotate(45deg);
+    border-right: 1px solid rgba(17, 45, 56, 0.22);
+    border-bottom: 1px solid rgba(17, 45, 56, 0.22);
+    background: #f7f4ef;
+  }
+
+  .journey-map-marker[data-active="true"] .journey-marker-bubble,
+  .journey-map-marker:hover .journey-marker-bubble,
+  .journey-map-marker:focus-visible .journey-marker-bubble {
+    transform: translate(calc(-50% + var(--bubble-shift)), calc(-100% - 12px)) scale(1);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .journey-marker-bubble svg {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
     fill: none;
-    stroke: currentColor;
-    stroke-width: 1.65;
+    stroke: #4f7773;
+    stroke-width: 1.55;
     stroke-linecap: round;
     stroke-linejoin: round;
   }
 
-  .journey-landmark span { display: grid; line-height: 1.18; }
-  .journey-landmark strong { font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; }
-  .journey-landmark small { margin-top: 2px; color: rgba(17, 45, 56, 0.68); font-size: 0.68rem; }
-  .journey-landmark.is-changing { animation: landmark-in 0.32s cubic-bezier(0.16, 1, 0.3, 1); }
+  .journey-marker-bubble > span { display: grid; min-width: 0; text-align: left; line-height: 1.18; }
+  .journey-marker-bubble strong { font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; }
+  .journey-marker-bubble small { margin-top: 3px; color: rgba(17, 45, 56, 0.68); font-size: 0.66rem; }
+  .journey-map-marker:focus-visible { outline: none; }
+  .journey-map-marker:focus-visible .journey-marker-dot { outline: 2px solid #8a1538; outline-offset: 3px; }
+
+  .journey-photo {
+    width: min(100%, 430px);
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border: 1px solid rgba(28, 28, 28, 0.12);
+    border-radius: 16px;
+    background: #e9dfc9;
+  }
+
+  .journey-photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
 
   .journey-zoom {
     position: absolute;
+    z-index: 4;
     top: 10%;
     right: 7%;
     display: grid;
@@ -681,19 +773,16 @@ const stops = journey.map(({ place, lon, lat, years, landmark, glyph }) => ({
   @keyframes card-in {
     from { opacity: 0; transform: translateY(10px); }
   }
-  @keyframes landmark-in {
-    from { opacity: 0.2; transform: translate(-50%, 6px); }
-  }
-
   @media (max-width: 480px) {
-    .journey-landmark { min-width: 170px; padding-right: 12px; }
-    .journey-landmark svg { width: 28px; height: 28px; }
+    .journey-marker-bubble { width: 168px; }
+    .journey-marker-bubble svg { width: 30px; height: 30px; flex-basis: 30px; }
     .journey-zoom { top: 8%; right: 5%; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .journey-card:not([hidden]),
-    .journey-landmark.is-changing { animation: none; }
+    .journey-card:not([hidden]) { animation: none; }
+    .journey-marker-dot,
+    .journey-marker-bubble,
     .journey-zoom button,
     .journey-step-controls button { transition: none; }
   }
