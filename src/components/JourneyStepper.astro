@@ -657,7 +657,7 @@ const stops = journey.map(({ place, lon, lat, years, landmark, glyph }) => ({
   .journey-step-controls button:active { transform: scale(0.95); }
   .journey-zoom button:focus-visible,
   .journey-step-controls button:focus-visible,
-  #journey-chips button:focus-visible { outline: 2px solid #8a1538; outline-offset: -3px; }
+  :global(#journey-chips button:focus-visible) { outline: 2px solid #8a1538; outline-offset: -3px; }
   .journey-zoom svg,
   .journey-step-controls svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 
@@ -666,13 +666,13 @@ const stops = journey.map(({ place, lon, lat, years, landmark, glyph }) => ({
     border-radius: 999px;
   }
 
-  #journey-chips button {
-    min-height: 40px;
+  :global(#journey-chips button) {
+    min-height: 44px;
     cursor: pointer;
     transition: color 0.2s ease;
   }
-  #journey-chips button[aria-selected="true"] { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px; }
-  #journey-chips button:hover { color: #4f7773 !important; }
+  :global(#journey-chips button[aria-selected="true"]) { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px; }
+  :global(#journey-chips button:hover) { color: #4f7773 !important; }
 
   .journey-card:not([hidden]) { animation: card-in 0.38s cubic-bezier(0.16, 1, 0.3, 1); }
   button:disabled { opacity: 0.3; cursor: default; }
