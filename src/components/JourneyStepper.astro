@@ -363,12 +363,19 @@ const uniqueStops = stops.filter(
 
   function updateMapMarkers() {
     const bubbleHalf = size < 380 ? 84 : 94;
+    const activePoint = projectPoint(stops[index].lon, stops[index].lat);
     mapMarkers.forEach((marker) => {
       const stop = uniqueLocations.find((candidate) => candidate.place === marker.dataset.place);
       if (!stop) return;
       const point = projectPoint(stop.lon, stop.lat);
-      marker.hidden = !point.visible;
-      if (!point.visible) return;
+      const hiddenBehindBubble =
+        stop.place !== stops[index].place &&
+        activePoint.visible &&
+        Math.abs(point.x - activePoint.x) < (size < 380 ? 96 : 110) &&
+        point.y < activePoint.y - 12 &&
+        point.y > activePoint.y - 112;
+      marker.hidden = !point.visible || hiddenBehindBubble;
+      if (marker.hidden) return;
       const bubbleCenter = Math.max(bubbleHalf, Math.min(size - bubbleHalf, point.x));
       marker.style.left = `${point.x}px`;
       marker.style.top = `${point.y}px`;
@@ -599,8 +606,8 @@ const uniqueStops = stops.filter(
   .journey-map-marker {
     --bubble-shift: 0px;
     position: absolute;
-    width: 34px;
-    height: 34px;
+    width: 44px;
+    height: 44px;
     transform: translate(-50%, -50%);
     border: 0;
     background: transparent;
