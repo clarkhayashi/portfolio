@@ -1,44 +1,117 @@
 ---
 import { journey } from "../data/journey";
 
-const stops = journey.map(({ place, lon, lat, years }) => ({ place, lon, lat, years }));
+const stops = journey.map(({ place, lon, lat, years, landmark, glyph }) => ({
+  place,
+  lon,
+  lat,
+  years,
+  landmark,
+  glyph,
+}));
 ---
 
-<section id="journey-home" class="border-y border-ink/10 bg-teal/[0.055]" tabindex="0" aria-label="Clark's journey, six stops" aria-roledescription="carousel">
+<section
+  id="journey-home"
+  class="border-y border-ink/10 bg-teal/[0.055]"
+  tabindex="0"
+  aria-label="Clark's journey across Honolulu, Seattle, Tokyo, and Sansepolcro"
+  aria-roledescription="carousel"
+>
   <div class="mx-auto max-w-[1080px] px-6 py-14 md:py-20">
-    <p class="text-xs font-medium uppercase tracking-[0.16em] text-teal-deep">The Journey · Six Stops</p>
+    <p class="text-xs font-medium uppercase tracking-[0.16em] text-teal-deep">The Journey</p>
     <h2 class="mt-3 max-w-[23ch] font-serif text-3xl font-bold leading-tight tracking-tight md:text-[2.6rem]">
       Rooted in Hawai‘i, built in Seattle, and shaped by Tokyo and Tuscany
     </h2>
     <p class="mt-4 max-w-[58ch] leading-relaxed text-ink/70">
-      The work came out of these six stops, in this order. Step through the route, then follow it into the proof.
+      The work grew from these places. Move through the route, then follow it into the proof.
     </p>
 
-    <div class="mt-10 grid items-center gap-10 lg:grid-cols-[minmax(320px,430px)_1fr] lg:gap-14">
-      <div id="journey-globe-column" class="touch-pan-y">
-        <div id="home-globe-box" class="mx-auto aspect-square w-full max-w-[430px]">
-          <canvas id="home-globe" class="h-full w-full cursor-pointer" aria-hidden="true"></canvas>
+    <div class="mt-10 grid items-center gap-10 lg:grid-cols-[minmax(340px,460px)_1fr] lg:gap-14">
+      <div id="journey-globe-column">
+        <div id="home-globe-box" class="relative mx-auto aspect-square w-full max-w-[460px]">
+          <canvas
+            id="home-globe"
+            class="h-full w-full cursor-grab active:cursor-grabbing"
+            aria-hidden="true"
+          ></canvas>
+
+          <div
+            id="journey-landmark"
+            class="journey-landmark"
+            aria-live="polite"
+          >
+            <svg id="journey-landmark-icon" viewBox="0 0 28 28" aria-hidden="true"></svg>
+            <span>
+              <strong id="journey-landmark-place">{stops[0].place}</strong>
+              <small id="journey-landmark-name">{stops[0].landmark}</small>
+            </span>
+          </div>
+
+          <div class="journey-zoom" role="group" aria-label="Globe zoom controls">
+            <button id="journey-zoom-in" type="button" aria-label="Zoom in on the globe" aria-controls="home-globe">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+            </button>
+            <button id="journey-zoom-out" type="button" aria-label="Zoom out from the globe" aria-controls="home-globe">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14" /></svg>
+            </button>
+          </div>
         </div>
-        <div class="mt-4 flex items-center justify-center gap-4">
-          <button id="journey-prev" type="button" class="grid h-11 w-11 place-items-center rounded-full border border-ink/30 transition-colors hover:border-teal-deep hover:text-teal-deep" aria-label="Previous stop">←</button>
-          <span id="journey-progress" class="text-xs font-medium tracking-[0.12em] text-bark" aria-hidden="true">01 / 06</span>
-          <button id="journey-next" type="button" class="grid h-11 w-11 place-items-center rounded-full border border-ink/30 transition-colors hover:border-teal-deep hover:text-teal-deep" aria-label="Next stop">→</button>
+
+        <div class="journey-step-controls mt-4 flex items-center justify-center gap-4">
+          <button id="journey-prev" type="button" aria-label="Previous place">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7" /></svg>
+          </button>
+          <span id="journey-current" class="min-w-28 text-center text-xs font-medium uppercase tracking-[0.12em] text-bark" aria-live="polite">
+            {stops[0].place}
+          </span>
+          <button id="journey-next" type="button" aria-label="Next place">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path id="journey-next-path" d="m9 5 7 7-7 7" /></svg>
+          </button>
         </div>
-        <div id="journey-chips" class="mt-3 flex flex-wrap justify-center gap-x-4 gap-y-1" role="tablist" aria-label="Journey stops"></div>
-        <p class="mt-2 text-center text-xs text-ink/45">Click the globe, swipe, or use the arrow keys</p>
+
+        <div
+          id="journey-chips"
+          class="mt-3 flex flex-wrap justify-center gap-x-4 gap-y-1"
+          role="tablist"
+          aria-label="Journey locations"
+        ></div>
+        <p class="mt-2 text-center text-xs text-ink/50">Drag the globe · use + and − to zoom</p>
       </div>
 
       <div class="flex min-h-[470px] flex-col justify-center" aria-live="polite">
         {journey.map((stop, index) => (
           <article class="journey-card" data-index={index} hidden={index !== 0}>
-            <p class="text-xs font-medium uppercase tracking-[0.16em] text-bark">Stop 0{index + 1} · {stop.place}</p>
+            <p class="text-xs font-medium uppercase tracking-[0.16em] text-bark">{stop.place}</p>
             <h3 class="mt-2 font-serif text-3xl font-bold tracking-tight">{stop.title}</h3>
             <p class="mt-1 font-serif text-lg font-semibold italic text-teal-deep">{stop.years}</p>
             <p class="mt-4 max-w-[54ch] leading-relaxed text-ink/75">{stop.story}</p>
-            {stop.photo && <img src={stop.photo.src} alt={stop.photo.alt} width="640" height="480" loading={index === 0 ? "eager" : "lazy"} class="mt-6 max-h-[260px] w-auto max-w-full rounded-xl border border-ink/10 object-contain" />}
+            {stop.photo && (
+              <img
+                src={stop.photo.src}
+                alt={stop.photo.alt}
+                width="640"
+                height="480"
+                loading={index === 0 ? "eager" : "lazy"}
+                class="mt-6 max-h-[260px] w-auto max-w-full rounded-xl border border-ink/10 object-contain"
+              />
+            )}
             <p class="mt-5 flex flex-wrap gap-x-5 gap-y-2">
-              {stop.links?.map((link) => <a href={link.href} target={link.external ? "_blank" : undefined} rel={link.external ? "noopener noreferrer" : undefined} class="text-sm font-medium text-teal-deep transition-colors hover:text-ink">{link.label} →</a>)}
-              {index === journey.length - 1 && <a href="#selected-work" class="text-sm font-medium text-teal-deep transition-colors hover:text-ink">See selected work ↓</a>}
+              {stop.links?.map((link) => (
+                <a
+                  href={link.href}
+                  target={link.external ? "_blank" : undefined}
+                  rel={link.external ? "noopener noreferrer" : undefined}
+                  class="text-sm font-medium text-teal-deep transition-colors hover:text-ink"
+                >
+                  {link.label} →
+                </a>
+              ))}
+              {index === journey.length - 1 && (
+                <a href="#selected-work" class="text-sm font-medium text-teal-deep transition-colors hover:text-ink">
+                  See selected work ↓
+                </a>
+              )}
             </p>
           </article>
         ))}
@@ -55,78 +128,571 @@ const stops = journey.map(({ place, lon, lat, years }) => ({ place, lon, lat, ye
   const chipsBox = document.getElementById("journey-chips");
   const prev = document.getElementById("journey-prev");
   const next = document.getElementById("journey-next");
-  const progress = document.getElementById("journey-progress");
+  const nextPath = document.getElementById("journey-next-path");
+  const currentPlace = document.getElementById("journey-current");
+  const landmark = document.getElementById("journey-landmark");
+  const landmarkPlace = document.getElementById("journey-landmark-place");
+  const landmarkName = document.getElementById("journey-landmark-name");
+  const landmarkIcon = document.getElementById("journey-landmark-icon");
+  const zoomIn = document.getElementById("journey-zoom-in");
+  const zoomOut = document.getElementById("journey-zoom-out");
   const region = document.getElementById("journey-home");
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const D = Math.PI / 180;
-  let size = 0, radius = 0, center = 0, index = 0, reached = 0;
-  let viewLon = stops[0].lon, viewLat = stops[0].lat * 0.55;
-  let land = null;
+
+  const colors = {
+    ocean: "#112D38",
+    land: "#E9DFC9",
+    coast: "rgba(247,244,239,.72)",
+    grid: "rgba(247,244,239,.13)",
+    route: "#9BD7D4",
+    routeGlow: "rgba(155,215,212,.18)",
+    active: "#A62B4E",
+    marker: "rgba(247,244,239,.78)",
+    rim: "rgba(247,244,239,.36)",
+  };
+
+  const glyphs = {
+    wave: '<path d="M2 10c3.4-3.2 6.8-3.2 10.2 0s6.8 3.2 10.2 0 3.4-3.2 3.6-3.2M2 17c3.4-3.2 6.8-3.2 10.2 0s6.8 3.2 10.2 0 3.4-3.2 3.6-3.2"/>',
+    needle: '<path d="M14 2v24M9 8h10M11 8l-2 18M17 8l2 18M7 18h14M10 26h8"/>',
+    tower: '<path d="M14 2 8 26M14 2l6 24M10.5 10h7M9 17h10M7 26h14"/>',
+    hill: '<path d="M2 23c4-5 7-5 11-1 4-5 8-5 13 1M12 21V9h7v12M14 9V5h3v4M14 13h3"/>',
+  };
+
+  let size = 0;
+  let radius = 0;
+  let center = 0;
+  let index = 0;
+  let viewLon = stops[0].lon;
+  let viewLat = stops[0].lat * 0.58;
+  let viewZoom = 1;
+  let targetZoom = 1;
+  let routeProgress = 0;
+  let transition = null;
+  let d3 = null;
+  let landGeo = null;
+  let graticule = null;
+  let raf = 0;
+  let drag = null;
+
+  const uniqueLocations = [];
+  const locationIndex = new Map();
+  stops.forEach((stop, i) => {
+    if (!locationIndex.has(stop.place)) {
+      locationIndex.set(stop.place, i);
+      uniqueLocations.push(stop);
+    }
+  });
 
   function resize() {
     const rect = box.getBoundingClientRect();
     size = Math.min(rect.width, rect.height || rect.width);
     const dpr = Math.min(devicePixelRatio || 1, 2);
-    canvas.width = size * dpr; canvas.height = size * dpr;
+    canvas.width = Math.round(size * dpr);
+    canvas.height = Math.round(size * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    radius = size * 0.43; center = size / 2;
+    radius = size * 0.425;
+    center = size / 2;
+    requestDraw();
   }
-  function project(lon, lat) {
-    const la = lon * D, ph = lat * D, L = viewLon * D, P = viewLat * D;
-    const c = Math.sin(P) * Math.sin(ph) + Math.cos(P) * Math.cos(ph) * Math.cos(la - L);
-    return { x: center + radius * Math.cos(ph) * Math.sin(la - L), y: center - radius * (Math.cos(P) * Math.sin(ph) - Math.sin(P) * Math.cos(ph) * Math.cos(la - L)), visible: c > 0.02 };
-  }
-  function slerp(a, b, t) {
-    const vector = (s) => [Math.cos(s.lat * D) * Math.cos(s.lon * D), Math.cos(s.lat * D) * Math.sin(s.lon * D), Math.sin(s.lat * D)];
-    const A = vector(a), B = vector(b);
-    const dot = Math.max(-1, Math.min(1, A[0]*B[0] + A[1]*B[1] + A[2]*B[2]));
-    const omega = Math.acos(dot); if (omega < 1e-6) return a;
-    const a1 = Math.sin((1-t)*omega)/Math.sin(omega), b1 = Math.sin(t*omega)/Math.sin(omega);
-    const P = [A[0]*a1+B[0]*b1, A[1]*a1+B[1]*b1, A[2]*a1+B[2]*b1];
-    return { lon: Math.atan2(P[1],P[0])/D, lat: Math.asin(Math.max(-1,Math.min(1,P[2])))/D };
-  }
-  function line(points, close = false) {
-    let pen = false; ctx.beginPath();
-    for (const [lon, lat] of points) { const p = project(lon, lat); if (p.visible) { pen ? ctx.lineTo(p.x,p.y) : ctx.moveTo(p.x,p.y); pen = true; } else pen = false; }
-    if (close && pen) ctx.closePath(); ctx.stroke();
-  }
-  function decode(topo) {
-    const t = topo.transform;
-    const arcs = topo.arcs.map((arc) => { let x=0,y=0; return arc.map(([dx,dy]) => { x+=dx;y+=dy;return [x*t.scale[0]+t.translate[0],y*t.scale[1]+t.translate[1]]; }); });
-    const ring = (ids) => { let out=[]; for (const id of ids) { const arc=id<0?arcs[~id].slice().reverse():arcs[id]; out=out.concat(out.length?arc.slice(1):arc); } return out; };
-    const out=[]; const geometries=topo.objects.land.geometries || [topo.objects.land];
-    for (const geometry of geometries) { const polygons=geometry.type === "Polygon" ? [geometry.arcs] : geometry.arcs; for (const polygon of polygons) for (const r of polygon) out.push(ring(r)); }
-    return out;
-  }
-  fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/land-110m.json").then(r=>r.json()).then(t=>land=decode(t)).catch(()=>{});
 
-  stops.forEach((stop, i) => { const button=document.createElement("button"); button.type="button"; button.textContent=`0${i+1} ${stop.place}`; button.setAttribute("role","tab"); button.className="px-1 py-2 text-[0.67rem] font-medium uppercase tracking-[0.12em]"; button.onclick=()=>go(i); chipsBox.appendChild(button); });
-  const chips=[...chipsBox.children];
+  function decodeLand(topo) {
+    const transform = topo.transform;
+    const arcs = topo.arcs.map((arc) => {
+      let x = 0;
+      let y = 0;
+      return arc.map(([dx, dy]) => {
+        x += dx;
+        y += dy;
+        return [x * transform.scale[0] + transform.translate[0], y * transform.scale[1] + transform.translate[1]];
+      });
+    });
+    const ring = (ids) => {
+      let points = [];
+      for (const id of ids) {
+        const arc = id < 0 ? arcs[~id].slice().reverse() : arcs[id];
+        points = points.concat(points.length ? arc.slice(1) : arc);
+      }
+      return points;
+    };
+    const polygons = [];
+    const geometries = topo.objects.land.geometries || [topo.objects.land];
+    for (const geometry of geometries) {
+      if (geometry.type === "Polygon") polygons.push(geometry.arcs.map(ring));
+      if (geometry.type === "MultiPolygon") {
+        for (const polygon of geometry.arcs) polygons.push(polygon.map(ring));
+      }
+    }
+    return { type: "MultiPolygon", coordinates: polygons };
+  }
+
+  Promise.all([
+    import("https://cdn.jsdelivr.net/npm/d3-geo@3/+esm"),
+    fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/land-110m.json").then((response) => response.json()),
+  ])
+    .then(([geo, topo]) => {
+      d3 = geo;
+      landGeo = decodeLand(topo);
+      graticule = d3.geoGraticule10();
+      box.classList.add("map-ready");
+      requestDraw();
+    })
+    .catch(() => box.classList.add("map-fallback"));
+
+  uniqueLocations.forEach((stop) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = stop.place;
+    button.setAttribute("role", "tab");
+    button.setAttribute("aria-label", `Jump to ${stop.place}`);
+    button.dataset.place = stop.place;
+    button.className = "px-1 py-2 text-[0.69rem] font-medium uppercase tracking-[0.12em]";
+    button.onclick = () => go(locationIndex.get(stop.place));
+    chipsBox.appendChild(button);
+  });
+  const chips = [...chipsBox.children];
+
+  function updateLandmark() {
+    const stop = stops[index];
+    landmarkPlace.textContent = stop.place;
+    landmarkName.textContent = stop.landmark;
+    landmarkIcon.innerHTML = glyphs[stop.glyph] || glyphs.wave;
+    landmark.classList.remove("is-changing");
+    if (!reduced) requestAnimationFrame(() => landmark.classList.add("is-changing"));
+  }
+
   function paint() {
-    cards.forEach((card,i)=>card.hidden=i!==index);
-    chips.forEach((chip,i)=>{ chip.style.color=i===index?"#8A1538":i<index?"#4F7773":"rgba(28,28,28,.42)"; chip.setAttribute("aria-selected",i===index?"true":"false"); });
-    progress.textContent=`0${index+1} / 0${stops.length}`; prev.disabled=index===0; next.textContent=index===stops.length-1?"↓":"→";
+    cards.forEach((card, i) => (card.hidden = i !== index));
+    chips.forEach((chip) => {
+      const selected = chip.dataset.place === stops[index].place;
+      chip.style.color = selected ? "#8A1538" : "rgba(28,28,28,.62)";
+      chip.setAttribute("aria-selected", selected ? "true" : "false");
+    });
+    currentPlace.textContent = stops[index].place;
+    prev.disabled = index === 0;
+    const last = index === stops.length - 1;
+    next.setAttribute("aria-label", last ? "Continue to selected work" : "Next place");
+    nextPath.setAttribute("d", last ? "M5 9l7 7 7-7" : "m9 5 7 7-7 7");
+    updateLandmark();
   }
-  function go(i) { index=Math.max(0,Math.min(stops.length-1,i)); if(reduced){viewLon=stops[index].lon;viewLat=stops[index].lat*.55;reached=index;} paint(); }
-  prev.onclick=()=>go(index-1); next.onclick=()=>index===stops.length-1?document.getElementById("selected-work").scrollIntoView({behavior:reduced?"auto":"smooth"}):go(index+1);
-  region.addEventListener("keydown",e=>{if(e.key==="ArrowRight"){e.preventDefault();go(index+1);}if(e.key==="ArrowLeft"){e.preventDefault();go(index-1);}});
-  canvas.addEventListener("click",e=>{const r=canvas.getBoundingClientRect();for(let i=0;i<stops.length;i++){const p=project(stops[i].lon,stops[i].lat);if(p.visible&&Math.hypot(p.x-(e.clientX-r.left),p.y-(e.clientY-r.top))<16){go(i);return;}}go((index+1)%stops.length);});
-  let touchX=null; document.getElementById("journey-globe-column").addEventListener("touchstart",e=>touchX=e.changedTouches[0].clientX,{passive:true}); document.getElementById("journey-globe-column").addEventListener("touchend",e=>{if(touchX===null)return;const dx=e.changedTouches[0].clientX-touchX;touchX=null;if(dx<-45)go(index+1);if(dx>45)go(index-1);},{passive:true});
-  function ease(cur,target,f){const d=((target-cur+540)%360)-180;return cur+d*f;}
-  function draw() {
-    const f=reduced?1:.05; viewLon=ease(viewLon,stops[index].lon,f); viewLat+=(stops[index].lat*.55-viewLat)*f; reached+=(index-reached)*(reduced?1:.055); ctx.clearRect(0,0,size,size);
-    ctx.beginPath();ctx.arc(center,center,radius,0,7);ctx.fillStyle="#DEE5DF";ctx.fill();ctx.strokeStyle="rgba(28,28,28,.4)";ctx.lineWidth=1.3;ctx.stroke();
-    ctx.lineWidth=.6;ctx.strokeStyle="rgba(28,28,28,.09)";for(let m=-180;m<180;m+=20){const pts=[];for(let lat=-90;lat<=90;lat+=4)pts.push([m,lat]);line(pts);}for(let lat=-60;lat<=60;lat+=20){const pts=[];for(let lon=-180;lon<=180;lon+=4)pts.push([lon,lat]);line(pts);}
-    if(land){ctx.lineWidth=.9;ctx.strokeStyle="rgba(28,28,28,.42)";for(const ring of land)line(ring,true);}
-    ctx.lineCap="round";ctx.setLineDash([2,6]);ctx.lineWidth=1.2;ctx.strokeStyle="rgba(79,119,115,.5)";for(let i=0;i<stops.length-1;i++){const pts=[];for(let k=0;k<=40;k++){const p=slerp(stops[i],stops[i+1],k/40);pts.push([p.lon,p.lat]);}line(pts);}ctx.setLineDash([]);ctx.lineWidth=2.4;ctx.strokeStyle="#4F7773";for(let i=0;i<stops.length-1;i++){const t=Math.max(0,Math.min(1,reached-i));if(!t)continue;const pts=[];for(let k=0;k<=40*t;k++){const p=slerp(stops[i],stops[i+1],k/40);pts.push([p.lon,p.lat]);}line(pts);}
-    const labeled=new Set();stops.forEach((s,i)=>{const p=project(s.lon,s.lat);if(!p.visible)return;ctx.beginPath();ctx.arc(p.x,p.y,i===index?5:3.4,0,7);ctx.fillStyle=i===index?"#8A1538":i<=reached+.5?"#4F7773":"rgba(28,28,28,.35)";ctx.fill();if(!labeled.has(s.place)){labeled.add(s.place);ctx.fillStyle="rgba(28,28,28,.82)";ctx.font=`500 ${Math.max(11,radius*.052)}px Satoshi,sans-serif`;ctx.fillText(s.place,p.x+10,p.y+4);}});requestAnimationFrame(draw);
+
+  function shortestAngle(from, to, amount) {
+    const delta = ((to - from + 540) % 360) - 180;
+    return from + delta * amount;
   }
-  resize();new ResizeObserver(resize).observe(box);paint();requestAnimationFrame(draw);
+
+  function smoothstep(t) {
+    const x = Math.max(0, Math.min(1, t));
+    return x * x * (3 - 2 * x);
+  }
+
+  function go(nextIndex) {
+    const bounded = Math.max(0, Math.min(stops.length - 1, nextIndex));
+    if (bounded === index) return;
+    index = bounded;
+    if (reduced) {
+      viewLon = stops[index].lon;
+      viewLat = stops[index].lat * 0.58;
+      viewZoom = targetZoom;
+      routeProgress = 1;
+      transition = null;
+    } else {
+      transition = {
+        started: performance.now(),
+        duration: 1050,
+        fromLon: viewLon,
+        fromLat: viewLat,
+        fromZoom: viewZoom,
+        toLon: stops[index].lon,
+        toLat: stops[index].lat * 0.58,
+      };
+      routeProgress = 0;
+    }
+    paint();
+    requestDraw();
+  }
+
+  prev.onclick = () => go(index - 1);
+  next.onclick = () => {
+    if (index === stops.length - 1) {
+      document.getElementById("selected-work").scrollIntoView({ behavior: reduced ? "auto" : "smooth" });
+      return;
+    }
+    go(index + 1);
+  };
+
+  region.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      go(index + 1);
+    }
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      go(index - 1);
+    }
+  });
+
+  function setZoom(value) {
+    targetZoom = Math.max(0.86, Math.min(1.2, value));
+    if (transition) transition.fromZoom = viewZoom;
+    zoomIn.disabled = targetZoom >= 1.19;
+    zoomOut.disabled = targetZoom <= 0.87;
+    requestDraw();
+  }
+  zoomIn.onclick = () => setZoom(targetZoom + 0.1);
+  zoomOut.onclick = () => setZoom(targetZoom - 0.1);
+
+  function projectPoint(lon, lat) {
+    const lambda = lon * D;
+    const phi = lat * D;
+    const lambda0 = viewLon * D;
+    const phi0 = viewLat * D;
+    const cosc = Math.sin(phi0) * Math.sin(phi) + Math.cos(phi0) * Math.cos(phi) * Math.cos(lambda - lambda0);
+    const scale = radius * viewZoom;
+    return {
+      x: center + scale * Math.cos(phi) * Math.sin(lambda - lambda0),
+      y: center - scale * (Math.cos(phi0) * Math.sin(phi) - Math.sin(phi0) * Math.cos(phi) * Math.cos(lambda - lambda0)),
+      visible: cosc > 0,
+    };
+  }
+
+  function slerp(a, b, t) {
+    const vector = (stop) => [
+      Math.cos(stop.lat * D) * Math.cos(stop.lon * D),
+      Math.cos(stop.lat * D) * Math.sin(stop.lon * D),
+      Math.sin(stop.lat * D),
+    ];
+    const A = vector(a);
+    const B = vector(b);
+    const dot = Math.max(-1, Math.min(1, A[0] * B[0] + A[1] * B[1] + A[2] * B[2]));
+    const omega = Math.acos(dot);
+    if (omega < 1e-6) return a;
+    const aWeight = Math.sin((1 - t) * omega) / Math.sin(omega);
+    const bWeight = Math.sin(t * omega) / Math.sin(omega);
+    const point = [
+      A[0] * aWeight + B[0] * bWeight,
+      A[1] * aWeight + B[1] * bWeight,
+      A[2] * aWeight + B[2] * bWeight,
+    ];
+    return {
+      lon: Math.atan2(point[1], point[0]) / D,
+      lat: Math.asin(Math.max(-1, Math.min(1, point[2]))) / D,
+    };
+  }
+
+  canvas.addEventListener("pointerdown", (event) => {
+    canvas.setPointerCapture?.(event.pointerId);
+    transition = null;
+    drag = {
+      id: event.pointerId,
+      x: event.clientX,
+      y: event.clientY,
+      lon: viewLon,
+      lat: viewLat,
+      moved: false,
+    };
+  });
+
+  canvas.addEventListener("pointermove", (event) => {
+    if (!drag || drag.id !== event.pointerId) return;
+    const dx = event.clientX - drag.x;
+    const dy = event.clientY - drag.y;
+    if (Math.hypot(dx, dy) > 5) drag.moved = true;
+    if (!drag.moved) return;
+    viewLon = drag.lon - dx * 0.34;
+    viewLat = Math.max(-74, Math.min(74, drag.lat + dy * 0.24));
+    routeProgress = 1;
+    requestDraw();
+  });
+
+  function endDrag(event) {
+    if (!drag || drag.id !== event.pointerId) return;
+    const wasMoved = drag.moved;
+    drag = null;
+    if (wasMoved) return;
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    for (const stop of uniqueLocations) {
+      const point = projectPoint(stop.lon, stop.lat);
+      if (point.visible && Math.hypot(point.x - x, point.y - y) < 20) {
+        go(locationIndex.get(stop.place));
+        return;
+      }
+    }
+    go((index + 1) % stops.length);
+  }
+  canvas.addEventListener("pointerup", endDrag);
+  canvas.addEventListener("pointercancel", () => (drag = null));
+
+  function updateCamera(now) {
+    let moving = false;
+    if (transition) {
+      const elapsed = (now - transition.started) / transition.duration;
+      const t = Math.max(0, Math.min(1, elapsed));
+      const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      viewLon = shortestAngle(transition.fromLon, transition.toLon, eased);
+      viewLat = transition.fromLat + (transition.toLat - transition.fromLat) * eased;
+      const travelPullback = Math.sin(Math.PI * t) * 0.11;
+      viewZoom = transition.fromZoom + (targetZoom - transition.fromZoom) * eased - travelPullback;
+      routeProgress = smoothstep((t - 0.36) / 0.64);
+      moving = t < 1;
+      if (!moving) {
+        viewLon = transition.toLon;
+        viewLat = transition.toLat;
+        viewZoom = targetZoom;
+        routeProgress = 1;
+        transition = null;
+      }
+    } else if (Math.abs(viewZoom - targetZoom) > 0.001) {
+      viewZoom += (targetZoom - viewZoom) * (reduced ? 1 : 0.16);
+      moving = !reduced;
+    }
+    return moving;
+  }
+
+  function drawFallback() {
+    ctx.beginPath();
+    ctx.arc(center, center, radius * viewZoom, 0, Math.PI * 2);
+    ctx.fillStyle = colors.ocean;
+    ctx.fill();
+    ctx.strokeStyle = colors.rim;
+    ctx.lineWidth = 1.4;
+    ctx.stroke();
+  }
+
+  function drawRoute(path) {
+    if (index === 0 || routeProgress <= 0) return;
+    const previous = stops[index - 1];
+    const active = stops[index];
+    const coordinates = [];
+    const steps = Math.max(2, Math.floor(72 * routeProgress));
+    for (let step = 0; step <= steps; step++) {
+      const point = slerp(previous, active, step / 72);
+      coordinates.push([point.lon, point.lat]);
+    }
+    const route = { type: "LineString", coordinates };
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    path(route);
+    ctx.strokeStyle = colors.routeGlow;
+    ctx.lineWidth = 7;
+    ctx.stroke();
+    ctx.beginPath();
+    path(route);
+    ctx.strokeStyle = colors.route;
+    ctx.lineWidth = 2.4;
+    ctx.stroke();
+
+    const head = slerp(previous, active, routeProgress);
+    const projected = projectPoint(head.lon, head.lat);
+    if (projected.visible) {
+      ctx.beginPath();
+      ctx.arc(projected.x, projected.y, 3.5, 0, Math.PI * 2);
+      ctx.fillStyle = colors.route;
+      ctx.fill();
+    }
+  }
+
+  function drawMarkers() {
+    uniqueLocations.forEach((stop) => {
+      const point = projectPoint(stop.lon, stop.lat);
+      if (!point.visible) return;
+      const active = stop.place === stops[index].place;
+      ctx.beginPath();
+      ctx.arc(point.x, point.y, active ? 7 : 3.2, 0, Math.PI * 2);
+      ctx.fillStyle = active ? colors.land : colors.marker;
+      ctx.fill();
+      if (active) {
+        ctx.strokeStyle = colors.active;
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = colors.active;
+        ctx.fill();
+      }
+    });
+  }
+
+  function render(now = performance.now()) {
+    raf = 0;
+    const moving = updateCamera(now);
+    ctx.clearRect(0, 0, size, size);
+
+    if (!d3 || !landGeo || !graticule) {
+      drawFallback();
+      drawMarkers();
+    } else {
+      const projection = d3
+        .geoOrthographic()
+        .translate([center, center])
+        .scale(radius * viewZoom)
+        .rotate([-viewLon, -viewLat, 0])
+        .clipAngle(90)
+        .precision(0.45);
+      const path = d3.geoPath(projection, ctx);
+
+      ctx.beginPath();
+      path({ type: "Sphere" });
+      ctx.fillStyle = colors.ocean;
+      ctx.fill();
+
+      ctx.beginPath();
+      path(graticule);
+      ctx.strokeStyle = colors.grid;
+      ctx.lineWidth = 0.7;
+      ctx.stroke();
+
+      ctx.beginPath();
+      path(landGeo);
+      ctx.fillStyle = colors.land;
+      ctx.fill("evenodd");
+      ctx.strokeStyle = colors.coast;
+      ctx.lineWidth = 0.8;
+      ctx.stroke();
+
+      drawRoute(path);
+      drawMarkers();
+
+      ctx.beginPath();
+      path({ type: "Sphere" });
+      ctx.strokeStyle = colors.rim;
+      ctx.lineWidth = 1.4;
+      ctx.stroke();
+    }
+
+    if (moving || drag) requestDraw();
+  }
+
+  function requestDraw() {
+    if (!raf) raf = requestAnimationFrame(render);
+  }
+
+  resize();
+  new ResizeObserver(resize).observe(box);
+  paint();
+  setZoom(1);
+  requestDraw();
 </script>
 
 <style>
-  .journey-card:not([hidden]) { animation: card-in 0.35s ease; }
-  @keyframes card-in { from { opacity: 0; transform: translateY(6px); } }
-  button:disabled { opacity: .3; cursor: default; }
-  @media (prefers-reduced-motion: reduce) { .journey-card:not([hidden]) { animation: none; } }
+  #home-globe-box::before {
+    content: "";
+    position: absolute;
+    inset: 7.5%;
+    border: 1px solid rgba(79, 119, 115, 0.16);
+    border-radius: 999px;
+    pointer-events: none;
+  }
+
+  #home-globe {
+    display: block;
+    touch-action: pan-y;
+  }
+
+  .journey-landmark {
+    position: absolute;
+    left: 50%;
+    bottom: 1.5%;
+    min-width: 190px;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 9px 14px 9px 10px;
+    border: 1px solid rgba(17, 45, 56, 0.18);
+    border-radius: 999px;
+    background: rgba(247, 244, 239, 0.96);
+    color: #112d38;
+    pointer-events: none;
+  }
+
+  .journey-landmark svg {
+    width: 32px;
+    height: 32px;
+    flex: 0 0 auto;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.65;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .journey-landmark span { display: grid; line-height: 1.18; }
+  .journey-landmark strong { font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; }
+  .journey-landmark small { margin-top: 2px; color: rgba(17, 45, 56, 0.68); font-size: 0.68rem; }
+  .journey-landmark.is-changing { animation: landmark-in 0.32s cubic-bezier(0.16, 1, 0.3, 1); }
+
+  .journey-zoom {
+    position: absolute;
+    top: 10%;
+    right: 7%;
+    display: grid;
+    overflow: hidden;
+    border: 1px solid rgba(17, 45, 56, 0.18);
+    border-radius: 999px;
+    background: rgba(247, 244, 239, 0.96);
+  }
+
+  .journey-zoom button,
+  .journey-step-controls button {
+    display: grid;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    border: 0;
+    background: transparent;
+    color: #112d38;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.16s ease;
+  }
+
+  .journey-zoom button + button { border-top: 1px solid rgba(17, 45, 56, 0.14); }
+  .journey-zoom button:hover,
+  .journey-step-controls button:hover { background: #112d38; color: #f7f4ef; }
+  .journey-zoom button:active,
+  .journey-step-controls button:active { transform: scale(0.95); }
+  .journey-zoom button:focus-visible,
+  .journey-step-controls button:focus-visible,
+  #journey-chips button:focus-visible { outline: 2px solid #8a1538; outline-offset: -3px; }
+  .journey-zoom svg,
+  .journey-step-controls svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+
+  .journey-step-controls button {
+    border: 1px solid rgba(28, 28, 28, 0.3);
+    border-radius: 999px;
+  }
+
+  #journey-chips button {
+    min-height: 40px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  #journey-chips button[aria-selected="true"] { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px; }
+  #journey-chips button:hover { color: #4f7773 !important; }
+
+  .journey-card:not([hidden]) { animation: card-in 0.38s cubic-bezier(0.16, 1, 0.3, 1); }
+  button:disabled { opacity: 0.3; cursor: default; }
+  button:disabled:hover { background: transparent; color: inherit; }
+
+  @keyframes card-in {
+    from { opacity: 0; transform: translateY(10px); }
+  }
+  @keyframes landmark-in {
+    from { opacity: 0.2; transform: translate(-50%, 6px); }
+  }
+
+  @media (max-width: 480px) {
+    .journey-landmark { min-width: 170px; padding-right: 12px; }
+    .journey-landmark svg { width: 28px; height: 28px; }
+    .journey-zoom { top: 8%; right: 5%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .journey-card:not([hidden]),
+    .journey-landmark.is-changing { animation: none; }
+    .journey-zoom button,
+    .journey-step-controls button { transition: none; }
+  }
 </style>
