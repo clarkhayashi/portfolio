@@ -10,6 +10,8 @@ export interface JourneyStop {
   years: string;
   lon: number;
   lat: number;
+  landmark: string;
+  glyph: "wave" | "needle" | "tower" | "hill";
   story: string;
   photo?: { src: string; alt: string };
   links?: { label: string; href: string; external?: boolean }[];
@@ -22,6 +24,8 @@ export const journey: JourneyStop[] = [
     years: "2004 to 2022",
     lon: -157.86,
     lat: 21.31,
+    landmark: "Diamond Head + Pacific",
+    glyph: "wave",
     story:
       "I grew up on O'ahu, where community isn't a value statement; it's how things get done. Punahou basketball and a varsity co-captain year, a 199-hour Eagle project rebuilding a library, and a first job ringing up military families at the Navy Exchange.",
     photo: { src: "/images/hawaii/hawaii-sunset.jpg", alt: "Sunset over the Hawai'i coastline" },
@@ -33,6 +37,8 @@ export const journey: JourneyStop[] = [
     years: "2022",
     lon: -122.33,
     lat: 47.61,
+    landmark: "Space Needle",
+    glyph: "needle",
     story:
       "Seattle University: Business Analytics and Marketing by day, refereeing flag football by night. I started as an intramural official and left running the program; along the way I co-founded a student credit union initiative that won $22.5K across two business plan competitions.",
     photo: { src: "/images/seattle/seattle-space-needle.jpg", alt: "Seattle skyline with the Space Needle from Gas Works Park" },
@@ -47,6 +53,8 @@ export const journey: JourneyStop[] = [
     years: "2024",
     lon: 139.69,
     lat: 35.69,
+    landmark: "Tokyo Tower",
+    glyph: "tower",
     story:
       "A semester at Sophia University: Japanese language, Anthropology of Japan, and a Philosophy of AI course a full year before AI became my job. Being the person who doesn't fully speak the language teaches you to listen harder than any classroom does.",
     photo: { src: "/images/japan/cherry-blossoms.jpg", alt: "Cherry blossoms against a blue sky in Japan" },
@@ -58,6 +66,8 @@ export const journey: JourneyStop[] = [
     years: "Summer 2025",
     lon: -157.86,
     lat: 21.31,
+    landmark: "Diamond Head + Pacific",
+    glyph: "wave",
     story:
       "Back to the islands as one of Bank of Hawaii's first AI interns: 50+ use cases gathered across the organization, a scoring framework, a Power BI dashboard, and a readout to 60+ employees and senior leaders. The journey loops home before its last leg.",
     photo: { src: "/images/boh/boh-volunteer-group.jpg", alt: "Bank of Hawaii volunteer event group photo" },
@@ -71,6 +81,8 @@ export const journey: JourneyStop[] = [
     years: "September 2025",
     lon: 12.14,
     lat: 43.57,
+    landmark: "Tuscan bell tower",
+    glyph: "hill",
     story:
       "Ten days across Tuscany with the Albers School: family wineries, Nestle's Perugina chocolate operation, a B Corp textile mill older than most countries. Small firms, long views, and marketing that has survived centuries of change.",
     photo: { src: "/images/italy/italy-study-tour-group.jpg", alt: "Italy study tour group at a Tuscan vineyard" },
@@ -84,6 +96,8 @@ export const journey: JourneyStop[] = [
     years: "2026",
     lon: -122.33,
     lat: 47.61,
+    landmark: "Space Needle",
+    glyph: "needle",
     story:
       "Back in Seattle, building what's next: case studies, GA4 lead tracking for a family real estate business, and whatever messy problem lands on the desk after that.",
     links: [
