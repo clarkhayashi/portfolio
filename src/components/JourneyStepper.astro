@@ -14,6 +14,7 @@ const stops = journey.map(({ place, lon, lat, years, landmark, glyph }) => ({
 <section
   id="journey-home"
   class="border-y border-ink/10 bg-teal/[0.055]"
+  data-stops={JSON.stringify(stops)}
   tabindex="0"
   aria-label="Clark's journey across Honolulu, Seattle, Tokyo, and Sansepolcro"
   aria-roledescription="carousel"
@@ -120,7 +121,11 @@ const stops = journey.map(({ place, lon, lat, years, landmark, glyph }) => ({
   </div>
 </section>
 
-<script define:vars={{ stops }}>
+<script>
+  import { geoGraticule10, geoOrthographic, geoPath } from "d3-geo";
+
+  const region = document.getElementById("journey-home");
+  const stops = JSON.parse(region.dataset.stops || "[]");
   const canvas = document.getElementById("home-globe");
   const box = document.getElementById("home-globe-box");
   const ctx = canvas.getContext("2d");
@@ -136,7 +141,6 @@ const stops = journey.map(({ place, lon, lat, years, landmark, glyph }) => ({
   const landmarkIcon = document.getElementById("journey-landmark-icon");
   const zoomIn = document.getElementById("journey-zoom-in");
   const zoomOut = document.getElementById("journey-zoom-out");
-  const region = document.getElementById("journey-home");
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const D = Math.PI / 180;
 
@@ -226,12 +230,10 @@ const stops = journey.map(({ place, lon, lat, years, landmark, glyph }) => ({
     return { type: "MultiPolygon", coordinates: polygons };
   }
 
-  Promise.all([
-    import("https://cdn.jsdelivr.net/npm/d3-geo@3/+esm"),
-    fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/land-110m.json").then((response) => response.json()),
-  ])
-    .then(([geo, topo]) => {
-      d3 = geo;
+  fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/land-110m.json")
+    .then((response) => response.json())
+    .then((topo) => {
+      d3 = { geoGraticule10, geoOrthographic, geoPath };
       landGeo = decodeLand(topo);
       graticule = d3.geoGraticule10();
       box.classList.add("map-ready");
