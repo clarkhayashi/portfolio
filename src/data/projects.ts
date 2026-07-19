@@ -91,17 +91,6 @@ export const projects: Project[] = [
     statusType: "progress",
   },
   {
-    title: "The Journey Page",
-    description:
-      "A scroll-driven atlas globe tracing Hawai'i to Seattle to Tokyo to Tuscany and home again. Orthographic projection, real coastlines, and great-circle route math written by hand in canvas.",
-    tags: ["Canvas", "Scrollytelling", "Vanilla JS"],
-    lane: "Visual Communication",
-    proof: "0 libraries · hand-written projection math",
-    href: "/journey",
-    statusLabel: "Live · interactive",
-    statusType: "progress",
-  },
-  {
     title: "Clark's Reading Notes",
     description:
       "A lightweight, searchable reading shelf for honest notes on books I finished, paused, or plan to revisit. Built as a portable static site with local assets and no third-party JavaScript.",
