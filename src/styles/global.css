@@ -32,8 +32,17 @@
   --color-bark: #6b5642;
   --color-crimson: #8a1538;
 
+  /* Cormorant is DISPLAY ONLY: 28px and above (page h1s, section h2s, wordmark).
+     Below 28px its low x-height and hairline thins read weaker than Satoshi body
+     copy, so anything smaller uses font-sans. Decision 2026-07-27. */
   --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
   --font-sans: "Satoshi", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* ---------- Motion tokens (canonical; never inline a raw curve) ---------- */
+:root {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 /* ---------- Base ---------- */

@@ -103,7 +103,7 @@ const uniqueStops = stops.filter(
           <article class="journey-card" data-index={index} hidden={index !== 0}>
             <p class="text-xs font-medium uppercase tracking-[0.16em] text-bark">{stop.place}</p>
             <h3 class="mt-2 font-serif text-3xl font-bold tracking-tight">{stop.title}</h3>
-            <p class="mt-1 font-serif text-lg font-semibold italic text-teal-deep">{stop.years}</p>
+            <p class="mt-1 font-sans text-sm font-medium uppercase tracking-[0.1em] text-teal-deep">{stop.years}</p>
             <p class="mt-4 max-w-[54ch] leading-relaxed text-ink/75">{stop.story}</p>
             {stop.photo && (
               <figure class="journey-photo mt-6">
