@@ -37,6 +37,10 @@ export const experience: ExperienceItem[] = [
       href: "https://www.linkedin.com/feed/update/urn:li:activity:7371946885185642496/",
       label: "Read the LinkedIn post →",
     },
+    link2: {
+      href: "https://www.boh.com/about-us/annual-report/our-employees",
+      label: "2025 employee report →",
+    },
     images: [
       {
         src: "/images/logos/bank-of-hawaii.png",

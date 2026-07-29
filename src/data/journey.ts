@@ -73,6 +73,7 @@ export const journey: JourneyStop[] = [
     photo: { src: "/images/boh/boh-volunteer-group.jpg", alt: "Bank of Hawaii volunteer event group photo" },
     links: [
       { label: "The LinkedIn post", href: "https://www.linkedin.com/feed/update/urn:li:activity:7371946885185642496/", external: true },
+      { label: "BOH 2025 employee report", href: "https://www.boh.com/about-us/annual-report/our-employees", external: true },
     ],
   },
   {
