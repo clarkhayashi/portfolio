@@ -76,15 +76,32 @@ import Base from "../layouts/Base.astro";
         class="quest-card strava-card"
         data-tooltip="My recent activity · Open on Strava"
       >
-        <div class="strava-embed-shell">
-          <div
-            class="strava-embed-placeholder"
-            data-embed-type="activity"
-            data-embed-id="19068024693"
-            data-style="standard"
-            data-from-embed="false"
-            data-token="-vrpW4WL_5ZYnKOmhaa9H965qt9_m3zvr0zWO2qcltU"
-          ></div>
+        <div class="strava-rotator" data-strava-rotator>
+          <div class="strava-embed-shell" data-strava-slide data-active="true">
+            <div
+              class="strava-embed-placeholder"
+              data-embed-type="activity"
+              data-embed-id="19068024693"
+              data-style="standard"
+              data-from-embed="false"
+              data-token="-vrpW4WL_5ZYnKOmhaa9H965qt9_m3zvr0zWO2qcltU"
+            ></div>
+          </div>
+          <div class="strava-embed-shell" data-strava-slide>
+            <div
+              class="strava-embed-placeholder"
+              data-embed-type="activity"
+              data-embed-id="19463140435"
+              data-style="standard"
+              data-from-embed="false"
+              data-token="lPI5kCxxDdxtsthrC3nX2ga7yMSOMq4a35NwlJC67KU"
+            ></div>
+          </div>
+        </div>
+
+        <div class="strava-dots" role="tablist" aria-label="Recent activities">
+          <button type="button" role="tab" aria-selected="true" aria-label="Activity 1" data-strava-dot></button>
+          <button type="button" role="tab" aria-selected="false" aria-label="Activity 2" data-strava-dot></button>
         </div>
 
       </article>
@@ -122,6 +139,55 @@ import Base from "../layouts/Base.astro";
 <script is:inline async src="https://strava-embeds.com/embed.js"></script>
 
 <script>
+  /* Strava activities rotate every 8s. Pauses on hover/focus so a reader can
+     finish looking, and honours reduced motion by staying on the first one. */
+  (() => {
+    const rotator = document.querySelector("[data-strava-rotator]");
+    if (!rotator) return;
+    const slides = [...rotator.querySelectorAll("[data-strava-slide]")];
+    const dots = [...document.querySelectorAll("[data-strava-dot]")];
+    if (slides.length < 2) return;
+
+    let current = 0;
+    let timer = 0;
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function show(next) {
+      current = (next + slides.length) % slides.length;
+      slides.forEach((slide, i) =>
+        i === current
+          ? slide.setAttribute("data-active", "true")
+          : slide.removeAttribute("data-active"),
+      );
+      dots.forEach((dot, i) => dot.setAttribute("aria-selected", i === current ? "true" : "false"));
+    }
+
+    function start() {
+      if (reduced || timer) return;
+      timer = setInterval(() => show(current + 1), 8000);
+    }
+    function stop() {
+      clearInterval(timer);
+      timer = 0;
+    }
+
+    dots.forEach((dot, i) =>
+      dot.addEventListener("click", () => {
+        show(i);
+        stop();
+        start();
+      }),
+    );
+
+    const card = rotator.closest(".strava-card");
+    card?.addEventListener("pointerenter", stop);
+    card?.addEventListener("pointerleave", start);
+    card?.addEventListener("focusin", stop);
+    card?.addEventListener("focusout", start);
+
+    start();
+  })();
+
   const compactNumber = new Intl.NumberFormat("en-US", {
     notation: "compact",
     maximumFractionDigits: 1,
@@ -416,11 +482,65 @@ import Base from "../layouts/Base.astro";
     background: #ffffff;
   }
 
+  .strava-rotator {
+    position: absolute;
+    inset: 0;
+  }
+
   .strava-embed-shell {
     position: absolute;
     inset: 0;
     overflow: hidden;
     background: #ffffff;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s var(--ease-out, ease), visibility 0.5s;
+  }
+
+  .strava-embed-shell[data-active="true"] {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .strava-dots {
+    position: absolute;
+    bottom: 14px;
+    left: 50%;
+    z-index: 3;
+    display: flex;
+    gap: 9px;
+    transform: translateX(-50%);
+  }
+
+  .strava-dots button {
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+  }
+
+  .strava-dots button::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: rgba(28, 28, 28, 0.28);
+    transition: background-color 0.25s ease, transform 0.25s ease;
+  }
+
+  .strava-dots button[aria-selected="true"]::before {
+    background: #8a1538;
+    transform: scale(1.25);
+  }
+
+  .strava-dots button:focus-visible { outline: 2px solid #8a1538; outline-offset: 2px; border-radius: 999px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .strava-embed-shell { transition: none; }
   }
 
   .strava-embed-shell :global(.strava-embed-placeholder) {
