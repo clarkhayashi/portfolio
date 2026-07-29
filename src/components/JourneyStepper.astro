@@ -1,13 +1,14 @@
 ---
 import { journey } from "../data/journey";
 
-const stops = journey.map(({ place, lon, lat, years, landmark, glyph }) => ({
+const stops = journey.map(({ place, lon, lat, years, landmark, glyph, chipPhoto }) => ({
   place,
   lon,
   lat,
   years,
   landmark,
   glyph,
+  chipPhoto,
 }));
 
 const uniqueStops = stops.filter(
@@ -52,13 +53,73 @@ const uniqueStops = stops.filter(
               >
                 <span class="journey-marker-dot" aria-hidden="true"></span>
                 <span class="journey-marker-bubble" aria-hidden="true">
-                  <svg viewBox="0 0 28 28">
-                    {stop.glyph === "wave" && <path d="M2 10c3.4-3.2 6.8-3.2 10.2 0s6.8 3.2 10.2 0 3.4-3.2 3.6-3.2M2 17c3.4-3.2 6.8-3.2 10.2 0s6.8 3.2 10.2 0 3.4-3.2 3.6-3.2" />}
-                    {stop.glyph === "needle" && <path d="M14 2v24M9 8h10M11 8 9 26M17 8l2 18M7 18h14M10 26h8" />}
-                    {stop.glyph === "tower" && <path d="m14 2-6 24m6-24 6 24M10.5 10h7M9 17h10M7 26h14" />}
-                    {stop.glyph === "hill" && <path d="M2 23c4-5 7-5 11-1 4-5 8-5 13 1M12 21V9h7v12M14 9V5h3v4M14 13h3" />}
-                  </svg>
-                  <span>
+                  <span class="chip-art">
+                    {stop.glyph === "wave" && (
+                      <svg viewBox="0 0 200 110" preserveAspectRatio="xMidYMid slice">
+                        <rect width="200" height="110" fill="#F7F4EF" />
+                        <circle cx="158" cy="26" r="11" fill="#8A1538" opacity="0.85" />
+                        <path d="M0 66 L44 46 L72 40 L94 47 L104 51 L122 42 L152 50 L200 62 V110 H0 Z" fill="#6B5642" />
+                        <path d="M0 74 L60 60 L104 68 L160 60 L200 70 V110 H0 Z" fill="#4F7773" />
+                        <rect y="82" width="200" height="28" fill="#112D38" />
+                        <path d="M12 92c8-6 16-6 24 0s16 6 24 0 16-6 24 0" fill="none" stroke="rgba(247,244,239,.65)" stroke-width="2.4" stroke-linecap="round" />
+                        <path d="M116 100c8-6 16-6 24 0s16 6 24 0" fill="none" stroke="rgba(247,244,239,.45)" stroke-width="2.4" stroke-linecap="round" />
+                      </svg>
+                    )}
+                    {stop.glyph === "needle" && (
+                      <svg viewBox="0 0 200 110" preserveAspectRatio="xMidYMid slice">
+                        <rect width="200" height="110" fill="#F7F4EF" />
+                        <path d="M96 38 L200 104 H96 Z" fill="#E9DFC9" />
+                        <path d="M96 38 L128 58 L112 58 Z" fill="#F7F4EF" opacity="0.9" />
+                        <rect x="128" y="76" width="18" height="34" fill="#6B5642" />
+                        <rect x="152" y="66" width="14" height="44" fill="#6B5642" opacity="0.8" />
+                        <rect x="172" y="82" width="16" height="28" fill="#6B5642" opacity="0.6" />
+                        <path d="M56 12 L58 70 M56 12 L54 70" stroke="#112D38" stroke-width="3" stroke-linecap="round" />
+                        <path d="M40 106 C44 82 50 74 56 68 C62 74 68 82 72 106" fill="none" stroke="#112D38" stroke-width="3.4" stroke-linecap="round" />
+                        <ellipse cx="56" cy="30" rx="24" ry="8" fill="#112D38" />
+                        <ellipse cx="56" cy="26" rx="14" ry="5" fill="#4F7773" />
+                        <path d="M56 4 V14" stroke="#112D38" stroke-width="2.6" stroke-linecap="round" />
+                        <rect y="104" width="200" height="6" fill="#112D38" />
+                      </svg>
+                    )}
+                    {stop.glyph === "tower" && (
+                      <svg viewBox="0 0 200 110" preserveAspectRatio="xMidYMid slice">
+                        <rect width="200" height="110" fill="#F7F4EF" />
+                        <circle cx="42" cy="30" r="12" fill="#E9DFC9" />
+                        <rect x="128" y="86" width="20" height="24" fill="#6B5642" opacity="0.7" />
+                        <rect x="156" y="78" width="16" height="32" fill="#6B5642" opacity="0.55" />
+                        <rect x="20" y="90" width="26" height="20" fill="#6B5642" opacity="0.6" />
+                        <path d="M100 8 L82 104 M100 8 L118 104" stroke="#8A1538" stroke-width="4.4" stroke-linecap="round" />
+                        <path d="M88 66 H112 M92 46 H108 M95 28 H105 M85 86 H115" stroke="#8A1538" stroke-width="3.2" stroke-linecap="round" />
+                        <path d="M92 46 L108 66 M108 46 L92 66 M95 28 L105 46 M105 28 L95 46" stroke="#8A1538" stroke-width="1.6" />
+                        <rect y="104" width="200" height="6" fill="#112D38" />
+                      </svg>
+                    )}
+                    {stop.glyph === "hill" && (
+                      <svg viewBox="0 0 200 110" preserveAspectRatio="xMidYMid slice">
+                        <rect width="200" height="110" fill="#F7F4EF" />
+                        <circle cx="164" cy="24" r="10" fill="#8A1538" opacity="0.7" />
+                        <path d="M0 82 C40 58 84 58 124 78 C156 92 180 92 200 84 V110 H0 Z" fill="#5D8C88" />
+                        <path d="M0 96 C52 78 120 82 200 98 V110 H0 Z" fill="#4F7773" />
+                        <rect x="92" y="30" width="20" height="48" fill="#6B5642" />
+                        <path d="M90 30 h24 M92 24 h4 v6 h-4 z M100 24 h4 v6 h-4 z M108 24 h4 v6 h-4 z" fill="#6B5642" stroke="#6B5642" stroke-width="2" />
+                        <path d="M98 42 a4 5 0 0 1 8 0 v8 h-8 z" fill="#F7F4EF" />
+                        <path d="M58 84 c-4-14 4-26 6-30 2 4 10 16 6 30 z" fill="#112D38" />
+                        <path d="M142 92 c-3-11 3-20 5-23 2 3 8 12 5 23 z" fill="#112D38" />
+                      </svg>
+                    )}
+                    {stop.chipPhoto && (
+                      <img
+                        class="chip-photo"
+                        src={stop.chipPhoto}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        width="200"
+                        height="110"
+                      />
+                    )}
+                  </span>
+                  <span class="chip-label">
                     <strong>{stop.place}</strong>
                     <small>{stop.landmark}</small>
                   </span>
@@ -106,12 +167,12 @@ const uniqueStops = stops.filter(
             <p class="mt-1 font-sans text-sm font-medium uppercase tracking-[0.1em] text-teal-deep">{stop.years}</p>
             <p class="mt-4 max-w-[54ch] leading-relaxed text-ink/75">{stop.story}</p>
             {stop.photo && (
-              <figure class="journey-photo mt-6">
+              <figure class:list={["journey-photo mt-6", stop.photo.portrait && "portrait"]}>
                 <img
                   src={stop.photo.src}
                   alt={stop.photo.alt}
-                  width="960"
-                  height="600"
+                  width={stop.photo.portrait ? 480 : 960}
+                  height={stop.photo.portrait ? 600 : 600}
                   loading={index === 0 ? "eager" : "lazy"}
                 />
               </figure>
@@ -261,7 +322,15 @@ const uniqueStops = stops.filter(
   });
   const chips = [...chipsBox.children];
   mapMarkers.forEach((button) => {
-    button.onclick = () => go(locationIndex.get(button.dataset.place));
+    button.onclick = () => {
+      const target = locationIndex.get(button.dataset.place);
+      if (stops[index].place === button.dataset.place) {
+        /* Already here: on touch, a second tap swaps the chip art for the photo. */
+        button.dataset.photo = button.dataset.photo === "true" ? "false" : "true";
+        return;
+      }
+      go(target);
+    };
   });
 
   function paint() {
@@ -291,10 +360,24 @@ const uniqueStops = stops.filter(
     return x * x * (3 - 2 * x);
   }
 
+  const coarse = matchMedia("(pointer: coarse)").matches;
+
+  function angularDegrees(a, b) {
+    const ax = Math.cos(a.lat * D) * Math.cos(a.lon * D);
+    const ay = Math.cos(a.lat * D) * Math.sin(a.lon * D);
+    const az = Math.sin(a.lat * D);
+    const bx = Math.cos(b.lat * D) * Math.cos(b.lon * D);
+    const by = Math.cos(b.lat * D) * Math.sin(b.lon * D);
+    const bz = Math.sin(b.lat * D);
+    return Math.acos(Math.max(-1, Math.min(1, ax * bx + ay * by + az * bz))) / D;
+  }
+
   function go(nextIndex) {
     const bounded = Math.max(0, Math.min(stops.length - 1, nextIndex));
     if (bounded === index) return;
+    const from = stops[index];
     index = bounded;
+    mapMarkers.forEach((marker) => marker.removeAttribute("data-photo"));
     if (reduced) {
       viewLon = stops[index].lon;
       viewLat = stops[index].lat * 0.58;
@@ -302,9 +385,13 @@ const uniqueStops = stops.filter(
       routeProgress = 1;
       transition = null;
     } else {
+      /* Google-Earth fly-to: longer hops climb higher and take longer. */
+      const degrees = angularDegrees(from, stops[index]);
+      const scale = coarse ? 0.72 : 1;
       transition = {
         started: performance.now(),
-        duration: 1050,
+        duration: Math.max(620, Math.min(1250, 520 + degrees * 5.4)) * scale,
+        pull: Math.min(0.3, 0.07 + (degrees / 180) * 0.42),
         fromLon: viewLon,
         fromLat: viewLat,
         fromZoom: viewZoom,
@@ -312,6 +399,7 @@ const uniqueStops = stops.filter(
         toLat: stops[index].lat * 0.58,
       };
       routeProgress = 0;
+      region.classList.add("in-flight");
     }
     paint();
     requestDraw();
@@ -362,7 +450,7 @@ const uniqueStops = stops.filter(
   }
 
   function updateMapMarkers() {
-    const bubbleHalf = size < 380 ? 84 : 94;
+    const bubbleHalf = size < 380 ? 88 : 100;
     const activePoint = projectPoint(stops[index].lon, stops[index].lat);
     mapMarkers.forEach((marker) => {
       const stop = uniqueLocations.find((candidate) => candidate.place === marker.dataset.place);
@@ -375,7 +463,12 @@ const uniqueStops = stops.filter(
         point.y < activePoint.y - 12 &&
         point.y > activePoint.y - 112;
       marker.hidden = !point.visible || hiddenBehindBubble;
-      if (marker.hidden) return;
+      if (marker.hidden) {
+        /* A marker carried off the visible hemisphere must drop its active
+           state, or its bubble reappears stale when it rotates back. */
+        marker.dataset.active = "false";
+        return;
+      }
       const bubbleCenter = Math.max(bubbleHalf, Math.min(size - bubbleHalf, point.x));
       marker.style.left = `${point.x}px`;
       marker.style.top = `${point.y}px`;
@@ -411,6 +504,7 @@ const uniqueStops = stops.filter(
   canvas.addEventListener("pointerdown", (event) => {
     canvas.setPointerCapture?.(event.pointerId);
     transition = null;
+    region.classList.remove("in-flight");
     drag = {
       id: event.pointerId,
       x: event.clientX,
@@ -461,7 +555,7 @@ const uniqueStops = stops.filter(
       const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
       viewLon = shortestAngle(transition.fromLon, transition.toLon, eased);
       viewLat = transition.fromLat + (transition.toLat - transition.fromLat) * eased;
-      const travelPullback = Math.sin(Math.PI * t) * 0.11;
+      const travelPullback = Math.sin(Math.PI * t) * transition.pull;
       viewZoom = transition.fromZoom + (targetZoom - transition.fromZoom) * eased - travelPullback;
       routeProgress = smoothstep((t - 0.36) / 0.64);
       moving = t < 1;
@@ -471,6 +565,7 @@ const uniqueStops = stops.filter(
         viewZoom = targetZoom;
         routeProgress = 1;
         transition = null;
+        region.classList.remove("in-flight");
       }
     } else if (Math.abs(viewZoom - targetZoom) > 0.001) {
       viewZoom += (targetZoom - viewZoom) * (reduced ? 1 : 0.16);
@@ -652,34 +747,56 @@ const uniqueStops = stops.filter(
     position: absolute;
     left: 50%;
     top: -8px;
-    width: 188px;
-    transform: translate(calc(-50% + var(--bubble-shift)), calc(-100% - 8px)) scale(0.96);
+    width: 200px;
+    transform: translate(calc(-50% + var(--bubble-shift)), calc(-100% - 8px)) scale(0.92);
     transform-origin: bottom center;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 12px;
+    display: block;
+    overflow: hidden;
     border: 1px solid rgba(17, 45, 56, 0.22);
     border-radius: 14px;
     background: #f7f4ef;
     color: #112d38;
+    box-shadow: 0 10px 28px -14px rgba(17, 45, 56, 0.45);
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity 0.2s ease, transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.2s;
+    transition: opacity 0.28s var(--ease-out, ease), transform 0.42s cubic-bezier(0.23, 1, 0.32, 1), visibility 0.28s;
   }
 
-  .journey-marker-bubble::after {
-    content: "";
+  .chip-art {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 200 / 110;
+  }
+
+  .chip-art svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .chip-photo {
     position: absolute;
-    left: calc(50% - var(--bubble-shift));
-    bottom: -5px;
-    width: 9px;
-    height: 9px;
-    transform: translateX(-50%) rotate(45deg);
-    border-right: 1px solid rgba(17, 45, 56, 0.22);
-    border-bottom: 1px solid rgba(17, 45, 56, 0.22);
-    background: #f7f4ef;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .journey-marker-bubble:hover .chip-photo,
+  .journey-map-marker[data-photo="true"] .chip-photo {
+    opacity: 1;
+  }
+
+  .chip-label {
+    display: grid;
+    min-width: 0;
+    padding: 9px 12px 10px;
+    text-align: left;
+    line-height: 1.18;
   }
 
   .journey-map-marker[data-active="true"] .journey-marker-bubble,
@@ -690,20 +807,14 @@ const uniqueStops = stops.filter(
     visibility: visible;
   }
 
-  .journey-marker-bubble svg {
-    width: 34px;
-    height: 34px;
-    flex: 0 0 34px;
-    fill: none;
-    stroke: #4f7773;
-    stroke-width: 1.55;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-
-  .journey-marker-bubble > span { display: grid; min-width: 0; text-align: left; line-height: 1.18; }
   .journey-marker-bubble strong { font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; }
   .journey-marker-bubble small { margin-top: 3px; color: rgba(17, 45, 56, 0.68); font-size: 0.66rem; }
+
+  /* While the globe is flying, the bubble stays down; it pops on landing. */
+  #journey-home.in-flight .journey-marker-bubble {
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
   .journey-map-marker:focus-visible { outline: none; }
   .journey-map-marker:focus-visible .journey-marker-dot { outline: 2px solid #8a1538; outline-offset: 3px; }
 
@@ -714,6 +825,13 @@ const uniqueStops = stops.filter(
     border: 1px solid rgba(28, 28, 28, 0.12);
     border-radius: 16px;
     background: #e9dfc9;
+  }
+
+  /* Vertical originals keep their orientation instead of being cropped to a
+     sky-band. 4/5 shows ~94% of a 3/4 frame; 16/10 was showing 47%. */
+  .journey-photo.portrait {
+    width: min(100%, 300px);
+    aspect-ratio: 4 / 5;
   }
 
   .journey-photo img {
@@ -781,8 +899,7 @@ const uniqueStops = stops.filter(
     from { opacity: 0; transform: translateY(10px); }
   }
   @media (max-width: 480px) {
-    .journey-marker-bubble { width: 168px; }
-    .journey-marker-bubble svg { width: 30px; height: 30px; flex-basis: 30px; }
+    .journey-marker-bubble { width: 176px; }
     .journey-zoom { top: 8%; right: 5%; }
   }
 

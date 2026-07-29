@@ -12,8 +12,11 @@ export interface JourneyStop {
   lat: number;
   landmark: string;
   glyph: "wave" | "needle" | "tower" | "hill";
+  /** Real photo shown inside the globe's landmark chip on hover/tap. */
+  chipPhoto?: string;
   story: string;
-  photo?: { src: string; alt: string };
+  /** `portrait: true` renders the card photo at 4/5 instead of cropping to 16/10. */
+  photo?: { src: string; alt: string; portrait?: boolean };
   links?: { label: string; href: string; external?: boolean }[];
 }
 
@@ -26,9 +29,10 @@ export const journey: JourneyStop[] = [
     lat: 21.31,
     landmark: "Diamond Head + Pacific",
     glyph: "wave",
+    chipPhoto: "/images/hawaii/hawaii-coast.jpg",
     story:
       "I grew up on O'ahu, where community isn't a value statement; it's how things get done. Punahou basketball and a varsity co-captain year, a 199-hour Eagle project rebuilding a library, and a first job ringing up military families at the Navy Exchange.",
-    photo: { src: "/images/hawaii/hawaii-sunset.jpg", alt: "Sunset over the Hawai'i coastline" },
+    photo: { src: "/images/hawaii/hawaii-sunset.jpg", alt: "Sunset over the Hawai'i coastline", portrait: true },
     links: [{ label: "The Hawai'i years", href: "/about" }],
   },
   {
@@ -39,6 +43,7 @@ export const journey: JourneyStop[] = [
     lat: 47.61,
     landmark: "Space Needle",
     glyph: "needle",
+    chipPhoto: "/images/seattle/seattle-space-needle.jpg",
     story:
       "Seattle University: Business Analytics and Marketing by day, refereeing flag football by night. I started as an intramural official and left running the program; along the way I co-founded a student credit union initiative that won $22.5K across two business plan competitions.",
     photo: { src: "/images/seattle/seattle-space-needle.jpg", alt: "Seattle skyline with the Space Needle from Gas Works Park" },
@@ -55,9 +60,10 @@ export const journey: JourneyStop[] = [
     lat: 35.69,
     landmark: "Tokyo Tower",
     glyph: "tower",
+    chipPhoto: "/images/japan/tokyo-skytree-dusk.jpg",
     story:
       "A semester at Sophia University: Japanese language, Anthropology of Japan, and a Philosophy of AI course a full year before AI became my job. Being the person who doesn't fully speak the language teaches you to listen harder than any classroom does.",
-    photo: { src: "/images/japan/cherry-blossoms.jpg", alt: "Cherry blossoms against a blue sky in Japan" },
+    photo: { src: "/images/japan/cherry-blossoms.jpg", alt: "Cherry blossoms against a blue sky in Japan", portrait: true },
     links: [{ label: "Sophia University", href: "/about" }],
   },
   {
@@ -84,6 +90,7 @@ export const journey: JourneyStop[] = [
     lat: 43.57,
     landmark: "Tuscan bell tower",
     glyph: "hill",
+    chipPhoto: "/images/italy/tuscan-vineyards.jpg",
     story:
       "Ten days across Tuscany with the Albers School: family wineries, Nestle's Perugina chocolate operation, a B Corp textile mill older than most countries. Small firms, long views, and marketing that has survived centuries of change.",
     photo: { src: "/images/italy/italy-study-tour-group.jpg", alt: "Italy study tour group at a Tuscan vineyard" },

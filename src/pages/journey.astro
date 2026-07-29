@@ -56,10 +56,13 @@ const stops = journey.map((s) => ({ place: s.place, lon: s.lon, lat: s.lat, year
                 <img
                   src={s.photo.src}
                   alt={s.photo.alt}
-                  class="mt-6 aspect-[3/2] w-full max-w-[440px] rounded-xl object-cover"
+                  class:list={[
+                    "mt-6 w-full rounded-xl object-cover",
+                    s.photo.portrait ? "aspect-[4/5] max-w-[300px]" : "aspect-[3/2] max-w-[440px]",
+                  ]}
                   loading="lazy"
-                  width="440"
-                  height="293"
+                  width={s.photo.portrait ? 300 : 440}
+                  height={s.photo.portrait ? 375 : 293}
                 />
               )}
               {s.links && (
