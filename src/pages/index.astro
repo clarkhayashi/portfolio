@@ -29,7 +29,7 @@ const framework = [
     <div class="grid items-center gap-10 md:grid-cols-[1fr_auto]">
       <div>
         <p class="mb-4 text-xs font-medium uppercase tracking-[0.16em] text-teal-deep">
-          Business + Marketing Analyst
+          Business Analytics · Marketing · AI Enablement
         </p>
         <h1
           class="max-w-[22ch] font-serif text-[2.6rem] font-bold leading-[1.06] tracking-tight md:text-[3.5rem]"
@@ -145,29 +145,68 @@ const framework = [
     </div>
   </section>
 
-  <!-- The one authored entrance on the site: "messy" settles into alignment.
-       The animation is the thesis, not decoration. Runs once, on load, no scroll
-       listeners. Reduced motion gets the settled state immediately. -->
+  <!-- The one authored entrance on the site: "messy" scrambles, then settles
+       into alignment. The animation is the thesis, not decoration. Runs once,
+       on load, no scroll listeners. Widths are locked to the final letters so
+       the swaps never shift layout. No JS or reduced motion = settled state. -->
   <style>
     .messy span {
       display: inline-block;
-      animation: settle 450ms var(--ease-out) both;
+      transition:
+        transform 500ms var(--ease-out),
+        opacity 500ms var(--ease-out),
+        filter 500ms var(--ease-out);
     }
-    .messy span:nth-child(1) { --r: -7deg; --y: 0.13em;  animation-delay: 60ms; }
-    .messy span:nth-child(2) { --r: 5deg;  --y: -0.10em; animation-delay: 105ms; }
-    .messy span:nth-child(3) { --r: -4deg; --y: 0.09em;  animation-delay: 150ms; }
-    .messy span:nth-child(4) { --r: 6deg;  --y: -0.11em; animation-delay: 195ms; }
-    .messy span:nth-child(5) { --r: -5deg; --y: 0.10em;  animation-delay: 240ms; }
-
-    @keyframes settle {
-      from { transform: translateY(var(--y)) rotate(var(--r)); }
-      to   { transform: translateY(0) rotate(0deg); }
-    }
-
     @media (prefers-reduced-motion: reduce) {
-      .messy span { animation: none; transform: none; }
+      .messy span {
+        transition: none !important;
+        transform: none !important;
+        opacity: 1 !important;
+        filter: none !important;
+      }
     }
   </style>
+
+  <script>
+    (() => {
+      const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const em = document.querySelector(".messy");
+      if (!em || reduced) return;
+      const spans = [...em.querySelectorAll("span")];
+      const finals = spans.map((s) => s.textContent);
+      const glyphs = "aeghknoprstuvxz";
+      const tilts = [-6, 5, -4, 6, -5];
+      const lifts = [0.12, -0.1, 0.09, -0.11, 0.1];
+
+      spans.forEach((s, i) => {
+        /* lock to the final letter's width so swaps can't shift the line */
+        s.style.width = `${s.getBoundingClientRect().width}px`;
+        s.style.textAlign = "center";
+        s.style.transform = `translateY(${lifts[i]}em) rotate(${tilts[i]}deg)`;
+        s.style.opacity = "0.55";
+        s.style.filter = "blur(1.5px)";
+
+        let swaps = 0;
+        const maxSwaps = 2 + i; /* left letters resolve first */
+        const iv = setInterval(() => {
+          swaps++;
+          if (swaps >= maxSwaps) {
+            clearInterval(iv);
+            s.textContent = finals[i];
+            s.style.transform = "translateY(0) rotate(0deg)";
+            s.style.opacity = "1";
+            s.style.filter = "blur(0)";
+            setTimeout(() => {
+              s.style.width = "";
+              s.style.textAlign = "";
+            }, 520);
+          } else {
+            s.textContent = glyphs[Math.floor(Math.random() * glyphs.length)];
+          }
+        }, 110);
+      });
+    })();
+  </script>
 
   <!-- Contact strip -->
   <section class="mx-auto max-w-[1000px] px-6 pt-16 md:pt-24">
