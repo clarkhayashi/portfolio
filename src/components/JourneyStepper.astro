@@ -1,8 +1,9 @@
 ---
 import { journey } from "../data/journey";
 
-const stops = journey.map(({ place, lon, lat, years, landmark, glyph, chipPhoto }) => ({
+const stops = journey.map(({ place, placeJa, lon, lat, years, landmark, glyph, chipPhoto }) => ({
   place,
+  placeJa,
   lon,
   lat,
   years,
@@ -120,7 +121,7 @@ const uniqueStops = stops.filter(
                     )}
                   </span>
                   <span class="chip-label">
-                    <strong>{stop.place}</strong>
+                    <strong>{stop.placeJa && <span lang="ja">{stop.placeJa} · </span>}{stop.place}</strong>
                     <small>{stop.landmark}</small>
                   </span>
                 </span>
@@ -162,8 +163,17 @@ const uniqueStops = stops.filter(
       <div class="flex min-h-[470px] flex-col justify-center" aria-live="polite">
         {journey.map((stop, index) => (
           <article class="journey-card" data-index={index} hidden={index !== 0}>
-            <p class="text-xs font-medium uppercase tracking-[0.16em] text-bark">{stop.place}</p>
-            <h3 class="mt-2 font-serif text-3xl font-bold tracking-tight">{stop.title}</h3>
+            <p class="text-xs font-medium uppercase tracking-[0.16em] text-bark">
+              {stop.placeJa && <span lang="ja">{stop.placeJa} · </span>}{stop.place}
+            </p>
+            {stop.titleJa ? (
+              <h3 class="title-swap mt-2 font-serif text-3xl font-bold tracking-tight">
+                <span lang="ja">{stop.titleJa}</span>
+                <span class="title-en">{stop.title}</span>
+              </h3>
+            ) : (
+              <h3 class="mt-2 font-serif text-3xl font-bold tracking-tight">{stop.title}</h3>
+            )}
             <p class="mt-1 font-sans text-sm font-medium uppercase tracking-[0.1em] text-teal-deep">{stop.years}</p>
             <p class="mt-4 max-w-[54ch] leading-relaxed text-ink/75">{stop.story}</p>
             {stop.photo && (
@@ -312,7 +322,7 @@ const uniqueStops = stops.filter(
   uniqueLocations.forEach((stop) => {
     const button = document.createElement("button");
     button.type = "button";
-    button.textContent = stop.place;
+    button.textContent = stop.placeJa ? `${stop.placeJa} ${stop.place}` : stop.place;
     button.setAttribute("role", "tab");
     button.setAttribute("aria-label", `Jump to ${stop.place}`);
     button.dataset.place = stop.place;
@@ -343,7 +353,9 @@ const uniqueStops = stops.filter(
     mapMarkers.forEach((marker) => {
       marker.setAttribute("aria-pressed", marker.dataset.place === stops[index].place ? "true" : "false");
     });
-    currentPlace.textContent = stops[index].place;
+    currentPlace.textContent = stops[index].placeJa
+      ? `${stops[index].placeJa} · ${stops[index].place}`
+      : stops[index].place;
     prev.disabled = index === 0;
     const last = index === stops.length - 1;
     next.setAttribute("aria-label", last ? "Continue to selected work" : "Next place");
@@ -892,6 +904,22 @@ const uniqueStops = stops.filter(
   :global(#journey-chips button:hover) { color: #4f7773 !important; }
 
   .journey-card:not([hidden]) { animation: card-in 0.38s cubic-bezier(0.16, 1, 0.3, 1); }
+
+  /* 留学 arrives first, holds a beat, then resolves into "Study Abroad".
+     Replays on every arrival because the card re-displays. */
+  .title-swap { display: grid; }
+  .title-swap > span { grid-area: 1 / 1; }
+  .title-swap > span[lang="ja"] { animation: ja-hold 2.2s cubic-bezier(0.23, 1, 0.32, 1) both; }
+  .title-swap > .title-en { animation: en-reveal 2.2s cubic-bezier(0.23, 1, 0.32, 1) both; }
+
+  @keyframes ja-hold {
+    0%, 48% { opacity: 1; filter: blur(0); }
+    68%, 100% { opacity: 0; filter: blur(5px); }
+  }
+  @keyframes en-reveal {
+    0%, 52% { opacity: 0; filter: blur(5px); }
+    74%, 100% { opacity: 1; filter: blur(0); }
+  }
   button:disabled { opacity: 0.3; cursor: default; }
   button:disabled:hover { background: transparent; color: inherit; }
 
@@ -909,5 +937,8 @@ const uniqueStops = stops.filter(
     .journey-marker-bubble,
     .journey-zoom button,
     .journey-step-controls button { transition: none; }
+    /* No crossfade: show 留学 and Study Abroad side by side. */
+    .title-swap { display: flex; flex-wrap: wrap; column-gap: 0.45em; }
+    .title-swap > span { animation: none; opacity: 1; filter: none; }
   }
 </style>

@@ -6,7 +6,11 @@
 
 export interface JourneyStop {
   place: string;
+  /** Japanese name shown alongside the English one (e.g. 東京 · Tokyo). */
+  placeJa?: string;
   title: string;
+  /** Japanese lead-in that crossfades into the English title on arrival. */
+  titleJa?: string;
   years: string;
   lon: number;
   lat: number;
@@ -54,7 +58,9 @@ export const journey: JourneyStop[] = [
   },
   {
     place: "Tokyo",
-    title: "Where I learned to pay attention",
+    placeJa: "東京",
+    title: "Study Abroad",
+    titleJa: "留学",
     years: "2024",
     lon: 139.69,
     lat: 35.69,
@@ -62,9 +68,9 @@ export const journey: JourneyStop[] = [
     glyph: "tower",
     chipPhoto: "/images/japan/tokyo-skytree-dusk.jpg",
     story:
-      "A semester at Sophia University: Japanese language, Anthropology of Japan, and a Philosophy of AI course a full year before AI became my job. Being the person who doesn't fully speak the language teaches you to listen harder than any classroom does.",
+      "A semester at 上智大学 (Sophia University): Japanese language, Anthropology of Japan, and a Philosophy of AI course a full year before AI became my job. Being the person who doesn't fully speak the language teaches you to listen harder than any classroom does.",
     photo: { src: "/images/japan/cherry-blossoms.jpg", alt: "Cherry blossoms against a blue sky in Japan", portrait: true },
-    links: [{ label: "Sophia University", href: "/about" }],
+    links: [{ label: "上智大学 · Sophia University", href: "/about" }],
   },
   {
     place: "Honolulu",

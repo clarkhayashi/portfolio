@@ -172,9 +172,9 @@ export const experience: ExperienceItem[] = [
     },
   },
   {
-    org: "Sophia University, Tokyo",
+    org: "上智大学 · Sophia University, Tokyo",
     background: true,
-    role: "Study Abroad",
+    role: "留学 · Study Abroad",
     dates: "Spring & Summer 2024",
     detail:
       "Coursework spanning Japanese language, Anthropology of Japan, management, and the Philosophy of AI. Outside class: the APES basketball circle, the Japanese Language Club, and Peer Cafe. The foundation of an ongoing Japan connection.",
