@@ -11,18 +11,18 @@ colors:
   crimson: "#8A1538"
 typography:
   h1:
-    fontFamily: Cormorant Garamond
+    fontFamily: Newsreader
     fontSize: 3.5rem
     fontWeight: 700
     lineHeight: 1.06
     letterSpacing: -0.01em
   h2:
-    fontFamily: Cormorant Garamond
+    fontFamily: Newsreader
     fontSize: 2.25rem
     fontWeight: 700
     lineHeight: 1.15
   h3:
-    fontFamily: Cormorant Garamond
+    fontFamily: Newsreader
     fontSize: 1.35rem
     fontWeight: 700
   body-lg:
@@ -93,14 +93,22 @@ Small bark text is full-strength bark for the same reason; bark tints below
 
 ## Typography
 
-Cormorant Garamond (600/700 + italic 600, Google Fonts) for the wordmark, H1,
-H2, section titles, project and role titles. Satoshi (400/500/700,
-self-hosted at public/fonts/satoshi/) for everything else. Never Satoshi
-Black. Eyebrows are label-caps, uppercase. Reading width tops out at 70ch;
-page containers at 1000px. Headings use text-wrap balance; numerals are
-tabular. One italic serif accent is allowed per page (currently "messy" in
-the hero). **No em dashes anywhere in copy** — use commas, colons, periods,
-or "·".
+Newsreader (600/700 + italic 600, Google Fonts) for the wordmark, page H1s
+and section H2s. Satoshi (400/500/700, self-hosted at public/fonts/satoshi/)
+for everything else, including every heading below 28px: at smaller sizes a
+display serif reads lighter than the body copy beneath it. Never Satoshi
+Black.
+
+The scale is nine steps and no more: 56 / 36 / 28 / 24 / 18 / 16 / 14 / 12 /
+11. Sizes closer together than that are not perceived as a rank, they just
+read as inconsistency. Line height is inversely proportional to size, tight
+on display, open on body. Eyebrows are label-caps, uppercase.
+
+Reading width tops out at 70ch; page containers at 1000px, including About.
+Headings use text-wrap balance. Numerals are tabular only in stats and
+tables, not in running prose. One italic serif accent is allowed per page
+(currently "messy" in the hero). **No em dashes anywhere in copy** — use
+commas, colons, periods, or "·".
 
 ## Layout
 

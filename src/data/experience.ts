@@ -8,6 +8,8 @@
 
 export interface ExpImage {
   src: string;
+  /** Crop anchor for the rail's landscape box. Vertical subjects need "top". */
+  position?: "top" | "center";
   alt: string;
   fit?: "cover" | "contain";
 }
@@ -216,6 +218,7 @@ export const experience: ExperienceItem[] = [
       },
       {
         src: "/images/italy/arezzo-tower.jpg",
+        position: "top",
         alt: "Bell tower rising over a park in Arezzo, Tuscany",
       },
     ],
