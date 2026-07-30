@@ -52,8 +52,12 @@ work at a named bank.
   (competed as Seattle Financial Initiative, 174-team field); $22.5K total
   confirmed by Clark 2026-07-10. Membership 23→54.
   Do NOT list "VP of Finance" or an "→ Advisor" role suffix.
-- UREC: "Intramural Sports Official → Manager", 2022–2026. 40+ officials,
-  64+ teams, 469+ participants, 7 years of data analyzed.
+- UREC: "Intramural Sports Official → Manager", 2022–2026. 40+ officials.
+  Analysis covers eight seasons, 2018 to 2025, 4,169 player-years; 648
+  participants played at least one game in 2025 (711 / 721 / 720 in 2022-24).
+  The older "64+ teams, 469+ participants, 7 years" line is **superseded**;
+  `im-analytics/PHASE1_proposal_v2.md` records it as outdated copy that must be
+  replaced with validated dataset numbers. Do not reintroduce it.
 - Punahou: varsity basketball co-captain and Most Inspirational Player
   (**basketball, not golf**); JROTC Mayor's Award; Carnival class raised $337K.
 - Hui o Nani: "audience of 300+" (not "300+ participants").
