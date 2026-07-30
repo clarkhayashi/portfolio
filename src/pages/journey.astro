@@ -273,13 +273,13 @@ const stops = journey.map((s) => ({ place: s.place, lon: s.lon, lat: s.lat, year
         if (!labeled.has(s.place)) {
           labeled.add(s.place);
           ctx.fillStyle = "rgba(28,28,28,0.8)";
-          ctx.font = `600 ${Math.max(12, R * 0.062)}px "Cormorant Garamond", Georgia, serif`;
+          ctx.font = `600 ${Math.max(12, R * 0.062)}px "Newsreader", Georgia, serif`;
           ctx.fillText(s.place, p.x + 9, p.y + 4);
         }
       });
 
       ctx.fillStyle = "rgba(107,86,66,0.85)";
-      ctx.font = `italic 600 ${Math.max(14, R * 0.082)}px "Cormorant Garamond", Georgia, serif`;
+      ctx.font = `italic 600 ${Math.max(14, R * 0.082)}px "Newsreader", Georgia, serif`;
       ctx.fillText(`${stops[active].place} · ${stops[active].years}`, 8, 24);
 
       requestAnimationFrame(draw);

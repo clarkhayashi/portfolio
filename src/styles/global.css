@@ -32,10 +32,13 @@
   --color-bark: #6b5642;
   --color-crimson: #8a1538;
 
-  /* Cormorant is DISPLAY ONLY: 28px and above (page h1s, section h2s, wordmark).
-     Below 28px its low x-height and hairline thins read weaker than Satoshi body
-     copy, so anything smaller uses font-sans. Decision 2026-07-27. */
-  --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  /* Display face, 28px and up (page h1s, section h2s, wordmark). Below that,
+     font-sans. Newsreader replaced Cormorant Garamond 2026-07-28: Cormorant is
+     the default serif of the elegant-portfolio template genre, and its low
+     x-height forced the hero onto three lines. Newsreader is a Production Type
+     face with a real optical-size axis, so it self-adjusts between display and
+     text sizes. */
+  --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
   --font-sans: "Satoshi", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
