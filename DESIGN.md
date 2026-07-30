@@ -116,8 +116,12 @@ Single column, generous vertical rhythm (sections 4.5–6rem apart), hairline
 separators at 10% ink. Work items are numbered editorial rows with oversized
 ghosted serif numerals (bark at 25%), not cards. Experience rows carry a
 uniform 176×112 right-rail visual: photos object-cover, logos object-contain
-anchored right. Mobile-first; grids collapse to stacked; breakpoint 768px;
-touch targets ≥40px. The wave divider appears at most twice per page.
+anchored right. Work rows carry a 19rem right rail holding the status label
+above an optional 16:10 artifact thumbnail. That rail is a fixed width, not
+auto, so thumbnails align down the list; a row with no real artifact shows the
+status alone and never a stand-in. Mobile-first; grids collapse to stacked;
+breakpoint 768px; touch targets ≥40px. The wave divider appears at most twice
+per page.
 
 ## Elevation & Depth
 

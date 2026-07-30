@@ -1,6 +1,6 @@
 # Clark Hayashi Portfolio · Handover (living continuity record)
 
-Last updated: 2026-07-15 (GitHub and portfolio integration pass). Read `CLAUDE.md`
+Last updated: 2026-07-30 (Selected Work thumbnails). Read `CLAUDE.md`
 (project constitution) first.
 Detailed audits linked at the bottom. This file is the single source of truth
 for current state; update it at the end of every working session.
@@ -82,7 +82,36 @@ the experiment on 2026-07-10: Honolulu (2004–2022) → Seattle (2022) → Toky
 facts"): basketball MIP not golf, "audience of 300+", no VP of Finance, no
 "June 2026", "Dean's List and President's List".
 
-# Recent session changes (2026-07-10, third session: audit pass)
+# Recent session changes (2026-07-30: Selected Work thumbnails)
+
+Branch `claude/beautiful-matsumoto-20b143`. A scan-speed audit found Selected
+Work had 0 images across 7 projects while the rest of the homepage had 22, so
+the section read as a table of contents rather than a portfolio.
+
+- New `thumb?: { src, alt }` on `Project` in `src/data/projects.ts`, backed by
+  real `astro:assets` imports. Masters live in `src/assets/work/` (NOT public/)
+  at 1440x900 so Astro emits AVIF + WebP + fallback with a 4-width srcset.
+  The Hawai'i dashboard drops from 578kB to 24kB as AVIF.
+- 5 of 7 rows have a genuine artifact. Tokyo Airbnb Pricing and Real Estate
+  Lead Analytics have none and render with no thumbnail, by design.
+- `ProjectRow.astro` right rail changed from `auto` to a fixed `19rem` and now
+  stacks the status label above the thumbnail. Each row is its own grid, so an
+  auto column resolved to a different width per row and the thumbnails did not
+  line up. Verified: all thumbs 304x190 at 1280 (identical left edge) and
+  327x204 at 375, ratio exactly 1.600, no horizontal overflow at either width.
+- `CLAUDE.md` imagery rule revised at Clark's instruction: the flat "no stock
+  imagery" ban became a subject test. Third-party imagery is allowed when the
+  subject is the subject (Zippy's own product photo on the Zippy's case study);
+  generic decorative filler and anything implying unreal work stays banned.
+- Two thumbnails were captured from live sites with headless Chrome because the
+  browser tool kept timing out: the Seattle permits Tableau viz and the Clark
+  Reads shelf.
+
+Open question for Clark: the Hawai'i dashboard KPI reads "Total Listings
+29,011" but `projects.ts` says "~36,000 Inside Airbnb listings". Possibly the
+island filter affecting the KPI, possibly copy drift. Not changed either way.
+
+# Prior session changes (2026-07-10, third session: audit pass)
 
 Full ownership audit of docs vs repo, then targeted fixes. Build passes
 (9 pages), zero broken internal links except /resume.pdf, zero em dashes in

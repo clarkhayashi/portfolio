@@ -40,6 +40,33 @@ images, drop them in the matching folder and reference as /images/<folder>/<file
 - personal/     Superseded duplicates only (kept because deletion is restricted);
                 canonical copies live in boh/ and sucui/
 
+## src/assets/work/ (Selected Work thumbnails, added 2026-07-30)
+
+These are the ONLY images not under public/. They live in src/ on purpose so
+astro:assets can emit AVIF/WebP plus a srcset; reference them by importing in
+src/data/projects.ts, never by URL path. Masters are 1440x900 (16:10) so the
+rendered aspect ratio never crops. Charts and dashboards are padded to 16:10 on
+their own background rather than cropped, because cropping cut axis labels.
+
+- intramural-activation.png       Retention by first-year games played.
+                                  Source: im-analytics/deck_assets/
+                                  s08_activation_staircase.png (Clark's chart).
+                                  Chosen over s06/s09/s10/s11/s12/s13: the only
+                                  candidates legible at 224px were s08/s09/s11.
+- zippys-korean-fried-chicken.jpg Zippy's KFC plate lunch. Source: Case Studies:
+                                  Projects/Zippys-Portfolio-Prototype-v2/images/
+                                  zippys/. Zippy's own product photography, used
+                                  under the revised imagery test in CLAUDE.md
+                                  (subject is the subject). Clark chose this over
+                                  rendering the CSS poster, 2026-07-30.
+- hawaii-value-stays-dashboard.png Tableau dashboard. Source: base64 embedded in
+                                  Case Studies:Projects/hawaii-value-stays-case-
+                                  study .html, extracted 2026-07-30.
+
+Rows with no genuine artifact render with NO thumbnail, by design. Currently
+without one: Seattle Building Permit, Real Estate Lead Analytics, Tokyo Airbnb
+Pricing, Clark's Reading Notes.
+
 ## Wanted (would upgrade the site)
 - St. Francis statue photo (Clark pasted it in chat 2026-07-10 but the file
   is not in ImagesForSite; re-send as a file) -> italy/, Italy rotation

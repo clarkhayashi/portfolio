@@ -96,9 +96,18 @@ work at a named bank.
   ever. Real numbers only, sourced from Clark.
 - **No em dashes anywhere in site copy.** Use commas, colons, periods, "·".
 - Banned: "Welcome to my portfolio", "X taught me Y" triads, applause-line
-  endings, skill bars, tool-logo walls, emoji, testimonial carousels, stock
-  imagery, fake results, parallax, Lottie, custom cursors.
+  endings, skill bars, tool-logo walls, emoji, testimonial carousels, generic
+  stock imagery, fake results, parallax, Lottie, custom cursors.
 - One italic serif accent per page maximum (e.g. "messy" in the hero).
+- Imagery test (revised 2026-07-30, replaces a flat "no stock imagery" ban):
+  every image must be *about* the thing it sits next to. Clark's own photos and
+  artifacts are always fine. Third-party imagery is allowed when the subject is
+  the subject: a brand's product shot on a case study about that brand, an org's
+  logo on that org's role. What stays banned is decorative filler that would work
+  equally well on any other site (smiling strangers at whiteboards, abstract
+  "data" swooshes, unrelated cityscapes), and any image implying work, a result,
+  or a credential that is not real. Prefer Clark's own asset when one exists.
+  Never picsum or a placeholder service.
 
 ## Rejected directions (do not reintroduce)
 

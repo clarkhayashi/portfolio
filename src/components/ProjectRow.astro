@@ -1,4 +1,6 @@
 ---
+import type { ImageMetadata } from "astro";
+import { Picture } from "astro:assets";
 import StatusLabel from "./StatusLabel.astro";
 
 interface Props {
@@ -12,10 +14,23 @@ interface Props {
   external?: boolean;
   statusLabel: string;
   statusType?: "progress" | "building" | "private";
+  /** Real artifact from the work. Rows without one render with no thumbnail. */
+  thumb?: { src: ImageMetadata; alt: string };
 }
 
-const { number, title, description, tags, lane, proof, href, external, statusLabel, statusType } =
-  Astro.props;
+const {
+  number,
+  title,
+  description,
+  tags,
+  lane,
+  proof,
+  href,
+  external,
+  statusLabel,
+  statusType,
+  thumb,
+} = Astro.props;
 const Tag = href ? "a" : "div";
 ---
 
@@ -24,7 +39,13 @@ const Tag = href ? "a" : "div";
   {...external ? { target: "_blank", rel: "noopener noreferrer" } : {}}
   class="group block border-t border-ink/10 py-9 md:py-11"
 >
-  <div class="grid gap-3 md:grid-cols-[3.5rem_1fr_auto] md:gap-6">
+  {
+    /* The right rail is a FIXED width, not auto. Each row is its own grid, so an
+       auto column resolves to a different width per row and the thumbnails no
+       longer line up down the page. 19rem fits the longest status label without
+       wrapping (StatusLabel is whitespace-nowrap). */
+  }
+  <div class="grid gap-3 md:grid-cols-[3.5rem_1fr_19rem] md:gap-6">
     <span class="select-none font-serif text-3xl font-bold leading-none text-bark/25 md:text-4xl">{number}</span>
     <div>
       {
@@ -59,8 +80,26 @@ const Tag = href ? "a" : "div";
       }
       <p class="mt-2 text-sm text-ink/65">{tags.join(" · ")}</p>
     </div>
+    {
+      /* Status sits above the artifact. Rows with no genuine artifact simply
+         render the status and no image, never a stand-in. */
+    }
     <div class="md:pt-1.5">
       <StatusLabel label={statusLabel} type={statusType} />
+      {
+        thumb && (
+          <Picture
+            src={thumb.src}
+            alt={thumb.alt}
+            formats={["avif", "webp"]}
+            widths={[304, 480, 608, 912]}
+            sizes="(min-width: 768px) 19rem, calc(100vw - 3rem)"
+            loading="lazy"
+            decoding="async"
+            class="mt-3 aspect-[16/10] w-full rounded-lg border border-ink/10 object-cover transition-[border-color] duration-200 ease-[var(--ease-out)] group-hover:border-teal/40"
+          />
+        )
+      }
     </div>
   </div>
 </Tag>
