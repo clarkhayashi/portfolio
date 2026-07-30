@@ -33,19 +33,19 @@ Solo: analytics architecture, implementation, and reporting design.
 
 ## Key Findings
 
-*Content in progress. Results will be published after a full month of clean data. No numbers appear here before then.*
+Findings publish after the first full month of clean data. Quoting a number before the tracking behind it has been validated would defeat the reason for building it.
 
 ## Recommendations
 
-*Content in progress. This section follows the first reporting cycle.*
+Recommendations follow the first reporting cycle, once there is evidence to base them on rather than assumptions to dress up.
 
 ## Artifacts
 
-*Content in progress. The event taxonomy and reporting template will be shared in public-safe form.*
+The event taxonomy and the monthly reporting template publish in public-safe form, with the owner's sign-off, alongside the first results.
 
 ## Reflection
 
-*Content in progress.*
+Measurement work is easy to postpone because it produces nothing to look at, which is precisely why the business did not already have it. The discipline that has mattered most so far is settling what counts as a lead before any data arrives, instead of negotiating the definition afterward against numbers someone already has an opinion about.
 
 ## Status
 

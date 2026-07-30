@@ -33,19 +33,19 @@ Solo analyst: data cleaning and analysis in Python, visualization in Tableau, an
 
 ## Key Findings
 
-*Content in progress. This section will be updated with public-safe findings and artifacts.*
+The pricing gaps, the submarket comparison, and the host-performance split publish here together with the charts behind them. Findings that arrive without the visual evidence are harder to check, and this analysis is worth checking.
 
 ## Recommendations
 
-*Content in progress. This section will be updated once the findings above are published.*
+The host-facing recommendations publish with the findings they rest on, so the reasoning stays legible end to end rather than arriving as a list of assertions.
 
 ## Artifacts
 
-*Content in progress. Tableau views and selected charts will be added here.*
+Selected Tableau views from the pricing landscape publish alongside the findings.
 
 ## Reflection
 
-*Content in progress.*
+The useful part of running this one alone was owning every step, including the unglamorous middle. Cleaning 25,000 listings is most of the work and none of the story, and it is the part that decides whether anything downstream can be trusted.
 
 ## Status
 
