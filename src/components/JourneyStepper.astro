@@ -55,59 +55,6 @@ const uniqueStops = stops.filter(
                 <span class="journey-marker-dot" aria-hidden="true"></span>
                 <span class="journey-marker-bubble" aria-hidden="true">
                   <span class="chip-art">
-                    {stop.glyph === "wave" && (
-                      <svg viewBox="0 0 200 110" preserveAspectRatio="xMidYMid slice">
-                        <rect width="200" height="110" fill="#F7F4EF" />
-                        <circle cx="158" cy="26" r="11" fill="#8A1538" opacity="0.85" />
-                        <path d="M0 66 L44 46 L72 40 L94 47 L104 51 L122 42 L152 50 L200 62 V110 H0 Z" fill="#6B5642" />
-                        <path d="M0 74 L60 60 L104 68 L160 60 L200 70 V110 H0 Z" fill="#4F7773" />
-                        <rect y="82" width="200" height="28" fill="#112D38" />
-                        <path d="M12 92c8-6 16-6 24 0s16 6 24 0 16-6 24 0" fill="none" stroke="rgba(247,244,239,.65)" stroke-width="2.4" stroke-linecap="round" />
-                        <path d="M116 100c8-6 16-6 24 0s16 6 24 0" fill="none" stroke="rgba(247,244,239,.45)" stroke-width="2.4" stroke-linecap="round" />
-                      </svg>
-                    )}
-                    {stop.glyph === "needle" && (
-                      <svg viewBox="0 0 200 110" preserveAspectRatio="xMidYMid slice">
-                        <rect width="200" height="110" fill="#F7F4EF" />
-                        <path d="M96 38 L200 104 H96 Z" fill="#E9DFC9" />
-                        <path d="M96 38 L128 58 L112 58 Z" fill="#F7F4EF" opacity="0.9" />
-                        <rect x="128" y="76" width="18" height="34" fill="#6B5642" />
-                        <rect x="152" y="66" width="14" height="44" fill="#6B5642" opacity="0.8" />
-                        <rect x="172" y="82" width="16" height="28" fill="#6B5642" opacity="0.6" />
-                        <path d="M56 12 L58 70 M56 12 L54 70" stroke="#112D38" stroke-width="3" stroke-linecap="round" />
-                        <path d="M40 106 C44 82 50 74 56 68 C62 74 68 82 72 106" fill="none" stroke="#112D38" stroke-width="3.4" stroke-linecap="round" />
-                        <ellipse cx="56" cy="30" rx="24" ry="8" fill="#112D38" />
-                        <ellipse cx="56" cy="26" rx="14" ry="5" fill="#4F7773" />
-                        <path d="M56 4 V14" stroke="#112D38" stroke-width="2.6" stroke-linecap="round" />
-                        <rect y="104" width="200" height="6" fill="#112D38" />
-                      </svg>
-                    )}
-                    {stop.glyph === "tower" && (
-                      <svg viewBox="0 0 200 110" preserveAspectRatio="xMidYMid slice">
-                        <rect width="200" height="110" fill="#F7F4EF" />
-                        <circle cx="42" cy="30" r="12" fill="#E9DFC9" />
-                        <rect x="128" y="86" width="20" height="24" fill="#6B5642" opacity="0.7" />
-                        <rect x="156" y="78" width="16" height="32" fill="#6B5642" opacity="0.55" />
-                        <rect x="20" y="90" width="26" height="20" fill="#6B5642" opacity="0.6" />
-                        <path d="M100 8 L82 104 M100 8 L118 104" stroke="#8A1538" stroke-width="4.4" stroke-linecap="round" />
-                        <path d="M88 66 H112 M92 46 H108 M95 28 H105 M85 86 H115" stroke="#8A1538" stroke-width="3.2" stroke-linecap="round" />
-                        <path d="M92 46 L108 66 M108 46 L92 66 M95 28 L105 46 M105 28 L95 46" stroke="#8A1538" stroke-width="1.6" />
-                        <rect y="104" width="200" height="6" fill="#112D38" />
-                      </svg>
-                    )}
-                    {stop.glyph === "hill" && (
-                      <svg viewBox="0 0 200 110" preserveAspectRatio="xMidYMid slice">
-                        <rect width="200" height="110" fill="#F7F4EF" />
-                        <circle cx="164" cy="24" r="10" fill="#8A1538" opacity="0.7" />
-                        <path d="M0 82 C40 58 84 58 124 78 C156 92 180 92 200 84 V110 H0 Z" fill="#5D8C88" />
-                        <path d="M0 96 C52 78 120 82 200 98 V110 H0 Z" fill="#4F7773" />
-                        <rect x="92" y="30" width="20" height="48" fill="#6B5642" />
-                        <path d="M90 30 h24 M92 24 h4 v6 h-4 z M100 24 h4 v6 h-4 z M108 24 h4 v6 h-4 z" fill="#6B5642" stroke="#6B5642" stroke-width="2" />
-                        <path d="M98 42 a4 5 0 0 1 8 0 v8 h-8 z" fill="#F7F4EF" />
-                        <path d="M58 84 c-4-14 4-26 6-30 2 4 10 16 6 30 z" fill="#112D38" />
-                        <path d="M142 92 c-3-11 3-20 5-23 2 3 8 12 5 23 z" fill="#112D38" />
-                      </svg>
-                    )}
                     {stop.chipPhoto && (
                       <img
                         class="chip-photo"
@@ -332,15 +279,7 @@ const uniqueStops = stops.filter(
   });
   const chips = [...chipsBox.children];
   mapMarkers.forEach((button) => {
-    button.onclick = () => {
-      const target = locationIndex.get(button.dataset.place);
-      if (stops[index].place === button.dataset.place) {
-        /* Already here: on touch, a second tap swaps the chip art for the photo. */
-        button.dataset.photo = button.dataset.photo === "true" ? "false" : "true";
-        return;
-      }
-      go(target);
-    };
+    button.onclick = () => go(locationIndex.get(button.dataset.place));
   });
 
   function paint() {
@@ -389,7 +328,6 @@ const uniqueStops = stops.filter(
     if (bounded === index) return;
     const from = stops[index];
     index = bounded;
-    mapMarkers.forEach((marker) => marker.removeAttribute("data-photo"));
     if (reduced) {
       viewLon = stops[index].lon;
       viewLat = stops[index].lat * 0.58;
@@ -780,27 +718,17 @@ const uniqueStops = stops.filter(
     display: block;
     width: 100%;
     aspect-ratio: 200 / 110;
+    background: #112d38;
   }
 
-  .chip-art svg {
-    display: block;
-    width: 100%;
-    height: 100%;
-  }
-
+  /* The photo is the chip. No illustration layer, no hover reveal. */
   .chip-photo {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0;
-    transition: opacity 0.45s cubic-bezier(0.23, 1, 0.32, 1);
-  }
-
-  .journey-marker-bubble:hover .chip-photo,
-  .journey-map-marker[data-photo="true"] .chip-photo {
-    opacity: 1;
+    object-position: center;
   }
 
   .chip-label {

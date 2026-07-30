@@ -47,7 +47,7 @@ export const journey: JourneyStop[] = [
     lat: 47.61,
     landmark: "Space Needle",
     glyph: "needle",
-    chipPhoto: "/images/seattle/seattle-space-needle.jpg",
+    chipPhoto: "/images/seattle/seattle-kerry-park.jpg",
     story:
       "Seattle University: Business Analytics and Marketing by day, refereeing flag football by night. I started as an intramural official and left running the program; along the way I co-founded a student credit union initiative that won $22.5K across two business plan competitions.",
     photo: { src: "/images/seattle/seattle-space-needle.jpg", alt: "Seattle skyline with the Space Needle from Gas Works Park" },
@@ -64,9 +64,9 @@ export const journey: JourneyStop[] = [
     years: "2024",
     lon: 139.69,
     lat: 35.69,
-    landmark: "Tokyo Tower",
+    landmark: "Sensō-ji, Asakusa",
     glyph: "tower",
-    chipPhoto: "/images/japan/tokyo-skytree-dusk.jpg",
+    chipPhoto: "/images/japan/asakusa-sensoji.jpg",
     story:
       "A semester at 上智大学 (Sophia University): Japanese language, Anthropology of Japan, and a Philosophy of AI course a full year before AI became my job. Being the person who doesn't fully speak the language teaches you to listen harder than any classroom does.",
     photo: { src: "/images/japan/cherry-blossoms.jpg", alt: "Cherry blossoms against a blue sky in Japan", portrait: true },
@@ -94,9 +94,9 @@ export const journey: JourneyStop[] = [
     years: "September 2025",
     lon: 12.14,
     lat: 43.57,
-    landmark: "Tuscan bell tower",
+    landmark: "Tuscan winery",
     glyph: "hill",
-    chipPhoto: "/images/italy/tuscan-vineyards.jpg",
+    chipPhoto: "/images/italy/wine-barrels.jpg",
     story:
       "Ten days across Tuscany with the Albers School: family wineries, Nestle's Perugina chocolate operation, a B Corp textile mill older than most countries. Small firms, long views, and marketing that has survived centuries of change.",
     photo: { src: "/images/italy/italy-study-tour-group.jpg", alt: "Italy study tour group at a Tuscan vineyard" },
