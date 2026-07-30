@@ -73,7 +73,9 @@ work at a named bank.
 - Palette: paper #F7F4EF, ink #1C1C1C, teal #5D8C88 (decorative), teal-deep
   #4F7773 (interactive, WCAG AA on paper), bark #6B5642, crimson #8A1538
   (micro-accent only).
-- Canonical site type: Cormorant Garamond (headings) + self-hosted Satoshi.
+- Canonical site type: Newsreader (display, 28px and above) + self-hosted
+  Satoshi (body and UI, below 28px). Newsreader replaced Cormorant Garamond on
+  2026-07-28; do not reintroduce Cormorant on the canonical site.
 - The experiment (`prototypes/portfolio-journey-experiment.html`) trials an
   alternative system by explicit user direction: Archivo (rare display),
   Fraunces (editorial headings), IBM Plex Sans (body/UI). If the experiment
