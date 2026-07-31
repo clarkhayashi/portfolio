@@ -26,10 +26,10 @@ export const projects: Project[] = [
   {
     title: "Intramural Sports Participation Analysis",
     description:
-      "Seven years of participation data across a 469-participant, 64-team program, translated into dashboards UREC leadership used for scheduling, marketing, and retention planning.",
+      "Eight seasons of participation data, 4,169 player-years from 2018 to 2025, translated into dashboards UREC leadership used for scheduling, marketing, and retention planning.",
     tags: ["Excel", "Tableau", "Stakeholder Reporting"],
     lane: "Operations Analytics",
-    proof: "7 years of data · 64+ teams · 469+ participants",
+    proof: "8 seasons of data · 4,169 player-years · 648 players in 2025",
     href: "/work/intramural-participation",
     statusLabel: "Delivered · write-up in progress",
     statusType: "progress",

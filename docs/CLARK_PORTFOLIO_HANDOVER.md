@@ -1,7 +1,9 @@
 # Clark Hayashi Portfolio · Handover (living continuity record)
 
-Last updated: 2026-07-15 (GitHub and portfolio integration pass). Read `CLAUDE.md`
-(project constitution) first.
+Last updated: 2026-07-31 (About refresh). Read `CLAUDE.md`
+(project constitution) first. For the 2026-07-30 external-readiness state see
+`docs/handoff-portfolio-external-ready-2026-07-30.md`; sections below dated
+2026-07-15 and earlier are historical.
 Detailed audits linked at the bottom. This file is the single source of truth
 for current state; update it at the end of every working session.
 
@@ -81,6 +83,24 @@ the experiment on 2026-07-10: Honolulu (2004–2022) → Seattle (2022) → Toky
 `src/data/experience.ts` match user-confirmed facts (see CLAUDE.md "Settled
 facts"): basketball MIP not golf, "audience of 300+", no VP of Finance, no
 "June 2026", "Dean's List and President's List".
+
+# Recent session changes (2026-07-31, About refresh, branch claude/about-me-update-88yry2)
+
+Clark-approved About update, all answers on record in the session:
+1. About intro now includes "Magna Cum Laude, class of 2026" (5-second read).
+2. "What I'm Working On Now" refreshed: case studies, broad job search,
+   family real estate + Hawai'i license this fall, December JLPT N3
+   registration, SEA32 reworded as slow-burn WIP (Clark: back burner but WIP).
+3. Contact block now a direct email CTA.
+4. GPA display settled: "3.7/4.0" everywhere (experience.ts + both
+   prototypes). Clark typed "3.6/4.0", treated as a typo for 3.7 since site
+   and resume both say 3.7x; flagged to him.
+5. SU newsroom story "Experience by Doing" linked from the education row.
+   Article unreadable from the sandbox (proxy blocks seattleu.edu); label
+   kept neutral, Clark should verify wording.
+6. Superseded UREC numbers (64+/469+/7 years) replaced with validated ones
+   (eight seasons, 4,169 player-years, 648 players in 2025) in experience.ts,
+   projects.ts, and both prototypes, per CLAUDE.md.
 
 # Recent session changes (2026-07-10, third session: audit pass)
 

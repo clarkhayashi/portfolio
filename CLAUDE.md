@@ -62,7 +62,16 @@ work at a named bank.
   (**basketball, not golf**); JROTC Mayor's Award; Carnival class raised $337K.
 - Hui o Nani: "audience of 300+" (not "300+ participants").
 - Education line: "Dean's List and President's List" (never "multiple-time
-  Dean's List"); do not attach "June 2026" to the degree.
+  Dean's List"); do not attach "June 2026" to the degree. GPA is displayed as
+  "3.7/4.0" sitewide (Clark 2026-07-31, "more standard"; underlying GPA 3.71).
+- SU newsroom story featuring Clark:
+  seattleu.edu/newsroom/2026/experience-by-doing.php, linked from the
+  education row (Clark 2026-07-31). Article content not independently
+  verified from the sandbox; keep the link label neutral.
+- Current-life facts (Clark 2026-07-31): registered for the December JLPT N3;
+  working toward a Hawai'i real estate license, target roughly October 2026;
+  SEA32 (NBA expansion simulation) is a slow-burn WIP, not a /work project;
+  real estate lead analytics stays modest, no clean GA4 month yet.
 - LinkedIn URL: linkedin.com/in/clark-hayashi (confirmed by Clark 2026-07-10).
 - Resume: `public/resume.pdf` = ClarkHayashiResume2026, supplied by Clark
   2026-07-10; fact-checked against site copy at install time.

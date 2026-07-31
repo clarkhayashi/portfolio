@@ -102,7 +102,7 @@ export const experience: ExperienceItem[] = [
     role: "Intramural Sports Official → Manager",
     dates: "2022 to 2026",
     detail:
-      "Four years in the program: started as a student official in fall 2022, promoted to Intramural Sports Manager senior year. Trained and mentored 40+ officials supporting 64+ teams and 469+ participants, ran operations, scheduling, and conflict resolution, and produced digital media with 3× the engagement of standard department posts.",
+      "Four years in the program: started as a student official in fall 2022, promoted to Intramural Sports Manager senior year. Trained and mentored 40+ officials, ran operations, scheduling, and conflict resolution, analyzed eight seasons of participation data covering 4,169 player-years, and produced digital media with 3× the engagement of standard department posts.",
     images: [
       {
         src: "/images/logos/su-rec.png",
@@ -153,7 +153,11 @@ export const experience: ExperienceItem[] = [
     role: "BBA, Business Analytics & Marketing",
     dates: "2022 to 2026",
     detail:
-      "Minor in Japanese. Magna Cum Laude, GPA 3.71. Achievement Scholarship and Senator Daniel K. Akaka Scholarship recipient; Dean's List and President's List.",
+      "Minor in Japanese. Magna Cum Laude, GPA 3.7/4.0. Achievement Scholarship and Senator Daniel K. Akaka Scholarship recipient; Dean's List and President's List.",
+    link: {
+      href: "https://www.seattleu.edu/newsroom/2026/experience-by-doing.php",
+      label: "SU News: Experience by Doing →",
+    },
     image: {
       src: "/images/logos/su-seal.png",
       alt: "Seattle University seal",
