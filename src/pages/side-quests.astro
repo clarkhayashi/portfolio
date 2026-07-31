@@ -110,6 +110,23 @@ import Base from "../layouts/Base.astro";
       >
         <span class="external-mark" aria-hidden="true">↗</span>
 
+        {
+          /* "Job's not finished" sits where the code window used to, so the
+             card keeps exactly one decorative element. Decorative, so it is
+             hidden from assistive tech and taken out of the tab order; the
+             GIF cannot be paused inside a third-party frame, so readers who
+             ask for reduced motion get the quiet code window instead. */
+        }
+        <div class="gif-frame" aria-hidden="true">
+          <iframe
+            src="https://giphy.com/embed/QGZBpodY7Kdtw99y04"
+            title="Kobe Bryant: job's not finished"
+            class="giphy-embed"
+            loading="lazy"
+            tabindex="-1"
+            frameborder="0"></iframe>
+        </div>
+
         <div class="code-window" aria-hidden="true">
           <div class="code-dots"><i></i><i></i><i></i></div>
           <span class="code-line line-one"></span>
@@ -552,7 +569,38 @@ import Base from "../layouts/Base.astro";
     color: #f7f3ec;
   }
 
+  /* The GIF and the code window share one slot: the GIF by default, the code
+     window only when reduced motion is requested. pointer-events stays off so
+     the frame never steals a click from the card link wrapping it. */
+  .gif-frame {
+    position: absolute;
+    /* Clears the external-mark badge (2rem tall at a 1.15-1.6rem inset) and
+       shares its right edge, so the two stack instead of colliding. The old
+       code window could sit under the badge because it was translucent. */
+    top: 4.2rem;
+    right: clamp(1.15rem, 2.5vw, 1.6rem);
+    /* Sized by HEIGHT, not width. Width-driven sizing let the derived height
+       grow on narrow cards until it covered the heading. */
+    height: 13.6rem;
+    width: auto;
+    aspect-ratio: 480 / 437;
+    overflow: hidden;
+    border: 1px solid rgba(247, 243, 236, 0.14);
+    border-radius: 1rem;
+    background: rgba(4, 11, 20, 0.55);
+    box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.23);
+    pointer-events: none;
+  }
+
+  .gif-frame iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
   .code-window {
+    display: none;
     position: absolute;
     top: 2rem;
     right: 2rem;
@@ -669,6 +717,10 @@ import Base from "../layouts/Base.astro";
       max-width: 58%;
     }
 
+    .gif-frame {
+      height: 10rem;
+    }
+
     .strava-card {
       height: 760px;
       min-height: 760px;
@@ -705,6 +757,14 @@ import Base from "../layouts/Base.astro";
       bottom: 0.9rem;
     }
 
+    .gif-frame {
+      /* Tucked just under the badge and kept short enough to clear the
+         heading, which sits about 165px down on the narrowest card. */
+      top: 3.4rem;
+      right: 1.2rem;
+      height: 6.6rem;
+    }
+
     .code-window {
       right: 1.2rem;
       width: 46%;
@@ -722,6 +782,9 @@ import Base from "../layouts/Base.astro";
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .gif-frame { display: none; }
+    .code-window { display: block; }
+
     .quest-card,
     .duo-avatar,
     .code-line,

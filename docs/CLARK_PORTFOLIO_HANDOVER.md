@@ -107,6 +107,24 @@ the section read as a table of contents rather than a portfolio.
   browser tool kept timing out: the Seattle permits Tableau viz and the Clark
   Reads shelf.
 
+Same session, Side Quests: the "job's not finished" Giphy embed replaces the
+decorative code window on the Build to learn card, so the card still carries
+exactly one decorative element. Notes for whoever touches this next:
+
+- `vercel.json` CSP gained `https://giphy.com` in `frame-src`. Without it the
+  iframe works in `astro dev` and silently fails in production. Any future
+  third-party embed needs the same treatment.
+- The frame is `pointer-events: none` so it never steals a click from the `<a>`
+  wrapping the card, `tabindex="-1"` and `aria-hidden` because it is decorative.
+- A GIF inside a third-party iframe cannot be paused, so under
+  `prefers-reduced-motion` the GIF is hidden and the old code window is shown
+  instead. Verified with Chrome's `--force-prefers-reduced-motion`.
+- It is sized by HEIGHT (13.6 / 10 / 6.6rem), not width. Width-driven sizing
+  made the derived height grow on narrow cards until it covered 18px of the
+  "Build to learn" heading. Verified clear at 375, 700, and 1280.
+- The Strava activity Clark sent (19463140435) was already embedded as slide 2
+  of the rotator from commit 1cb0b12. Nothing was added.
+
 Open question for Clark: the Hawai'i dashboard KPI reads "Total Listings
 29,011" but `projects.ts` says "~36,000 Inside Airbnb listings". Possibly the
 island filter affecting the KPI, possibly copy drift. Not changed either way.
