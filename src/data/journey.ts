@@ -84,6 +84,7 @@ export const journey: JourneyStop[] = [
       "Back to the islands as one of Bank of Hawaii's first AI interns: 50+ use cases gathered across the organization, a scoring framework, a Power BI dashboard, and a readout to 60+ employees and senior leaders. The journey loops home before its last leg.",
     photo: { src: "/images/boh/boh-volunteer-group.jpg", alt: "Bank of Hawaii volunteer event group photo" },
     links: [
+      { label: "Seattle U · Experience By Doing", href: "https://www.seattleu.edu/newsroom/2026/experience-by-doing.php", external: true },
       { label: "The LinkedIn post", href: "https://www.linkedin.com/feed/update/urn:li:activity:7371946885185642496/", external: true },
       { label: "BOH 2025 employee report", href: "https://www.boh.com/about-us/annual-report/our-employees", external: true },
     ],
