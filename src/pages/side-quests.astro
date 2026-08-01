@@ -52,21 +52,16 @@ import Base from "../layouts/Base.astro";
         href="https://clarkhayashi.github.io/my-websites/clark-reading-notes/"
         target="_blank"
         rel="noopener noreferrer"
-        data-tooltip="What I’m listening to becomes what I’m thinking about"
+        data-tooltip="What I read and listen to becomes what I’m thinking about"
       >
         <span class="external-mark" aria-hidden="true">↗</span>
 
-        <img
-          class="audible-logo"
-          src="/audible-logo.svg"
-          alt="Audible"
-          width="1920"
-          height="547"
-        />
-
         <div class="notes-copy">
           <h2>Reading Notes</h2>
-          <p>Books and ideas worth keeping, connected in my own words</p>
+          <p>
+            Books and ideas worth keeping, in print and on audio, connected in
+            my own words
+          </p>
         </div>
 
         <span class="card-action">Open my notes ↗</span>
@@ -448,15 +443,6 @@ import Base from "../layouts/Base.astro";
     justify-content: flex-end;
     padding: clamp(1.4rem, 3vw, 2.2rem);
     background: #ffffff;
-  }
-
-  .audible-logo {
-    position: absolute;
-    top: clamp(2rem, 5vw, 3.4rem);
-    left: clamp(1.4rem, 3vw, 2.2rem);
-    width: min(62%, 15.5rem);
-    height: auto;
-    object-fit: contain;
   }
 
   .notes-copy {
