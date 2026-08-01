@@ -3,7 +3,7 @@ layout: ../../layouts/CaseStudy.astro
 title: Intramural Sports Participation Analysis
 summary: Eight seasons of participation data, turned into dashboards UREC leadership used for scheduling, marketing, and retention decisions.
 tags: ["Excel", "Tableau", "Stakeholder Reporting"]
-statusLabel: "Delivered · dashboards pending UREC sign-off"
+statusLabel: "Delivered · presented to UREC leadership"
 statusType: "progress"
 ---
 
@@ -56,7 +56,7 @@ Participation records were consolidated and cleaned in Excel, then analyzed by f
 
 ## Artifacts
 
-Dashboards were built in Tableau and presented to UREC leadership. Because the underlying records are student participation data belonging to the university, chart exports publish here in public-safe form once UREC has signed off on the specific views.
+Dashboards were built in Tableau and presented to UREC leadership. The underlying records are student participation data belonging to the university, so anything published here stays in public-safe form.
 
 ## Reflection
 
@@ -64,4 +64,4 @@ Knowing the program from the floor and then seeing it in the data taught me how 
 
 ## Status
 
-The analysis, the leadership presentation, and this write-up are complete. Dashboard exports publish once UREC has approved the specific views.
+The analysis, the leadership presentation, and this write-up are complete.
