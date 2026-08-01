@@ -100,6 +100,9 @@ export const projects: Project[] = [
       alt: "Tableau dashboard comparing Airbnb and hotel pricing across the Hawaiian islands, with island density maps and average price by island and neighborhood.",
     },
   },
+  /* Real Estate Lead Analytics is pulled from Selected Work until the first
+     month of clean data exists. Restore this entry to bring the row back; the
+     case study itself is untouched at src/pages/work/real-estate-lead-analytics.md.
   {
     title: "Real Estate Lead Analytics",
     description:
@@ -111,6 +114,7 @@ export const projects: Project[] = [
     statusLabel: "Currently building",
     statusType: "building",
   },
+  */
   {
     title: "Tokyo Airbnb Pricing & Marketplace Analysis",
     description:
