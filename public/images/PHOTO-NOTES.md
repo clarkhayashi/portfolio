@@ -78,3 +78,17 @@ Pricing, Clark's Reading Notes.
 - BOH rotation: + clark-peter-ho, + boh-intern-cohort
 - UREC crossfade: + intramural-champs
 - SUCUI rotation: + sucui-group, + sucui-team-2 (bench promotion)
+
+## work/ — case study artifacts
+
+- `work/hawaii-value-stays-dashboard.png` — the BUAN 4220 Tableau dashboard,
+  O'ahu selected. Extracted from Clark's own case-study HTML. Real artifact,
+  not a mockup. Used in the body of `/work/hawaii-value-stays`.
+- `work/hawaii-value-stays-kauai.png` — Avg Price (Density) worksheet for
+  Kaua'i from the same workbook. Same source.
+
+Both are the team's original course dashboard, co-created with Jayden
+Respicio. The Selected Work thumbnail for this project lives separately at
+`src/assets/work/hawaii-value-stays-dashboard.png` and goes through
+astro:assets; these two are in `public/` because markdown body images are
+referenced by plain path.

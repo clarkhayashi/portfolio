@@ -88,12 +88,12 @@ export const projects: Project[] = [
   {
     title: "Finding the Best Value Stays in Hawai'i",
     description:
-      "Airbnb vs. hotel value across the Hawaiian islands: ~36,000 Inside Airbnb listings, island and neighborhood pricing, ratings, and zoning context, built into an interactive Tableau dashboard.",
-    tags: ["Tableau", "Data Visualization"],
+      "Airbnb vs. hotel value across the Hawaiian islands: 29,011 Inside Airbnb listings, island and neighborhood pricing, ratings, and zoning context, built into an interactive Tableau dashboard with a course partner.",
+    tags: ["Tableau", "Data Visualization", "Team Case Study"],
     lane: "Analytics + Data",
-    proof: "~36,000 listings · interactive dashboard",
+    proof: "29,011 listings analyzed · 30 neighborhoods · 14-worksheet workbook",
     href: "/work/hawaii-value-stays",
-    statusLabel: "Completed · artifacts publishing",
+    statusLabel: "Completed · team project",
     statusType: "progress",
     thumb: {
       src: hawaiiValueStaysDashboard,
