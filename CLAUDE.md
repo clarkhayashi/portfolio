@@ -126,3 +126,33 @@ work at a named bank.
 - Tailwind v4 is configured entirely in `src/styles/global.css` via `@theme`;
   there is intentionally no tailwind.config.
 - `archive/` and `drafts/` are source material, not part of the build.
+
+## Publishing
+
+"Push it", "ship it", "publish it", and "make it live" are explicit
+authorization to finish the whole job without handing back commands:
+
+1. Inspect `git status` and the diff.
+2. Run the build and the project checks (`npx astro build`, the em-dash
+   search, `npx -y @google/design.md lint DESIGN.md`).
+3. Stage only the files belonging to the current task, never `git add -A`.
+4. Commit with an accurate message.
+5. Push the current branch to its existing origin.
+6. Verify the change on the live URL and report what was checked.
+
+Do not hand Clark a command to run when the command can be run here.
+
+Stop and ask first when: unrelated changes are mixed into the working tree, a
+rebase conflicts, the build or checks fail, a secret appears in the diff, the
+target repository or branch is ambiguous, or finishing would need a
+force-push, a deletion, or overwriting someone else's work. Never force-push,
+never commit credentials, never discard existing work.
+
+Auth is SSH as of 2026-07-31, key `SHA256:+VFQ/ilVMOOlgyB5S0tKIRipLYPnwAtQoiAckPJq2cw`,
+with `~/.ssh/config` set to `UseKeychain yes` so it survives reboots. Both
+`portfolio` and `my-websites` use `git@github.com:` remotes. There is no `gh`
+CLI and no Homebrew on this machine; do not suggest installing either.
+
+Both sites deploy on push to `main`: `clarkhayashi.com` through Vercel, the
+reading notes through GitHub Pages. Pushing is publishing, so verify live
+rather than reporting a green build.
