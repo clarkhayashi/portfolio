@@ -42,12 +42,12 @@ export const projects: Project[] = [
   {
     title: "Intramural Sports Participation Analysis",
     description:
-      "Eight seasons of participation data, translated into dashboards UREC leadership used for scheduling, marketing, and retention planning.",
+      "Eight seasons of participation data, turned into dashboards and a set of recommendations for scheduling, marketing, and retention.",
     tags: ["Excel", "Tableau", "Stakeholder Reporting"],
     lane: "Operations Analytics",
     proof: "8 seasons · 4,169 player-years · 648 played in 2025",
     href: "/work/intramural-participation",
-    statusLabel: "Delivered · presented to UREC leadership",
+    statusLabel: "Analysis complete · recommendations proposed",
     statusType: "progress",
     thumb: {
       src: intramuralActivation,

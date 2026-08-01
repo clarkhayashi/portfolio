@@ -1,15 +1,15 @@
 ---
 layout: ../../layouts/CaseStudy.astro
 title: Intramural Sports Participation Analysis
-summary: Eight seasons of participation data, turned into dashboards UREC leadership used for scheduling, marketing, and retention decisions.
+summary: Eight seasons of participation data, turned into dashboards and a set of recommendations for scheduling, marketing, and retention.
 tags: ["Excel", "Tableau", "Stakeholder Reporting"]
-statusLabel: "Delivered · presented to UREC leadership"
+statusLabel: "Analysis complete · recommendations proposed"
 statusType: "progress"
 ---
 
 ## Overview
 
-Seattle University Recreation runs an intramural program that drew 648 players onto the court in 2025. I analyzed eight seasons of participation records (2018 to 2025), 4,169 player-years in total, and presented dashboards to UREC leadership to support scheduling, marketing, and retention decisions.
+Seattle University Recreation runs an intramural program that drew 648 players onto the court in 2025. I analyzed eight seasons of participation records (2018 to 2025), 4,169 player-years in total, and built dashboards aimed at scheduling, marketing, and retention decisions.
 
 ## Problem
 
@@ -21,14 +21,14 @@ This wasn't an outside consulting exercise. I worked inside this program for nea
 
 ## My Role
 
-Sole analyst: data consolidation and cleaning in Excel, dashboard design in Tableau, and the presentation to UREC leadership. Separately, I managed the program's 40+ student officials.
+Sole analyst: data consolidation and cleaning in Excel, dashboard design in Tableau, and the recommendations that came out of it. Separately, I managed the program's 40+ student officials.
 
 ## Approach
 
 - Consolidated and cleaned participation data across sports, seasons, and class years (2018–2025)
 - Analyzed engagement trends and involvement drivers: which leagues were growing, which were declining, and when students actually sign up
 - Built Tableau dashboards highlighting participation patterns by sport, season, and class year
-- Presented findings to UREC leadership to inform scheduling, marketing, and retention planning
+- Turned the findings into recommendations for scheduling, marketing, and retention planning
 
 ## Key Findings
 
@@ -56,12 +56,12 @@ Participation records were consolidated and cleaned in Excel, then analyzed by f
 
 ## Artifacts
 
-Dashboards were built in Tableau and presented to UREC leadership. The underlying records are student participation data belonging to the university, so anything published here stays in public-safe form.
+Dashboards were built in Tableau. The underlying records are student participation data belonging to the university, so anything published here stays in public-safe form.
 
 ## Reflection
 
-Knowing the program from the floor and then seeing it in the data taught me how different those two views can be, and how much easier leadership buy-in comes when findings arrive as a dashboard instead of a spreadsheet.
+Knowing the program from the floor and then seeing it in the data taught me how different those two views can be, and how much easier a finding is to argue for when it arrives as a dashboard instead of a spreadsheet.
 
 ## Status
 
-The analysis, the leadership presentation, and this write-up are complete.
+The analysis, the dashboards, and this write-up are complete. What is written here as recommendations are proposals, not changes UREC has adopted.
