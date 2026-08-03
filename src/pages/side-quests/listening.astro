@@ -1,0 +1,1620 @@
+---
+import Base from "../../layouts/Base.astro";
+
+import overview from "../../data/spotify/overview.json";
+import monthlyRaw from "../../data/spotify/monthly.json";
+import clock from "../../data/spotify/clock.json";
+import discoveryRaw from "../../data/spotify/discovery.json";
+import behaviourRaw from "../../data/spotify/behaviour.json";
+import skipByYear from "../../data/spotify/skip-by-year.json";
+import trajectory from "../../data/spotify/trajectory.json";
+import countries from "../../data/spotify/countries.json";
+import topAllTime from "../../data/spotify/top-all-time.json";
+
+/* The API windows. Spotify offers exactly three and none of them is a quarter
+   or an all time total, so the buttons carry the real spans. Anything longer
+   than a year comes from the streaming export instead. */
+const RANGES = [
+  { key: "short_term", label: "Last 4 weeks" },
+  { key: "medium_term", label: "Last 6 months" },
+  { key: "long_term", label: "Last 12 months" },
+];
+
+/* Boundary months are partial: the record opens on 17 September 2022 and the
+   export was cut on 1 August 2026. Leaving them in draws two cliffs that read
+   as collapses in listening rather than edges of the data. It matters most on
+   the behaviour chart, where 2026-08 is 13 plays and would show a 96% skip
+   rate. */
+const PARTIAL = new Set(["2022-09", "2026-08"]);
+const keep = (row: { month: string }) => !PARTIAL.has(row.month);
+
+const monthly = monthlyRaw.filter(keep);
+const discovery = discoveryRaw.filter(keep);
+const behaviour = behaviourRaw.filter(keep);
+
+const days = Math.round(overview.hours / 24);
+const elapsedDays = Math.round(
+  (Date.parse(overview.last_play) - Date.parse(overview.first_play)) / 86400000,
+);
+const sharePct = ((overview.hours / (elapsedDays * 24)) * 100).toFixed(1);
+const number = new Intl.NumberFormat("en-US");
+
+/* The all time skip rate is true and, on its own, misleading: it is the flat
+   average of a number that has doubled. These two anchor the honest version. */
+const skipFirstFull = skipByYear.find((y) => y.year === 2023)!;
+const skipLatest = skipByYear[skipByYear.length - 1];
+
+const MONTH_LABELS = [
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+];
+const monthName = (key: string) =>
+  `${MONTH_LABELS[Number(key.slice(5, 7)) - 1]} ${key.slice(0, 4)}`;
+
+/* ---------- Chart geometry, computed at build time ---------- */
+
+const W = 900;
+const H = 200;
+const PAD = { top: 12, right: 8, bottom: 22, left: 34 };
+
+type Point = { x: number; y: number };
+
+function project(values: number[], max: number, padRight = PAD.right) {
+  const innerW = W - PAD.left - padRight;
+  const innerH = H - PAD.top - PAD.bottom;
+  const step = innerW / (values.length - 1);
+  const points: Point[] = values.map((v, i) => ({
+    x: PAD.left + i * step,
+    y: PAD.top + innerH - (v / max) * innerH,
+  }));
+  const line = points
+    .map((p, i) => `${i === 0 ? "M" : "L"}${p.x.toFixed(1)},${p.y.toFixed(1)}`)
+    .join(" ");
+  return {
+    points,
+    line,
+    area: `${line} L${points[points.length - 1].x.toFixed(1)},${PAD.top + innerH} L${PAD.left},${PAD.top + innerH} Z`,
+    baseline: PAD.top + innerH,
+    step,
+  };
+}
+
+/* One tick per January, so the axis reads as years without crowding. */
+const yearTicks = (months: string[], step: number, padLeft = PAD.left) =>
+  months
+    .map((m, i) => ({ i, m }))
+    .filter((t) => t.m.endsWith("-01"))
+    .map((t) => ({ x: padLeft + t.i * step, label: t.m.slice(0, 4) }));
+
+const hoursMax = Math.max(...monthly.map((m) => m.hours));
+const hours = project(monthly.map((m) => m.hours), hoursMax);
+const hoursTicks = yearTicks(monthly.map((m) => m.month), hours.step);
+const hoursPeakIndex = monthly.findIndex((m) => m.hours === hoursMax);
+
+const discoveryMax = Math.max(...discovery.map((d) => d.new_artists));
+const disc = project(discovery.map((d) => d.new_artists), discoveryMax);
+const discTicks = yearTicks(discovery.map((d) => d.month), disc.step);
+
+/* Both behaviour series are percentages on one shared axis fixed to 100, so
+   they are directly comparable. Two measures on two scales would need two
+   charts, not a second axis. */
+const BEHAVIOUR_PAD_RIGHT = 66;
+const skipLine = project(behaviour.map((b) => b.skip), 100, BEHAVIOUR_PAD_RIGHT);
+const shuffleLine = project(behaviour.map((b) => b.shuffle), 100, BEHAVIOUR_PAD_RIGHT);
+const behaviourTicks = yearTicks(behaviour.map((b) => b.month), skipLine.step);
+
+/* Months with real listening from another country. This is the evidence for
+   the timezone handling, so it sits under the chart it justifies. */
+const countryByMonth = new Map<string, string[]>();
+countries.forEach((c) => {
+  const list = countryByMonth.get(c.month) ?? [];
+  list.push(`${c.country} ${number.format(c.plays)}`);
+  countryByMonth.set(c.month, list);
+});
+
+/* Small multiples share one scale so the six panels compare. */
+const trajMonths = trajectory.months;
+const trajKeep = trajMonths
+  .map((m, i) => ({ m, i }))
+  .filter((x) => !PARTIAL.has(x.m));
+const trajMax = Math.max(
+  ...trajectory.artists.flatMap((a) =>
+    trajKeep.map((x) => trajectory.series[a][x.i]),
+  ),
+);
+const smalls = trajectory.artists.map((name) => {
+  const values = trajKeep.map((x) => trajectory.series[name][x.i]);
+  const total = values.reduce((a, b) => a + b, 0);
+  const peak = Math.max(...values);
+  const peakAt = trajKeep[values.indexOf(peak)].m;
+  const w = 160;
+  const h = 44;
+  const step = w / (values.length - 1);
+  const line = values
+    .map((v, i) => `${i === 0 ? "M" : "L"}${(i * step).toFixed(1)},${(h - (v / trajMax) * h).toFixed(1)}`)
+    .join(" ");
+  return {
+    name, total, peak, peakAt, w, h, line,
+    area: `${line} L${w},${h} L0,${h} Z`,
+    peakX: (values.indexOf(peak) * step).toFixed(1),
+    peakY: (h - (peak / trajMax) * h).toFixed(1),
+  };
+});
+
+/* Tooltip payloads. Kept minimal: the charts render without JavaScript, and
+   this only adds the crosshair readout on top. */
+const chartData = {
+  hours: monthly.map((m, i) => ({
+    x: hours.points[i].x,
+    y: hours.points[i].y,
+    label: monthName(m.month),
+    body: `${m.hours} hours · ${number.format(m.plays)} streams`,
+  })),
+  discovery: discovery.map((d, i) => ({
+    x: disc.points[i].x,
+    y: disc.points[i].y,
+    label: monthName(d.month),
+    body: `${d.new_artists} artists heard for the first time`,
+  })),
+  behaviour: behaviour.map((b, i) => ({
+    x: skipLine.points[i].x,
+    y: skipLine.points[i].y,
+    y2: shuffleLine.points[i].y,
+    label: monthName(b.month),
+    body: `${b.skip}% skipped before 30s<br>${b.shuffle}% played on shuffle`,
+  })),
+};
+---
+
+<Base
+  title="Listening · Clark Hayashi"
+  description="Four years of Clark Hayashi's Spotify listening history, counted from the raw export."
+>
+  <main class="listening-shell">
+    <header class="listening-intro">
+      <p class="eyebrow"><a href="/side-quests">Side Quests</a></p>
+      <h1>Listening</h1>
+      <p class="intro-copy">
+        Four years of my own Spotify history, <em>counted honestly</em>
+      </p>
+    </header>
+
+    <section class="stats-section" aria-labelledby="record-title">
+      <h2 id="record-title" class="section-title">The record so far</h2>
+
+      <dl class="stat-grid">
+        <div class="stat">
+          <dt>Streams</dt>
+          <dd>{number.format(overview.plays)}</dd>
+          <p>plays that cleared 30 seconds</p>
+        </div>
+        <div class="stat">
+          <dt>Hours</dt>
+          <dd>{number.format(Math.round(overview.hours))}</dd>
+          <p>{days} days of audio across {number.format(elapsedDays)} elapsed</p>
+        </div>
+        <div class="stat">
+          <dt>Artists</dt>
+          <dd>{number.format(overview.artists)}</dd>
+          <p>across {number.format(overview.tracks)} distinct tracks</p>
+        </div>
+        <div class="stat">
+          <dt>Skipped</dt>
+          <dd>{overview.abandoned_pct}%</dd>
+          <p>
+            all time, and rising: {skipFirstFull.skip}% in {skipFirstFull.year},
+            {skipLatest.skip}% so far in {skipLatest.year}
+          </p>
+        </div>
+      </dl>
+
+      <p class="section-note">
+        {overview.first_play} to {overview.last_play}. Audio adds up to {sharePct}%
+        of every hour that passed in that window, sleep included.
+      </p>
+    </section>
+
+    <section class="chart-section" aria-labelledby="trend-title">
+      <h2 id="trend-title" class="section-title">Four years, by month</h2>
+
+      <figure class="chart">
+        <svg
+          viewBox={`0 0 ${W} ${H}`}
+          role="img"
+          data-chart="hours"
+          aria-label={`Hours listened each month from ${monthly[0].month} to ${monthly[monthly.length - 1].month}, peaking at ${Math.round(hoursMax)} hours.`}
+        >
+          <line class="axis" x1={PAD.left} y1={hours.baseline} x2={W - PAD.right} y2={hours.baseline} />
+          <path class="area" d={hours.area} />
+          <path class="line" d={hours.line} />
+          <circle
+            class="peak-dot"
+            cx={hours.points[hoursPeakIndex].x}
+            cy={hours.points[hoursPeakIndex].y}
+            r="3.5"
+          />
+          {
+            hoursTicks.map((t) => (
+              <text class="tick" x={t.x} y={H - 6} text-anchor="middle">{t.label}</text>
+            ))
+          }
+          <text class="tick" x={PAD.left - 6} y={PAD.top + 8} text-anchor="end">
+            {Math.round(hoursMax)}h
+          </text>
+          <line class="cursor" y1={PAD.top} y2={hours.baseline} opacity="0" />
+          <circle class="cursor-dot" r="4" opacity="0" />
+          <rect
+            class="hit"
+            x={PAD.left}
+            y={PAD.top}
+            width={W - PAD.left - PAD.right}
+            height={hours.baseline - PAD.top}
+          />
+        </svg>
+
+        <div class="strip" aria-hidden="true">
+          {
+            monthly.map((m) => (
+              <i
+                data-away={countryByMonth.has(m.month) ? "true" : undefined}
+                title={
+                  countryByMonth.has(m.month)
+                    ? `${monthName(m.month)} · ${countryByMonth.get(m.month)!.join(", ")}`
+                    : undefined
+                }
+              />
+            ))
+          }
+        </div>
+
+        <div class="legend">
+          <span><i class="key-line"></i>Hours listened</span>
+          <span><i class="key-square"></i>Listening from outside the US</span>
+        </div>
+
+        <figcaption>
+          Hours per month. The peak is {Math.round(hoursMax)} hours. The two
+          partial months at either end of the export are left out so the edges
+          do not read as a collapse. The strip beneath marks months with real
+          listening from another country, which is why the next chart needs
+          timezone handling at all.
+        </figcaption>
+      </figure>
+    </section>
+
+    <section class="chart-section" aria-labelledby="clock-title">
+      <h2 id="clock-title" class="section-title">When I actually listen</h2>
+
+      <figure class="chart">
+        <div class="clock-grid" role="img" aria-label={`Listening by day and hour, local time.`}>
+          <div class="clock-hours" aria-hidden="true">
+            <span>12a</span><span>6a</span><span>12p</span><span>6p</span><span>11p</span>
+          </div>
+          {
+            ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((label, dow) => (
+              <div class="clock-row">
+                <span class="clock-day" aria-hidden="true">{label}</span>
+                <div class="clock-cells">
+                  {
+                    Array.from({ length: 24 }, (_, hour) => {
+                      const cell = clock.find((c) => c.dow === dow && c.hour === hour);
+                      const plays = cell?.plays ?? 0;
+                      const min = Math.min(...clock.map((c) => c.plays));
+                      const max = Math.max(...clock.map((c) => c.plays));
+                      const intensity = (plays - min) / (max - min || 1);
+                      const h12 =
+                        hour === 0 ? "12am" : hour < 12 ? `${hour}am`
+                        : hour === 12 ? "12pm" : `${hour - 12}pm`;
+                      return (
+                        <i
+                          style={`opacity:${(0.08 + intensity * 0.92).toFixed(3)}`}
+                          title={`${label} ${h12} · ${number.format(plays)} streams`}
+                        />
+                      );
+                    })
+                  }
+                </div>
+              </div>
+            ))
+          }
+        </div>
+        <figcaption id="clock-caption"></figcaption>
+      </figure>
+    </section>
+
+    <section class="chart-section" aria-labelledby="behaviour-title">
+      <h2 id="behaviour-title" class="section-title">How I listen, not just what</h2>
+
+      <figure class="chart">
+        <svg
+          viewBox={`0 0 ${W} ${H}`}
+          role="img"
+          data-chart="behaviour"
+          aria-label="Share of starts skipped before 30 seconds, and share of plays on shuffle, by month"
+        >
+          <line class="axis" x1={PAD.left} y1={skipLine.baseline} x2={W - BEHAVIOUR_PAD_RIGHT} y2={skipLine.baseline} />
+          <line class="gridline" x1={PAD.left} y1={PAD.top + (H - PAD.top - PAD.bottom) / 2} x2={W - BEHAVIOUR_PAD_RIGHT} y2={PAD.top + (H - PAD.top - PAD.bottom) / 2} />
+          <path class="line" d={skipLine.line} />
+          <path class="line alt" d={shuffleLine.line} />
+
+          {/* Labelled at the line ends as well as coloured. The two hues sit
+              close together for red-green colourblind readers, so colour alone
+              is not carrying the identity. */}
+          <text
+            class="end-label"
+            x={W - BEHAVIOUR_PAD_RIGHT + 6}
+            y={skipLine.points[skipLine.points.length - 1].y + 3.5}
+          >skipped</text>
+          <text
+            class="end-label alt"
+            x={W - BEHAVIOUR_PAD_RIGHT + 6}
+            y={shuffleLine.points[shuffleLine.points.length - 1].y + 3.5}
+          >shuffle</text>
+
+          {
+            behaviourTicks.map((t) => (
+              <text class="tick" x={t.x} y={H - 6} text-anchor="middle">{t.label}</text>
+            ))
+          }
+          <text class="tick" x={PAD.left - 6} y={PAD.top + 8} text-anchor="end">100%</text>
+          <text class="tick" x={PAD.left - 6} y={PAD.top + (H - PAD.top - PAD.bottom) / 2 + 4} text-anchor="end">50%</text>
+
+          <line class="cursor" y1={PAD.top} y2={skipLine.baseline} opacity="0" />
+          <circle class="cursor-dot" r="4" opacity="0" />
+          <circle class="cursor-dot alt" r="4" opacity="0" />
+          <rect
+            class="hit"
+            x={PAD.left}
+            y={PAD.top}
+            width={W - PAD.left - BEHAVIOUR_PAD_RIGHT}
+            height={skipLine.baseline - PAD.top}
+          />
+        </svg>
+
+        <figcaption>
+          Two things move here, in opposite directions. Shuffle falls from {skipByYear.find((y) => y.year === 2023)!.shuffle}%
+          of plays in 2023 to {skipLatest.shuffle}% in {skipLatest.year}. Skipping
+          climbs the other way, from {skipFirstFull.skip}% of starts to {skipLatest.skip}%.
+          Less shuffle and more skipping together read as hunting for something
+          specific rather than letting a playlist run. Neither is visible in the
+          flat all time figure of {overview.abandoned_pct}%, which is the reason
+          this chart exists.
+        </figcaption>
+      </figure>
+    </section>
+
+    <section class="chart-section" aria-labelledby="discovery-title">
+      <h2 id="discovery-title" class="section-title">Finding new music</h2>
+
+      <figure class="chart">
+        <svg
+          viewBox={`0 0 ${W} ${H}`}
+          role="img"
+          data-chart="discovery"
+          aria-label={`New artists heard for the first time each month, peaking at ${discoveryMax}.`}
+        >
+          <line class="axis" x1={PAD.left} y1={disc.baseline} x2={W - PAD.right} y2={disc.baseline} />
+          <path class="area bark" d={disc.area} />
+          <path class="line bark" d={disc.line} />
+          {
+            discTicks.map((t) => (
+              <text class="tick" x={t.x} y={H - 6} text-anchor="middle">{t.label}</text>
+            ))
+          }
+          <text class="tick" x={PAD.left - 6} y={PAD.top + 8} text-anchor="end">{discoveryMax}</text>
+          <line class="cursor" y1={PAD.top} y2={disc.baseline} opacity="0" />
+          <circle class="cursor-dot bark" r="4" opacity="0" />
+          <rect
+            class="hit"
+            x={PAD.left}
+            y={PAD.top}
+            width={W - PAD.left - PAD.right}
+            height={disc.baseline - PAD.top}
+          />
+        </svg>
+        <figcaption>
+          Artists heard for the very first time, by month. This is the number I
+          most wanted to see, because it is the one a year end summary never
+          shows you.
+        </figcaption>
+      </figure>
+    </section>
+
+    <section class="chart-section" aria-labelledby="six-title">
+      <h2 id="six-title" class="section-title">The big six, month by month</h2>
+
+      <p class="section-note">
+        One panel each rather than six lines on shared axes. Six overlaid series
+        would need six colours that stay separable for red-green colourblind
+        readers, and this palette is deliberately muted, so the colours would
+        fail before the chart did. All six panels share a scale, so the heights
+        compare directly.
+      </p>
+
+      <div class="smalls">
+        {
+          smalls.map((s) => (
+            <div class="small">
+              <h3>{s.name}</h3>
+              <p>{number.format(s.total)} streams · peak {s.peak} in {monthName(s.peakAt)}</p>
+              <svg
+                viewBox={`0 0 ${s.w} ${s.h + 4}`}
+                role="img"
+                aria-label={`${s.name}: ${number.format(s.total)} streams, peaking at ${s.peak} in ${monthName(s.peakAt)}`}
+              >
+                <path class="area" d={s.area} />
+                <path class="line" d={s.line} />
+                <circle class="peak-dot" cx={s.peakX} cy={s.peakY} r="3" />
+              </svg>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="top-section" aria-labelledby="alltime-title">
+      <h2 id="alltime-title" class="section-title">Most played, all time</h2>
+
+      <div class="top-panel">
+        <div class="top-column">
+          <h3 class="column-title">Tracks</h3>
+          <ol class="track-rows">
+            {
+              topAllTime.tracks.slice(0, 10).map((track, index) => (
+                <li class="track-row">
+                  <span class="row-rank">{String(index + 1).padStart(2, "0")}</span>
+                  <div class="row-copy">
+                    <p class="row-title">{track.track}</p>
+                    <p class="row-subtitle">{track.artist}</p>
+                  </div>
+                  <span class="row-meta">{number.format(track.plays)}</span>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+
+        <div class="top-column">
+          <h3 class="column-title">Artists</h3>
+          <ol class="track-rows">
+            {
+              topAllTime.artists.slice(0, 10).map((artist, index) => (
+                <li class="track-row">
+                  <span class="row-rank">{String(index + 1).padStart(2, "0")}</span>
+                  <div class="row-copy">
+                    <p class="row-title">{artist.artist}</p>
+                    <p class="row-subtitle">
+                      {number.format(artist.tracks)} tracks · {Math.round(artist.hours)} hours
+                    </p>
+                  </div>
+                  <span class="row-meta">{number.format(artist.plays)}</span>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </div>
+
+      <p class="section-note">
+        Counted by plays, from the raw export. Ranking by hours instead reorders
+        this list, which is the honest problem with any single top ten: a three
+        minute song played twice beats an hour long mix played once.
+      </p>
+    </section>
+
+    <section class="now-section" aria-labelledby="now-title">
+      <h2 id="now-title" class="section-title">Right now</h2>
+
+      <div class="now-card">
+        <div class="now-art-slot" data-now-art aria-hidden="true"></div>
+        <div class="now-copy">
+          <p class="now-status" data-now-status>Checking Spotify</p>
+          <p class="now-title" data-now-title>&nbsp;</p>
+          <p class="now-artist" data-now-artist>&nbsp;</p>
+        </div>
+      </div>
+
+      <h3 class="column-title recent-heading">Recently played</h3>
+      <ol class="track-rows" data-recent-list>
+        <li class="row-empty">Loading</li>
+      </ol>
+    </section>
+
+    <section class="top-section" aria-labelledby="current-title">
+      <h2 id="current-title" class="section-title">Current rotation</h2>
+
+      <div class="range-tabs" role="tablist" aria-label="Time range">
+        {
+          RANGES.map((range, index) => (
+            <button
+              type="button"
+              role="tab"
+              class="range-tab"
+              data-range-tab={range.key}
+              aria-selected={index === 0 ? "true" : "false"}
+              aria-controls="top-panel"
+            >
+              {range.label}
+            </button>
+          ))
+        }
+      </div>
+
+      <div id="top-panel" role="tabpanel" class="top-panel" data-top-panel>
+        <div class="top-column">
+          <h3 class="column-title">Tracks</h3>
+          <ol class="track-rows" data-top-tracks>
+            <li class="row-empty">Loading</li>
+          </ol>
+        </div>
+
+        <div class="top-column">
+          <h3 class="column-title">Artists</h3>
+          <ol class="track-rows" data-top-artists>
+            <li class="row-empty">Loading</li>
+          </ol>
+        </div>
+      </div>
+
+      <p class="section-note" data-genre-note></p>
+      <p class="section-note">
+        This block is live from the API and is a different measurement from the
+        all time list above: Spotify returns its own affinity ranking here, not
+        a raw play count. The three windows shown are the only ones the API
+        offers.
+      </p>
+    </section>
+
+    <section class="method-section" aria-labelledby="method-title">
+      <h2 id="method-title" class="section-title">How this is counted</h2>
+
+      <p>
+        <strong>A play counts at 30 seconds.</strong> That is Spotify's own bar
+        for paying a rights holder, and it keeps skips and mis-taps out of the
+        totals. It also means {overview.abandoned_pct}% of starts are excluded,
+        which is a large enough share to report rather than quietly drop, and a
+        moving enough one to chart.
+      </p>
+      <p>
+        <strong>Times are local, and that took work.</strong> The export stamps
+        every play in UTC. Over these four years I listened from the United
+        States, Japan, Italy, Canada and Singapore, so neither raw UTC nor one
+        fixed offset is correct. Each play is converted using the country the
+        export recorded. The one case that field cannot settle is the United
+        States, which covers both Seattle and Honolulu, three hours apart, so
+        the summer 2025 stretch in Honolulu is mapped separately. An
+        hour-of-day chart built without this is quietly wrong.
+      </p>
+      <p>
+        <strong>Rankings need tiebreakers.</strong> Ordering by play count alone
+        left tied rows in arbitrary order, so two runs over the same export
+        produced different top tens. Every ranking now breaks ties on artist and
+        title, and the output is identical run to run.
+      </p>
+      <p>
+        <strong>Podcasts and audiobooks are excluded.</strong> Across the whole
+        export they come to 195 rows, next to {number.format(overview.starts)} music
+        starts, so this is a music history rather than a listening history.
+      </p>
+      <p>
+        Everything except Right now and Current rotation is computed from the
+        raw export with DuckDB. Only the aggregates are published. The raw file
+        stays on my machine, since it records where I was and what I was doing,
+        minute by minute, for four years.
+      </p>
+    </section>
+
+    <p class="attribution">
+      Listening data from
+      <a href="https://open.spotify.com" rel="noopener noreferrer" target="_blank"
+        >Spotify</a
+      >.
+    </p>
+  </main>
+
+  <div id="chart-tip" role="status" aria-live="polite"></div>
+  <script type="application/json" id="chart-data" set:html={JSON.stringify(chartData)}></script>
+</Base>
+
+<script>
+  /* Two jobs here. The crosshair readout on the three line charts, and the two
+     live blocks that call the Spotify API. Every chart is rendered at build
+     time from committed aggregates, so the page tells its whole story with
+     scripting switched off; this only adds the hover layer on top. */
+
+  /* ---------- Crosshair ---------- */
+
+  const chartData = JSON.parse(
+    document.getElementById("chart-data")?.textContent ?? "{}",
+  );
+  const tip = document.getElementById("chart-tip");
+
+  function moveTip(event, html) {
+    if (!tip) return;
+    tip.innerHTML = html;
+    tip.classList.add("is-visible");
+    const gap = 16;
+    const x = Math.min(event.clientX + gap, innerWidth - tip.offsetWidth - 10);
+    const y = Math.min(event.clientY + gap, innerHeight - tip.offsetHeight - 10);
+    tip.style.transform = `translate3d(${Math.max(10, x)}px,${Math.max(10, y)}px,0)`;
+  }
+
+  function hideTip() {
+    tip?.classList.remove("is-visible");
+  }
+  addEventListener("scroll", hideTip, { passive: true });
+
+  document.querySelectorAll("svg[data-chart]").forEach((svg) => {
+    const points = chartData[svg.getAttribute("data-chart")];
+    if (!Array.isArray(points) || points.length === 0) return;
+
+    const cursor = svg.querySelector(".cursor");
+    const dots = [...svg.querySelectorAll(".cursor-dot")];
+    const hit = svg.querySelector(".hit");
+    if (!cursor || !hit) return;
+
+    /* Pointer position is mapped through the SVG's own matrix, so the readout
+       stays correct at any rendered width. */
+    function nearest(event) {
+      const origin = svg.createSVGPoint();
+      origin.x = event.clientX;
+      origin.y = event.clientY;
+      const local = origin.matrixTransform(svg.getScreenCTM().inverse());
+      let best = 0;
+      let bestGap = Infinity;
+      points.forEach((p, i) => {
+        const gap = Math.abs(p.x - local.x);
+        if (gap < bestGap) {
+          bestGap = gap;
+          best = i;
+        }
+      });
+      return points[best];
+    }
+
+    hit.addEventListener("pointermove", (event) => {
+      const point = nearest(event);
+      cursor.setAttribute("x1", point.x);
+      cursor.setAttribute("x2", point.x);
+      cursor.setAttribute("opacity", "1");
+      dots.forEach((dot, index) => {
+        const y = index === 0 ? point.y : point.y2;
+        if (y == null) return;
+        dot.setAttribute("cx", point.x);
+        dot.setAttribute("cy", y);
+        dot.setAttribute("opacity", "1");
+      });
+      moveTip(event, `<b>${point.label}</b>${point.body}`);
+    });
+
+    hit.addEventListener("pointerleave", () => {
+      cursor.setAttribute("opacity", "0");
+      dots.forEach((dot) => dot.setAttribute("opacity", "0"));
+      hideTip();
+    });
+  });
+
+  /* The clock caption names the busiest hour summed across all seven days,
+     which is a different question from the single busiest day-and-hour cell,
+     and the easier of the two to get wrong. */
+  (() => {
+    const caption = document.getElementById("clock-caption");
+    const cells = [...document.querySelectorAll(".clock-cells i")];
+    if (!caption || cells.length !== 168) return;
+
+    const values = cells.map((cell) => {
+      const match = cell.getAttribute("title")?.match(/·\s([\d,]+)\sstreams/);
+      return match ? Number(match[1].replace(/,/g, "")) : 0;
+    });
+
+    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const byHour = Array.from({ length: 24 }, (_, h) =>
+      days.reduce((sum, _d, d) => sum + values[d * 24 + h], 0),
+    );
+    const byDay = days.map((_d, d) =>
+      values.slice(d * 24, d * 24 + 24).reduce((a, b) => a + b, 0),
+    );
+    const peakHour = byHour.indexOf(Math.max(...byHour));
+    const label = (h) =>
+      h === 0 ? "12am" : h < 12 ? `${h}am` : h === 12 ? "12pm" : `${h - 12}pm`;
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+    const nf = new Intl.NumberFormat("en-US");
+
+    caption.textContent =
+      `Local time, not UTC, which is the whole difficulty and is explained below. ` +
+      `Busiest hour of the week is ${label(peakHour)} and the busiest day is ` +
+      `${days[byDay.indexOf(Math.max(...byDay))]}. The shading runs from ${nf.format(min)} ` +
+      `streams in the quietest hour to ${nf.format(max)} in the busiest, not from zero: ` +
+      `even the deadest hour of the week carries about a quarter of the peak, so there ` +
+      `is no true empty square here.`;
+  })();
+
+  /* ---------- Live blocks ---------- */
+
+  const relativeTime = new Intl.RelativeTimeFormat("en-US", { numeric: "auto" });
+
+  function formatRelative(isoString) {
+    if (!isoString) return "";
+    const then = new Date(isoString).getTime();
+    if (Number.isNaN(then)) return "";
+
+    const minutes = Math.round((then - Date.now()) / 60000);
+    if (Math.abs(minutes) < 60) return relativeTime.format(minutes, "minute");
+
+    const hours = Math.round(minutes / 60);
+    if (Math.abs(hours) < 24) return relativeTime.format(hours, "hour");
+
+    return relativeTime.format(Math.round(hours / 24), "day");
+  }
+
+  /* createElement rather than innerHTML: track names are third-party strings
+     and several legitimately contain angle brackets and quotes. */
+  function buildRow({ rank, art, title, subtitle, meta, url }) {
+    const row = document.createElement("li");
+    row.className = "track-row";
+
+    const number = document.createElement("span");
+    number.className = "row-rank";
+    number.textContent = String(rank).padStart(2, "0");
+    row.append(number);
+
+    if (art) {
+      const image = document.createElement("img");
+      image.className = "row-art";
+      image.src = art;
+      image.alt = "";
+      image.width = 44;
+      image.height = 44;
+      image.loading = "lazy";
+      row.append(image);
+    }
+
+    const copy = document.createElement("div");
+    copy.className = "row-copy";
+
+    const heading = document.createElement("p");
+    heading.className = "row-title";
+    if (url) {
+      const link = document.createElement("a");
+      link.href = url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = title;
+      heading.append(link);
+    } else {
+      heading.textContent = title;
+    }
+    copy.append(heading);
+
+    if (subtitle) {
+      const sub = document.createElement("p");
+      sub.className = "row-subtitle";
+      sub.textContent = subtitle;
+      copy.append(sub);
+    }
+
+    row.append(copy);
+
+    if (meta) {
+      const metaEl = document.createElement("span");
+      metaEl.className = "row-meta";
+      metaEl.textContent = meta;
+      row.append(metaEl);
+    }
+
+    return row;
+  }
+
+  function replaceRows(list, rows, emptyMessage) {
+    if (!list) return;
+    list.replaceChildren();
+
+    if (rows.length === 0) {
+      const empty = document.createElement("li");
+      empty.className = "row-empty";
+      empty.textContent = emptyMessage;
+      list.append(empty);
+      return;
+    }
+
+    rows.forEach((row) => list.append(row));
+  }
+
+  const nowStatus = document.querySelector("[data-now-status]");
+  const nowTitle = document.querySelector("[data-now-title]");
+  const nowArtist = document.querySelector("[data-now-artist]");
+  const nowArt = document.querySelector("[data-now-art]");
+  const recentList = document.querySelector("[data-recent-list]");
+
+  function paintNow(track, status) {
+    if (nowStatus) nowStatus.textContent = status;
+    if (nowTitle) nowTitle.textContent = track.title;
+    if (nowArtist) nowArtist.textContent = track.artist;
+
+    if (nowArt && track.art?.large) {
+      const image = document.createElement("img");
+      image.src = track.art.large;
+      image.alt = track.album ? `Cover of ${track.album}` : "";
+      image.width = 160;
+      image.height = 160;
+      nowArt.replaceChildren(image);
+    }
+  }
+
+  fetch("/api/spotify-now")
+    .then((response) => {
+      if (!response.ok) throw new Error("unavailable");
+      return response.json();
+    })
+    .then((data) => {
+      const latest = data.recentlyPlayed?.[0];
+
+      if (data.nowPlaying) {
+        paintNow(data.nowPlaying, "Playing now");
+      } else if (latest) {
+        paintNow(latest, `Last played ${formatRelative(latest.playedAt)}`);
+      } else if (nowStatus) {
+        nowStatus.textContent = "Nothing playing";
+        if (nowTitle) nowTitle.textContent = "";
+      }
+
+      const rest = (data.recentlyPlayed ?? []).slice(data.nowPlaying ? 0 : 1);
+
+      replaceRows(
+        recentList,
+        rest.map((track, index) =>
+          buildRow({
+            rank: index + 1,
+            art: track.art?.small,
+            title: track.title,
+            subtitle: track.artist,
+            meta: formatRelative(track.playedAt),
+            url: track.url,
+          }),
+        ),
+        "No recent plays to show",
+      );
+    })
+    .catch(() => {
+      if (nowStatus) nowStatus.textContent = "Spotify is not reachable";
+      if (nowTitle) nowTitle.textContent = "";
+      replaceRows(recentList, [], "Recent plays are unavailable right now");
+    });
+
+  const tabs = [...document.querySelectorAll("[data-range-tab]")];
+  const topTracks = document.querySelector("[data-top-tracks]");
+  const topArtists = document.querySelector("[data-top-artists]");
+  const genreNote = document.querySelector("[data-genre-note]");
+  const topPanel = document.querySelector("[data-top-panel]");
+
+  let topData = null;
+
+  /* Genres are counted from the ten artists on screen. Spotify removed the
+     audio-features endpoint for new apps in November 2024, so genre strings
+     are the only taste signal the API still returns. */
+  function describeGenres(artists) {
+    const counts = new Map();
+    artists.forEach((artist) => {
+      (artist.genres ?? []).forEach((genre) => {
+        counts.set(genre, (counts.get(genre) ?? 0) + 1);
+      });
+    });
+
+    const ranked = [...counts.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 4)
+      .map(([genre]) => genre);
+
+    if (ranked.length === 0) return "";
+    return `Genres Spotify attaches to those ten artists, most common first: ${ranked.join(", ")}.`;
+  }
+
+  function paintRange(key) {
+    if (!topData?.ranges?.[key]) return;
+    const { tracks, artists } = topData.ranges[key];
+
+    replaceRows(
+      topTracks,
+      tracks.map((track, index) =>
+        buildRow({
+          rank: index + 1,
+          art: track.art?.small,
+          title: track.title,
+          subtitle: track.artist,
+          url: track.url,
+        }),
+      ),
+      "No tracks in this window",
+    );
+
+    replaceRows(
+      topArtists,
+      artists.map((artist, index) =>
+        buildRow({
+          rank: index + 1,
+          art: artist.art?.small,
+          title: artist.name,
+          url: artist.url,
+        }),
+      ),
+      "No artists in this window",
+    );
+
+    if (genreNote) genreNote.textContent = describeGenres(artists);
+
+    topPanel?.classList.remove("is-swapping");
+    void topPanel?.offsetWidth;
+    topPanel?.classList.add("is-swapping");
+  }
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      tabs.forEach((other) =>
+        other.setAttribute("aria-selected", other === tab ? "true" : "false"),
+      );
+      paintRange(tab.getAttribute("data-range-tab"));
+    });
+  });
+
+  fetch("/api/spotify-top")
+    .then((response) => {
+      if (!response.ok) throw new Error("unavailable");
+      return response.json();
+    })
+    .then((data) => {
+      topData = data;
+      const active =
+        tabs.find((tab) => tab.getAttribute("aria-selected") === "true") ??
+        tabs[0];
+      paintRange(active?.getAttribute("data-range-tab") ?? "short_term");
+    })
+    .catch(() => {
+      replaceRows(topTracks, [], "Top tracks are unavailable right now");
+      replaceRows(topArtists, [], "Top artists are unavailable right now");
+    });
+</script>
+
+<style>
+  :global(body) {
+    background: var(--color-paper, #f7f4ef);
+  }
+
+  .listening-shell {
+    width: min(1000px, calc(100% - 2rem));
+    margin: 0 auto;
+    padding: clamp(2.5rem, 5vw, 4rem) 0 clamp(4rem, 8vw, 6rem);
+    color: var(--color-ink, #1c1c1c);
+  }
+
+  .listening-intro {
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .eyebrow {
+    margin: 0 0 1rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .eyebrow a {
+    color: var(--color-teal-deep, #4f7773);
+    text-decoration: none;
+  }
+
+  .eyebrow a:hover {
+    text-decoration: underline;
+  }
+
+  .listening-intro h1 {
+    margin: 0;
+    font-family: var(--font-serif, Georgia, serif);
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+
+  .intro-copy {
+    margin: 1rem 0 0;
+    font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+    line-height: 1.5;
+    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 76%, transparent);
+  }
+
+  .intro-copy em {
+    font-family: var(--font-serif, Georgia, serif);
+    color: var(--color-teal-deep, #4f7773);
+    font-style: italic;
+  }
+
+  .section-title {
+    margin: 0 0 1.25rem;
+    font-family: var(--font-serif, Georgia, serif);
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .stats-section,
+  .chart-section,
+  .now-section,
+  .top-section,
+  .method-section {
+    margin-bottom: clamp(3rem, 6vw, 4.5rem);
+  }
+
+  /* ---------- Headline stats ---------- */
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(1rem, 3vw, 2rem);
+    margin: 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-ink, #1c1c1c) 12%, transparent);
+  }
+
+  .stat dt {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 55%, transparent);
+  }
+
+  .stat dd {
+    margin: 0.35rem 0 0;
+    font-family: var(--font-serif, Georgia, serif);
+    font-size: clamp(1.9rem, 4.5vw, 2.9rem);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .stat p {
+    margin: 0.45rem 0 0;
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 60%, transparent);
+  }
+
+  /* ---------- Charts ---------- */
+
+  .chart {
+    margin: 0;
+  }
+
+  .chart svg {
+    display: block;
+    width: 100%;
+    height: clamp(140px, 22vw, 200px);
+    overflow: visible;
+  }
+
+  .chart .axis {
+    stroke: color-mix(in srgb, var(--color-ink, #1c1c1c) 18%, transparent);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .chart .gridline {
+    stroke: color-mix(in srgb, var(--color-ink, #1c1c1c) 8%, transparent);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+  }
+
+  /* The small multiples live outside .chart, so these three rules name both
+     roots. Scoped to .chart alone they fell back to the SVG default of a black
+     fill and no stroke. */
+  .chart .line,
+  .small .line {
+    fill: none;
+    stroke: var(--color-teal-deep, #4f7773);
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  /* Dashed as well as crimson: the two hues sit close together for red-green
+     colourblind readers, so the dash pattern carries the identity too. */
+  .chart .line.alt {
+    stroke: var(--color-crimson, #8a1538);
+    stroke-dasharray: 5 3;
+  }
+
+  .chart .line.bark {
+    stroke: var(--color-bark, #6b5642);
+  }
+
+  .chart .area,
+  .small .area {
+    fill: color-mix(in srgb, var(--color-teal-deep, #4f7773) 12%, transparent);
+    stroke: none;
+  }
+
+  .chart .area.bark {
+    fill: color-mix(in srgb, var(--color-bark, #6b5642) 10%, transparent);
+  }
+
+  .chart .peak-dot,
+  .small .peak-dot {
+    fill: var(--color-crimson, #8a1538);
+  }
+
+  .chart .tick {
+    fill: color-mix(in srgb, var(--color-ink, #1c1c1c) 50%, transparent);
+    font-family: var(--font-sans, system-ui);
+    font-size: 11px;
+  }
+
+  .chart .end-label {
+    fill: var(--color-teal-deep, #4f7773);
+    font-family: var(--font-sans, system-ui);
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  .chart .end-label.alt {
+    fill: var(--color-crimson, #8a1538);
+  }
+
+  .chart .cursor {
+    stroke: color-mix(in srgb, var(--color-ink, #1c1c1c) 35%, transparent);
+    stroke-width: 1;
+    stroke-dasharray: 3 3;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .chart .cursor-dot {
+    fill: var(--color-teal-deep, #4f7773);
+    stroke: var(--color-paper, #f7f4ef);
+    stroke-width: 2;
+  }
+
+  .chart .cursor-dot.alt {
+    fill: var(--color-crimson, #8a1538);
+  }
+
+  .chart .cursor-dot.bark {
+    fill: var(--color-bark, #6b5642);
+  }
+
+  .chart .hit {
+    fill: transparent;
+    cursor: crosshair;
+  }
+
+  .chart figcaption {
+    max-width: 46rem;
+    margin-top: 0.9rem;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 60%, transparent);
+  }
+
+  /* ---------- Country strip ---------- */
+
+  .strip {
+    display: flex;
+    gap: 2px;
+    margin-top: 0.3rem;
+  }
+
+  .strip i {
+    flex: 1 1 0;
+    height: 6px;
+    border-radius: 1px;
+    background: color-mix(in srgb, var(--color-ink, #1c1c1c) 7%, transparent);
+  }
+
+  .strip i[data-away] {
+    background: color-mix(in srgb, var(--color-crimson, #8a1538) 72%, transparent);
+  }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.1rem;
+    margin-top: 0.7rem;
+    font-size: 0.78rem;
+    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 58%, transparent);
+  }
+
+  .legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .key-line {
+    width: 13px;
+    height: 2px;
+    border-radius: 1px;
+    background: var(--color-teal-deep, #4f7773);
+  }
+
+  .key-square {
+    width: 9px;
+    height: 9px;
+    border-radius: 1px;
+    background: color-mix(in srgb, var(--color-crimson, #8a1538) 72%, transparent);
+  }
+
+  /* ---------- Small multiples ---------- */
+
+  .smalls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+  }
+
+  .small h3 {
+    margin: 0 0 0.15rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .small p {
+    margin: 0 0 0.4rem;
+    font-size: 0.74rem;
+    font-variant-numeric: tabular-nums;
+    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 55%, transparent);
+  }
+
+  .small svg {
+    height: auto;
+  }
+
+  /* ---------- Listening clock ---------- */
+
+  .clock-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .clock-hours {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.35rem;
+    margin-left: 2.6rem;
+    font-size: 0.7rem;
+    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 50%, transparent);
+  }
+
+  .clock-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .clock-day {
+    flex: 0 0 2rem;
+    font-size: 0.7rem;
+    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 55%, transparent);
+  }
+
+  .clock-cells {
+    display: grid;
+    flex: 1 1 auto;
+    grid-template-columns: repeat(24, 1fr);
+    gap: 3px;
+  }
+
+  .clock-cells i {
+    aspect-ratio: 1;
+    border-radius: 2px;
+    background: var(--color-teal-deep, #4f7773);
+  }
+
+  /* ---------- Ranked rows ---------- */
+
+  .track-rows {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid color-mix(in srgb, var(--color-ink, #1c1c1c) 12%, transparent);
+  }
+
+  .track-row {
+    display: flex;
+    gap: 0.9rem;
+    align-items: center;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-ink, #1c1c1c) 9%, transparent);
+  }
+
+  .row-rank {
+    flex: 0 0 1.6rem;
+    font-size: 0.8rem;
+    font-variant-numeric: tabular-nums;
+    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 45%, transparent);
+  }
+
+  .row-art {
+    flex: 0 0 auto;
+    width: 44px;
+    height: 44px;
+    border-radius: 3px;
+    object-fit: cover;
+    background: color-mix(in srgb, var(--color-ink, #1c1c1c) 6%, transparent);
+  }
+
+  .row-copy {
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  .row-title {
+    margin: 0;
+    overflow: hidden;
+    font-size: 0.98rem;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .row-title a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .row-title a:hover {
+    color: var(--color-teal-deep, #4f7773);
+    text-decoration: underline;
+  }
+
+  .row-subtitle {
+    margin: 0.15rem 0 0;
+    overflow: hidden;
+    font-size: 0.85rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 62%, transparent);
+  }
+
+  .row-meta {
+    flex: 0 0 auto;
+    font-size: 0.78rem;
+    font-variant-numeric: tabular-nums;
+    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 50%, transparent);
+  }
+
+  .row-empty {
+    padding: 0.9rem 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-ink, #1c1c1c) 9%, transparent);
+    font-size: 0.9rem;
+    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 55%, transparent);
+  }
+
+  .section-note {
+    margin: 1rem 0 0;
+    max-width: 46rem;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 60%, transparent);
+  }
+
+  /* ---------- Right now ---------- */
+
+  .now-card {
+    display: flex;
+    gap: clamp(1rem, 3vw, 1.75rem);
+    align-items: center;
+    padding-top: 1.5rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-ink, #1c1c1c) 12%, transparent);
+  }
+
+  .now-art-slot {
+    flex: 0 0 auto;
+    width: clamp(96px, 18vw, 160px);
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 4px;
+    background: color-mix(in srgb, var(--color-ink, #1c1c1c) 6%, transparent);
+  }
+
+  /* No cover means no placeholder. An empty grey square reads as a broken
+     image; the status line alone carries the failure state. */
+  .now-art-slot:empty {
+    display: none;
+  }
+
+  .now-art-slot img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .now-status {
+    margin: 0 0 0.5rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-teal-deep, #4f7773);
+  }
+
+  .now-title {
+    margin: 0;
+    font-family: var(--font-serif, Georgia, serif);
+    font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+  }
+
+  .now-artist {
+    margin: 0.4rem 0 0;
+    font-size: 1rem;
+    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 70%, transparent);
+  }
+
+  .recent-heading {
+    margin-top: 2.5rem;
+  }
+
+  /* ---------- Range tabs ---------- */
+
+  .range-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .range-tab {
+    padding: 0.45rem 0.9rem;
+    border: 1px solid color-mix(in srgb, var(--color-ink, #1c1c1c) 18%, transparent);
+    border-radius: 999px;
+    background: none;
+    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 70%, transparent);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition:
+      color 160ms var(--ease-out, ease),
+      border-color 160ms var(--ease-out, ease),
+      background-color 160ms var(--ease-out, ease);
+  }
+
+  .range-tab:hover {
+    border-color: color-mix(in srgb, var(--color-teal-deep, #4f7773) 55%, transparent);
+    color: var(--color-teal-deep, #4f7773);
+  }
+
+  .range-tab[aria-selected="true"] {
+    border-color: var(--color-teal-deep, #4f7773);
+    background: var(--color-teal-deep, #4f7773);
+    color: var(--color-paper, #f7f4ef);
+  }
+
+  .top-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .top-panel.is-swapping .track-rows {
+    animation: rows-in 180ms var(--ease-out, ease);
+  }
+
+  .column-title {
+    margin: 0 0 0.75rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 55%, transparent);
+  }
+
+  /* ---------- Method ---------- */
+
+  .method-section p {
+    max-width: 46rem;
+    margin: 0 0 0.9rem;
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 78%, transparent);
+  }
+
+  .method-section strong {
+    font-weight: 700;
+    color: var(--color-ink, #1c1c1c);
+  }
+
+  .attribution {
+    margin: 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-ink, #1c1c1c) 12%, transparent);
+    font-size: 0.82rem;
+    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 55%, transparent);
+  }
+
+  .attribution a {
+    color: var(--color-teal-deep, #4f7773);
+  }
+
+  /* ---------- Crosshair readout ---------- */
+
+  #chart-tip {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    max-width: min(17rem, calc(100vw - 2rem));
+    padding: 0.5rem 0.65rem;
+    border: 1px solid color-mix(in srgb, var(--color-ink, #1c1c1c) 14%, transparent);
+    border-radius: 4px;
+    background: var(--color-paper, #f7f4ef);
+    box-shadow: 0 10px 26px rgba(28, 28, 28, 0.14);
+    color: var(--color-ink, #1c1c1c);
+    font-size: 0.78rem;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.4;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate3d(-999px, -999px, 0);
+    transition: opacity 120ms var(--ease-out, ease);
+  }
+
+  #chart-tip.is-visible {
+    opacity: 1;
+  }
+
+  #chart-tip :global(b) {
+    display: block;
+    font-weight: 600;
+  }
+
+  @keyframes rows-in {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 860px) {
+    .stat-grid {
+      grid-template-columns: repeat(2, 1fr);
+      row-gap: 1.75rem;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .top-panel {
+      grid-template-columns: 1fr;
+    }
+
+    .now-card {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .clock-cells {
+      gap: 2px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .top-panel.is-swapping .track-rows {
+      animation: none;
+    }
+
+    .range-tab,
+    #chart-tip {
+      transition: none;
+    }
+  }
+</style>

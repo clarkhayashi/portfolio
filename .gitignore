@@ -24,6 +24,11 @@ credentials.json
 secrets.json
 .netrc
 
+# === Spotify streaming export (raw personal data, never commit) ===
+# A minute-by-minute record of what was played, when, and from which country,
+# going back years. Only the aggregates in src/data/spotify/ are published.
+analysis/spotify/data/
+
 # === Logs ===
 *.log
 npm-debug.log*
@@ -41,3 +46,6 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+
+# === Tableau extract (regenerated, not committed) ===
+analysis/spotify/export/
