@@ -28,11 +28,11 @@ const framework = [
   <section class="mx-auto max-w-[1000px] px-6 pb-12 pt-4 md:pb-14 md:pt-8">
     <div class="grid items-center gap-10 md:grid-cols-[1fr_auto]">
       <div>
-        <p class="mb-4 text-xs font-medium uppercase tracking-[0.16em] text-teal-deep">
+        <p class="mb-4 text-[13px] font-medium text-teal-deep">
           Business Analytics · Marketing · AI Enablement
         </p>
         <h1
-          class="max-w-[22ch] font-serif text-[2.6rem] font-bold leading-[1.06] tracking-tight md:text-[3.5rem]"
+          class="max-w-[22ch] font-serif text-[2.125rem] font-bold leading-[1.04] tracking-[-0.028em] md:text-[3.5rem]"
         >
           I turn <em class="messy italic" aria-label="messy"><span aria-hidden="true"
             >m</span
@@ -92,7 +92,7 @@ const framework = [
 
   <!-- Selected Work -->
   <section id="selected-work" class="mx-auto max-w-[1000px] px-6 pt-16 md:pt-24">
-    <h2 class="font-serif text-3xl font-bold tracking-tight md:text-4xl">
+    <h2 class="font-sans text-[1.625rem] font-black tracking-[-0.03em] md:text-[2.125rem]">
       Selected Work
     </h2>
     <p class="mb-10 mt-3 max-w-[58ch] text-ink/70">
@@ -103,7 +103,7 @@ const framework = [
 
   <!-- What I Bring -->
   <section class="mx-auto max-w-[1000px] px-6 pt-16 md:pt-24">
-    <h2 class="font-serif text-3xl font-bold tracking-tight md:text-4xl">What I Bring</h2>
+    <h2 class="font-sans text-[1.625rem] font-black tracking-[-0.03em] md:text-[2.125rem]">What I Bring</h2>
     <p class="mb-8 mt-3 max-w-[58ch] text-ink/70">Five lanes, one job: make things clearer. The work above is the evidence.</p>
     <LaneList />
   </section>
@@ -112,7 +112,7 @@ const framework = [
 
   <!-- How I Work -->
   <section class="mx-auto max-w-[1000px] px-6 pt-12 md:pt-16">
-    <h2 class="font-serif text-3xl font-bold tracking-tight md:text-4xl">
+    <h2 class="font-sans text-[1.625rem] font-black tracking-[-0.03em] md:text-[2.125rem]">
       How I Work
     </h2>
     <div class="mt-8 grid gap-8 md:grid-cols-3 md:gap-10">
@@ -150,6 +150,11 @@ const framework = [
        on load, no scroll listeners. Widths are locked to the final letters so
        the swaps never shift layout. No JS or reduced motion = settled state. -->
   <style>
+    /* The letter spans are inline-blocks, which creates soft-wrap points
+       inside the word; nowrap keeps "messy" one unbreakable unit. */
+    .messy {
+      white-space: nowrap;
+    }
     .messy span {
       display: inline-block;
       transition:
@@ -168,7 +173,7 @@ const framework = [
   </style>
 
   <script>
-    (() => {
+    const runMessy = () => {
       const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
       const em = document.querySelector(".messy");
       if (!em || reduced) return;
@@ -205,13 +210,20 @@ const framework = [
           }
         }, 110);
       });
-    })();
+    };
+    /* Measure only after webfonts are in: widths locked against the fallback
+       face come out wrong once Zodiak swaps in. */
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(runMessy);
+    } else {
+      runMessy();
+    }
   </script>
 
   <!-- Contact strip -->
   <section class="mx-auto max-w-[1000px] px-6 pt-16 md:pt-24">
     <div class="rounded-2xl bg-ink px-8 py-10 text-paper md:px-12 md:py-14">
-      <h2 class="font-serif text-3xl font-bold tracking-tight md:text-4xl">
+      <h2 class="font-sans text-[1.625rem] font-black tracking-[-0.03em] md:text-[2.125rem]">
         Open to analyst roles where business, data, and marketing meet
       </h2>
       <p class="mt-3 max-w-[52ch] text-paper/70">

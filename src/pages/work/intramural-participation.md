@@ -1,6 +1,7 @@
 ---
 layout: ../../layouts/CaseStudy.astro
 title: Intramural Sports Participation Analysis
+accent: slab
 summary: Eight seasons of participation data, turned into dashboards and a set of recommendations for scheduling, marketing, and retention.
 tags: ["Excel", "Tableau", "Stakeholder Reporting"]
 statusLabel: "Analysis complete · recommendations proposed"

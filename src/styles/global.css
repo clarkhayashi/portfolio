@@ -1,23 +1,43 @@
 @import "tailwindcss";
 
-/* ---------- Local Satoshi (self-hosted, only the weights we use) ---------- */
+/* ---------- Local fonts (everything self-hosted; no external requests) ---------- */
+/* Core: Satoshi variable, 300–900 roman plus drawn italic. One file per style
+   replaces the three static weights that used to load here. */
 @font-face {
   font-family: "Satoshi";
-  src: url("/fonts/satoshi/Satoshi-Regular.woff2") format("woff2");
-  font-weight: 400;
+  src: url("/fonts/satoshi/Satoshi-Variable.woff2") format("woff2");
+  font-weight: 300 900;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Satoshi";
-  src: url("/fonts/satoshi/Satoshi-Medium.woff2") format("woff2");
-  font-weight: 500;
+  src: url("/fonts/satoshi/Satoshi-VariableItalic.woff2") format("woff2");
+  font-weight: 300 900;
+  font-style: italic;
+  font-display: swap;
+}
+/* Voice: Zodiak 700 + italic. One moment per page: the page title, or one
+   pull statement, or the finding number. Never two on the same screen. */
+@font-face {
+  font-family: "Zodiak";
+  src: url("/fonts/zodiak/Zodiak-Bold.woff2") format("woff2");
+  font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "Satoshi";
-  src: url("/fonts/satoshi/Satoshi-Bold.woff2") format("woff2");
+  font-family: "Zodiak";
+  src: url("/fonts/zodiak/Zodiak-BoldItalic.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+/* Accent: Bespoke Slab 700, claimed by the intramural case study only.
+   Ceiling of three accents site-wide, recorded in front matter, never felt. */
+@font-face {
+  font-family: "Bespoke Slab";
+  src: url("/fonts/bespoke-slab/BespokeSlab-Bold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -32,14 +52,15 @@
   --color-bark: #6b5642;
   --color-crimson: #8a1538;
 
-  /* Display face, 28px and up (page h1s, section h2s, wordmark). Below that,
-     font-sans. Newsreader replaced Cormorant Garamond 2026-07-28: Cormorant is
-     the default serif of the elegant-portfolio template genre, and its low
-     x-height forced the hero onto three lines. Newsreader is a Production Type
-     face with a real optical-size axis, so it self-adjusts between display and
-     text sizes. */
-  --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
+  /* Voice face. Zodiak replaced Newsreader 2026-08-04 (Clark's decision, full
+     type rebrand): same house as Satoshi (Indian Type Foundry), so the pairing
+     is house-designed. Zodiak gets ONE moment per page (page title, or one pull
+     statement, or the finding number); every other heading is Satoshi 900. */
+  --font-serif: "Zodiak", Georgia, "Times New Roman", serif;
+  /* Core face: display, headings, body, labels, captions, data. */
   --font-sans: "Satoshi", system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Accent face, scoped to the intramural case study only. */
+  --font-slab: "Bespoke Slab", Georgia, serif;
 }
 
 /* ---------- Motion tokens (canonical; never inline a raw curve) ---------- */
@@ -66,12 +87,12 @@ button:focus-visible {
 
 /* ---------- Case study body (markdown content) ---------- */
 .case-body h2 {
-  font-family: var(--font-serif);
-  font-size: 1.75rem;
-  font-weight: 600;
+  font-family: var(--font-sans);
+  font-size: 1.625rem;
+  font-weight: 900;
   line-height: 1.2;
   margin: 3rem 0 0.75rem;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.024em;
 }
 
 .case-body p {

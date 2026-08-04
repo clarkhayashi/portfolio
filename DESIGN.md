@@ -11,20 +11,22 @@ colors:
   crimson: "#8A1538"
 typography:
   h1:
-    fontFamily: Newsreader
+    fontFamily: Zodiak
     fontSize: 3.5rem
     fontWeight: 700
-    lineHeight: 1.06
-    letterSpacing: -0.01em
+    lineHeight: 1.04
+    letterSpacing: -0.028em
   h2:
-    fontFamily: Newsreader
-    fontSize: 2.25rem
-    fontWeight: 700
+    fontFamily: Satoshi
+    fontSize: 2.125rem
+    fontWeight: 900
     lineHeight: 1.15
+    letterSpacing: -0.03em
   h3:
-    fontFamily: Newsreader
-    fontSize: 1.35rem
+    fontFamily: Satoshi
+    fontSize: 1.625rem
     fontWeight: 700
+    letterSpacing: -0.022em
   body-lg:
     fontFamily: Satoshi
     fontSize: 1.125rem
@@ -35,11 +37,10 @@ typography:
     fontSize: 1rem
     fontWeight: 400
     lineHeight: 1.7
-  label-caps:
+  label:
     fontFamily: Satoshi
-    fontSize: 0.72rem
+    fontSize: 0.8125rem
     fontWeight: 500
-    letterSpacing: 0.14em
 rounded:
   sm: 8px
   md: 16px
@@ -62,8 +63,8 @@ components:
     backgroundColor: "{colors.tertiary}"
     size: 6px
   eyebrow:
-    textColor: "{colors.secondary}"
-    typography: "{typography.label-caps}"
+    textColor: "{colors.tertiary-deep}"
+    typography: "{typography.label}"
   status-dot-building:
     backgroundColor: "{colors.crimson}"
     size: 6px
@@ -72,9 +73,10 @@ components:
 ## Overview
 
 Warm editorial minimalism. Premium but personal; recruiter-friendly, not
-agency-flashy. Think quality paper stock, generous whitespace, large confident
-serif headings, quiet proof. Never lifestyle-blog, never dashboard-cold,
-never template-grid. When in doubt, choose calm over loud.
+agency-flashy. Think quality paper stock, generous whitespace, confident
+Satoshi 900 headings with one rare serif moment per page, quiet proof. Never
+lifestyle-blog, never dashboard-cold, never template-grid. When in doubt,
+choose calm over loud.
 
 ## Colors
 
@@ -93,16 +95,27 @@ Small bark text is full-strength bark for the same reason; bark tints below
 
 ## Typography
 
-Newsreader (600/700 + italic 600, Google Fonts) for the wordmark, page H1s
-and section H2s. Satoshi (400/500/700, self-hosted at public/fonts/satoshi/)
-for everything else, including every heading below 28px: at smaller sizes a
-display serif reads lighter than the body copy beneath it. Never Satoshi
-Black.
+Three layers, all self-hosted, all Indian Type Foundry, no external font
+requests (rebrand decision by Clark, 2026-08-04; replaced Newsreader + static
+Satoshi). **Core** is Satoshi variable (300–900 roman + drawn italic,
+public/fonts/satoshi/): display, headings, body, labels, captions, data.
+Headings are Satoshi 900 with tight tracking; the old "never Satoshi Black"
+rule guarded the retired serif-display identity and died with it. **Voice** is
+Zodiak 700 + italic (public/fonts/zodiak/): exactly one moment per page — the
+page title, or one pull statement, or the finding number, never two on the
+same screen. **Accent** is Bespoke Slab 700 (public/fonts/bespoke-slab/),
+scoped to the intramural case study only, recorded in its front matter
+(`accent: slab`); ceiling of three accents site-wide, ever. Dark surfaces
+(header, contact card) use Core only.
 
-The scale is nine steps and no more: 56 / 36 / 28 / 24 / 18 / 16 / 14 / 12 /
-11. Sizes closer together than that are not perceived as a rank, they just
+The scale is nine steps and no more, desktop: 56 / 46 / 34 / 26 / 18 / 16 /
+13 / 12 / 11 (mobile page titles drop to 34, sections to 26, row titles to
+20). Sizes closer together than that are not perceived as a rank, they just
 read as inconsistency. Line height is inversely proportional to size, tight
-on display, open on body. Eyebrows are label-caps, uppercase.
+on display, open on body. Labels and eyebrows are sentence case, Satoshi 500
+at 13px, interaction teal: no tracked uppercase anywhere. Nothing on any
+surface goes below 11px. Any display line containing an italic descender gets
+line-height 1.12 minimum.
 
 Reading width tops out at 70ch; page containers at 1000px, including About.
 Headings use text-wrap balance. Numerals are tabular only in stats and
@@ -114,7 +127,7 @@ commas, colons, periods, or "·".
 
 Single column, generous vertical rhythm (sections 4.5–6rem apart), hairline
 separators at 10% ink. Work items are numbered editorial rows with oversized
-ghosted serif numerals (bark at 25%), not cards. Experience rows carry a
+ghosted Satoshi 900 numerals (bark at 25%), not cards. Experience rows carry a
 uniform 176×112 right-rail visual: photos object-cover, logos object-contain
 anchored right. Work rows carry a 19rem right rail holding the status label
 above an optional 16:10 artifact thumbnail. That rail is a fixed width, not
@@ -138,8 +151,8 @@ sine.
 
 One solid button per view (ink, teal on hover); all other actions are ghost
 buttons (25% ink border, teal on hover). Status labels are a 6px dot plus
-label-caps text: teal for complete/progress, crimson for building, bark for
-private/summarized — statuses always tell the truth. Crossfading visuals run
+sentence-case label text: the dot is teal for complete/progress, crimson for
+building, bark for private/summarized — statuses always tell the truth. Crossfading visuals run
 8s (2 images) or 16s (4 images), linear timing, aligned fade windows, logo
 first, honoring prefers-reduced-motion. Maximum ~4 animated tiles per page.
 Exception: /journey holds the site's single loud license, a scroll-driven

@@ -11,10 +11,10 @@ const stops = journey.map((s) => ({ place: s.place, lon: s.lon, lat: s.lat, year
 >
   <!-- Intro -->
   <section class="mx-auto max-w-[1000px] px-6 pb-10 pt-6 md:pt-12">
-    <p class="mb-4 text-xs font-medium uppercase tracking-[0.16em] text-teal-deep">
+    <p class="mb-4 text-[13px] font-medium text-teal-deep">
       The Journey
     </p>
-    <h1 class="max-w-[18ch] font-serif text-[2.6rem] font-bold leading-[1.06] tracking-tight md:text-[3.5rem]">
+    <h1 class="max-w-[18ch] font-serif text-[2.125rem] font-bold leading-[1.04] tracking-[-0.028em] md:text-[3.5rem]">
       Where I've been
     </h1>
     <p class="mt-5 max-w-[52ch] text-lg leading-relaxed text-ink/70">
@@ -48,13 +48,13 @@ const stops = journey.map((s) => ({ place: s.place, lon: s.lon, lat: s.lat, year
               id={`stop-${i + 1}`}
               class="chapter flex min-h-[78vh] flex-col justify-center border-t border-ink/10 py-14 first:border-t-0 md:min-h-[92vh]"
             >
-              <p class="text-xs font-medium uppercase tracking-[0.16em] text-bark">
+              <p class="text-[13px] font-medium text-teal-deep">
                 Stop 0{i + 1} · {s.placeJa && <span lang="ja">{s.placeJa} · </span>}{s.place}
               </p>
-              <h2 class="mt-2 font-serif text-3xl font-bold tracking-tight md:text-4xl">
+              <h2 class="mt-2 font-sans text-[1.625rem] font-black tracking-[-0.03em] md:text-[2.125rem]">
                 {s.titleJa && <span lang="ja">{s.titleJa} · </span>}{s.title}
               </h2>
-              <p class="mt-1 font-sans text-sm font-medium uppercase tracking-[0.1em] text-teal-deep">{s.years}</p>
+              <p class="mt-1 font-sans text-[13px] font-medium text-teal-deep">{s.years}</p>
               <p class="mt-4 max-w-[52ch] leading-relaxed text-ink/70">{s.story}</p>
               {s.photo && (
                 <img
@@ -216,7 +216,7 @@ const stops = journey.map((s) => ({ place: s.place, lon: s.lon, lat: s.lat, year
       b.type = "button";
       b.textContent = place;
       b.setAttribute("aria-label", `Jump to ${place}`);
-      b.style.cssText = "border:0;background:none;cursor:pointer;padding:6px 4px;font:500 0.7rem/1 Satoshi,sans-serif;letter-spacing:0.13em;text-transform:uppercase;";
+      b.style.cssText = "border:0;background:none;cursor:pointer;padding:6px 4px;font:500 0.8125rem/1 Satoshi,sans-serif;";
       b.dataset.place = place;
       b.onclick = () => document.getElementById(`stop-${i + 1}`).scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
       chips.appendChild(b);
@@ -331,7 +331,7 @@ const stops = journey.map((s) => ({ place: s.place, lon: s.lon, lat: s.lat, year
         ctx.stroke();
         if (!labeled.has(s.place)) {
           labeled.add(s.place);
-          ctx.font = `600 ${Math.max(12, radius * 0.062)}px "Newsreader", Georgia, serif`;
+          ctx.font = `600 ${Math.max(12, radius * 0.062)}px "Satoshi", system-ui, sans-serif`;
           ctx.lineJoin = "round";
           ctx.lineWidth = 3;
           ctx.strokeStyle = colors.halo;
@@ -343,7 +343,7 @@ const stops = journey.map((s) => ({ place: s.place, lon: s.lon, lat: s.lat, year
 
       /* The caption sits in the canvas corner, outside the sphere, on paper. */
       ctx.fillStyle = colors.caption;
-      ctx.font = `italic 600 ${Math.max(14, radius * 0.082)}px "Newsreader", Georgia, serif`;
+      ctx.font = `italic 500 ${Math.max(14, radius * 0.082)}px "Satoshi", system-ui, sans-serif`;
       ctx.fillText(`${stops[active].place} · ${stops[active].years}`, 8, 24);
 
       requestAnimationFrame(draw);

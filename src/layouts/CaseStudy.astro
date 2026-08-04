@@ -3,6 +3,10 @@ import Base from "./Base.astro";
 import StatusLabel from "../components/StatusLabel.astro";
 
 const { frontmatter } = Astro.props;
+/* Accent faces are recorded in front matter, never felt. `accent: slab`
+   (currently the intramural study only) sets the headline in Bespoke Slab;
+   everything else on the page stays Core. Ceiling of three accents site-wide. */
+const titleFont = frontmatter.accent === "slab" ? "font-slab" : "font-serif";
 ---
 
 <Base title={`${frontmatter.title} · Clark Hayashi`} description={frontmatter.summary}>
@@ -14,7 +18,10 @@ const { frontmatter } = Astro.props;
       <StatusLabel label={frontmatter.statusLabel} type={frontmatter.statusType} />
     </div>
     <h1
-      class="mt-4 font-serif text-4xl font-semibold leading-[1.1] tracking-tight md:text-5xl"
+      class:list={[
+        "mt-4 text-[2.125rem] font-bold leading-[1.08] tracking-[-0.024em] md:text-[3rem] md:leading-[1.04]",
+        titleFont,
+      ]}
     >
       {frontmatter.title}
     </h1>

@@ -77,9 +77,18 @@ work at a named bank.
 - Palette: paper #F7F4EF, ink #1C1C1C, teal #5D8C88 (decorative), teal-deep
   #4F7773 (interactive, WCAG AA on paper), bark #6B5642, crimson #8A1538
   (micro-accent only).
-- Canonical site type: Newsreader (display, 28px and above) + self-hosted
-  Satoshi (body and UI, below 28px). Newsreader replaced Cormorant Garamond on
-  2026-07-28; do not reintroduce Cormorant on the canonical site.
+- Canonical site type (Clark's explicit rebrand decision, 2026-08-04, from the
+  "Clark Hayashi Brand System" Type System proposal): all self-hosted, all
+  Indian Type Foundry. Core = Satoshi variable 300–900 + drawn italic (all
+  headings at 900, body, labels, captions). Voice = Zodiak 700 + italic, ONE
+  moment per page (page title, or one pull statement, or the finding number).
+  Accent = Bespoke Slab 700, intramural case study only, recorded in front
+  matter; ceiling of three accents site-wide. Labels are sentence case 13px
+  Satoshi 500, no tracked uppercase anywhere. Dark surfaces use Core only.
+  This replaced Newsreader (2026-07-28 to 2026-08-04), which had replaced
+  Cormorant Garamond; do not reintroduce Cormorant or Newsreader on the
+  canonical site, and the old "never Satoshi Black" rule is retired with the
+  serif-display identity it protected.
 - The experiment (`prototypes/portfolio-journey-experiment.html`) trials an
   alternative system by explicit user direction: Archivo (rare display),
   Fraunces (editorial headings), IBM Plex Sans (body/UI). If the experiment
