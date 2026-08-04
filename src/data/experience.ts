@@ -66,7 +66,7 @@ export const experience: ExperienceItem[] = [
   {
     org: "Seattle University Credit Union Initiative",
     role: "Co-founder & COO",
-    dates: "2024 to present",
+    dates: "2024 to 2026",
     detail:
       "Student-led credit union initiative: operations, reporting, and coordination across teams; financial literacy programming; grew membership from 23 to 54 students. Won the $20K Harriet Stephenson Business Plan Competition and the eBay Best Marketplace Idea Prize at UW's 2025 Dempsey Startup Competition (competing as Seattle Financial Initiative), a 174-team regional field. Now advising the team post-graduation.",
     link: {
@@ -196,9 +196,9 @@ export const experience: ExperienceItem[] = [
     org: "Albers School of Business",
     background: true,
     role: "Italy Study Tour",
-    dates: "2025",
+    dates: "Summer 2025",
     detail:
-      "An Albers course spanning spring quarter and summer, capped by a 10-day immersion in Sansepolcro and Tuscany studying leadership, marketing, and global business: family wineries, Nestlé's Perugina chocolate operation, the B Corp-certified textile firm Busatti, and leadership lessons from St. Francis of Assisi to the Florentine republic in Arezzo.",
+      "An Albers course spanning spring quarter and summer, taught online alongside the Bank of Hawaii internship and capped by a 10-day immersion in Sansepolcro and Tuscany at the end of August. Leadership, marketing, and global business: family wineries, Nestlé's Perugina chocolate operation, the B Corp-certified textile firm Busatti, and leadership lessons from St. Francis of Assisi to the Florentine republic in Arezzo.",
     link: {
       href: "https://www.linkedin.com/feed/update/urn:li:activity:7374272355684028416/",
       label: "See the program recap →",

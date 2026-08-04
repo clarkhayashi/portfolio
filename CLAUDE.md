@@ -36,18 +36,27 @@ work at a named bank.
 2. Seattle, 2022 (Seattle University begins; UREC official from fall 2022)
 3. Tokyo, Spring & Summer 2024 (Sophia University exchange)
 4. Honolulu, Summer 2025 (Bank of Hawaii AI internship)
-5. Sansepolcro/Tuscany, September 2025 (Albers Italy study tour)
+5. Sansepolcro/Tuscany, late August to early September 2025 (Albers Italy
+   study tour; the trip itself, see the note below)
 6. Seattle, 2026 (graduation, Magna Cum Laude, GPA 3.71)
 
-**The BOH internship (summer 2025) came BEFORE the Italy tour (September
-2025).** This was wrong once and corrected; never imply otherwise.
+**The BOH internship and the Italy tour overlap, and the overlap is real, so
+do not "correct" it in either direction.** The Albers course ran spring
+quarter and summer and was taught mostly online, which Clark completed
+alongside the BOH internship. The 10-day immersion in Italy happened at the
+end of that summer, late August into early September 2025, after the
+internship. So: the *trip* came after BOH, the *coursework* ran concurrently.
+Both "Summer 2025" and "September 2025" are defensible for the tour; the
+resume says Summer 2025 and the site now matches it. What is wrong is any
+phrasing implying Clark was in Italy instead of at the bank.
 
 ## Settled facts (user-confirmed; do not re-derive)
 
 - BOH: one of the bank's first AI interns; 50+ use cases, 19+ interviews,
   Power BI dashboard + scoring framework, readout to 60+. Details stay
   public-safe/summarized; work belongs to the bank.
-- SUCUI: Co-founder & COO, 2024 to present (now advising). $20K Harriet
+- SUCUI: Co-founder & COO, January 2024 to July 2026 (advising after). The
+  role is closed, not ongoing; "to present" is wrong. $20K Harriet
   Stephenson win + $2.5K eBay Best Marketplace Idea Prize at UW Dempsey 2025
   (competed as Seattle Financial Initiative, 174-team field); $22.5K total
   confirmed by Clark 2026-07-10. Membership 23→54.
