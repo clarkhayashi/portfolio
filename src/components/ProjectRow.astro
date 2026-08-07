@@ -16,6 +16,10 @@ interface Props {
   statusType?: "progress" | "building" | "private";
   /** Real artifact from the work. Rows without one render with no thumbnail. */
   thumb?: { src: ImageMetadata; alt: string };
+  /** h3 under a section heading (the homepage), h2 when the rows sit directly
+   *  under the page title (/work). Skipping a level breaks screen-reader
+   *  outline navigation. */
+  headingLevel?: "h2" | "h3";
 }
 
 const {
@@ -30,8 +34,10 @@ const {
   statusLabel,
   statusType,
   thumb,
+  headingLevel = "h3",
 } = Astro.props;
 const Tag = href ? "a" : "div";
+const Heading = headingLevel;
 ---
 
 <Tag
@@ -55,7 +61,7 @@ const Tag = href ? "a" : "div";
           </p>
         )
       }
-      <h3 class="font-sans text-xl font-bold leading-snug tracking-[-0.022em] md:text-[1.625rem]">
+      <Heading class="font-sans text-xl font-bold leading-snug tracking-[-0.022em] md:text-[1.625rem]">
         <span class:list={[href && "transition-colors group-hover:text-teal"]}>{title}</span>
         {
           href && (
@@ -67,7 +73,7 @@ const Tag = href ? "a" : "div";
             </span>
           )
         }
-      </h3>
+      </Heading>
       <p class="mt-2 max-w-[58ch] leading-relaxed text-ink/70">
         {description}
       </p>

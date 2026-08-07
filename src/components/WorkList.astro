@@ -1,12 +1,21 @@
 ---
 import ProjectRow from "./ProjectRow.astro";
 import { projects } from "../data/projects";
+
+interface Props {
+  /** h3 by default (rows sit under "Selected Work" on the homepage); h2 on
+   *  /work, where the rows follow the page title with no section between. */
+  headingLevel?: "h2" | "h3";
+}
+
+const { headingLevel = "h3" } = Astro.props;
 ---
 
 <div class="border-b border-ink/10">
   {
     projects.map((p, i) => (
       <ProjectRow
+        headingLevel={headingLevel}
         number={String(i + 1).padStart(2, "0")}
         title={p.title}
         description={p.description}
