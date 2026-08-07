@@ -55,6 +55,17 @@ phrasing implying Clark was in Italy instead of at the bank.
 - BOH: one of the bank's first AI interns; 50+ use cases, 19+ interviews,
   Power BI dashboard + scoring framework, readout to 60+. Details stay
   public-safe/summarized; work belongs to the bank.
+  **Independently corroborated (verified 2026-08-06)** by Seattle U's own
+  newsroom, "Experience By Doing", Tina Potterf, 2026-07-30: Clark "was part of
+  a team working as AI consultants" that interviewed bank employees, organized
+  50+ potential AI use cases, found solutions, and presented results to
+  leadership. Note the article's own construction, "part of a team", and keep
+  it: the 50+ figure is the team's output, not a solo claim. This is a .edu
+  source describing the work, which is stronger than anything Clark says about
+  himself, so it is worth citing rather than paraphrasing.
+- Japanese minor: confirmed 2026-08-06 by the same Seattle U article, "the
+  double major in business analytics and marketing (with a minor in Japanese)".
+  Previously an unverified LinkedIn-only claim; now publishable.
 - SUCUI: Co-founder & COO, January 2024 to July 2026 (advising after). The
   role is closed, not ongoing; "to present" is wrong. $20K Harriet
   Stephenson win + $2.5K eBay Best Marketplace Idea Prize at UW Dempsey 2025
