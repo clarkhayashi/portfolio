@@ -64,7 +64,7 @@ const spotifyYears = Math.round(
           src="/duolingo-clark.svg"
           alt="Clark's Duolingo avatar"
           width="670"
-          height="563"
+          height="556"
         />
       <p class="card-reveal">I love learning languages, gotta keep up with my Japanese. Getting 1% better every day.</p>
 
@@ -366,39 +366,86 @@ const spotifyYears = Math.round(
      Reduced motion still gets the bubble, just without the entrance. */
   const tooltip = document.querySelector("#quest-tooltip");
   const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   if (tooltip && finePointer.matches) {
-    let raf = 0;
+    const GAP = 24;
+    /* The bubble eases toward the cursor instead of being welded to it. Lower
+       is heavier; 0.07 is a long tail, 0.12 trails visibly without feeling
+       laggy on a short pointer move. */
+    const FOLLOW = 0.12;
+    const TYPE_MS = 12;
+
+    let targetX = 0, targetY = 0, x = 0, y = 0;
+    let raf = 0, typer = 0;
+
+    function clamped() {
+      const w = tooltip.offsetWidth;
+      const h = tooltip.offsetHeight;
+      return [
+        Math.max(12, Math.min(targetX + GAP, window.innerWidth - w - 12)),
+        Math.max(12, Math.min(targetY + GAP, window.innerHeight - h - 12)),
+      ];
+    }
+
+    function tick() {
+      const [tx, ty] = clamped();
+      if (reduceMotion.matches) {
+        x = tx;
+        y = ty;
+      } else {
+        x += (tx - x) * FOLLOW;
+        y += (ty - y) * FOLLOW;
+      }
+      tooltip.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      raf = requestAnimationFrame(tick);
+    }
+
+    function type(text) {
+      clearInterval(typer);
+      /* Reduced motion gets the whole string at once. Typing it out is the
+         one piece of this that withholds information for effect. */
+      if (reduceMotion.matches) {
+        tooltip.textContent = text;
+        return;
+      }
+      tooltip.textContent = "";
+      let i = 0;
+      typer = setInterval(() => {
+        i += 1;
+        tooltip.textContent = text.slice(0, i);
+        if (i >= text.length) clearInterval(typer);
+      }, TYPE_MS);
+    }
 
     document.querySelectorAll("[data-tooltip]").forEach((card) => {
-      card.addEventListener("pointerenter", () => {
-        tooltip.textContent = card.getAttribute("data-tooltip") ?? "";
+      card.addEventListener("pointerenter", (event) => {
+        const text = card.getAttribute("data-tooltip") ?? "";
+        targetX = event.clientX;
+        targetY = event.clientY;
+        /* Jump to the cursor on enter rather than easing in from wherever the
+           last card left it. Without this the bubble faded in at the previous
+           card's coordinates, or at -999px on the first hover of the page. */
+        tooltip.textContent = text;
+        const [tx, ty] = clamped();
+        x = tx;
+        y = ty;
+        tooltip.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+        type(text);
         tooltip.classList.add("is-visible");
+        if (!raf) raf = requestAnimationFrame(tick);
       });
 
-      /* Positioned on a rAF rather than on every pointermove: the handler
-         reads offsetWidth, and doing that per move event forces a layout on
-         each frame the pointer travels. */
       card.addEventListener("pointermove", (event) => {
-        if (raf) return;
-        raf = requestAnimationFrame(() => {
-          raf = 0;
-          const gap = 18;
-          const left = Math.min(
-            event.clientX + gap,
-            window.innerWidth - tooltip.offsetWidth - 12,
-          );
-          const top = Math.min(
-            event.clientY + gap,
-            window.innerHeight - tooltip.offsetHeight - 12,
-          );
-          tooltip.style.transform =
-            `translate3d(${Math.max(12, left)}px, ${Math.max(12, top)}px, 0)`;
-        });
+        targetX = event.clientX;
+        targetY = event.clientY;
       });
 
       card.addEventListener("pointerleave", () => {
         tooltip.classList.remove("is-visible");
+        clearInterval(typer);
+        cancelAnimationFrame(raf);
+        raf = 0;
       });
     });
   }
@@ -494,14 +541,20 @@ const spotifyYears = Math.round(
     z-index: 100;
     top: 0;
     left: 0;
-    max-width: min(22rem, calc(100vw - 2rem));
+    /* No cap. The line breaks in the copy are authored, and a max-width turns
+       them into wrapped lines instead: at 22rem the Duolingo string broke into
+       three lines rather than the two it is written as. The viewport clamp in
+       the script is what keeps it on screen. */
+    max-width: none;
     padding: 0.5rem 1rem;
     border-radius: 8px;
     background: var(--color-teal-deep, #4f7773);
     color: #fff;
-    font-size: 0.8125rem;
-    line-height: 1.4;
+    font-size: 0.9375rem;
+    line-height: 1.35;
     white-space: pre-line;
+    /* Fully opaque. At 0.94 the white text measured 4.43:1 against paper,
+       under AA; solid #4F7773 is 4.98:1. */
     opacity: 0;
     pointer-events: none;
     transform: translate3d(-999px, -999px, 0);
@@ -509,7 +562,7 @@ const spotifyYears = Math.round(
   }
 
   #quest-tooltip.is-visible {
-    opacity: 0.94;
+    opacity: 1;
   }
 
   /* The same strings, printed in the card, for anything without a cursor.
