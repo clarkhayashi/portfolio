@@ -102,7 +102,7 @@ export const experience: ExperienceItem[] = [
     role: "Intramural Sports Official → Manager",
     dates: "2022 to 2026",
     detail:
-      "Four years in the program: started as a student official in fall 2022, promoted to Intramural Sports Manager senior year. Trained and mentored 40+ officials across a program that drew 648 players in 2025, ran operations, scheduling, and conflict resolution, and produced digital media with 3× the engagement of standard department posts.",
+      "Four years in the program. Started as a student official in fall 2022 and grew into Intramural Sports Manager senior year. A lot of the officiating was for law students older and bigger than me. You make the call in half a second and then stand behind it while grown adults yell about it. It also put me in front of people from all walks of life I would never have met otherwise. Trained and mentored 40+ officials across a program that drew 648 players in 2025, ran operations, scheduling, and conflict resolution, and produced digital media with 3× the engagement of standard department posts.",
     images: [
       {
         src: "/images/logos/su-rec.png",
