@@ -158,6 +158,38 @@ const spotifyYears = Math.round(
           <button type="button" role="tab" aria-selected="false" aria-label="Activity 2" data-strava-dot></button>
         </div>
 
+        {
+          /* Aggregate totals, alongside the per-activity rotator rather than
+             instead of it. Chosen over Strava's latest-rides widget because
+             that one repeats what the rotator already shows, stands 454px
+             tall against this card, and is named for a sport Clark does not
+             do. This one adds a number the card did not have. */
+        }
+        <div class="strava-summary">
+          <iframe
+            title="Clark's recent Strava totals"
+            src="https://www.strava.com/athletes/155679367/activity-summary/bbb4ccf4ec984bb56e5eb15d638fa6a4c869699c"
+            height="160"
+            width="300"
+            loading="lazy"
+            frameborder="0"
+            allowtransparency="true"
+            scrolling="no"></iframe>
+        </div>
+
+        {
+          /* The only card that was not a link, while its bubble said "take a
+             look at my Strava". It cannot become an <a> because it contains
+             the rotator buttons and interactive content must not nest inside
+             a link, so the action sits inside the article instead. */
+        }
+        <a
+          class="card-action strava-action"
+          href="https://www.strava.com/athletes/155679367"
+          target="_blank"
+          rel="noopener noreferrer">View on Strava ↗</a
+        >
+
       <p class="card-reveal">My recent activity, straight from my Strava.</p>
       </article>
 
@@ -550,7 +582,8 @@ const spotifyYears = Math.round(
     border-radius: 8px;
     background: var(--color-teal-deep, #4f7773);
     color: #fff;
-    font-size: 0.9375rem;
+    font-size: 1rem;
+    font-weight: 500;
     line-height: 1.35;
     white-space: pre-line;
     /* Fully opaque. At 0.94 the white text measured 4.43:1 against paper,
@@ -850,6 +883,41 @@ const spotifyYears = Math.round(
   .strava-rotator {
     position: absolute;
     inset: 0;
+  }
+
+  /* Sits over the rotator in the corner, so adding it cannot disturb the
+     existing embeds' layout. Paper behind it because the Strava widget ships
+     its own white-ish chrome and would otherwise float on the map. */
+  .strava-summary {
+    position: absolute;
+    z-index: 4;
+    top: clamp(1rem, 2.5vw, 1.6rem);
+    left: clamp(1rem, 2.5vw, 1.6rem);
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--color-ink, #1c1c1c) 10%, transparent);
+    border-radius: 12px;
+    background: var(--color-paper, #f7f4ef);
+  }
+
+  .strava-summary iframe {
+    display: block;
+    width: 300px;
+    height: 160px;
+    border: 0;
+  }
+
+  .strava-action {
+    z-index: 4;
+    width: max-content;
+    text-decoration: none;
+  }
+
+  /* The widget has a fixed 300px width, so below that it would overflow the
+     card. The rotator and the action still carry the card on a phone. */
+  @media (max-width: 26rem) {
+    .strava-summary {
+      display: none;
+    }
   }
 
   .strava-embed-shell {
