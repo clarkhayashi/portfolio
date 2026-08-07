@@ -225,9 +225,20 @@ const sourceLinks = [
     --z-paper: #f3eee3;
     --z-ink: #142521;
     --z-muted: #5f6965;
-    --z-teal: #167979;
+    /* Was #167979, which measured 4.49:1 on --z-paper and missed WCAG AA for
+       small text by 0.01. Imperceptibly darker, now 4.61:1. Also used as a
+       section background, where darkening only improves the light text on it. */
+    --z-teal: #157777;
     --z-aqua: #9bd7d4;
+    /* Brand orange, for the poster gradient and other large or decorative
+       fills. At 2.61:1 on paper it is nowhere near legible as small text, so
+       it must not be used for type. */
     --z-orange: #ef6e31;
+    /* The type-safe orange, 4.57:1. Same hue family, dark enough to read at
+       12px. DESIGN.md sanctions this page's palette as a brand exception, but
+       the exception never covered contrast: every label still has to clear AA
+       on its own ground. */
+    --z-orange-ink: #ae5023;
     --z-gold: #efb65a;
     --z-brown: #49362a;
     --z-line: rgba(20, 37, 33, 0.18);
@@ -304,7 +315,7 @@ const sourceLinks = [
   .gate-line { margin: 44px 0 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); list-style: none; border-block: 1px solid var(--z-line); }
   .gate-line li { min-height: 230px; padding: 24px 20px; border-right: 1px solid var(--z-line); display: flex; flex-direction: column; }
   .gate-line li:last-child { border-right: 0; }
-  .gate-line span { color: var(--z-orange); font-size: .74rem; font-weight: 800; }
+  .gate-line span { color: var(--z-orange-ink); font-size: .74rem; font-weight: 800; }
   .gate-line strong { margin-top: auto; font-family: var(--font-serif); font-size: 1.35rem; line-height: 1.05; }
   .gate-line small { margin-top: 10px; color: var(--z-muted); line-height: 1.45; }
 
@@ -327,11 +338,11 @@ const sourceLinks = [
   .pop-card > span { color: var(--z-brown) !important; }
   .pop-card h3 { margin-top: 52px; font-size: clamp(2.6rem, 4vw, 4.4rem); }
   .ticket { margin-top: auto; padding: 18px; display: grid; gap: 6px; background: var(--z-paper); border: 2px solid var(--z-brown); transform: rotate(-2deg); }
-  .ticket small { color: var(--z-orange); font-weight: 800; text-transform: uppercase; }
+  .ticket small { color: var(--z-orange-ink); font-weight: 800; text-transform: uppercase; }
   .pop-card > p { margin: 28px 0 0; padding-top: 16px; border-top: 2px solid var(--z-brown); font-weight: 800; text-transform: uppercase; }
   .campaign-system { display: grid; grid-template-columns: repeat(4, 1fr); border-left: 1px solid rgba(243,238,227,.3); }
   .campaign-system article { min-height: 250px; padding: 25px; border-right: 1px solid rgba(243,238,227,.3); border-bottom: 1px solid rgba(243,238,227,.3); }
-  .campaign-system span { color: var(--z-orange); font-weight: 800; }
+  .campaign-system span { color: var(--z-orange-ink); font-weight: 800; }
   .campaign-system h3 { margin: 56px 0 10px; font-family: var(--font-serif); font-size: 1.45rem; }
   .campaign-system p { margin: 0; color: #aeb8b4; font-size: .85rem; }
   .boundary { margin: 40px 0 0; padding-block: 20px; border-block: 1px solid rgba(243,238,227,.3); color: #c6d0cc; }
@@ -340,7 +351,7 @@ const sourceLinks = [
   .measurement-section { display: grid; grid-template-columns: .82fr 1.18fr; gap: clamp(60px, 10vw, 140px); }
   .metric-list { margin: 0; border-top: 1px solid var(--z-line); }
   .metric-list div { padding: 22px 0; display: grid; grid-template-columns: 120px 1fr; gap: 30px; border-bottom: 1px solid var(--z-line); }
-  .metric-list dt { color: var(--z-orange); font-size: .76rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+  .metric-list dt { color: var(--z-orange-ink); font-size: .76rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
   .metric-list dd { margin: 0; color: var(--z-muted); }
 
   .reflection { padding-block: clamp(90px, 11vw, 150px); display: grid; grid-template-columns: 170px 1fr; gap: clamp(50px, 9vw, 130px); border-top: 1px solid var(--z-line); }

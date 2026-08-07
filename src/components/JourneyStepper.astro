@@ -692,17 +692,24 @@ const uniqueStops = stops.filter(
     z-index: 1;
   }
 
+  /* Sized at the ACTIVE dimension and scaled down when inactive, rather than
+     the other way round. Animating width and height costs layout plus paint on
+     six markers every time the stop changes, on the homepage centrepiece.
+     Scaling from an 11px base would shrink the ::after inner dot to about 8px
+     in the active state; basing the box at 18px keeps that state pixel-identical
+     to before, and the inner dot's size while inactive does not matter because
+     it is at opacity 0. The 2px ring does render finer when scaled down. */
   .journey-marker-dot {
     position: absolute;
     left: 50%;
     top: 50%;
-    width: 11px;
-    height: 11px;
-    transform: translate(-50%, -50%);
+    width: 18px;
+    height: 18px;
+    transform: translate(-50%, -50%) scale(0.611);
     border: 2px solid #f7f4ef;
     border-radius: 999px;
     background: #4f7773;
-    transition: width 0.2s var(--ease-out), height 0.2s var(--ease-out), background-color 0.2s var(--ease-out);
+    transition: transform 0.2s var(--ease-out), background-color 0.2s var(--ease-out);
   }
 
   .journey-marker-dot::after {
@@ -716,8 +723,7 @@ const uniqueStops = stops.filter(
 
   .journey-map-marker[data-active="true"] { z-index: 3; }
   .journey-map-marker[data-active="true"] .journey-marker-dot {
-    width: 18px;
-    height: 18px;
+    transform: translate(-50%, -50%) scale(1);
     border-color: #8a1538;
     background: #f7f4ef;
   }

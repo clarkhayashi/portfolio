@@ -40,11 +40,15 @@ const spotifyYears = Math.round(
         <span class="external-mark" aria-hidden="true">↗</span>
 
         <div class="duo-copy">
+          {/* Both states have to read as finished sentences. The fallback used
+              to be an empty number span next to the word "public profile",
+              which rendered as a fragment where a stat belongs and looked like
+              a number that failed to load rather than a deliberate fallback.
+              On success the script fills the number and swaps the label to
+              "day streak". */}
           <p class="duo-streak">
-            {/* Empty until /api/duolingo answers, so a quiet failure shows
-                just the label instead of a stray placeholder glyph. */}
             <span id="duo-streak-number"></span>
-            <span id="duo-streak-label">public profile</span>
+            <span id="duo-streak-label">View Duolingo profile</span>
           </p>
           <h2>My Duolingo</h2>
         </div>
