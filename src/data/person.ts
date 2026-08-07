@@ -80,5 +80,13 @@ export const personSchema = {
       author: { "@type": "Person", name: "Tina Potterf" },
       publisher: { "@type": "CollegeOrUniversity", name: "Seattle University" },
     },
+    {
+      "@type": "NewsArticle",
+      headline: "Bouncing into a New Season of Intramural Basketball",
+      url: "https://seattlespectator.com/2026/02/04/bouncing-into-a-new-season-of-intramural-basketball/",
+      datePublished: "2026-02-04",
+      author: { "@type": "Person", name: "Julia Pilch" },
+      publisher: { "@type": "NewsMediaOrganization", name: "The Spectator" },
+    },
   ],
 };
