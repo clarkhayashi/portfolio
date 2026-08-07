@@ -26,13 +26,21 @@ const framework = [
 <Base>
   <!-- Hero -->
   <section class="mx-auto max-w-[1000px] px-6 pb-12 pt-4 md:pb-14 md:pt-8">
+    {
+      /* The hero centres on mobile and goes left-aligned from md up. The photo
+         sits above the copy on a phone, and a centred photo over left-aligned
+         text left one element not sharing the page's edge. Centring the column
+         under it is the version Clark asked for. The max-w caps need mx-auto
+         to actually centre: without it the text centres inside a block that is
+         still pinned left, which looks like a bug rather than a choice. */
+    }
     <div class="grid items-center gap-10 md:grid-cols-[1fr_auto]">
-      <div>
+      <div class="text-center md:text-left">
         <p class="mb-4 text-[13px] font-medium text-teal-deep">
           Business Analytics · Marketing · AI Enablement
         </p>
         <h1
-          class="max-w-[22ch] font-serif text-[2.125rem] font-bold leading-[1.04] tracking-[-0.028em] md:text-[3.5rem]"
+          class="mx-auto max-w-[22ch] font-serif text-[2.125rem] font-bold leading-[1.04] tracking-[-0.028em] md:mx-0 md:text-[3.5rem]"
         >
           I turn <em class="messy italic" aria-label="messy"><span aria-hidden="true"
             >m</span
@@ -40,25 +48,17 @@ const framework = [
             aria-hidden="true">s</span
           ><span aria-hidden="true">y</span></em> data, ideas, and operations into clear decisions
         </h1>
-        <p class="mt-6 max-w-[52ch] text-lg leading-relaxed text-ink/70">
+        <p class="mx-auto mt-6 max-w-[52ch] text-lg leading-relaxed text-ink/70 md:mx-0">
           I like taking scattered information, finding the pattern, and
           explaining what matters in plain language. I use analysis, dashboards,
           and practical AI tools to get there.
         </p>
-        <div class="mt-8 flex flex-wrap gap-4">
+        <div class="mt-8 flex flex-wrap justify-center gap-4 md:justify-start">
           <ButtonLink href="/work" size="large">View Work</ButtonLink>
           <ButtonLink href="/resume.pdf" variant="ghost" size="large">Resume</ButtonLink>
         </div>
       </div>
-      {
-        /* Left-aligned on mobile, not centred. The eyebrow, headline, body and
-           buttons below all start at the same 24px margin, so a centred photo
-           was the only element on the page not sharing that edge, which read as
-           a misalignment rather than as a choice. Centring the text instead
-           would mean centring the headline too, and a centred page title fights
-           the left-aligned editorial identity every other page uses. */
-      }
-      <div class="order-first flex flex-col items-start md:order-none md:items-center">
+      <div class="order-first flex flex-col items-center md:order-none">
         <img
           src="/headshot.jpg"
           alt="Clark Hayashi"
