@@ -26,7 +26,7 @@ Sole analyst: data consolidation and cleaning in Excel, dashboard design in Tabl
 
 ## Approach
 
-- Consolidated and cleaned participation data across sports, seasons, and class years (2018–2025)
+- Consolidated and cleaned participation data across sports, seasons, and class years (2018-2025)
 - Analyzed engagement trends and involvement drivers: which leagues were growing, which were declining, and when students actually sign up
 - Built Tableau dashboards highlighting participation patterns by sport, season, and class year
 - Turned the findings into recommendations for scheduling, marketing, and retention planning

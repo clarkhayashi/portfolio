@@ -1,4 +1,4 @@
-# CLAUDE.md · Clark Hayashi Portfolio — Project Constitution
+# CLAUDE.md · Clark Hayashi Portfolio · Project Constitution
 
 Stable facts and settled rules. For current state and next tasks, read
 `docs/CLARK_PORTFOLIO_HANDOVER.md` (the living continuity record). For the
@@ -126,6 +126,18 @@ phrasing implying Clark was in Italy instead of at the bank.
   "data" swooshes, unrelated cityscapes), and any image implying work, a result,
   or a credential that is not real. Prefer Clark's own asset when one exists.
   Never picsum or a placeholder service.
+- Generated assets (revised 2026-08-06, at Clark's direction). The line is what
+  the image claims, not how it was made. **Allowed, with Clark's approval on the
+  specific asset:** anything depicting no real place, person, artifact, or
+  result. Diagrams, textures, section marks, abstract figures, and charts
+  rebuilt as clean SVG all qualify, and a well-made one is better than an empty
+  slot. **Still banned:** generated photographic imagery standing in for Clark's
+  own life or work, such as a rendered coastline beside the Hawai'i story or a
+  synthesized office beside the Bank of Hawaii internship. A reader cannot tell
+  a generated beach from a real one, the whole site asks to be believed on its
+  numbers, and one fabricated photo puts that credit at risk. This is the "no
+  invented metrics" rule applied to pixels. Placeholder services stay banned
+  outright: shipping one is shipping an unfinished page.
 
 ## Rejected directions (do not reintroduce)
 
@@ -160,8 +172,39 @@ phrasing implying Clark was in Italy instead of at the bank.
 authorization to finish the whole job without handing back commands:
 
 1. Inspect `git status` and the diff.
-2. Run the build and the project checks (`npx astro build`, the em-dash
-   search, `npx -y @google/design.md lint DESIGN.md`).
+2. Run the build and the project checks (`npx astro build`, the dash search,
+   `npx -y @google/design.md lint DESIGN.md`).
+
+   The dash search runs against the **built HTML**, not `src/`. Searching
+   `src/` alone missed em dashes living in DESIGN.md and CLAUDE.md for months,
+   including one inside the sentence that states the ban. Both dashes are
+   checked, because an en dash used as a range separator is the same
+   inconsistency wearing a shorter character:
+
+   Use perl with `\x{...}` escapes. Do not use grep, and do not put the literal
+   glyph in the pattern, for three reasons learned the hard way on 2026-08-06:
+   a literal glyph makes this file flag itself forever; BSD grep does not
+   support `\|` alternation in a basic regex, so a grep pattern joining the two
+   glyphs with `\|` silently searches for that four-character string instead
+   and reports a clean 0 on a dirty tree; and a bracket class holding the two
+   glyphs matches multibyte characters byte by byte, which reported 182 hits
+   against 0 real ones. Two different greps gave two different wrong answers
+   before perl gave the right one. Describe the glyphs, never paste them.
+
+   ```
+   find dist -name '*.html' -exec perl -CSD -ne 'print "$ARGV:$.\n" if /\x{2014}|\x{2013}/' {} \;
+   perl -CSD -ne 'print "$ARGV:$.\n" if /\x{2014}/' DESIGN.md CLAUDE.md
+   ```
+
+   Both must print nothing. Verify the check itself still works by seeding a
+   scratch file with an em dash and confirming it is caught; a check that
+   cannot fail is not a check.
+
+   Scope is deliberate. Shipped HTML is checked for **both** dashes, because a
+   visitor sees them. The two documents are checked for the **em dash only**:
+   en dashes in their prose are numeric ranges (`300–900` font weights,
+   `75–80%` opacity, `2004–2022`), which is what an en dash is for, and no
+   visitor ever reads them.
 3. Stage only the files belonging to the current task, never `git add -A`.
 4. Commit with an accurate message.
 5. Push the current branch to its existing origin.

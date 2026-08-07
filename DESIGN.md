@@ -33,6 +33,17 @@ typography:
     fontSize: 1.625rem
     fontWeight: 700
     letterSpacing: -0.022em
+  h4:
+    fontFamily: Satoshi
+    fontSize: 1.125rem
+    fontWeight: 700
+    letterSpacing: -0.01em
+  case-title:
+    fontFamily: Satoshi
+    fontSize: 2.875rem
+    fontWeight: 900
+    lineHeight: 1.04
+    letterSpacing: -0.028em
   body-lg:
     fontFamily: Satoshi
     fontSize: 1.125rem
@@ -47,9 +58,18 @@ typography:
     fontFamily: Satoshi
     fontSize: 0.8125rem
     fontWeight: 500
+  caption:
+    fontFamily: Satoshi
+    fontSize: 0.75rem
+    fontWeight: 500
+  micro:
+    fontFamily: Satoshi
+    fontSize: 0.6875rem
+    fontWeight: 500
 rounded:
   sm: 8px
-  md: 16px
+  md: 14px
+  lg: 16px
   full: 999px
 spacing:
   sm: 12px
@@ -108,9 +128,9 @@ choose calm over loud.
 - **Neutral (#F7F4EF):** Paper. Background everywhere; never pure white. A 3%-opacity fractal-noise grain overlays the page so the paper is literal.
 - **Crimson (#8A1538):** Micro-accent only, reserved for the "currently building" status dot. Never large areas.
 
-Two families sit outside the paper palette because they are not page surfaces.
-They are recorded here so that a colour appearing nowhere in this file stays a
-real signal of drift.
+Three families sit outside the paper palette. Two are not page surfaces; the
+third belongs to a brand that is not Clark's. They are recorded here so that a
+colour appearing nowhere in this file stays a real signal of drift.
 
 - **Chrome (#111C29 denim, #B84A56 rule, #DCE7E3 edge):** the site header only.
   A cool near-black denim with a fine 4px weave, a teal top border, a scalloped
@@ -123,6 +143,14 @@ real signal of drift.
   /journey and the homepage stepper only. A map is a depiction, not chrome, and
   it needs land and water to read as land and water at 460px. The route teal is
   brightened from decorative teal so a 2.4px line survives on the dark ocean.
+- **Zippy's (`--z-*` in src/pages/work/zippys-growth-strategy.astro):** that one
+  route, and nothing else, ever. A campaign case study wears its subject's
+  colours for the same reason the imagery rule asks every photo to be about the
+  thing beside it: the palette is evidence, not decoration. Sanctioned by Clark,
+  2026-08-06. Two conditions hold it in place. Every label still has to clear
+  WCAG AA on its own ground, brand colour or not, and the type rules are not
+  part of the exception: no tracked uppercase there either, because letter
+  spacing is a generic editorial device and not something Zippy's owns.
 
 Everything else on every page comes from the six paper colours above.
 
@@ -140,7 +168,7 @@ Satoshi). **Core** is Satoshi variable (300–900 roman + drawn italic,
 public/fonts/satoshi/): display, headings, body, labels, captions, data.
 Headings are Satoshi 900 with tight tracking; the old "never Satoshi Black"
 rule guarded the retired serif-display identity and died with it. **Voice** is
-Zodiak 700 + italic (public/fonts/zodiak/): exactly one moment per page — the
+Zodiak 700 + italic (public/fonts/zodiak/): exactly one moment per page, the
 page title, or one pull statement, or the finding number, never two on the
 same screen. **Accent** is Bespoke Slab 700 (public/fonts/bespoke-slab/),
 scoped to the intramural case study only, recorded in its front matter
@@ -151,7 +179,15 @@ The scale is nine steps and no more, desktop: 56 / 46 / 34 / 26 / 18 / 16 /
 13 / 12 / 11 (mobile page titles drop to 34, sections to 26, row titles to
 20). Sizes closer together than that are not perceived as a rank, they just
 read as inconsistency. Line height is inversely proportional to size, tight
-on display, open on body. Labels and eyebrows are sentence case, Satoshi 500
+on display, open on body.
+
+Tracking is four steps and no more, tightening as size grows: 34 and above
+take -0.03em, 46 and 56 take -0.028em (Zodiak is a serif, and serifs bridge
+letters on their own, so display tightens less than the sans does, not more),
+26 takes -0.022em, 18 and below take -0.01em. Values between these steps read
+as sloppiness rather than as a rank, the same way in-between sizes do.
+
+Labels and eyebrows are sentence case, Satoshi 500
 at 13px, interaction teal: no tracked uppercase anywhere. Nothing on any
 surface goes below 11px. Any display line containing an italic descender gets
 line-height 1.12 minimum.
@@ -159,7 +195,8 @@ line-height 1.12 minimum.
 Reading width tops out at 70ch; page containers at 1000px, including About.
 Headings use text-wrap balance. Numerals are tabular only in stats and
 tables, not in running prose. One italic serif accent is allowed per page
-(currently "messy" in the hero). **No em dashes anywhere in copy** — use
+(currently "messy" in the hero). **No em dashes anywhere, in copy or in this
+document.** The rule used to be stated with the character it bans. Use
 commas, colons, periods, or "·".
 
 ## Layout
@@ -196,7 +233,8 @@ nav at 13px sentence case. It carries no serif and no page content.
 One solid button per view (ink, teal on hover); all other actions are ghost
 buttons (25% ink border, teal on hover). Status labels are a 6px dot plus
 sentence-case label text: the dot is teal for complete/progress, crimson for
-building, bark for private/summarized — statuses always tell the truth. Crossfading visuals run
+building, bark for private/summarized. Statuses always tell the truth.
+Crossfading visuals run
 8s (2 images) or 16s (4 images), linear timing, aligned fade windows, logo
 first, honoring prefers-reduced-motion. Maximum ~4 animated tiles per page.
 Exception: /journey holds the site's single loud license, a scroll-driven
