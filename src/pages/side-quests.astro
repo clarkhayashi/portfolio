@@ -32,6 +32,7 @@ const spotifyYears = Math.round(
     <section class="quest-grid" aria-label="Clark's side quests">
       <a
         class="quest-card duo-card"
+        data-tooltip="I love learning languages, gotta keep up with my Japanese.\nGetting 1% better every day."
         href="https://www.duolingo.com/profile/ClarkHayashi"
         target="_blank"
         rel="noopener noreferrer"
@@ -71,6 +72,7 @@ const spotifyYears = Math.round(
 
       <a
         class="quest-card notes-card"
+        data-tooltip="What I read and listen to becomes what I’m thinking about."
         href="https://clarkhayashi.github.io/my-websites/clark-reading-notes/"
         target="_blank"
         rel="noopener noreferrer"
@@ -92,6 +94,7 @@ const spotifyYears = Math.round(
 
       <a
         class="quest-card spotify-card"
+        data-tooltip={`${spotifyHours} hours counted from my own raw export,\nbecause who needs to wait for Spotify Wrapped.`}
         href="/side-quests/listening"
       >
         <div class="spotify-copy">
@@ -125,6 +128,7 @@ const spotifyYears = Math.round(
 
       <article
         class="quest-card strava-card"
+        data-tooltip="My recent activity, straight from my Strava."
       >
         <div class="strava-rotator" data-strava-rotator>
           <div class="strava-embed-shell" data-strava-slide data-active="true">
@@ -159,6 +163,7 @@ const spotifyYears = Math.round(
 
       <a
         class="quest-card github-card"
+        data-tooltip="“If you want to be great in a particular area,\nyou have to obsess over it.” Kobe Bryant"
         href="https://github.com/clarkhayashi"
         target="_blank"
         rel="noopener noreferrer"
@@ -200,6 +205,14 @@ const spotifyYears = Math.round(
         <span class="card-action">Browse GitHub ↗</span>
       </a>
     </section>
+
+    {
+      /* The speech bubble that follows the cursor. Desktop only by design: the
+         same copy is printed inside each card under (hover: none), so a phone
+         still gets it. aria-hidden because the text is already in the DOM as
+         .card-reveal, and announcing it twice would be worse than not at all. */
+    }
+    <div id="quest-tooltip" role="presentation" aria-hidden="true"></div>
   </div>
 
 </Base>
@@ -347,6 +360,48 @@ const spotifyYears = Math.round(
       // The card still explains itself and still links to the stats page.
     });
 
+  /* Cursor-following speech bubble. Gated to a fine pointer, because it
+     follows a cursor and a phone does not have one; the same strings render
+     as .card-reveal inside each card under (hover: none), so no copy is lost.
+     Reduced motion still gets the bubble, just without the entrance. */
+  const tooltip = document.querySelector("#quest-tooltip");
+  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+
+  if (tooltip && finePointer.matches) {
+    let raf = 0;
+
+    document.querySelectorAll("[data-tooltip]").forEach((card) => {
+      card.addEventListener("pointerenter", () => {
+        tooltip.textContent = card.getAttribute("data-tooltip") ?? "";
+        tooltip.classList.add("is-visible");
+      });
+
+      /* Positioned on a rAF rather than on every pointermove: the handler
+         reads offsetWidth, and doing that per move event forces a layout on
+         each frame the pointer travels. */
+      card.addEventListener("pointermove", (event) => {
+        if (raf) return;
+        raf = requestAnimationFrame(() => {
+          raf = 0;
+          const gap = 18;
+          const left = Math.min(
+            event.clientX + gap,
+            window.innerWidth - tooltip.offsetWidth - 12,
+          );
+          const top = Math.min(
+            event.clientY + gap,
+            window.innerHeight - tooltip.offsetHeight - 12,
+          );
+          tooltip.style.transform =
+            `translate3d(${Math.max(12, left)}px, ${Math.max(12, top)}px, 0)`;
+        });
+      });
+
+      card.addEventListener("pointerleave", () => {
+        tooltip.classList.remove("is-visible");
+      });
+    });
+  }
 </script>
 
 <style>
@@ -430,12 +485,47 @@ const spotifyYears = Math.round(
      Licensed expression: DESIGN.md sanctions Side Quests as an expressive
      surface, so the lift and the tinted shadow below are deliberate here and
      nowhere else. The shadow is mixed from ink, never pure black on paper. */
+  /* The bubble, matching the shape Clark asked for: small radius, tight
+     padding, one flat fill, and pre-line so a \n in data-tooltip becomes a
+     real second line. Teal-deep rather than decorative teal because white on
+     it measures 4.98:1; white on #5D8C88 is 3.77:1 and would fail. */
+  #quest-tooltip {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    max-width: min(22rem, calc(100vw - 2rem));
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    background: var(--color-teal-deep, #4f7773);
+    color: #fff;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    white-space: pre-line;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate3d(-999px, -999px, 0);
+    transition: opacity 120ms var(--ease-out);
+  }
+
+  #quest-tooltip.is-visible {
+    opacity: 0.94;
+  }
+
+  /* The same strings, printed in the card, for anything without a cursor.
+     Absolutely positioned because .card-action is, and in normal flow this
+     paragraph landed on top of it. */
   .card-reveal {
-    margin: 0.85rem 0 0;
-    max-width: 40ch;
+    display: none;
+    position: absolute;
+    z-index: 4;
+    right: clamp(1.4rem, 3vw, 2.2rem);
+    bottom: calc(clamp(1.4rem, 3vw, 2rem) + 1.75rem);
+    left: clamp(1.4rem, 3vw, 2.2rem);
+    margin: 0;
     color: color-mix(in srgb, var(--color-ink, #1c1c1c) 72%, transparent);
-    font-size: 0.875rem;
-    line-height: 1.5;
+    font-size: 0.8125rem;
+    line-height: 1.45;
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -452,29 +542,17 @@ const spotifyYears = Math.round(
       box-shadow: 0 10px 28px
         color-mix(in srgb, var(--color-ink, #1c1c1c) 12%, transparent);
     }
-
-    .card-reveal {
-      opacity: 0;
-      transform: translateY(6px);
-      transition:
-        opacity 200ms var(--ease-out),
-        transform 200ms var(--ease-out);
-    }
-
-    /* focus-within so the reveal is reachable by keyboard, not just by mouse. */
-    .quest-card:hover .card-reveal,
-    .quest-card:focus-within .card-reveal {
-      opacity: 1;
-      transform: none;
-    }
   }
 
-  /* No hover on a phone, so the copy is simply always there. This is the
-     branch that carries the content for roughly half the traffic. */
+  /* No cursor here, so the bubble can never fire. Print the copy instead. */
   @media (hover: none) {
     .card-reveal {
-      opacity: 1;
-      transform: none;
+      display: block;
+    }
+
+    .duo-card .card-reveal,
+    .strava-card .card-reveal {
+      bottom: clamp(1.4rem, 3vw, 2rem);
     }
   }
 
