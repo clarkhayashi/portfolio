@@ -28,7 +28,10 @@ export const journey: JourneyStop[] = [
   {
     place: "Honolulu",
     title: "Where I'm from",
-    years: "2004 to 2022",
+    /* Departure year only. Every other stop is dated by when something
+       happened, not by a birth year, and "Where I'm from" already carries
+       that this is the origin. */
+    years: "Until 2022",
     lon: -157.86,
     lat: 21.31,
     landmark: "Diamond Head + Pacific",
@@ -90,16 +93,25 @@ export const journey: JourneyStop[] = [
     ],
   },
   {
-    place: "Sansepolcro",
+    /* "Italy", not "Sansepolcro" or "Tuscany": the tour crossed two regions.
+       Sansepolcro and Arezzo are Tuscany, Assisi and Perugia are Umbria, so
+       Italy is the only label true for the whole itinerary. The specificity
+       lives in the story below, where a reader is already reading. */
+    place: "Italy",
     title: "Where business got global",
-    years: "September 2025",
+    /* Dated by when Clark was physically there, because /journey is a map of
+       places. The course itself stays "Summer 2025" in experience.ts, which
+       matches the resume: a term and a trip are different facts. Dating both
+       this stop and the Bank of Hawaii stop "Summer 2025" read as two
+       hemispheres at once. */
+    years: "August 2025",
     lon: 12.14,
     lat: 43.57,
     landmark: "Tuscan winery",
     glyph: "hill",
     chipPhoto: "/images/italy/wine-barrels.jpg",
     story:
-      "Ten days across Tuscany with the Albers School: family wineries, Nestle's Perugina chocolate operation, a B Corp textile mill older than most countries. Small firms, long views, and marketing that has survived centuries of change.",
+      "Ten days across Italy with the Albers School, late August into early September, right after the Bank of Hawaii internship wrapped: the coursework had run online all summer alongside it. Family wineries, Nestlé's Perugina chocolate operation, a B Corp textile mill older than most countries. Small firms, long views, and marketing that has survived centuries of change.",
     photo: { src: "/images/italy/italy-study-tour-group.jpg", alt: "Italy study tour group at a Tuscan vineyard" },
     links: [
       { label: "Program recap", href: "https://www.linkedin.com/feed/update/urn:li:activity:7374272355684028416/", external: true },

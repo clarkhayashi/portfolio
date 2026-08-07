@@ -22,7 +22,7 @@ const uniqueStops = stops.filter(
   class="border-y border-ink/10 bg-teal/[0.055]"
   data-stops={JSON.stringify(stops)}
   tabindex="0"
-  aria-label="Clark's journey across Honolulu, Seattle, Tokyo, and Sansepolcro"
+  aria-label="Clark's journey across Honolulu, Seattle, Tokyo, and Italy"
   aria-roledescription="carousel"
 >
   <div class="mx-auto max-w-[1080px] px-6 py-14 md:py-20">
@@ -114,12 +114,12 @@ const uniqueStops = stops.filter(
               {stop.placeJa && <span lang="ja">{stop.placeJa} · </span>}{stop.place}
             </p>
             {stop.titleJa ? (
-              <h3 class="title-swap mt-2 font-sans text-2xl font-bold leading-tight tracking-[-0.022em]">
+              <h3 class="title-swap mt-2 font-sans text-[1.625rem] font-bold leading-tight tracking-[-0.022em]">
                 <span lang="ja">{stop.titleJa}</span>
                 <span class="title-en">{stop.title}</span>
               </h3>
             ) : (
-              <h3 class="mt-2 font-sans text-2xl font-bold leading-tight tracking-[-0.022em]">{stop.title}</h3>
+              <h3 class="mt-2 font-sans text-[1.625rem] font-bold leading-tight tracking-[-0.022em]">{stop.title}</h3>
             )}
             <p class="mt-1 font-sans text-[13px] font-medium text-teal-deep">{stop.years}</p>
             <p class="mt-4 max-w-[54ch] leading-relaxed text-ink/70">{stop.story}</p>
@@ -255,21 +255,30 @@ const uniqueStops = stops.filter(
     return { type: "MultiPolygon", coordinates: polygons };
   }
 
-  fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/land-110m.json")
+  /* Vendored from world-atlas@2 (ISC) into public/data/ rather than fetched
+     from a CDN: this is the homepage centrepiece, and an external request that
+     is blocked or slow degrades it to a bare navy disc. Same reason the fonts
+     are self-hosted, so the site makes no external requests at all. */
+  fetch("/data/land-110m.json")
     .then((response) => response.json())
     .then((topo) => {
       d3 = { geoGraticule10, geoOrthographic, geoPath };
       landGeo = decodeLand(topo);
       graticule = d3.geoGraticule10();
-      box.classList.add("map-ready");
       requestDraw();
     })
-    .catch(() => box.classList.add("map-fallback"));
+    /* landGeo stays null, so render() paints the plain ocean disc. Both
+       branches used to add a class that no stylesheet ever defined. */
+    .catch(requestDraw);
 
   uniqueLocations.forEach((stop) => {
     const button = document.createElement("button");
     button.type = "button";
-    button.textContent = stop.placeJa ? `${stop.placeJa} ${stop.place}` : stop.place;
+    /* English only in the tab row. This is an index, not a title: the items
+       want equal width and equal weight so the crimson underline is the only
+       thing signalling selection. 東京 still earns its place on the card
+       eyebrow, the globe chip, and the live label directly above this row. */
+    button.textContent = stop.place;
     button.setAttribute("role", "tab");
     button.setAttribute("aria-label", `Jump to ${stop.place}`);
     button.dataset.place = stop.place;
@@ -672,7 +681,7 @@ const uniqueStops = stops.filter(
     border: 2px solid #f7f4ef;
     border-radius: 999px;
     background: #4f7773;
-    transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease;
+    transition: width 0.2s var(--ease-out), height 0.2s var(--ease-out), background-color 0.2s var(--ease-out);
   }
 
   .journey-marker-dot::after {
@@ -710,7 +719,7 @@ const uniqueStops = stops.filter(
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity 0.28s var(--ease-out, ease), transform 0.42s cubic-bezier(0.23, 1, 0.32, 1), visibility 0.28s;
+    transition: opacity 0.28s var(--ease-out), transform 0.42s var(--ease-out), visibility 0.28s;
   }
 
   .chip-art {
@@ -804,7 +813,7 @@ const uniqueStops = stops.filter(
     background: transparent;
     color: #112d38;
     cursor: pointer;
-    transition: background-color 0.2s ease, color 0.2s ease, transform 0.16s ease;
+    transition: background-color 0.2s var(--ease-out), color 0.2s var(--ease-out), transform 0.16s var(--ease-out);
   }
 
   .journey-zoom button + button { border-top: 1px solid rgba(17, 45, 56, 0.14); }
@@ -826,19 +835,19 @@ const uniqueStops = stops.filter(
   :global(#journey-chips button) {
     min-height: 44px;
     cursor: pointer;
-    transition: color 0.2s ease;
+    transition: color 0.2s var(--ease-out);
   }
   :global(#journey-chips button[aria-selected="true"]) { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px; }
   :global(#journey-chips button:hover) { color: #4f7773 !important; }
 
-  .journey-card:not([hidden]) { animation: card-in 0.38s cubic-bezier(0.16, 1, 0.3, 1); }
+  .journey-card:not([hidden]) { animation: card-in 0.28s var(--ease-out); }
 
   /* 留学 arrives first, holds a beat, then resolves into "Study Abroad".
      Replays on every arrival because the card re-displays. */
   .title-swap { display: grid; }
   .title-swap > span { grid-area: 1 / 1; }
-  .title-swap > span[lang="ja"] { animation: ja-hold 2.2s cubic-bezier(0.23, 1, 0.32, 1) both; }
-  .title-swap > .title-en { animation: en-reveal 2.2s cubic-bezier(0.23, 1, 0.32, 1) both; }
+  .title-swap > span[lang="ja"] { animation: ja-hold 2.2s var(--ease-out) both; }
+  .title-swap > .title-en { animation: en-reveal 2.2s var(--ease-out) both; }
 
   @keyframes ja-hold {
     0%, 48% { opacity: 1; filter: blur(0); }

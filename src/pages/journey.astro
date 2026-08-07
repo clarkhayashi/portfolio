@@ -194,7 +194,8 @@ const stops = journey.map((s) => ({ place: s.place, lon: s.lon, lat: s.lat, year
       return { type: "MultiPolygon", coordinates: polygons };
     }
 
-    fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/land-110m.json")
+    /* Vendored, same as the homepage stepper: see public/data/land-110m.json. */
+    fetch("/data/land-110m.json")
       .then((r) => r.json())
       .then((topo) => {
         landGeo = decodeLand(topo);
