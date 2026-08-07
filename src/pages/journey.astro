@@ -205,28 +205,42 @@ const stops = journey.map((s) => ({ place: s.place, lon: s.lon, lat: s.lat, year
 
     /* One plain button per place, not per stop. Honolulu and Seattle each
        appear twice in the chronology; listing them twice made the row read as
-       a numbered table of contents instead of a map legend. Each button jumps
-       to that place's first stop, matching the homepage's chip row. */
+       a numbered table of contents instead of a map legend. One button per
+       place, matching the homepage's chip row.
+
+       Honolulu and Seattle each hold two stops, so a button that only ever
+       scrolled to the first left stop 4 (Bank of Hawaii) and stop 6 ("Now")
+       reachable by scrolling alone. Each button now steps through its place's
+       stops and wraps, so every chapter has a control that reaches it. */
     const chips = document.getElementById("stop-index");
-    const firstStopFor = new Map();
+    const stopsForPlace = new Map();
     stops.forEach((s, i) => {
-      if (!firstStopFor.has(s.place)) firstStopFor.set(s.place, i);
+      if (!stopsForPlace.has(s.place)) stopsForPlace.set(s.place, []);
+      stopsForPlace.get(s.place).push(i);
     });
-    firstStopFor.forEach((i, place) => {
+    stopsForPlace.forEach((list, place) => {
       const b = document.createElement("button");
       b.type = "button";
       b.textContent = place;
-      b.setAttribute("aria-label", `Jump to ${place}`);
+      b.setAttribute(
+        "aria-label",
+        list.length > 1 ? `Jump to ${place}, ${list.length} visits` : `Jump to ${place}`,
+      );
       b.style.cssText = "border:0;background:none;cursor:pointer;padding:6px 4px;font:500 0.8125rem/1 Satoshi,sans-serif;";
       b.dataset.place = place;
-      b.onclick = () => document.getElementById(`stop-${i + 1}`).scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+      b.onclick = () => {
+        const next = list[(list.indexOf(active) + 1) % list.length];
+        document
+          .getElementById(`stop-${next + 1}`)
+          .scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+      };
       chips.appendChild(b);
     });
 
     function paintChips() {
       const here = stops[active].place;
       [...chips.children].forEach((b) => {
-        const seenYet = firstStopFor.get(b.dataset.place) <= active;
+        const seenYet = stopsForPlace.get(b.dataset.place)[0] <= active;
         b.style.color = b.dataset.place === here ? "#8A1538" : seenYet ? "#4F7773" : "rgba(28,28,28,0.4)";
       });
     }

@@ -204,14 +204,31 @@ const uniqueStops = stops.filter(
   let raf = 0;
   let drag = null;
 
+  /* The tab row and the globe pins deliberately show one entry per PLACE, not
+     one per stop, so "Honolulu, Seattle, Tokyo, Italy" reads as a route rather
+     than a list with repeats. But Honolulu and Seattle each hold two stops, so
+     a tab that only ever jumped to the first one left stop 4 (the Bank of
+     Hawaii internship) and stop 6 ("Now", which carries the closing links)
+     reachable by arrow alone. Each entry now holds every stop for its place and
+     steps through them on repeat activation, newest visit after first. */
   const uniqueLocations = [];
-  const locationIndex = new Map();
+  const stopsForPlace = new Map();
   stops.forEach((stop, i) => {
-    if (!locationIndex.has(stop.place)) {
-      locationIndex.set(stop.place, i);
+    if (!stopsForPlace.has(stop.place)) {
+      stopsForPlace.set(stop.place, []);
       uniqueLocations.push(stop);
     }
+    stopsForPlace.get(stop.place).push(i);
   });
+
+  /* From another place, land on that place's first stop; from one of its own
+     stops, advance to the next and wrap. indexOf returns -1 when we are
+     elsewhere, so the modulo lands on 0 without a special case. */
+  function goToPlace(place) {
+    const list = stopsForPlace.get(place);
+    if (!list) return;
+    go(list[(list.indexOf(index) + 1) % list.length]);
+  }
 
   function resize() {
     const rect = box.getBoundingClientRect();
@@ -280,15 +297,19 @@ const uniqueStops = stops.filter(
        eyebrow, the globe chip, and the live label directly above this row. */
     button.textContent = stop.place;
     button.setAttribute("role", "tab");
-    button.setAttribute("aria-label", `Jump to ${stop.place}`);
+    const visits = stopsForPlace.get(stop.place).length;
+    button.setAttribute(
+      "aria-label",
+      visits > 1 ? `Jump to ${stop.place}, ${visits} visits` : `Jump to ${stop.place}`,
+    );
     button.dataset.place = stop.place;
     button.className = "px-1 py-2 text-[13px] font-medium";
-    button.onclick = () => go(locationIndex.get(stop.place));
+    button.onclick = () => goToPlace(stop.place);
     chipsBox.appendChild(button);
   });
   const chips = [...chipsBox.children];
   mapMarkers.forEach((button) => {
-    button.onclick = () => go(locationIndex.get(button.dataset.place));
+    button.onclick = () => goToPlace(button.dataset.place);
   });
 
   function paint() {
