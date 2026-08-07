@@ -170,7 +170,8 @@ const chartData = {
   title="Listening · Clark Hayashi"
   description="Four years of Clark Hayashi's Spotify listening history, counted from the raw export."
 >
-  <main class="listening-shell">
+  {/* Base.astro already provides the page's single <main> landmark. */}
+  <div class="listening-shell">
     <header class="listening-intro">
       <p class="eyebrow"><a href="/side-quests">Side Quests</a></p>
       <h1>Listening</h1>
@@ -610,7 +611,7 @@ const chartData = {
         >Spotify</a
       >.
     </p>
-  </main>
+  </div>
 
   <div id="chart-tip" role="status" aria-live="polite"></div>
   <script type="application/json" id="chart-data" set:html={JSON.stringify(chartData)}></script>
@@ -991,12 +992,11 @@ const chartData = {
     margin-bottom: clamp(2.5rem, 5vw, 4rem);
   }
 
+  /* Label spec: 13px Satoshi 500, sentence case. Was tracked uppercase. */
   .eyebrow {
     margin: 0 0 1rem;
-    font-size: 0.8rem;
+    font-size: 0.8125rem;
     font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
   }
 
   .eyebrow a {
@@ -1008,13 +1008,18 @@ const chartData = {
     text-decoration: underline;
   }
 
+  /* The page's single Zodiak moment, at the 34/56 steps. Was clamp(48, 88). */
   .listening-intro h1 {
     margin: 0;
     font-family: var(--font-serif, Georgia, serif);
-    font-size: clamp(3rem, 8vw, 5.5rem);
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    line-height: 1;
+    font-size: 2.125rem;
+    font-weight: 700;
+    letter-spacing: -0.028em;
+    line-height: 1.04;
+  }
+
+  @media (min-width: 768px) {
+    .listening-intro h1 { font-size: 3.5rem; }
   }
 
   .intro-copy {
@@ -1025,17 +1030,21 @@ const chartData = {
   }
 
   .intro-copy em {
-    font-family: var(--font-serif, Georgia, serif);
     color: var(--color-teal-deep, #4f7773);
     font-style: italic;
   }
 
+  /* Satoshi 900 at the 26/34 steps: the serif is spent on the page title. */
   .section-title {
     margin: 0 0 1.25rem;
-    font-family: var(--font-serif, Georgia, serif);
-    font-size: clamp(1.6rem, 3vw, 2.1rem);
-    font-weight: 600;
-    letter-spacing: -0.01em;
+    font-size: 1.625rem;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+  }
+
+  @media (min-width: 768px) {
+    .section-title { font-size: 2.125rem; }
   }
 
   .stats-section,
@@ -1060,18 +1069,15 @@ const chartData = {
   .stat dt {
     font-size: 0.75rem;
     font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 55%, transparent);
+    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 65%, transparent);
   }
 
   .stat dd {
     margin: 0.35rem 0 0;
-    font-family: var(--font-serif, Georgia, serif);
-    font-size: clamp(1.9rem, 4.5vw, 2.9rem);
-    font-weight: 600;
+    font-size: 1.625rem;
+    font-weight: 900;
     font-variant-numeric: tabular-nums;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
     line-height: 1;
   }
 
@@ -1079,7 +1085,7 @@ const chartData = {
     margin: 0.45rem 0 0;
     font-size: 0.8rem;
     line-height: 1.45;
-    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 60%, transparent);
+    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 65%, transparent);
   }
 
   /* ---------- Charts ---------- */
@@ -1145,8 +1151,9 @@ const chartData = {
     fill: var(--color-crimson, #8a1538);
   }
 
+  /* Axis ticks carry information, so they sit at the 65% ink floor too. */
   .chart .tick {
-    fill: color-mix(in srgb, var(--color-ink, #1c1c1c) 50%, transparent);
+    fill: color-mix(in srgb, var(--color-ink, #1c1c1c) 65%, transparent);
     font-family: var(--font-sans, system-ui);
     font-size: 11px;
   }
@@ -1193,7 +1200,7 @@ const chartData = {
     margin-top: 0.9rem;
     font-size: 0.85rem;
     line-height: 1.6;
-    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 60%, transparent);
+    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 65%, transparent);
   }
 
   /* ---------- Country strip ---------- */
@@ -1221,7 +1228,7 @@ const chartData = {
     gap: 1.1rem;
     margin-top: 0.7rem;
     font-size: 0.78rem;
-    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 58%, transparent);
+    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 65%, transparent);
   }
 
   .legend span {
@@ -1253,17 +1260,18 @@ const chartData = {
     margin-top: 1.5rem;
   }
 
+  /* 13px, the label step. 0.9rem (14.4px) was off the nine-step scale. */
   .small h3 {
     margin: 0 0 0.15rem;
-    font-size: 0.9rem;
-    font-weight: 600;
+    font-size: 0.8125rem;
+    font-weight: 700;
   }
 
   .small p {
     margin: 0 0 0.4rem;
     font-size: 0.74rem;
     font-variant-numeric: tabular-nums;
-    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 55%, transparent);
+    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 65%, transparent);
   }
 
   .small svg {
@@ -1284,7 +1292,7 @@ const chartData = {
     margin-bottom: 0.35rem;
     margin-left: 2.6rem;
     font-size: 0.7rem;
-    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 50%, transparent);
+    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 65%, transparent);
   }
 
   .clock-row {
@@ -1296,7 +1304,7 @@ const chartData = {
   .clock-day {
     flex: 0 0 2rem;
     font-size: 0.7rem;
-    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 55%, transparent);
+    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 65%, transparent);
   }
 
   .clock-cells {
@@ -1333,7 +1341,7 @@ const chartData = {
     flex: 0 0 1.6rem;
     font-size: 0.8rem;
     font-variant-numeric: tabular-nums;
-    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 45%, transparent);
+    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 65%, transparent);
   }
 
   .row-art {
@@ -1375,21 +1383,21 @@ const chartData = {
     font-size: 0.85rem;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 62%, transparent);
+    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 65%, transparent);
   }
 
   .row-meta {
     flex: 0 0 auto;
     font-size: 0.78rem;
     font-variant-numeric: tabular-nums;
-    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 50%, transparent);
+    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 65%, transparent);
   }
 
   .row-empty {
     padding: 0.9rem 0;
     border-bottom: 1px solid color-mix(in srgb, var(--color-ink, #1c1c1c) 9%, transparent);
     font-size: 0.9rem;
-    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 55%, transparent);
+    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 65%, transparent);
   }
 
   .section-note {
@@ -1397,7 +1405,7 @@ const chartData = {
     max-width: 46rem;
     font-size: 0.85rem;
     line-height: 1.6;
-    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 60%, transparent);
+    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 65%, transparent);
   }
 
   /* ---------- Right now ---------- */
@@ -1436,14 +1444,11 @@ const chartData = {
     margin: 0 0 0.5rem;
     font-size: 0.78rem;
     font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
     color: var(--color-teal-deep, #4f7773);
   }
 
   .now-title {
     margin: 0;
-    font-family: var(--font-serif, Georgia, serif);
     font-size: clamp(1.5rem, 3.5vw, 2.4rem);
     font-weight: 600;
     letter-spacing: -0.01em;
@@ -1510,9 +1515,7 @@ const chartData = {
     margin: 0 0 0.75rem;
     font-size: 0.78rem;
     font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 55%, transparent);
+    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 65%, transparent);
   }
 
   /* ---------- Method ---------- */
@@ -1535,7 +1538,7 @@ const chartData = {
     padding-top: 1.5rem;
     border-top: 1px solid color-mix(in srgb, var(--color-ink, #1c1c1c) 12%, transparent);
     font-size: 0.82rem;
-    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 55%, transparent);
+    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 65%, transparent);
   }
 
   .attribution a {

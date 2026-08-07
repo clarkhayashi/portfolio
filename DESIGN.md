@@ -9,6 +9,12 @@ colors:
   tertiary-deep: "#4F7773"
   neutral: "#F7F4EF"
   crimson: "#8A1538"
+  chrome: "#111C29"
+  chrome-rule: "#B84A56"
+  chrome-edge: "#DCE7E3"
+  globe-ocean: "#112D38"
+  globe-land: "#E9DFC9"
+  globe-route: "#9BD7D4"
 typography:
   h1:
     fontFamily: Zodiak
@@ -68,6 +74,21 @@ components:
   status-dot-building:
     backgroundColor: "{colors.crimson}"
     size: 6px
+  site-header:
+    backgroundColor: "{colors.chrome}"
+    textColor: "{colors.neutral}"
+  site-header-active:
+    backgroundColor: "{colors.chrome-rule}"
+    textColor: "{colors.neutral}"
+  site-header-edge:
+    backgroundColor: "{colors.chrome-edge}"
+    size: 9px
+  journey-globe:
+    backgroundColor: "{colors.globe-ocean}"
+    textColor: "{colors.globe-land}"
+  journey-globe-route:
+    backgroundColor: "{colors.globe-route}"
+    size: 2.4px
 ---
 
 ## Overview
@@ -86,6 +107,24 @@ choose calm over loud.
 - **Tertiary-deep (#4F7773):** Interaction teal. All small-text links, hover fills, and the role eyebrow; meets WCAG AA (4.5:1) on paper.
 - **Neutral (#F7F4EF):** Paper. Background everywhere; never pure white. A 3%-opacity fractal-noise grain overlays the page so the paper is literal.
 - **Crimson (#8A1538):** Micro-accent only, reserved for the "currently building" status dot. Never large areas.
+
+Two families sit outside the paper palette because they are not page surfaces.
+They are recorded here so that a colour appearing nowhere in this file stays a
+real signal of drift.
+
+- **Chrome (#111C29 denim, #B84A56 rule, #DCE7E3 edge):** the site header only.
+  A cool near-black denim with a fine 4px weave, a teal top border, a scalloped
+  paper edge, and a dusty rule under the active nav item. Deliberately *not*
+  ink: the header reads as a bound cover over the paper, and matching ink would
+  flatten it into the contact card. Crimson at full strength was too loud for a
+  1px underline that sits on every page, hence the softer #B84A56. Nothing
+  outside the header may use these.
+- **Globe (#112D38 ocean, #E9DFC9 land, #9BD7D4 route):** the canvas atlas on
+  /journey and the homepage stepper only. A map is a depiction, not chrome, and
+  it needs land and water to read as land and water at 460px. The route teal is
+  brightened from decorative teal so a 2.4px line survives on the dark ocean.
+
+Everything else on every page comes from the six paper colours above.
 
 Text hierarchy comes from ink at opacity steps: 100% headings, 75–80% body,
 70% supporting, 65% metadata. 65% ink is the floor for any text that carries
@@ -148,6 +187,11 @@ Buttons are pills ({rounded.full}). Images and tiles use {rounded.sm} to
 sine.
 
 ## Components
+
+The site header is the one piece of chrome: denim {colors.chrome} with a fine
+4px weave, a 3px teal top border, a scalloped {colors.chrome-edge} bottom edge,
+and a {colors.chrome-rule} hairline under the active nav item. Core type only,
+nav at 13px sentence case. It carries no serif and no page content.
 
 One solid button per view (ink, teal on hover); all other actions are ghost
 buttons (25% ink border, teal on hover). Status labels are a 6px dot plus
