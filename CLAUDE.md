@@ -61,12 +61,46 @@ phrasing implying Clark was in Italy instead of at the bank.
   (competed as Seattle Financial Initiative, 174-team field); $22.5K total
   confirmed by Clark 2026-07-10. Membership 23→54.
   Do NOT list "VP of Finance" or an "→ Advisor" role suffix.
+  **Attribution guard on the $22.5K (audited 2026-08-06).** Both wins are real
+  and independently documented, and both belong to the ORGANISATION, not to
+  Clark personally. Seattle U's Albers newsroom piece on the $20K Harriet
+  Stephenson win (2024-06-03) names six representing students, Ana Giordano,
+  Dora Becker, Emma Nguyen, Ethan Sue, Jonathan Tran and Julian Ma, and Clark
+  is not among them. The $2.5K eBay Best Marketplace Idea Prize is confirmed in
+  the Foster School's 2025 Dempsey Startup Competition writeup, awarded to
+  "Seattle Financial Initiative". So the homepage phrasing, "I co-founded a
+  student credit union initiative THAT WON $22.5K", is correct and has to stay
+  built that way: the initiative is the subject of "won", not Clark. Never
+  rewrite it to "I won $22.5K" or "my team won". A recruiter who checks finds
+  six names that are not Clark's, and the sentence is what protects him.
+  Note also that SUCUI's live team page lists Clark under Financial Literacy
+  and Operations for Winter 2026, not as an advisor and not in Marketing, which
+  does not match "role is closed, advising after". Ask Clark before reconciling;
+  do not silently edit either side.
 - UREC: "Intramural Sports Official → Manager", 2022–2026. 40+ officials.
   Analysis covers eight seasons, 2018 to 2025, 4,169 player-years; 648
   participants played at least one game in 2025 (711 / 721 / 720 in 2022-24).
   The older "64+ teams, 469+ participants, 7 years" line is **superseded**;
   `im-analytics/PHASE1_proposal_v2.md` records it as outdated copy that must be
   replaced with validated dataset numbers. Do not reintroduce it.
+- Akaka Scholar (added 2026-08-06). Ke'ehi Memorial Organization named Clark
+  the **Senator Daniel K. Akaka Scholar, $2,500, Seattle University**, under the
+  heading "Scholarship Recipients (2025-2026 Academic Year)". KMO is a Honolulu
+  veterans' organization; the award honours Senator Daniel K. Akaka, a WWII
+  veteran and chair of the Senate Veterans' Affairs Committee.
+  Live page: https://www.klmemorial.org/scholarships/
+  **Durable citation, use this one:**
+  https://web.archive.org/web/20260609112104/https://www.klmemorial.org/scholarships/
+  The live page is a rotating current-recipients list, not an archive. Its own
+  copy says the 2026-2027 application closed 2026-05-15, so Clark's name is
+  expected to drop off when that cycle is published. **A future session finding
+  no Clark on the live page has NOT disproved this fact**; check the snapshot
+  above, which was verified by hand on 2026-08-06 and contains the line
+  verbatim. Any other live third-party page cited as proof of a Clark fact gets
+  the same treatment: archive it, record the timestamped URL here, cite that.
+  Clark's LinkedIn separately records the same recognition in 2024, which would
+  make it recurring. That second year is NOT yet verified and must not be
+  published until it is.
 - Punahou: varsity basketball co-captain and Most Inspirational Player
   (**basketball, not golf**); JROTC Mayor's Award; Carnival class raised $337K.
 - Hui o Nani: "audience of 300+" (not "300+ participants").
