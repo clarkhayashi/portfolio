@@ -35,7 +35,6 @@ const spotifyYears = Math.round(
         href="https://www.duolingo.com/profile/ClarkHayashi"
         target="_blank"
         rel="noopener noreferrer"
-        data-tooltip="I love learning. Japanese is my main focus, with chess and five other languages on the side · Follow me on Duolingo"
       >
         <span class="external-mark" aria-hidden="true">↗</span>
 
@@ -66,6 +65,8 @@ const spotifyYears = Math.round(
           width="670"
           height="563"
         />
+      <p class="card-reveal">I love learning languages, gotta keep up with my Japanese. Getting 1% better every day.</p>
+
       </a>
 
       <a
@@ -73,7 +74,6 @@ const spotifyYears = Math.round(
         href="https://clarkhayashi.github.io/my-websites/clark-reading-notes/"
         target="_blank"
         rel="noopener noreferrer"
-        data-tooltip="What I read and listen to becomes what I’m thinking about"
       >
         <span class="external-mark" aria-hidden="true">↗</span>
 
@@ -85,13 +85,14 @@ const spotifyYears = Math.round(
           </p>
         </div>
 
+        <p class="card-reveal">What I read and listen to becomes what I’m thinking about.</p>
+
         <span class="card-action">Open my notes ↗</span>
       </a>
 
       <a
         class="quest-card spotify-card"
         href="/side-quests/listening"
-        data-tooltip="What I have on, pulled live from my own Spotify account · Open the stats"
       >
         <div class="spotify-copy">
           <p class="spotify-headline">
@@ -117,12 +118,13 @@ const spotifyYears = Math.round(
           </div>
         </div>
 
+        <p class="card-reveal">{spotifyHours} hours counted from my own raw export, because who needs to wait for Spotify Wrapped.</p>
+
         <span class="card-action">See the stats →</span>
       </a>
 
       <article
         class="quest-card strava-card"
-        data-tooltip="My recent activity · Open on Strava"
       >
         <div class="strava-rotator" data-strava-rotator>
           <div class="strava-embed-shell" data-strava-slide data-active="true">
@@ -152,6 +154,7 @@ const spotifyYears = Math.round(
           <button type="button" role="tab" aria-selected="false" aria-label="Activity 2" data-strava-dot></button>
         </div>
 
+      <p class="card-reveal">My recent activity, straight from my Strava.</p>
       </article>
 
       <a
@@ -159,7 +162,6 @@ const spotifyYears = Math.round(
         href="https://github.com/clarkhayashi"
         target="_blank"
         rel="noopener noreferrer"
-        data-tooltip="Small builds, experiments, and code I wanted to understand"
       >
         <span class="external-mark" aria-hidden="true">↗</span>
 
@@ -193,12 +195,13 @@ const spotifyYears = Math.round(
           <p>Prototypes, useful tools, and rabbit holes with a commit history</p>
         </div>
 
+        <p class="card-reveal">“If you want to be great in a particular area, you have to obsess over it.” Kobe Bryant</p>
+
         <span class="card-action">Browse GitHub ↗</span>
       </a>
     </section>
   </div>
 
-  <div id="quest-tooltip" role="tooltip" aria-hidden="true"></div>
 </Base>
 
 <script is:inline async src="https://strava-embeds.com/embed.js"></script>
@@ -344,41 +347,6 @@ const spotifyYears = Math.round(
       // The card still explains itself and still links to the stats page.
     });
 
-  const tooltip = document.querySelector("#quest-tooltip");
-  const finePointer = window.matchMedia(
-    "(pointer: fine) and (min-width: 769px)",
-  );
-
-  if (tooltip && finePointer.matches) {
-    document.querySelectorAll("[data-tooltip]").forEach((card) => {
-      card.addEventListener("pointerenter", () => {
-        tooltip.textContent = card.getAttribute("data-tooltip") ?? "";
-        tooltip.setAttribute("aria-hidden", "false");
-        tooltip.classList.add("is-visible");
-      });
-
-      card.addEventListener("pointermove", (event) => {
-        const gap = 18;
-        const tooltipWidth = tooltip.offsetWidth;
-        const tooltipHeight = tooltip.offsetHeight;
-        const left = Math.min(
-          event.clientX + gap,
-          window.innerWidth - tooltipWidth - 12,
-        );
-        const top = Math.min(
-          event.clientY + gap,
-          window.innerHeight - tooltipHeight - 12,
-        );
-
-        tooltip.style.transform = `translate3d(${Math.max(12, left)}px, ${Math.max(12, top)}px, 0)`;
-      });
-
-      card.addEventListener("pointerleave", () => {
-        tooltip.setAttribute("aria-hidden", "true");
-        tooltip.classList.remove("is-visible");
-      });
-    });
-  }
 </script>
 
 <style>
@@ -452,6 +420,62 @@ const spotifyYears = Math.round(
 
   .quest-card:hover {
     border-color: color-mix(in srgb, var(--color-teal, #5d8c88) 45%, transparent);
+  }
+
+  /* ---------- Hover reveal ----------
+     The description lives in the card, at readable size, instead of in a small
+     label chasing the cursor. The old tooltip was gated to (pointer: fine) and
+     min-width 769px, which meant every phone visitor saw none of this copy.
+
+     Licensed expression: DESIGN.md sanctions Side Quests as an expressive
+     surface, so the lift and the tinted shadow below are deliberate here and
+     nowhere else. The shadow is mixed from ink, never pure black on paper. */
+  .card-reveal {
+    margin: 0.85rem 0 0;
+    max-width: 40ch;
+    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 72%, transparent);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .quest-card {
+      transition:
+        border-color 180ms var(--ease-out),
+        transform 180ms var(--ease-out),
+        box-shadow 180ms var(--ease-out);
+    }
+
+    .quest-card:hover,
+    .quest-card:focus-within {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 28px
+        color-mix(in srgb, var(--color-ink, #1c1c1c) 12%, transparent);
+    }
+
+    .card-reveal {
+      opacity: 0;
+      transform: translateY(6px);
+      transition:
+        opacity 200ms var(--ease-out),
+        transform 200ms var(--ease-out);
+    }
+
+    /* focus-within so the reveal is reachable by keyboard, not just by mouse. */
+    .quest-card:hover .card-reveal,
+    .quest-card:focus-within .card-reveal {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* No hover on a phone, so the copy is simply always there. This is the
+     branch that carries the content for roughly half the traffic. */
+  @media (hover: none) {
+    .card-reveal {
+      opacity: 1;
+      transform: none;
+    }
   }
 
   .quest-card:focus-visible,
@@ -854,30 +878,6 @@ const spotifyYears = Math.round(
     padding-bottom: 3.5rem;
   }
 
-  #quest-tooltip {
-    position: fixed;
-    z-index: 100;
-    top: 0;
-    left: 0;
-    max-width: min(19rem, calc(100vw - 2rem));
-    padding: 0.65rem 0.8rem;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 0.75rem;
-    background: var(--color-ink, #1c1c1c);
-    box-shadow: 0 12px 30px color-mix(in srgb, var(--color-ink, #1c1c1c) 18%, transparent);
-    color: var(--color-paper, #f7f4ef);
-    font-size: 0.78rem;
-    line-height: 1.35;
-    opacity: 0;
-    pointer-events: none;
-    transform: translate3d(-999px, -999px, 0);
-    transition: opacity 120ms ease;
-  }
-
-  #quest-tooltip.is-visible {
-    opacity: 0.96;
-  }
-
   @keyframes duo-float {
     0%, 100% { transform: translateY(0) rotate(-0.5deg); }
     50% { transform: translateY(-7px) rotate(0.5deg); }
@@ -996,7 +996,7 @@ const spotifyYears = Math.round(
     .quest-card,
     .duo-avatar,
     .code-line,
-    #quest-tooltip {
+    .card-reveal {
       animation: none !important;
       transition: none !important;
     }

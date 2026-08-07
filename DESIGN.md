@@ -217,6 +217,17 @@ per page.
 Essentially flat. Hairlines and rounded corners carry structure. No drop
 shadows, no glassmorphism, no gradients, no WebGL.
 
+One exception, sanctioned by Clark on 2026-08-07. **/side-quests is an
+expressive surface**, the way /journey already holds the site's loud license.
+Its cards may lift on hover and carry a soft shadow, because the page is a
+grid of things worth touching rather than a document to read, and because
+Clark is deliberately building toward product design work and this is the one
+surface on the site where interface craft can show. The conditions are narrow:
+the shadow is mixed from ink and never pure black on paper, the lift stays at
+or under 3px, motion stays under 300ms on the shared --ease-out curve, and none of it
+leaves that route. Everything else on the site stays flat. A future session
+finding a shadow there has found a decision, not drift.
+
 ## Shapes
 
 Buttons are pills ({rounded.full}). Images and tiles use {rounded.sm} to
