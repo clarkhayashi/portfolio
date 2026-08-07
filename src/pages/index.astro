@@ -50,7 +50,15 @@ const framework = [
           <ButtonLink href="/resume.pdf" variant="ghost" size="large">Resume</ButtonLink>
         </div>
       </div>
-      <div class="order-first flex flex-col items-center md:order-none">
+      {
+        /* Left-aligned on mobile, not centred. The eyebrow, headline, body and
+           buttons below all start at the same 24px margin, so a centred photo
+           was the only element on the page not sharing that edge, which read as
+           a misalignment rather than as a choice. Centring the text instead
+           would mean centring the headline too, and a centred page title fights
+           the left-aligned editorial identity every other page uses. */
+      }
+      <div class="order-first flex flex-col items-start md:order-none md:items-center">
         <img
           src="/headshot.jpg"
           alt="Clark Hayashi"
