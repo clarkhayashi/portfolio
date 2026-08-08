@@ -228,15 +228,20 @@ or under 3px, motion stays under 300ms on the shared --ease-out curve, and none 
 leaves that route. Everything else on the site stays flat. A future session
 finding a shadow there has found a decision, not drift.
 
-Extended 2026-08-07: that surface may also **tint**. The page sits on a
-slightly cooler ground than paper, and each card carries a wash keyed to its
-own subject, so the grid stops reading as five identical rectangles. Tints stay
-at or under 6% against the card fill, which is enough to separate the cards and
-not enough to compete with the ink on them. Every tint is mixed from a colour
-already in this file. Glassmorphism is still out, and not only because it is on
-the rejected list: `backdrop-filter` needs something behind it to refract, and
-over a flat ground it returns the same flat ground. Tint is the honest version
-of what glass is usually reached for.
+Extended 2026-08-07: that surface may **tint its ground**. /side-quests sits on
+a cooler wash, 13% teal mixed into paper, and its cards stay on plain paper,
+which lifts them about 0.12 in luminance and is what separates them.
+
+Per-card tints were tried at 6%, 3% and 2% and removed at every level. Interaction
+teal is only 4.98:1 on paper, so it has almost no headroom, and even a 2% tint
+on a card dropped that page's action links to 4.40:1, under AA. At a tint light
+enough to keep them legible the colour was not visible anyway. Tint the ground,
+not the cards.
+
+Glassmorphism is still out, and not only because it is on the rejected list:
+`backdrop-filter` needs something behind it to refract, and over a flat ground
+it returns the same flat ground. A tinted ground is the honest version of what
+glass is usually reached for.
 
 ## Shapes
 
