@@ -159,8 +159,17 @@ phrasing implying Clark was in Italy instead of at the bank.
   ever. Real numbers only, sourced from Clark.
 - **No em dashes anywhere in site copy.** Use commas, colons, periods, "·".
 - Banned: "Welcome to my portfolio", "X taught me Y" triads, applause-line
-  endings, skill bars, tool-logo walls, emoji, testimonial carousels, generic
+  endings, skill bars, tool-logo walls, testimonial carousels, generic
   stock imagery, fake results, parallax, Lottie, custom cursors.
+- Emoji (amended 2026-08-07 by Clark, replacing a flat ban). Allowed where the
+  glyph is doing real work: standing in for something the copy already names,
+  or carrying a meaning a word would carry worse. The Duolingo streak flame on
+  /side-quests is the first one shipped, and it is there because a streak is
+  Duolingo's own idea and the flame is how Duolingo draws it. Still banned
+  outright: emoji as bullets, emoji in headings, emoji standing in for a status
+  colour, and strings of them. The test is the imagery test applied to glyphs:
+  is it about the thing it sits beside, or is it filler that would work equally
+  well on any other site. No approval log; this rule is the standard.
 - One italic serif accent per page maximum (e.g. "messy" in the hero).
 - Imagery test (revised 2026-07-30, replaces a flat "no stock imagery" ban):
   every image must be *about* the thing it sits next to. Clark's own photos and

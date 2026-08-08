@@ -20,10 +20,63 @@ const spotifyYears = Math.round(
   title="Side Quests · Clark Hayashi"
   description="Clark Hayashi's reading notes, Japanese learning, movement, and small experiments."
 >
+  {/* Resolves the theme before the rest of the body paints, so a visitor who
+      chose dark never sees a frame of paper first. is:inline keeps it out of
+      the bundle: a deferred module would run after first paint and the flash
+      is exactly what this exists to prevent.
+
+      It resolves the system preference itself rather than leaving that to a
+      prefers-color-scheme block in CSS. One code path decides the theme, so
+      there is one place to read, and the CSS carries a single dark block
+      instead of three overlapping ones. The cost is that dark needs JS, which
+      is the right trade for a pilot on one route. */}
+  <script is:inline>
+    (() => {
+      try {
+        const saved = localStorage.getItem("sq-theme");
+        const dark =
+          saved === "dark" ||
+          (saved === null &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches);
+        document.documentElement.dataset.theme = dark ? "dark" : "light";
+      } catch {
+        document.documentElement.dataset.theme = "light";
+      }
+    })();
+  </script>
+
   {/* Base.astro already provides the page's single <main> landmark. */}
   <div class="quests-shell">
     <section class="quests-intro" aria-labelledby="side-quests-title">
-      <h1 id="side-quests-title">Side Quests</h1>
+      <div class="intro-head">
+        <h1 id="side-quests-title">Side Quests</h1>
+
+        {/* aria-pressed, not a switch role: this is a two-state button and
+            "pressed" is what a button reports. The label is on the button
+            rather than beside it because there is no visible text to point a
+            <label> at, and the script rewrites both label and state together
+            so they can never disagree. */}
+        <button
+          type="button"
+          id="theme-toggle"
+          class="theme-toggle"
+          aria-pressed="false"
+          aria-label="Switch to dark mode"
+        >
+          <svg class="toggle-sun" viewBox="0 0 24 24" aria-hidden="true" width="18" height="18">
+            <circle cx="12" cy="12" r="4.2" fill="currentColor"></circle>
+            <g stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+              <path d="M12 2.6v2.4M12 19v2.4M2.6 12h2.4M19 12h2.4"></path>
+              <path d="M5.4 5.4l1.7 1.7M16.9 16.9l1.7 1.7M18.6 5.4l-1.7 1.7M7.1 16.9l-1.7 1.7"></path>
+            </g>
+          </svg>
+          <svg class="toggle-moon" viewBox="0 0 24 24" aria-hidden="true" width="18" height="18">
+            <path
+              d="M20 14.4A8.4 8.4 0 1 1 9.6 4a6.9 6.9 0 0 0 10.4 10.4Z"
+              fill="currentColor"></path>
+          </svg>
+        </button>
+      </div>
       <p class="intro-copy">
         Side quests that <em>keep me going</em>
       </p>
@@ -55,7 +108,15 @@ const spotifyYears = Math.round(
               a number that failed to load rather than a deliberate fallback.
               On success the script fills the number and swaps the label to
               "day streak". */}
+          {/* The flame is hidden until a real streak arrives, for the same
+              reason the number is: a flame next to "View Duolingo profile"
+              is a decoration attached to nothing. It is aria-hidden because
+              "245 day streak" already says what the glyph says, and a screen
+              reader announcing "fire" first is noise. */}
           <p class="duo-streak">
+            <span class="duo-flame" id="duo-streak-flame" aria-hidden="true" hidden
+              >&#x1F525;</span
+            >
             <span id="duo-streak-number"></span>
             <span id="duo-streak-label">View Duolingo profile</span>
           </p>
@@ -326,8 +387,57 @@ const spotifyYears = Math.round(
     maximumFractionDigits: 1,
   });
 
+  /* ---------- Theme toggle ----------
+     The inline script in the body already resolved and applied the theme. This
+     only handles the click and keeps the button's reported state honest. */
+  const themeToggle = document.querySelector("#theme-toggle");
+
+  if (themeToggle) {
+    const root = document.documentElement;
+
+    const syncToggle = () => {
+      const dark = root.dataset.theme === "dark";
+      themeToggle.setAttribute("aria-pressed", String(dark));
+      themeToggle.setAttribute(
+        "aria-label",
+        dark ? "Switch to light mode" : "Switch to dark mode",
+      );
+    };
+
+    syncToggle();
+
+    themeToggle.addEventListener("click", () => {
+      const next = root.dataset.theme === "dark" ? "light" : "dark";
+      root.dataset.theme = next;
+      try {
+        localStorage.setItem("sq-theme", next);
+      } catch {
+        /* Private mode. The theme still applies for this page view. */
+      }
+      syncToggle();
+    });
+
+    /* Keep following the OS until the visitor overrides it. Once they have
+       chosen, a system change must not yank the page out from under them. */
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", (event) => {
+        let saved = null;
+        try {
+          saved = localStorage.getItem("sq-theme");
+        } catch {
+          /* Treat unreadable storage as no stored choice. */
+        }
+        if (saved === null) {
+          root.dataset.theme = event.matches ? "dark" : "light";
+          syncToggle();
+        }
+      });
+  }
+
   const streakNumber = document.querySelector("#duo-streak-number");
   const streakLabel = document.querySelector("#duo-streak-label");
+  const streakFlame = document.querySelector("#duo-streak-flame");
   const courseName = document.querySelector("#duo-course");
   const courseXp = document.querySelector("#duo-xp");
 
@@ -340,6 +450,7 @@ const spotifyYears = Math.round(
       if (streakNumber && Number.isFinite(profile.streak)) {
         streakNumber.textContent = String(profile.streak);
         streakLabel.textContent = "day streak";
+        if (streakFlame) streakFlame.hidden = false;
       }
 
       if (courseName && profile.course?.title) {
@@ -508,16 +619,177 @@ const spotifyYears = Math.round(
      to paint its own near-miss paper plus a teal radial wash, which
      made the header hairline visibly change tone between pages. */
 
+  /* ---------- Theme tokens (dark mode pilot, 2026-08-07) ----------
+     Every colour on this page resolves through one of these. That is Phase 1
+     of docs/dark-mode-scope-2026-08-07.md, done here first because
+     /side-quests is the pilot route. The rest of the site still holds its
+     colours as literals and is unaffected.
+
+     Two tokens are deliberately semantic rather than literal, and that is what
+     makes the inversions work for free:
+
+     --sq-fg is "the colour text is". The GitHub card uses it as a BACKGROUND,
+     because that card is defined as the inverse of the page. In light it is an
+     ink card among paper cards; in dark it is a paper card among dark ones.
+     The idea survives the theme flip without a second rule.
+
+     --sq-card is "the colour a card is", and the GitHub card uses it for its
+     TEXT for the same reason.
+
+     The hairline is --sq-fg at 10%, which is also correct in both directions:
+     dark ink over paper, light paper over dark. The shadow is the one thing
+     that cannot follow --sq-fg, because paper at 12% is a glow, not a shadow.
+     It gets its own token. */
   .quests-shell {
+    --sq-ground: #f7f4ef;
+    --sq-card: #fbfaf7;
+    --sq-fg: #1c1c1c;
+    --sq-link: #4f7773;
+    --sq-accent: #5d8c88;
+    --sq-link-invert: #5d8c88;
+    --sq-flame: #c2371f;
+    --sq-shadow: rgba(28, 28, 28, 0.12);
+
     /* 1000px container, same as every other page including About. */
     width: min(1000px, calc(100% - 3rem));
     margin: 0 auto;
     padding: clamp(2.5rem, 5vw, 4.5rem) 0 clamp(4rem, 8vw, 7rem);
   }
 
+  /* Dark values. Measured, not picked by eye; every pair below clears WCAG AA
+     at the 4.5:1 normal-text threshold, not the 3:1 large-text one.
+
+       paper on card        14.16    headings
+       paper 78% on card     9.09    body
+       paper 65% on card     6.81    metadata, the DESIGN.md floor
+       #8FC7C2 on card       8.22    links
+       #8FC7C2 on ground     9.30    the subtitle italic
+       #FF9600 on card       7.11    streak number
+
+     The ground is #14181A, not black, for the same reason paper is not white:
+     a single flat neutral extreme is what the light palette already refuses.
+
+     The streak flame is Duolingo's own #FF9600 here. It is 1.99:1 on paper and
+     was rejected outright for the light theme, but 7.11:1 on the dark card. The
+     brand colour that could not be used in light is the correct one in dark. */
+  :global(html[data-theme="dark"]) .quests-shell {
+    --sq-ground: #14181a;
+    --sq-card: #1f2527;
+    --sq-fg: #f7f4ef;
+    --sq-link: #8fc7c2;
+    --sq-accent: #9bd7d4;
+    --sq-link-invert: #4f7773;
+    --sq-flame: #ff9600;
+    --sq-shadow: rgba(0, 0, 0, 0.5);
+  }
+
+  /* The shell paints its own ground, but the page behind it is the body, so
+     both have to move together or the dark page sits in a paper frame. */
+  :global(html[data-theme="dark"]) body {
+    background: #14181a;
+  }
+
+  /* ---------- Header: the cover inverts ----------
+     Chosen by Clark 2026-08-07 against the alternative, which was to let the
+     header merge into one continuous dark surface. Both were built and compared
+     on screen; merge is deleted.
+
+     The problem this solves: the denim header reads as a bound cover over
+     paper, and its scalloped #DCE7E3 edge is the torn paper showing beneath it.
+     On a dark ground there is no paper for it to cover, and that scallop
+     becomes a bright fringe hanging off a dark bar.
+
+     The answer keeps the metaphor by swapping which side is paper. The header
+     becomes the lighter surface, so the scallop is now the dark page biting UP
+     into a paper band rather than a paper fringe hanging DOWN into the dark. It
+     is the loudest thing on the page, and that is the accepted cost: the cover
+     is still legibly a cover.
+
+     The wordmark and nav are painted white for the denim, so both flip to ink.
+     The logo is an <img> carrying Tailwind's brightness-0 invert; dropping the
+     invert leaves brightness(0), which is ink. Measured at 15.53:1. */
+  :global(html[data-theme="dark"] .denim-header) {
+    border-top-color: #4f7773;
+    background-color: #f7f4ef;
+    background-image: none;
+  }
+
+  :global(html[data-theme="dark"] .denim-header img) {
+    filter: brightness(0);
+  }
+
+  :global(html[data-theme="dark"] .denim-header a),
+  :global(html[data-theme="dark"] .denim-header span) {
+    color: #1c1c1c;
+  }
+
+  /* Same scallop, restroked from the paper edge #DCE7E3 to the dark ground, so
+     the teeth read as the page rather than as a fringe. */
+  :global(html[data-theme="dark"] .denim-header::after) {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M0 9 Q7 -2 14 9' fill='none' stroke='%2314181A' stroke-width='1.4'/%3E%3C/svg%3E");
+  }
+
+  /* The grain multiplies, which on a dark ground darkens nothing visible. On
+     dark it has to screen instead, and at a lower strength: the same 3.2% that
+     is invisible under multiply reads as television static under screen. */
+  :global(html[data-theme="dark"]) body::after {
+    opacity: 0.02;
+    mix-blend-mode: screen;
+  }
+
   .quests-intro {
     max-width: none;
     margin-bottom: clamp(2rem, 4vw, 3.5rem);
+  }
+
+  .intro-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+
+  /* 44px, above the 40px touch-target floor in DESIGN.md. Both icons sit in
+     the same grid cell so the button never changes size when they swap. */
+  .theme-toggle {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    margin-top: 0.5rem;
+    padding: 0;
+    border: 1px solid color-mix(in srgb, var(--sq-fg) 14%, transparent);
+    border-radius: 999px;
+    background: var(--sq-card);
+    color: var(--sq-link);
+    cursor: pointer;
+    transition:
+      border-color 180ms var(--ease-out),
+      color 180ms var(--ease-out);
+  }
+
+  .theme-toggle:hover {
+    border-color: color-mix(in srgb, var(--sq-accent) 55%, transparent);
+  }
+
+  .theme-toggle svg {
+    grid-area: 1 / 1;
+  }
+
+  /* The button shows where it takes you, not where you are: moon while light,
+     sun while dark. Showing the current state instead is the other convention
+     and it reads as a status light rather than a control. */
+  .toggle-sun {
+    display: none;
+  }
+
+  :global(html[data-theme="dark"]) .toggle-sun {
+    display: block;
+  }
+
+  :global(html[data-theme="dark"]) .toggle-moon {
+    display: none;
   }
 
   /* Page title, 34 mobile / 56 desktop, left-aligned like /work and /journey.
@@ -528,7 +800,7 @@ const spotifyYears = Math.round(
      56, so this is the licensed surface spending its licence. */
   .quests-intro h1 {
     margin: 0;
-    color: var(--color-ink, #1c1c1c);
+    color: var(--sq-fg);
     font-family: var(--font-serif, Georgia, serif);
     font-size: 2.875rem;
     font-weight: 700;
@@ -539,14 +811,14 @@ const spotifyYears = Math.round(
   .intro-copy {
     max-width: 52ch;
     margin: 1.25rem 0 0;
-    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 70%, transparent);
+    color: color-mix(in srgb, var(--sq-fg) 70%, transparent);
     font-size: 1.125rem;
     line-height: 1.7;
   }
 
   /* Satoshi's drawn italic, not a second serif: the serif accent is spent. */
   .intro-copy em {
-    color: var(--color-teal-deep, #4f7773);
+    color: var(--sq-link);
     font-style: italic;
   }
 
@@ -569,42 +841,58 @@ const spotifyYears = Math.round(
     display: flex;
     min-height: 360px;
     overflow: hidden;
-    border: 1px solid color-mix(in srgb, var(--color-ink, #1c1c1c) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--sq-fg) 10%, transparent);
     border-radius: 16px;
-    color: var(--color-ink, #1c1c1c);
+    color: var(--sq-fg);
     text-decoration: none;
     transition: border-color 180ms var(--ease-out);
   }
 
   .quest-card:hover {
-    border-color: color-mix(in srgb, var(--color-teal, #5d8c88) 45%, transparent);
+    border-color: color-mix(in srgb, var(--sq-accent) 45%, transparent);
   }
 
   /* ---------- Ground ----------
-     Per DESIGN.md's extension for this surface. The separation comes from the
-     ground, not from the cards: the shell sits on a cooler, clearly darker
-     teal wash and the cards stay on paper, which lifts them by about 0.10
-     luminance.
+     Reversed 2026-08-07 by Clark. The ground is plain paper again and the
+     cards lift ABOVE it instead of the ground sinking below them.
 
-     Per-card tints were tried and removed. Interaction teal is only 4.98:1 on
-     paper, so it has almost no headroom, and even a 2% tint on a card dropped
-     the "Open my notes" style links to 4.40:1, under AA. At a tint light
-     enough to keep them legible the colour was not visible anyway.
+     What was here before: color-mix(teal 13%, paper). Two things were wrong
+     with it. It resolved to #E3E7E2, which is not teal, it is neutral grey.
+     13% of a muted teal into a warm off-white cancels the warmth and lands on
+     dishwater, on a site whose whole palette argument is that paper is warm.
+     And it broke contrast: the subtitle italic is teal-deep at 18px regular
+     sitting directly on that ground, which measured 3.95:1 and failed WCAG AA.
+     The session that shipped it recorded a page-wide floor of 4.52:1, so the
+     audit missed this element.
 
-     Glass was the other option and does not work here: backdrop-filter needs
-     something behind it to refract, and over a flat ground it returns the
-     flat ground. */
+     Lightening the cards works where darkening them failed, and the earlier
+     dead end only tried darkening. Every step toward white RAISES the contrast
+     of everything sitting on a card:
+
+       teal-deep on card    4.54 -> 4.77
+       streak flame         4.96 -> 5.21
+       subtitle italic      3.95 -> 4.54   (was failing, now passes)
+
+     The separation is smaller than the tinted ground gave, 0.049 luminance
+     against 0.123, and that is fine: the cards also carry a hairline and a
+     hover lift. They were never relying on the wash alone.
+
+     Still true, still do not retry: per-card tints DARKER than paper were
+     tried at 6%, 3% and 2% and dropped the action links under AA every time.
+     And glass does not work here, because backdrop-filter needs something
+     behind it to refract and over a flat ground it returns the flat ground. */
   .quests-shell {
-    background: color-mix(in srgb, var(--color-teal, #5d8c88) 13%, var(--color-paper, #f7f4ef));
+    background: var(--sq-ground);
   }
 
-  /* The cards keep their own paper surface. Without it they are transparent
-     and dissolve into the tinted ground. */
+  /* The cards carry the lift. In light they are 50% toward white from paper;
+     in dark they are the lighter surface over the ground. Without an explicit
+     background they are transparent and dissolve into the shell. */
   .duo-card,
   .notes-card,
   .spotify-card,
   .strava-card {
-    background: var(--color-paper, #f7f4ef);
+    background: var(--sq-card);
   }
 
   /* ---------- Hover reveal ----------
@@ -631,7 +919,7 @@ const spotifyYears = Math.round(
     max-width: none;
     padding: 0.5rem 1rem;
     border-radius: 8px;
-    background: var(--color-teal-deep, #4f7773);
+    background: var(--sq-link);
     color: #fff;
     font-size: 1rem;
     font-weight: 500;
@@ -660,7 +948,7 @@ const spotifyYears = Math.round(
     bottom: calc(clamp(1.4rem, 3vw, 2rem) + 1.75rem);
     left: clamp(1.4rem, 3vw, 2.2rem);
     margin: 0;
-    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 72%, transparent);
+    color: color-mix(in srgb, var(--sq-fg) 72%, transparent);
     font-size: 0.8125rem;
     line-height: 1.45;
   }
@@ -676,8 +964,9 @@ const spotifyYears = Math.round(
     .quest-card:hover,
     .quest-card:focus-within {
       transform: translateY(-3px);
-      box-shadow: 0 10px 28px
-        color-mix(in srgb, var(--color-ink, #1c1c1c) 12%, transparent);
+      /* Its own token, not --sq-fg at 12%: in dark that would resolve to paper
+         and paint a glow where a shadow belongs. */
+      box-shadow: 0 10px 28px var(--sq-shadow);
     }
   }
 
@@ -695,7 +984,7 @@ const spotifyYears = Math.round(
 
   .quest-card:focus-visible,
   .quest-card a:focus-visible {
-    outline: 2px solid var(--color-teal, #5d8c88);
+    outline: 2px solid var(--sq-accent);
     outline-offset: 3px;
   }
 
@@ -713,6 +1002,18 @@ const spotifyYears = Math.round(
     width: 2.5rem;
     height: 2.5rem;
     opacity: 0.55;
+  }
+
+  /* The vendored marks have their fill baked to ink #1C1C1C, so on a dark card
+     they disappear into it. currentColor is not available to fix this: an SVG
+     loaded through <img> is its own document and does not inherit, which is
+     already recorded as a dead end. A filter is the remaining lever that works
+     on an <img>. invert(1) alone would turn ink into #E3E3E3, brighter than
+     the body text and louder than a 55% watermark should be, so the opacity
+     drops to compensate and lands the mark back where it sits in light. */
+  :global(html[data-theme="dark"]) .card-mark {
+    opacity: 0.42;
+    filter: invert(1);
   }
 
   .external-mark {
@@ -749,14 +1050,33 @@ const spotifyYears = Math.round(
     margin: 0 0 0.8rem;
   }
 
-  /* Ink at the 46px display step, Satoshi 900. Was #e2472f at weight 850. */
+  /* Streak flame #C2371F at the 46px display step, Satoshi 900. Sanctioned in
+     DESIGN.md as a card-scoped brand colour: a streak is Duolingo's idea and
+     the flame is how Duolingo draws it. 4.96:1 on paper, so it clears AA at the
+     normal-text threshold, not just the 3:1 large-text one. Hex is local, not a
+     global token, because nothing outside this card may use it. Duolingo's own
+     #FF9600 is 1.99:1 and was never viable; #e2472f, used here previously, is
+     3.70:1 and would be the least legible thing on the page. */
   #duo-streak-number {
-    color: var(--color-ink, #1c1c1c);
+    color: var(--sq-flame);
     font-size: 2.875rem;
     font-variant-numeric: tabular-nums;
     font-weight: 900;
     letter-spacing: -0.03em;
     line-height: 1;
+  }
+
+  /* Two thirds the number's size so the number stays the thing you read first;
+     the flame is the label on the number, not a co-star. Emoji carry their own
+     colour font and ignore `color`, which is fine here: the glyph's orange is
+     the reason it reads as a streak at all. */
+  .duo-flame {
+    font-size: 1.9rem;
+    line-height: 1;
+  }
+
+  .duo-flame[hidden] {
+    display: none;
   }
 
   /* Was 12.8px tracked uppercase in #e2472f, which is 3.70:1 on paper and
@@ -765,7 +1085,7 @@ const spotifyYears = Math.round(
   #duo-streak-label {
     font-size: 0.8125rem;
     font-weight: 500;
-    color: var(--color-teal-deep, #4f7773);
+    color: var(--sq-link);
   }
 
   /* Card titles are Satoshi 900 at the 26/34 steps, not Zodiak: the page's
@@ -788,7 +1108,7 @@ const spotifyYears = Math.round(
     margin: 0.85rem 0 0;
     /* 70% ink, not opacity 0.68 on a navy: 0.68 landed under the 65% ink
        contrast floor DESIGN.md sets for text that carries information. */
-    color: color-mix(in srgb, var(--color-ink, #1c1c1c) 70%, transparent);
+    color: color-mix(in srgb, var(--sq-fg) 70%, transparent);
     font-size: 1rem;
     line-height: 1.7;
   }
@@ -798,13 +1118,19 @@ const spotifyYears = Math.round(
      roughly 1.2:1 and was effectively invisible. Its copy is paper-toned
      instead. The reveal needs the same treatment, and would have shipped the
      same defect on touch, where it is the visible branch. */
+  /* The inverted card needs an inverted link. --sq-accent is tuned to sit on
+     the page's own ground, and this card is the opposite surface, so in dark
+     it put #9BD7D4 on near-white and measured 1.47:1. Its own token, which is
+     always the link colour for whatever surface this card currently is:
+     decorative teal on ink at 4.52:1 in light, interaction teal on paper at
+     4.54:1 in dark. */
   .github-card .card-action {
-    color: var(--color-teal, #5d8c88);
+    color: var(--sq-link-invert);
   }
 
   .github-copy p,
   .github-card .card-reveal {
-    color: color-mix(in srgb, var(--color-paper, #f7f4ef) 78%, transparent);
+    color: color-mix(in srgb, var(--sq-card) 78%, transparent);
   }
 
   @media (min-width: 768px) {
@@ -840,10 +1166,10 @@ const spotifyYears = Math.round(
     display: flex;
     gap: 0.35rem;
     padding: 0.45rem 0.65rem;
-    border: 1px solid color-mix(in srgb, var(--color-ink, #1c1c1c) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--sq-fg) 12%, transparent);
     border-radius: 999px;
-    background: var(--color-paper, #f7f4ef);
-    color: var(--color-ink, #1c1c1c);
+    background: var(--sq-card);
+    color: var(--sq-fg);
     font-size: 0.75rem;
     font-weight: 500;
   }
@@ -867,7 +1193,7 @@ const spotifyYears = Math.round(
     right: clamp(1.4rem, 3vw, 2.2rem);
     bottom: clamp(1.4rem, 3vw, 2rem);
     left: clamp(1.4rem, 3vw, 2.2rem);
-    color: var(--color-teal-deep, #4f7773);
+    color: var(--sq-link);
     font-size: 0.875rem;
     font-weight: 500;
   }
@@ -894,13 +1220,13 @@ const spotifyYears = Math.round(
     align-items: baseline;
     gap: 0.5rem;
     margin: 0 0 0.8rem;
-    color: var(--color-teal-deep, #4f7773);
+    color: var(--sq-link);
     font-size: 0.8125rem;
     font-weight: 500;
   }
 
   .spotify-headline span {
-    color: var(--color-ink, #1c1c1c);
+    color: var(--sq-fg);
     font-size: 2.875rem;
     font-variant-numeric: tabular-nums;
     font-weight: 900;
@@ -924,7 +1250,7 @@ const spotifyYears = Math.round(
     height: 48px;
     overflow: hidden;
     border-radius: 4px;
-    background: color-mix(in srgb, var(--color-ink, #1c1c1c) 6%, transparent);
+    background: color-mix(in srgb, var(--sq-fg) 6%, transparent);
   }
 
   .spotify-art img {
@@ -944,7 +1270,7 @@ const spotifyYears = Math.round(
   .spotify-status {
     font-size: 0.8125rem;
     font-weight: 500;
-    color: var(--color-teal-deep, #4f7773);
+    color: var(--sq-link);
   }
 
   .spotify-track {
@@ -986,7 +1312,7 @@ const spotifyYears = Math.round(
     position: absolute;
     inset: 0;
     overflow: hidden;
-    background: var(--color-paper, #f7f4ef);
+    background: var(--sq-card);
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.5s var(--ease-out, ease), visibility 0.5s;
@@ -1056,9 +1382,9 @@ const spotifyYears = Math.round(
     padding: clamp(1.4rem, 3vw, 2.2rem);
     /* Ink, the same dark surface as the homepage contact card, and Core type
        only on dark per DESIGN.md. Was #101b2a under a 2.5% white sheen. */
-    border-color: color-mix(in srgb, var(--color-paper, #f7f4ef) 14%, transparent);
-    background: var(--color-ink, #1c1c1c);
-    color: var(--color-paper, #f7f4ef);
+    border-color: color-mix(in srgb, var(--sq-card) 14%, transparent);
+    background: var(--sq-fg);
+    color: var(--sq-card);
   }
 
   /* The GIF and the code window share one slot: the GIF by default, the code
@@ -1115,7 +1441,7 @@ const spotifyYears = Math.round(
     width: 0.45rem;
     height: 0.45rem;
     border-radius: 50%;
-    background: var(--color-teal, #5d8c88);
+    background: var(--sq-accent);
     opacity: 0.75;
   }
 
@@ -1124,7 +1450,7 @@ const spotifyYears = Math.round(
     height: 0.45rem;
     margin-top: 0.6rem;
     border-radius: 99px;
-    background: var(--color-teal, #5d8c88);
+    background: var(--sq-accent);
     opacity: 0.4;
     animation: code-pulse 4s ease-in-out infinite;
   }

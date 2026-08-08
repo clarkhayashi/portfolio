@@ -128,9 +128,9 @@ choose calm over loud.
 - **Neutral (#F7F4EF):** Paper. Background everywhere; never pure white. A 3%-opacity fractal-noise grain overlays the page so the paper is literal.
 - **Crimson (#8A1538):** Micro-accent only, reserved for the "currently building" status dot. Never large areas.
 
-Three families sit outside the paper palette. Two are not page surfaces; the
-third belongs to a brand that is not Clark's. They are recorded here so that a
-colour appearing nowhere in this file stays a real signal of drift.
+Four families sit outside the paper palette. Two are not page surfaces; the
+other two belong to brands that are not Clark's. They are recorded here so that
+a colour appearing nowhere in this file stays a real signal of drift.
 
 - **Chrome (#111C29 denim, #B84A56 rule, #DCE7E3 edge):** the site header only.
   A cool near-black denim with a fine 4px weave, a teal top border, a scalloped
@@ -151,6 +151,48 @@ colour appearing nowhere in this file stays a real signal of drift.
   WCAG AA on its own ground, brand colour or not, and the type rules are not
   part of the exception: no tracked uppercase there either, because letter
   spacing is a generic editorial device and not something Zippy's owns.
+
+- **Streak flame (#C2371F):** the Duolingo card on /side-quests, and nothing
+  else. Sanctioned by Clark, 2026-08-07, on the same reasoning as Zippy's: a
+  streak is Duolingo's own idea and the flame is how Duolingo draws it, so the
+  colour is evidence rather than decoration. Scoped to the streak number and
+  the flame glyph beside it. It is 4.96:1 on paper, so it clears WCAG AA at the
+  normal-text threshold and not merely the 3:1 large-text one, which is why this
+  shade and not a brighter one. Two conditions. The streak *label* under the
+  number stays interaction teal: 13px sentence-case labels are one shared spec
+  across the whole site and a second colour there would break the pattern for no
+  gain. And it never spreads to a second card, a border, or a fill. Duolingo's
+  own #FF9600 is 1.99:1 on paper and fails even the large-text floor, so the
+  brand colour is quoted rather than copied. A previous pass used #e2472f at
+  3.70:1, which passes for large text only and would have made it the least
+  legible thing on the page; do not reinstate it.
+
+- **Dark pilot (#14181A ground, #1F2527 card, #8FC7C2 link, #9BD7D4 accent,
+  #FF9600 streak):** `/side-quests` only, sanctioned by Clark 2026-08-07 as a
+  scoped pilot. Full reasoning and phasing in
+  `docs/dark-mode-scope-2026-08-07.md`. Three things are settled and should not
+  be re-litigated without reading that document.
+
+  The ground is #14181A and **not black**, for exactly the reason paper is not
+  white: a flat neutral extreme is what the light palette already refuses, and
+  a dark theme that reaches for #000 contradicts the argument it inherits.
+
+  The streak number is Duolingo's own **#FF9600** here. That colour is 1.99:1 on
+  paper and was rejected outright for the light theme; on the dark card it is
+  7.11:1. The brand colour that could not be used in light is the correct one in
+  dark, and the light theme keeps #C2371F.
+
+  **The header inverts** rather than merging. On dark it becomes the paper
+  surface with ink type at 15.53:1, and its scalloped edge is restroked to
+  #14181A so the teeth read as the dark page biting up into a paper band. The
+  denim reads as a bound cover over paper, and on a dark ground there is no
+  paper for it to cover; inverting which side is paper is what keeps the
+  metaphor rather than abandoning it. The alternative, letting the header
+  dissolve into one continuous dark surface, was built, compared on screen and
+  rejected by Clark. Do not rebuild it.
+
+  Every text element on the route clears WCAG AA at the normal-text threshold in
+  both themes: 25 elements, zero failures, floor 4.52:1 light and 4.54:1 dark.
 
 Everything else on every page comes from the six paper colours above.
 
@@ -228,15 +270,36 @@ or under 3px, motion stays under 300ms on the shared --ease-out curve, and none 
 leaves that route. Everything else on the site stays flat. A future session
 finding a shadow there has found a decision, not drift.
 
-Extended 2026-08-07: that surface may **tint its ground**. /side-quests sits on
-a cooler wash, 13% teal mixed into paper, and its cards stay on plain paper,
-which lifts them about 0.12 in luminance and is what separates them.
+Extended 2026-08-07, then **reversed the same day by Clark**. The tinted ground
+is gone. /side-quests sits on plain paper like every other page, and its cards
+are lifted 50% toward white to #FBFAF7. The separation comes from the cards
+being lighter than the page, not from the page being darker than the cards.
 
-Per-card tints were tried at 6%, 3% and 2% and removed at every level. Interaction
-teal is only 4.98:1 on paper, so it has almost no headroom, and even a 2% tint
-on a card dropped that page's action links to 4.40:1, under AA. At a tint light
-enough to keep them legible the colour was not visible anyway. Tint the ground,
-not the cards.
+The tint that was here, 13% teal mixed into paper, failed on both counts a
+colour has to pass. It resolved to #E3E7E2, which is not teal but neutral grey:
+13% of a muted teal into a warm off-white cancels the warmth, on a site whose
+entire palette argument is that paper is warm and never white. And it broke
+contrast. The subtitle italic is interaction teal at 18px regular sitting
+directly on that ground, which measured **3.95:1 and failed WCAG AA**. The
+session that shipped the tint recorded a page-wide floor of 4.52:1, so its
+audit did not catch this element.
+
+**Lightening a card works where darkening one fails, and only darkening had
+been tried.** Every step toward white raises the contrast of everything sitting
+on the card, rather than eating the small headroom interaction teal has:
+
+| | before | after |
+|---|---|---|
+| interaction teal on card | 4.54 | 4.77 |
+| streak flame on card | 4.96 | 5.21 |
+| subtitle italic on ground | 3.95 FAIL | 4.54 PASS |
+
+Measured across all 25 text elements on the route: zero failures, floor 4.52:1.
+
+Per-card tints **darker** than paper were tried at 6%, 3% and 2% and removed at
+every level, because a 2% tint dropped the action links to 4.40:1. That dead end
+still stands. It is the direction that was wrong, not the idea of moving the
+cards.
 
 Glassmorphism is still out, and not only because it is on the rejected list:
 `backdrop-filter` needs something behind it to refract, and over a flat ground
