@@ -146,6 +146,50 @@ const spotifyYears = Math.round(
         <span class="card-action">See the stats →</span>
       </a>
 
+      <a
+        class="quest-card github-card"
+        data-tooltip="“If you want to be great in a particular area,\nyou have to obsess over it.” Kobe Bryant"
+        href="https://github.com/clarkhayashi"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span class="external-mark" aria-hidden="true">↗</span>
+
+        {
+          /* "Job's not finished" sits where the code window used to, so the
+             card keeps exactly one decorative element. Decorative, so it is
+             hidden from assistive tech and taken out of the tab order; the
+             GIF cannot be paused inside a third-party frame, so readers who
+             ask for reduced motion get the quiet code window instead. */
+        }
+        <div class="gif-frame" aria-hidden="true">
+          <iframe
+            src="https://giphy.com/embed/QGZBpodY7Kdtw99y04"
+            title="Kobe Bryant: job's not finished"
+            class="giphy-embed"
+            loading="lazy"
+            tabindex="-1"
+            frameborder="0"></iframe>
+        </div>
+
+        <div class="code-window" aria-hidden="true">
+          <div class="code-dots"><i></i><i></i><i></i></div>
+          <span class="code-line line-one"></span>
+          <span class="code-line line-two"></span>
+          <span class="code-line line-three"></span>
+          <span class="code-line line-four"></span>
+        </div>
+
+        <div class="github-copy">
+          <h2>Build to learn</h2>
+          <p>Prototypes, useful tools, and rabbit holes with a commit history</p>
+        </div>
+
+        <p class="card-reveal">“If you want to be great in a particular area, you have to obsess over it.” Kobe Bryant</p>
+
+        <span class="card-action">Browse GitHub ↗</span>
+      </a>
+
       <article
         class="quest-card strava-card"
         data-tooltip="My recent activity, straight from my Strava."
@@ -212,50 +256,6 @@ const spotifyYears = Math.round(
 
       <p class="card-reveal">My recent activity, straight from my Strava.</p>
       </article>
-
-      <a
-        class="quest-card github-card"
-        data-tooltip="“If you want to be great in a particular area,\nyou have to obsess over it.” Kobe Bryant"
-        href="https://github.com/clarkhayashi"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <span class="external-mark" aria-hidden="true">↗</span>
-
-        {
-          /* "Job's not finished" sits where the code window used to, so the
-             card keeps exactly one decorative element. Decorative, so it is
-             hidden from assistive tech and taken out of the tab order; the
-             GIF cannot be paused inside a third-party frame, so readers who
-             ask for reduced motion get the quiet code window instead. */
-        }
-        <div class="gif-frame" aria-hidden="true">
-          <iframe
-            src="https://giphy.com/embed/QGZBpodY7Kdtw99y04"
-            title="Kobe Bryant: job's not finished"
-            class="giphy-embed"
-            loading="lazy"
-            tabindex="-1"
-            frameborder="0"></iframe>
-        </div>
-
-        <div class="code-window" aria-hidden="true">
-          <div class="code-dots"><i></i><i></i><i></i></div>
-          <span class="code-line line-one"></span>
-          <span class="code-line line-two"></span>
-          <span class="code-line line-three"></span>
-          <span class="code-line line-four"></span>
-        </div>
-
-        <div class="github-copy">
-          <h2>Build to learn</h2>
-          <p>Prototypes, useful tools, and rabbit holes with a commit history</p>
-        </div>
-
-        <p class="card-reveal">“If you want to be great in a particular area, you have to obsess over it.” Kobe Bryant</p>
-
-        <span class="card-action">Browse GitHub ↗</span>
-      </a>
     </section>
 
     {
@@ -580,31 +580,31 @@ const spotifyYears = Math.round(
     border-color: color-mix(in srgb, var(--color-teal, #5d8c88) 45%, transparent);
   }
 
-  /* ---------- Tints ----------
-     Per DESIGN.md's extension for this surface. Each card gets a wash keyed to
-     its own subject so the grid stops reading as five identical rectangles.
-     Every value is mixed from a colour already in the design system, and each
-     sits at or under 6% so it separates the cards without competing with the
-     ink on them. Glass was the other option and does not work here: there is
-     nothing behind these cards for backdrop-filter to refract. */
+  /* ---------- Ground ----------
+     Per DESIGN.md's extension for this surface. The separation comes from the
+     ground, not from the cards: the shell sits on a cooler, clearly darker
+     teal wash and the cards stay on paper, which lifts them by about 0.10
+     luminance.
+
+     Per-card tints were tried and removed. Interaction teal is only 4.98:1 on
+     paper, so it has almost no headroom, and even a 2% tint on a card dropped
+     the "Open my notes" style links to 4.40:1, under AA. At a tint light
+     enough to keep them legible the colour was not visible anyway.
+
+     Glass was the other option and does not work here: backdrop-filter needs
+     something behind it to refract, and over a flat ground it returns the
+     flat ground. */
   .quests-shell {
-    background: color-mix(in srgb, var(--color-teal, #5d8c88) 4%, var(--color-paper, #f7f4ef));
+    background: color-mix(in srgb, var(--color-teal, #5d8c88) 13%, var(--color-paper, #f7f4ef));
   }
 
-  .duo-card {
-    background: color-mix(in srgb, var(--color-teal, #5d8c88) 5%, var(--color-paper, #f7f4ef));
-  }
-
-  .notes-card {
-    background: color-mix(in srgb, var(--color-bark, #6b5642) 5%, var(--color-paper, #f7f4ef));
-  }
-
-  .spotify-card {
-    background: color-mix(in srgb, var(--color-teal-deep, #4f7773) 6%, var(--color-paper, #f7f4ef));
-  }
-
+  /* The cards keep their own paper surface. Without it they are transparent
+     and dissolve into the tinted ground. */
+  .duo-card,
+  .notes-card,
+  .spotify-card,
   .strava-card {
-    background: color-mix(in srgb, var(--color-crimson, #8a1538) 4%, var(--color-paper, #f7f4ef));
+    background: var(--color-paper, #f7f4ef);
   }
 
   /* ---------- Hover reveal ----------
@@ -710,9 +710,9 @@ const spotifyYears = Math.round(
     z-index: 5;
     top: clamp(1.15rem, 2.5vw, 1.6rem);
     left: clamp(1.15rem, 2.5vw, 1.6rem);
-    width: 1.5rem;
-    height: 1.5rem;
-    opacity: 0.38;
+    width: 2.5rem;
+    height: 2.5rem;
+    opacity: 0.55;
   }
 
   .external-mark {
@@ -798,6 +798,10 @@ const spotifyYears = Math.round(
      roughly 1.2:1 and was effectively invisible. Its copy is paper-toned
      instead. The reveal needs the same treatment, and would have shipped the
      same defect on touch, where it is the visible branch. */
+  .github-card .card-action {
+    color: var(--color-teal, #5d8c88);
+  }
+
   .github-copy p,
   .github-card .card-reveal {
     color: color-mix(in srgb, var(--color-paper, #f7f4ef) 78%, transparent);
@@ -869,7 +873,7 @@ const spotifyYears = Math.round(
   }
 
   .spotify-card {
-    grid-column: span 12;
+    grid-column: span 6;
     flex-direction: column;
     justify-content: flex-end;
     padding: clamp(1.4rem, 3vw, 2.2rem);
@@ -1046,7 +1050,7 @@ const spotifyYears = Math.round(
   }
 
   .github-card {
-    grid-column: span 12;
+    grid-column: span 6;
     flex-direction: column;
     justify-content: flex-end;
     padding: clamp(1.4rem, 3vw, 2.2rem);
