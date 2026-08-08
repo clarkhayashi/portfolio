@@ -37,6 +37,15 @@ const spotifyYears = Math.round(
         target="_blank"
         rel="noopener noreferrer"
       >
+        <img
+          class="card-mark"
+          src="/images/logos/duolingo.svg"
+          alt=""
+          aria-hidden="true"
+          width="24"
+          height="24"
+        />
+
         <span class="external-mark" aria-hidden="true">↗</span>
 
         <div class="duo-copy">
@@ -97,6 +106,15 @@ const spotifyYears = Math.round(
         data-tooltip={`${spotifyHours} hours counted from my own raw export,\nbecause who needs to wait for Spotify Wrapped.`}
         href="/side-quests/listening"
       >
+        <img
+          class="card-mark"
+          src="/images/logos/spotify.svg"
+          alt=""
+          aria-hidden="true"
+          width="24"
+          height="24"
+        />
+
         <div class="spotify-copy">
           <p class="spotify-headline">
             <span>{spotifyHours}</span> hours
@@ -132,6 +150,15 @@ const spotifyYears = Math.round(
         class="quest-card strava-card"
         data-tooltip="My recent activity, straight from my Strava."
       >
+        <img
+          class="card-mark"
+          src="/images/logos/strava.svg"
+          alt=""
+          aria-hidden="true"
+          width="24"
+          height="24"
+        />
+
         <div class="strava-rotator" data-strava-rotator>
           <div class="strava-embed-shell" data-strava-slide data-active="true">
             <div
@@ -670,6 +697,22 @@ const spotifyYears = Math.round(
   .quest-card a:focus-visible {
     outline: 2px solid var(--color-teal, #5d8c88);
     outline-offset: 3px;
+  }
+
+  /* The service mark, opposite the ↗ so the two corners balance. Vendored from
+     Simple Icons into public/images/logos rather than hotlinked, which keeps
+     the site's no-external-requests property. Decorative: each card already
+     names its service in the heading, so the mark is aria-hidden and must not
+     be announced twice. Dimmed to 0.38 for the same reason .external-mark sits
+     at 0.5, it is a wayfinding cue and not content. */
+  .card-mark {
+    position: absolute;
+    z-index: 5;
+    top: clamp(1.15rem, 2.5vw, 1.6rem);
+    left: clamp(1.15rem, 2.5vw, 1.6rem);
+    width: 1.5rem;
+    height: 1.5rem;
+    opacity: 0.38;
   }
 
   .external-mark {
