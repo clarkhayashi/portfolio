@@ -228,6 +228,16 @@ or under 3px, motion stays under 300ms on the shared --ease-out curve, and none 
 leaves that route. Everything else on the site stays flat. A future session
 finding a shadow there has found a decision, not drift.
 
+Extended 2026-08-07: that surface may also **tint**. The page sits on a
+slightly cooler ground than paper, and each card carries a wash keyed to its
+own subject, so the grid stops reading as five identical rectangles. Tints stay
+at or under 6% against the card fill, which is enough to separate the cards and
+not enough to compete with the ink on them. Every tint is mixed from a colour
+already in this file. Glassmorphism is still out, and not only because it is on
+the rejected list: `backdrop-filter` needs something behind it to refract, and
+over a flat ground it returns the same flat ground. Tint is the honest version
+of what glass is usually reached for.
+
 ## Shapes
 
 Buttons are pills ({rounded.full}). Images and tiles use {rounded.sm} to

@@ -102,10 +102,12 @@ const spotifyYears = Math.round(
             <span>{spotifyHours}</span> hours
           </p>
           <h2>Listening</h2>
-          <p>
-            {spotifyYears} years of my own Spotify history, counted from the raw
-            export rather than taken from a year end summary
-          </p>
+          {
+            /* Short on purpose. The long version said the same thing as the
+               hover copy, and it ran 18px into the absolutely positioned
+               action underneath it. */
+          }
+          <p>{spotifyYears} years, counted from my own raw export</p>
         </div>
 
         {
@@ -159,23 +161,14 @@ const spotifyYears = Math.round(
         </div>
 
         {
-          /* Aggregate totals, alongside the per-activity rotator rather than
-             instead of it. Chosen over Strava's latest-rides widget because
-             that one repeats what the rotator already shows, stands 454px
-             tall against this card, and is named for a sport Clark does not
-             do. This one adds a number the card did not have. */
+          /* No summary widget here. Both of Strava's athlete widgets, the
+             activity-summary and the latest-rides one, answer 301 to /login
+             and send X-Frame-Options: SAMEORIGIN, so they cannot be framed
+             from this domain at all and render as "This content is blocked".
+             That is Strava's header, not our CSP, so there is nothing to
+             loosen on our side. Only the strava-embeds.com per-activity
+             embeds above are frameable. Do not re-add these. */
         }
-        <div class="strava-summary">
-          <iframe
-            title="Clark's recent Strava totals"
-            src="https://www.strava.com/athletes/155679367/activity-summary/bbb4ccf4ec984bb56e5eb15d638fa6a4c869699c"
-            height="160"
-            width="300"
-            loading="lazy"
-            frameborder="0"
-            allowtransparency="true"
-            scrolling="no"></iframe>
-        </div>
 
         {
           /* The only card that was not a link, while its bubble said "take a
@@ -502,19 +495,23 @@ const spotifyYears = Math.round(
 
   /* Page title, 34 mobile / 56 desktop, left-aligned like /work and /journey.
      This is the page's single Zodiak moment; nothing below it is serif. */
+  /* Bigger than the standard page title, because this is the one page where
+     the heading is allowed to be the loudest thing on screen. 46 and 72 are
+     the 46 step and one above the 56 step; the scale in DESIGN.md tops out at
+     56, so this is the licensed surface spending its licence. */
   .quests-intro h1 {
     margin: 0;
     color: var(--color-ink, #1c1c1c);
     font-family: var(--font-serif, Georgia, serif);
-    font-size: 2.125rem;
+    font-size: 2.875rem;
     font-weight: 700;
-    letter-spacing: -0.028em;
-    line-height: 1.04;
+    letter-spacing: -0.03em;
+    line-height: 1;
   }
 
   .intro-copy {
     max-width: 52ch;
-    margin: 1.5rem 0 0;
+    margin: 1.25rem 0 0;
     color: color-mix(in srgb, var(--color-ink, #1c1c1c) 70%, transparent);
     font-size: 1.125rem;
     line-height: 1.7;
@@ -527,7 +524,7 @@ const spotifyYears = Math.round(
   }
 
   @media (min-width: 768px) {
-    .quests-intro h1 { font-size: 3.5rem; }
+    .quests-intro h1 { font-size: 4.5rem; }
   }
 
   .quest-grid {
@@ -554,6 +551,33 @@ const spotifyYears = Math.round(
 
   .quest-card:hover {
     border-color: color-mix(in srgb, var(--color-teal, #5d8c88) 45%, transparent);
+  }
+
+  /* ---------- Tints ----------
+     Per DESIGN.md's extension for this surface. Each card gets a wash keyed to
+     its own subject so the grid stops reading as five identical rectangles.
+     Every value is mixed from a colour already in the design system, and each
+     sits at or under 6% so it separates the cards without competing with the
+     ink on them. Glass was the other option and does not work here: there is
+     nothing behind these cards for backdrop-filter to refract. */
+  .quests-shell {
+    background: color-mix(in srgb, var(--color-teal, #5d8c88) 4%, var(--color-paper, #f7f4ef));
+  }
+
+  .duo-card {
+    background: color-mix(in srgb, var(--color-teal, #5d8c88) 5%, var(--color-paper, #f7f4ef));
+  }
+
+  .notes-card {
+    background: color-mix(in srgb, var(--color-bark, #6b5642) 5%, var(--color-paper, #f7f4ef));
+  }
+
+  .spotify-card {
+    background: color-mix(in srgb, var(--color-teal-deep, #4f7773) 6%, var(--color-paper, #f7f4ef));
+  }
+
+  .strava-card {
+    background: color-mix(in srgb, var(--color-crimson, #8a1538) 4%, var(--color-paper, #f7f4ef));
   }
 
   /* ---------- Hover reveal ----------
@@ -665,7 +689,6 @@ const spotifyYears = Math.round(
 
   .duo-card {
     grid-column: span 7;
-    background: var(--color-paper, #f7f4ef);
   }
 
   .duo-copy {
@@ -727,6 +750,16 @@ const spotifyYears = Math.round(
     line-height: 1.7;
   }
 
+  /* The GitHub card is the one dark card, so the shared ink rule above put
+     dark text on a dark ground: "Prototypes, useful tools..." was rendering at
+     roughly 1.2:1 and was effectively invisible. Its copy is paper-toned
+     instead. The reveal needs the same treatment, and would have shipped the
+     same defect on touch, where it is the visible branch. */
+  .github-copy p,
+  .github-card .card-reveal {
+    color: color-mix(in srgb, var(--color-paper, #f7f4ef) 78%, transparent);
+  }
+
   @media (min-width: 768px) {
     .duo-copy h2,
     .notes-copy h2,
@@ -773,7 +806,6 @@ const spotifyYears = Math.round(
     flex-direction: column;
     justify-content: flex-end;
     padding: clamp(1.4rem, 3vw, 2.2rem);
-    background: var(--color-paper, #f7f4ef);
   }
 
   .notes-copy {
@@ -798,11 +830,14 @@ const spotifyYears = Math.round(
     flex-direction: column;
     justify-content: flex-end;
     padding: clamp(1.4rem, 3vw, 2.2rem);
-    background: var(--color-paper, #f7f4ef);
   }
 
+  /* padding-bottom matches .notes-copy: .card-action is absolutely positioned
+     at the bottom of every card, so any copy block above it has to reserve
+     that space or it runs underneath. This card was missing it. */
   .spotify-copy {
     max-width: 34rem;
+    padding-bottom: 3.4rem;
   }
 
   /* Mirrors the Duolingo card's streak treatment so the two live-data cards
@@ -877,7 +912,6 @@ const spotifyYears = Math.round(
     grid-column: span 12;
     height: 780px;
     min-height: 780px;
-    background: var(--color-paper, #f7f4ef);
   }
 
   .strava-rotator {
@@ -885,26 +919,7 @@ const spotifyYears = Math.round(
     inset: 0;
   }
 
-  /* Sits over the rotator in the corner, so adding it cannot disturb the
-     existing embeds' layout. Paper behind it because the Strava widget ships
-     its own white-ish chrome and would otherwise float on the map. */
-  .strava-summary {
-    position: absolute;
-    z-index: 4;
-    top: clamp(1rem, 2.5vw, 1.6rem);
-    left: clamp(1rem, 2.5vw, 1.6rem);
-    overflow: hidden;
-    border: 1px solid color-mix(in srgb, var(--color-ink, #1c1c1c) 10%, transparent);
-    border-radius: 12px;
-    background: var(--color-paper, #f7f4ef);
-  }
 
-  .strava-summary iframe {
-    display: block;
-    width: 300px;
-    height: 160px;
-    border: 0;
-  }
 
   .strava-action {
     z-index: 4;
