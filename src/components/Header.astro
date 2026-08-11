@@ -5,7 +5,6 @@ const links = [
   { href: "/journey", label: "Journey" },
   { href: "/about", label: "About" },
   { href: "/side-quests", label: "Side Quests" },
-  { href: "/resume.pdf", label: "Resume" },
 ];
 ---
 
@@ -43,7 +42,7 @@ const links = [
             href={l.href}
             class:list={[
               "relative py-1 transition-colors after:absolute after:inset-x-0 after:-bottom-1 after:h-px after:origin-left after:bg-[#B84A56] after:transition-transform",
-              current.startsWith(l.href) && l.href !== "/resume.pdf"
+              current.startsWith(l.href)
                 ? "text-white after:scale-x-100"
                 : "text-white/80 after:scale-x-0 hover:text-white hover:after:scale-x-100",
             ]}

@@ -111,10 +111,7 @@ const buildingNow = [
         Experience Snapshot
       </h2>
       <p class="mt-3 text-ink/70">
-        The full picture. The <a
-          href="/resume.pdf"
-          class="font-medium text-teal-deep transition-colors hover:text-ink">resume</a
-        > is the one-page version.
+        The full picture, most recent first.
       </p>
       <div class="mt-6">
         {mainExperience.map((item) => <ExperienceRow item={item} />)}
@@ -251,7 +248,6 @@ const buildingNow = [
           variant="ghost"
           external>LinkedIn</ButtonLink
         >
-        <ButtonLink href="/resume.pdf" variant="ghost">Resume</ButtonLink>
       </div>
     </div>
     </div>
