@@ -1,13 +1,12 @@
 ---
 import { journey } from "../data/journey";
 
-const stops = journey.map(({ place, placeJa, lon, lat, years, landmark, glyph, chipPhoto }) => ({
+const stops = journey.map(({ place, placeJa, lon, lat, years, glyph, chipPhoto }) => ({
   place,
   placeJa,
   lon,
   lat,
   years,
-  landmark,
   glyph,
   chipPhoto,
 }));
@@ -49,7 +48,7 @@ const uniqueStops = stops.filter(
                 type="button"
                 class="journey-map-marker"
                 data-place={stop.place}
-                aria-label={`View ${stop.place}: ${stop.landmark}`}
+                aria-label={`View ${stop.place}`}
                 hidden
               >
                 <span class="journey-marker-dot" aria-hidden="true"></span>
@@ -69,7 +68,6 @@ const uniqueStops = stops.filter(
                   </span>
                   <span class="chip-label">
                     <strong>{stop.placeJa && <span lang="ja">{stop.placeJa} · </span>}{stop.place}</strong>
-                    <small>{stop.landmark}</small>
                   </span>
                 </span>
               </button>
@@ -275,8 +273,16 @@ const uniqueStops = stops.filter(
   /* Vendored from world-atlas@2 (ISC) into public/data/ rather than fetched
      from a CDN: this is the homepage centrepiece, and an external request that
      is blocked or slow degrades it to a bare navy disc. Same reason the fonts
-     are self-hosted, so the site makes no external requests at all. */
-  fetch("/data/land-110m.json")
+     are self-hosted, so the site makes no external requests at all.
+
+     50m, not 110m. 110m is world-atlas' thumbnail tier: at this globe's size
+     it renders coastlines as visible straight segments and drops the Japanese
+     archipelago almost entirely, which put a blocky Honshu behind the Tokyo
+     marker. 50m costs ~150KB more gzipped, fetched after first paint, and the
+     globe draws its plain ocean disc until it lands. Use the file exactly as
+     world-atlas ships it: simplifying it locally introduces ~150 self
+     intersections that can punch holes through the evenodd fill. */
+  fetch("/data/land-50m.json")
     .then((response) => response.json())
     .then((topo) => {
       d3 = { geoGraticule10, geoOrthographic, geoPath };
@@ -767,10 +773,12 @@ const uniqueStops = stops.filter(
     object-position: center;
   }
 
+  /* One line now that the landmark subtitle is gone, so the padding is even
+     top and bottom. The old 9/10 split optically centred a two-line stack. */
   .chip-label {
     display: grid;
     min-width: 0;
-    padding: 9px 12px 10px;
+    padding: 10px 12px;
     text-align: left;
     line-height: 1.18;
   }
@@ -783,8 +791,11 @@ const uniqueStops = stops.filter(
     visibility: visible;
   }
 
-  .journey-marker-bubble strong { font-size: 0.8125rem; letter-spacing: 0; }
-  .journey-marker-bubble small { margin-top: 3px; color: rgba(17, 45, 56, 0.68); font-size: 0.6875rem; }
+  /* Stepped up from label (13px) to body-md (16px) once the landmark
+     subtitle came out: the chip is a single line now, so the place name is
+     the whole label and can carry the space. Tracking follows the scale,
+     which tightens as size grows (h4 sits at -0.01em). */
+  .journey-marker-bubble strong { font-size: 1rem; font-weight: 700; letter-spacing: -0.01em; }
 
   /* While the globe is flying, the bubble stays down; it pops on landing. */
   #journey-home.in-flight .journey-marker-bubble {

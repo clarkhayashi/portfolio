@@ -14,9 +14,8 @@ export interface JourneyStop {
   years: string;
   lon: number;
   lat: number;
-  landmark: string;
   glyph: "wave" | "needle" | "tower" | "hill";
-  /** Real photo shown inside the globe's landmark chip on hover/tap. */
+  /** Real photo shown inside the globe's map chip on hover/tap. */
   chipPhoto?: string;
   story: string;
   /** `portrait: true` renders the card photo at 4/5 instead of cropping to 16/10. */
@@ -30,11 +29,11 @@ export const journey: JourneyStop[] = [
     title: "Where I'm from",
     /* Departure year only. Every other stop is dated by when something
        happened, not by a birth year, and "Where I'm from" already carries
-       that this is the origin. */
-    years: "Until 2022",
+       that this is the origin. The tilde does the same work "Until" did
+       without the hard edge, and reads as approximate rather than clipped. */
+    years: "~2022",
     lon: -157.86,
     lat: 21.31,
-    landmark: "Diamond Head + Pacific",
     glyph: "wave",
     chipPhoto: "/images/hawaii/hawaii-coast.jpg",
     story:
@@ -48,7 +47,6 @@ export const journey: JourneyStop[] = [
     years: "2022",
     lon: -122.33,
     lat: 47.61,
-    landmark: "Space Needle",
     glyph: "needle",
     chipPhoto: "/images/seattle/seattle-kerry-park.jpg",
     story:
@@ -67,7 +65,6 @@ export const journey: JourneyStop[] = [
     years: "2024",
     lon: 139.69,
     lat: 35.69,
-    landmark: "Sensō-ji, Asakusa",
     glyph: "tower",
     chipPhoto: "/images/japan/asakusa-sensoji.jpg",
     story:
@@ -81,7 +78,6 @@ export const journey: JourneyStop[] = [
     years: "Summer 2025",
     lon: -157.86,
     lat: 21.31,
-    landmark: "Diamond Head + Pacific",
     glyph: "wave",
     story:
       "Back to the islands as one of Bank of Hawaii's first AI interns: 50+ use cases gathered across the organization, a scoring framework, a Power BI dashboard, and a readout to 60+ employees and senior leaders. The journey loops home before its last leg.",
@@ -107,7 +103,6 @@ export const journey: JourneyStop[] = [
     years: "August 2025",
     lon: 12.14,
     lat: 43.57,
-    landmark: "Tuscan winery",
     glyph: "hill",
     chipPhoto: "/images/italy/wine-barrels.jpg",
     story:
@@ -123,7 +118,6 @@ export const journey: JourneyStop[] = [
     years: "2026",
     lon: -122.33,
     lat: 47.61,
-    landmark: "Space Needle",
     glyph: "needle",
     story:
       "Back in Seattle, building what's next: case studies, GA4 lead tracking for a family real estate business, and whatever messy problem lands on the desk after that.",

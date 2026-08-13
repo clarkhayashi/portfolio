@@ -194,8 +194,9 @@ const stops = journey.map((s) => ({ place: s.place, lon: s.lon, lat: s.lat, year
       return { type: "MultiPolygon", coordinates: polygons };
     }
 
-    /* Vendored, same as the homepage stepper: see public/data/land-110m.json. */
-    fetch("/data/land-110m.json")
+    /* Vendored, same as the homepage stepper: see public/data/land-50m.json,
+       which carries the reason this is the 50m tier and not the 110m one. */
+    fetch("/data/land-50m.json")
       .then((r) => r.json())
       .then((topo) => {
         landGeo = decodeLand(topo);
