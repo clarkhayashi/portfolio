@@ -94,7 +94,7 @@ export const journey: JourneyStop[] = [
        Italy is the only label true for the whole itinerary. The specificity
        lives in the story below, where a reader is already reading. */
     place: "Italy",
-    title: "Where business got global",
+    title: "My first trip to Europe",
     /* Dated by when Clark was physically there, because /journey is a map of
        places. The course itself stays "Summer 2025" in experience.ts, which
        matches the resume: a term and a trip are different facts. Dating both
@@ -106,7 +106,7 @@ export const journey: JourneyStop[] = [
     glyph: "hill",
     chipPhoto: "/images/italy/wine-barrels.jpg",
     story:
-      "Ten days across Italy with the Albers School, late August into early September, right after the Bank of Hawaii internship wrapped: the coursework had run online all summer alongside it. Family wineries, Nestlé's Perugina chocolate operation, a B Corp textile mill older than most countries. Small firms, long views, and marketing that has survived centuries of change.",
+      "I have always wanted to go to Europe, so when this opportunity came along, I could not pass it up. Italy felt completely new compared with home and Japan. Ten days went by fast: factory tours, family businesses, bigger operations, historical sites, and honestly some incredible food, espresso, cappuccinos, and gelato. What stayed with me was how much care people put into their work. At the family-run places especially, you could feel the pride, history, and family behind what they made. It came through in the product and the experience. We saw businesses with completely different ways of growing, from generations of craft to global systems. The coursework gave me language for some of it, but being there made it real. I would love to go back.",
     photo: { src: "/images/italy/italy-study-tour-group.jpg", alt: "Italy study tour group at a Tuscan vineyard" },
     links: [
       { label: "Program recap", href: "https://www.linkedin.com/feed/update/urn:li:activity:7374272355684028416/", external: true },
