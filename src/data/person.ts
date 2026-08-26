@@ -43,7 +43,7 @@ export const personSchema = {
   hasCredential: [
     {
       "@type": "EducationalOccupationalCredential",
-      name: "BBA, Business Analytics and Marketing, minor in Japanese",
+      name: "BABA, Business Analytics and Marketing, minor in Japanese",
       credentialCategory: "degree",
       educationalLevel: "Bachelor's degree",
       recognizedBy: { "@type": "CollegeOrUniversity", name: "Seattle University" },

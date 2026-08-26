@@ -150,7 +150,7 @@ export const experience: ExperienceItem[] = [
   },
   {
     org: "Seattle University",
-    role: "BBA, Business Analytics & Marketing",
+    role: "BABA, Business Analytics & Marketing",
     dates: "2022 to 2026",
     detail:
       "Minor in Japanese. Magna Cum Laude, GPA 3.71. Achievement Scholarship and Senator Daniel K. Akaka Scholarship recipient; Dean's List and President's List.",
