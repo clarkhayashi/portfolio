@@ -72,6 +72,21 @@ their own background rather than cropped, because cropping cut axis labels.
                                   real in-store artifact, same gallery.
                                   All four: subject is the subject, per the
                                   imagery test in CLAUDE.md. None is decorative.
+- zippys-kfc-concept-box.png      Speculative frozen Korean Fried Chicken box on
+                                  a supermarket freezer shelf. **AI-generated**
+                                  by Clark with Gemini, 2026-08-31, approved by
+                                  him the same day under the revised generated-
+                                  assets rule in CLAUDE.md. The label
+                                  "AI-GENERATED CONCEPT / NOT A ZIPPY'S PRODUCT"
+                                  is composited into the bottom-right of the
+                                  image itself, not just the caption, so it
+                                  survives a screenshot or a re-host. Caption
+                                  and alt text repeat it. Source PNG kept at
+                                  ~/Desktop/KFC_Staged.png. Note: the box carries
+                                  garbled pseudo-text on its FDA-style seal and
+                                  on neighbouring packages. Left in deliberately
+                                  at Clark's direction: it reads as a comp rather
+                                  than a photograph of a real product.
 - zippys-vegas-storefront.jpg     Zippy's on S Eastern Ave, Las Vegas (store
                                   three, opened Sep 2025). Source: Zippy's own
                                   photography on zippys.com/lasvegas, pulled from

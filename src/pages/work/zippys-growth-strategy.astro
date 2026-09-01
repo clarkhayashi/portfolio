@@ -7,6 +7,7 @@ import appStore from "../../assets/work/zippys-app-store.jpg";
 import rewardsApp from "../../assets/work/zippys-rewards-app.jpg";
 import koreanFriedChicken from "../../assets/work/zippys-korean-fried-chicken.jpg";
 import vegasStorefront from "../../assets/work/zippys-vegas-storefront.jpg";
+import kfcConceptBox from "../../assets/work/zippys-kfc-concept-box.png";
 
 const sourceLinks = [
   { label: "Zippy's · Las Vegas locations", href: "https://www.zippys.com/lasvegas" },
@@ -232,15 +233,10 @@ const gateStages = [
             <p>Its closest shelf competitor is Trader Joe's orange chicken, a product that built a following with no restaurant behind it at all. Zippy's would enter that category with sixty years of brand and a plate people already order by name. Chili on one side, chicken on the other, one freezer door. That is a basket.</p>
           </div>
 
-          <div class="concept-stack">
-            <div class="concept-pack" aria-label="Speculative frozen product concept">
-              <span class="pack-brand">Zippy's</span>
-              <strong>Korean<br />Fried<br />Chicken</strong>
-              <p class="pack-method">Air fry from frozen</p>
-              <div class="pack-rule"></div>
-              <div class="pack-foot"><small>18 oz · Frozen</small><small>Concept</small></div>
-            </div>
-          </div>
+          <figure class="concept-shot">
+            <Image src={kfcConceptBox} alt="AI-generated concept mockup: a Zippy's Korean Fried Chicken frozen dinner box on a supermarket freezer shelf. Not a real Zippy's product." widths={[520, 840, 1264]} sizes="(min-width: 900px) 520px, 92vw" loading="lazy" />
+            <figcaption>AI-generated concept mockup, made with Gemini. Not a real Zippy's product, not a product Zippy's has announced, tested or priced. The label is carried on the image so it survives a screenshot.</figcaption>
+          </figure>
         </div>
 
         <figure class="plate-shot">
@@ -351,9 +347,7 @@ const gateStages = [
     </section>
 
     <section class="case-shell section-block measurement-section" id="measurement">
-      <div class="section-heading">
-        <h2>Attention is the opening metric, not the outcome.</h2>
-      </div>
+      <h2>Attention is the opening metric, not the outcome.</h2>
       <dl class="metric-list">
         <div><dt>Distribution</dt><dd>Retail movement by store · shelf placement · second-SKU sell-through</dd></div>
         <div><dt>Demand</dt><dd>Waitlist conversion · ZIP-code concentration · branded search lift</dd></div>
@@ -364,8 +358,8 @@ const gateStages = [
     </section>
 
     <section class="case-shell reflection">
+      <h2>The rebuild changed the answer, not just the wording.</h2>
       <div>
-        <h2>The rebuild changed the answer, not just the wording.</h2>
         <p>The 2024 paper argued for pop-ups, digital ordering, loyalty, Hawaiʻi-connected communities and authentic storytellers, and it named a Seattle Asian market as a distribution channel before I understood how much weight that line could carry. What it did not do was survive contact with what Zippy's actually did next.</p>
         <p>Rebuilding it in 2026 meant checking every claim against five openings and one closure, choosing a single market, and moving retail from a footnote to the first gate. The correction I would carry into client work: find out whether the company already answered your question before you spend a page asking it.</p>
       </div>
@@ -565,16 +559,9 @@ const gateStages = [
   .line-copy h3 { margin: 0 0 26px; font-size: clamp(1.8rem, 2.8vw, 2.6rem); }
   .line-copy p { margin: 0 0 20px; max-width: 62ch; color: #c6d0cc; line-height: 1.7; }
 
-  .concept-stack { display: grid; gap: 26px; }
-  .concept-pack { min-height: 420px; padding: 30px; border-radius: var(--z-radius); position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: flex-start; background: var(--z-orange); color: var(--z-brown); box-shadow: 14px 14px 0 rgba(0,0,0,.35); }
-  .concept-pack::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(45deg, transparent 0 23px, rgba(71,55,41,.13) 24px 25px); pointer-events: none; }
-  .concept-pack > * { position: relative; z-index: 1; }
-  .pack-brand { font-family: var(--z-display); font-size: .95rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
-  .concept-pack strong { margin-top: 40px; font-family: var(--z-display); font-weight: 700; font-size: clamp(2.1rem, 3.2vw, 2.9rem); line-height: .98; letter-spacing: .005em; text-transform: uppercase; }
-  .pack-method { margin: 18px 0 0; font-family: var(--z-display); font-weight: 600; text-transform: uppercase; font-size: 1.35rem; line-height: 1.05; }
-  .pack-rule { width: 100%; flex: 1; min-height: 26px; margin: 24px 0 14px; border-bottom: 3px solid var(--z-brown); }
-  .pack-foot { width: 100%; display: flex; justify-content: space-between; gap: 16px; }
-  .pack-foot small { font-family: var(--z-display); font-size: .9rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+  .concept-shot { margin: 0; }
+  .concept-shot img { width: 100%; height: auto; border-radius: var(--z-radius); }
+  .concept-shot figcaption { margin-top: 16px; color: #c2ccc8; font-size: .9rem; line-height: 1.55; }
 
   .plate-shot, .wide-shot { margin: clamp(40px, 5vw, 64px) 0 0; }
   .wide-shot img { width: 100%; aspect-ratio: 24 / 9; object-fit: cover; border-radius: var(--z-radius); }
@@ -657,19 +644,21 @@ const gateStages = [
   .campaign-section .boundary { color: #ddd4c8; }
   .campaign-section .boundary strong { color: var(--z-gold); }
 
-  .measurement-section { display: grid; grid-template-columns: .82fr 1.18fr; gap: clamp(60px, 10vw, 140px); }
+  .measurement-section h2 { max-width: 20ch; margin: 0 0 clamp(36px, 4vw, 56px); font-size: clamp(2.2rem, 4vw, 4rem); }
+  .metric-list { margin: 0; }
   .metric-list { margin: 0; border-top: 1px solid var(--z-line); }
   .metric-list div { padding: 22px 0; display: grid; grid-template-columns: 120px 1fr; gap: 30px; border-bottom: 1px solid var(--z-line); }
   .metric-list dt { color: var(--z-orange-ink); font-family: var(--z-display); font-size: .98rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
   .metric-list dd { margin: 0; color: var(--z-muted); line-height: 1.6; }
 
-  .reflection { padding-block: clamp(72px, 8vw, 112px); border-top: 1px solid var(--z-line); }
-  .reflection h2 { max-width: 20ch; margin-bottom: 30px; }
-  .reflection p { max-width: 66ch; margin: 0 0 20px; }
+  .reflection { padding-block: clamp(72px, 8vw, 112px); display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: clamp(36px, 5vw, 80px); align-items: start; }
+  .reflection h2 { max-width: 16ch; }
+  .reflection p { margin: 0 0 20px; }
+  .reflection p:last-child { margin-bottom: 0; }
 
   .sources-section { padding-block: clamp(78px, 9vw, 120px); background: var(--z-ink); color: var(--z-paper); }
   .sources-grid { display: grid; grid-template-columns: 1fr .8fr; gap: clamp(60px, 10vw, 150px); }
-  .sources-section h2 { font-size: clamp(2.2rem, 3.6vw, 3.4rem); }
+  .sources-section h2 { margin-bottom: 26px; font-size: clamp(2.2rem, 3.6vw, 3.4rem); }
   .sources-section p { color: #c6d0cc; }
   .sources-section ul { margin: 0; padding: 0; list-style: none; border-top: 1px solid rgba(243,238,227,.3); }
   .sources-section li { border-bottom: 1px solid rgba(243,238,227,.3); }
@@ -686,7 +675,7 @@ const gateStages = [
   }
 
   @media (max-width: 900px) {
-    .hero, .personal-grid, .two-column-copy, .split-heading, .market-card, .signal-grid, .campaign-heading, .measurement-section, .sources-grid, .line-extension { grid-template-columns: 1fr; }
+    .hero, .personal-grid, .two-column-copy, .split-heading, .market-card, .signal-grid, .campaign-heading, .sources-grid, .line-extension, .reflection { grid-template-columns: 1fr; }
     .hero { min-height: auto; }
     .order-poster { min-height: 520px; }
     .personal-grid { gap: 22px; }
@@ -724,7 +713,6 @@ const gateStages = [
     .tally { grid-template-columns: 1fr 1fr; }
     .evidence-grid { grid-template-columns: 1fr; }
     .campaign-board article { min-height: 460px; }
-    .concept-pack { min-height: 360px; }
     .metric-list div { grid-template-columns: 1fr; gap: 6px; }
   }
 </style>
