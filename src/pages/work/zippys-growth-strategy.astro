@@ -385,6 +385,75 @@ const gateStages = [
   </article>
 </Base>
 
+<script>
+  // Two behaviours, both IntersectionObserver. No scroll listener: CLAUDE.md
+  // bans window.addEventListener("scroll") site-wide.
+  //
+  // A. The Las Vegas rail reveals left to right, and the closure cell lands
+  //    after a beat, so the motion performs the argument the section makes.
+  // B. The sticky index marks which section you are in. Seven links over
+  //    13,000px with nothing telling you where you are was the gap.
+  //
+  // The reveal's hidden state is applied BY this script, never in the
+  // stylesheet, so the cells stay visible if the script never runs.
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const rail = document.querySelector(".timeline-rail");
+  if (rail && !reduced && "IntersectionObserver" in window) {
+    rail.classList.add("will-reveal");
+    const railObserver = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.querySelectorAll("li").forEach((li) => li.classList.add("is-in"));
+          obs.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.2 }
+    );
+    railObserver.observe(rail);
+  }
+
+  const navLinks = Array.from(document.querySelectorAll(".case-index a"));
+  if (navLinks.length && "IntersectionObserver" in window) {
+    const sections = new Map();
+    navLinks.forEach((link) => {
+      const target = document.querySelector(link.getAttribute("href"));
+      if (target) sections.set(target, link);
+    });
+    const onScreen = new Set();
+    const spy = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) onScreen.add(entry.target);
+          else onScreen.delete(entry.target);
+        });
+        // Walk document order backwards and take the lowest section in the
+        // band. scroll-margin-top parks a heading 76px down, which leaves a
+        // few pixels of the previous section still inside the band, so taking
+        // the first match marked the section you just left.
+        let current = null;
+        const ordered = Array.from(sections.keys());
+        for (let i = ordered.length - 1; i >= 0; i--) {
+          if (onScreen.has(ordered[i])) { current = ordered[i]; break; }
+        }
+        // Only seven of the page's twelve sections are in the index, so a
+        // reader inside the evidence gallery, the Max Holloway signal, the
+        // reflection or the sources matches nothing. Hold the last match
+        // instead of clearing: the marker then reads as "the section you are
+        // past", which is true, rather than blinking off.
+        if (!current) return;
+        navLinks.forEach((link) => link.classList.remove("is-current"));
+        sections.get(current).classList.add("is-current");
+      },
+      // A band just under the sticky bar, so "current" means "at the top of
+      // the screen" rather than "anywhere on it".
+      { rootMargin: "-72px 0px -60% 0px", threshold: 0 }
+    );
+    sections.forEach((_link, section) => spy.observe(section));
+  }
+</script>
+
 <style>
   .zippys-case {
     /* Type, scraped from zippys.com 2026-08-31. Their stack is Kinescope
@@ -491,7 +560,13 @@ const gateStages = [
   .case-index { position: sticky; top: 0; z-index: 20; background: rgba(243,238,227,.94); border-block: 1px solid var(--z-line); backdrop-filter: blur(10px); }
   .case-index .case-shell { min-height: 58px; display: flex; align-items: center; gap: 28px; overflow-x: auto; }
   .case-index a { flex: 0 0 auto; color: var(--z-brown-mid); font-family: var(--z-display); font-size: 1rem; font-weight: 600; letter-spacing: .03em; text-transform: uppercase; text-decoration: none; }
+  .case-index a { position: relative; padding-block: 18px; transition: color 160ms var(--ease-out); }
   .case-index a:hover { color: var(--z-teal); }
+  .case-index a.is-current { color: var(--z-ink); }
+  .case-index a.is-current::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 12px;
+    height: 2px; background: var(--z-orange-ink);
+  }
 
   .personal-note { padding-block: 40px; background: var(--z-ink); color: var(--z-paper); }
   .personal-grid { display: grid; grid-template-columns: 1fr 260px; gap: clamp(28px, 6vw, 76px); align-items: start; }
@@ -518,6 +593,21 @@ const gateStages = [
   .timeline-rail { margin: 60px 0 0; padding: 0; display: grid; grid-template-columns: repeat(6, 1fr); list-style: none; border-block: 1px solid var(--z-line); }
   .timeline-rail li { min-height: 210px; padding: 22px 18px; border-right: 1px solid var(--z-line); display: flex; flex-direction: column; }
   .timeline-rail li:last-child { border-right: 0; background: var(--z-aqua); }
+  /* Only the script adds .will-reveal, so nothing here can hide content from
+     a reader whose JS failed. */
+  .timeline-rail.will-reveal li { opacity: 0; transform: translateY(12px); }
+  .timeline-rail.will-reveal li.is-in {
+    opacity: 1; transform: none;
+    transition: opacity 260ms var(--ease-out), transform 260ms var(--ease-out);
+  }
+  .timeline-rail.will-reveal li:nth-child(2).is-in { transition-delay: 60ms; }
+  .timeline-rail.will-reveal li:nth-child(3).is-in { transition-delay: 120ms; }
+  .timeline-rail.will-reveal li:nth-child(4).is-in { transition-delay: 180ms; }
+  .timeline-rail.will-reveal li:nth-child(5).is-in { transition-delay: 240ms; }
+  /* The closure waits out a beat after the fifth opening. That pause is the
+     point of the section, so it is the one value here chosen for meaning
+     rather than for feel. */
+  .timeline-rail.will-reveal li:nth-child(6).is-in { transition-delay: 500ms; }
   .timeline-rail span { color: var(--z-orange-ink); font-family: var(--z-display); font-size: .95rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
   .timeline-rail strong { margin-top: 54px; font-family: var(--z-display); font-weight: 700; text-transform: uppercase; font-size: 1.15rem; line-height: 1.08; }
   .timeline-rail small { margin-top: 10px; color: var(--z-muted); font-size: .88rem; line-height: 1.5; }

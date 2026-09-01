@@ -171,11 +171,21 @@ Clark was in Italy instead of at the bank.
 ## Rejected directions (do not reintroduce)
 
 WebGL globe · ShaderGradient, liquid-glass-js, glassmorphism, gradients,
-neon/AI-demo looks · ui-ux-pro-max-skill and similar generic-slop skill packs ·
-the old Google Sites page · scroll-hijacking on the homepage (scrollytelling
-licensed only on /journey) · decorative grain and fake hand-drawn irregularity
-(experiment) · Cormorant/Satoshi/Inter/Space Grotesk in the experiment's
-direction · em dashes in copy.
+neon/AI-demo looks · the old Google Sites page · scroll-hijacking on the
+homepage (scrollytelling licensed only on /journey) · decorative grain and fake
+hand-drawn irregularity (experiment) · Cormorant/Satoshi/Inter/Space Grotesk in
+the experiment's direction · em dashes in copy.
+
+**`ui-ux-pro-max` moved off this list 2026-08-31, Clark's call.** It was a
+blanket ban; the revised stance is judge it by output. Use it where it fits and
+produces something good, drop it where it does not. What earned the original
+ban still stands as the thing to watch for: it ships a catalogue of 192
+palettes, 74 font pairings and 17 GSAP presets, so its failure mode is picking
+a look off a shelf instead of deriving one from the subject. The Zippy's case
+study is the counter-example worth remembering: its palette and type came from
+scraping zippys.com, and no preset library would have produced them. Take its
+suggestions as candidates, never as an answer, and if its output could have
+been generated for any other brief, throw it out.
 
 ## Repository guidance
 
