@@ -70,9 +70,44 @@
   --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
 }
 
+/* ---------- Zippy's case-study faces ----------
+   Scoped to src/pages/work/zippys-growth-strategy.astro and nothing else.
+   Zippy's own site runs Kinescope (display), DIN Condensed (nav and buttons)
+   and Nunito (body); the first two are commercial and cannot be self-hosted,
+   so this pairs the real Nunito with Oswald, the closest open substitute for
+   DIN Condensed. Both are SIL OFL, self-hosted alongside the others, licences
+   at public/fonts/nunito/OFL.txt and public/fonts/oswald/OFL.txt. No external
+   font request is added.
+
+   NOTE: DESIGN.md's Zippy's colour exception says in as many words that "the
+   type rules are not part of the exception." These faces widen that exception
+   from colour to type at Clark's explicit direction, 2026-08-31. DESIGN.md
+   needs the amendment before this ships. */
+@font-face {
+  font-family: "Nunito";
+  src: url("/fonts/nunito/nunito-latin-variable.woff2") format("woff2");
+  font-weight: 400 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Oswald";
+  src: url("/fonts/oswald/oswald-latin-variable.woff2") format("woff2");
+  font-weight: 400 700;
+  font-display: swap;
+}
+
 /* ---------- Base ---------- */
 html {
   scroll-behavior: smooth;
+}
+
+/* DESIGN.md requires every motion path honour prefers-reduced-motion. The
+   smooth scroll above was the one that never did: it animates on every anchor
+   jump site-wide, including the case-study index navs. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 ::selection {

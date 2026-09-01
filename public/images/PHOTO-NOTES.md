@@ -59,6 +59,28 @@ their own background rather than cropped, because cropping cut axis labels.
                                   under the revised imagery test in CLAUDE.md
                                   (subject is the subject). Clark chose this over
                                   rendering the CSS poster, 2026-07-30.
+- zippys-brand-splash.jpg         Zippy's app splash screen. Screenshot of the
+                                  brand's own app. Evidence gallery on the
+                                  Zippy's case study, added 2026-08-31.
+- zippys-app-store.jpg            Zippy's App Store listing, 4.8 across 6.5K
+                                  ratings. Screenshot, same gallery. The rating
+                                  and count are the point, so never crop the top.
+- zippys-rewards-app.jpg          Zipster Rewards screen, Zipcoins balance and a
+                                  redeemable reward. Screenshot, same gallery.
+- zippys-community-signal.jpg     In-store Zippy's poster tying a Shoyu Pork
+                                  special to the Okinawan Festival. Photo of a
+                                  real in-store artifact, same gallery.
+                                  All four: subject is the subject, per the
+                                  imagery test in CLAUDE.md. None is decorative.
+- zippys-vegas-storefront.jpg     Zippy's on S Eastern Ave, Las Vegas (store
+                                  three, opened Sep 2025). Source: Zippy's own
+                                  photography on zippys.com/lasvegas, pulled from
+                                  their Builder.io CDN 2026-08-31. Same
+                                  provenance rule as zippys-korean-fried-
+                                  chicken.jpg: the brand's own image of the
+                                  brand's own building. Clark has not been to a
+                                  Vegas location, so this stands in for a photo
+                                  he cannot take.
 - hawaii-value-stays-dashboard.png Tableau dashboard. Source: base64 embedded in
                                   Case Studies:Projects/hawaii-value-stays-case-
                                   study .html, extracted 2026-07-30.

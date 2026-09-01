@@ -1,17 +1,62 @@
 ---
 import Base from "../../layouts/Base.astro";
+import { Image } from "astro:assets";
+import communitySignal from "../../assets/work/zippys-community-signal.jpg";
+import brandSplash from "../../assets/work/zippys-brand-splash.jpg";
+import appStore from "../../assets/work/zippys-app-store.jpg";
+import rewardsApp from "../../assets/work/zippys-rewards-app.jpg";
+import koreanFriedChicken from "../../assets/work/zippys-korean-fried-chicken.jpg";
+import vegasStorefront from "../../assets/work/zippys-vegas-storefront.jpg";
 
 const sourceLinks = [
+  { label: "Zippy's · Las Vegas locations", href: "https://www.zippys.com/lasvegas" },
+  { label: "KLAS · Zippy's announces June 28 closing of Hualapai restaurant", href: "https://www.8newsnow.com/news/local-news/zippys-announces-june-28-closing-of-hualapai-restaurant-in-las-vegas/" },
+  { label: "KHON2 · Zippy's bids aloha to Hualapai Way location", href: "https://www.khon2.com/local-news/zippys-closes-hualapai-way/" },
+  { label: "KHON2 · Top 20 states Hawaiʻi residents are moving to", href: "https://www.khon2.com/local-news/these-are-the-top-20-states-hawai%ca%bbi-residents-are-moving-to/" },
+  { label: "Aloha State Daily · Zippy's marks 60th anniversary in 2026", href: "https://alohastatedaily.com/2026/03/26/zippys-marks-60th-anniversary-in-2026/" },
+  { label: "Uwajimaya · Meat and Hawaiian Cuisine", href: "https://www.uwajimaya.com/departments/meat/" },
   { label: "Zippy's · About Us", href: "https://www.zippys.com/about-zippys" },
+  { label: "Zippy's · Menu and current promotions", href: "https://www.zippys.com/" },
+  { label: "Zippy's · Zippy's x Orange Bang collection", href: "https://shop.zippys.com/collections/zippys-x-orange-bang" },
   { label: "Zippy's · Zipster Rewards", href: "https://www.zippys.com/zipster-rewards" },
   { label: "Max Holloway Foundation · Golf Classic", href: "https://maxhollowayfoundation.com/golf-tournament/" },
   { label: "Eater · Why Hawaiʻi Locals Love Zippy's", href: "https://www.eater.com/2019/2/25/18240255/zippys-hawaiis-favorite-fast-food-restaurant-video" },
+];
+
+// The Las Vegas record, market one. Every row is dated and sourced in the
+// sources block: KLAS for the first opening and the closure, the
+// Review-Journal for stores two through four, 8 News Now for store five.
+const vegasTimeline = [
+  { date: "Oct 2023", place: "Arroyo Crossing", note: "First Zippy's outside Hawaiʻi, five years after it was announced" },
+  { date: "Mar 2025", place: "Hualapai Way", note: "Store two, seventeen months later" },
+  { date: "Sep 2025", place: "Henderson", note: "Store three" },
+  { date: "Jan 2026", place: "Summerlin", note: "Store four" },
+  { date: "May 2026", place: "North Las Vegas", note: "Store five, first prepaid pickup line" },
+  { date: "Jun 2026", place: "Hualapai Way closes", note: "Four weeks after store five opened" },
+];
+
+// Uwajimaya's own footprint. Three of the four doors sit in the Seattle metro;
+// Beaverton is Portland, which is why it reads as a comparison market rather
+// than a candidate.
+const shelfDoors = [
+  { city: "Seattle", place: "Chinatown International District", note: "Flagship store, Kinokuniya and a food hall in the same building" },
+  { city: "Bellevue", place: "120th Ave NE", note: "East-side density, and the store where the frozen chili is documented on the shelf" },
+  { city: "Renton", place: "S Grady Way", note: "Large Pacific Islander community, lowest occupancy cost of the three" },
+  { city: "Beaverton", place: "Portland metro", note: "Outside the target market, which makes it a clean comparison" },
+];
+
+const gateStages = [
+  { n: "01", title: "Read the shelf", note: "Retail movement by store. Live today, zero incremental spend" },
+  { n: "02", title: "Extend the line", note: "A second SKU into the freezer door Zippy's already pays for" },
+  { n: "03", title: "Campus pop-ups", note: "Pre-orders, rewards sign-ups, waitlist by ZIP code" },
+  { n: "04", title: "Delivery kitchen", note: "Margin, radius, 30/60-day repeat" },
+  { n: "05", title: "One permanent site", note: "And prove repeat before anyone plans store two" },
 ];
 ---
 
 <Base
   title="Growing Without Losing Home · Clark Hayashi"
-  description="A solo, independent Zippy's mainland growth strategy and speculative campaign by Clark Hayashi."
+  description="A solo, independent Zippy's market-two strategy: what Las Vegas taught, why Seattle is next, and why the freezer door comes before the lease."
 >
   <article class="zippys-case" id="top">
     <div class="case-shell back-row">
@@ -23,11 +68,11 @@ const sourceLinks = [
       <div class="hero-copy">
         <p class="eyebrow">Marketing strategy · Consumer insight · Speculative campaign</p>
         <h1>Growing Without Losing Home</h1>
-        <p class="question">How can a local Hawaiʻi icon grow on the mainland without flattening what makes people love it?</p>
+        <p class="question">Zippy's already crossed the ocean once. What should the second mainland market cost, and what did five restaurants in one city teach about pace?</p>
         <div class="meta-grid" aria-label="Project details">
           <div><span>Role</span><strong>Solo strategist and designer</strong></div>
-          <div><span>Timeline</span><strong>2024 thesis · 2026 rebuild</strong></div>
-          <div><span>Scope</span><strong>Research, strategy, campaign, measurement</strong></div>
+          <div><span>Timeline</span><strong>2024 paper · rebuilt August 2026</strong></div>
+          <div><span>Scope</span><strong>Research, strategy, retail, campaign, measurement</strong></div>
         </div>
       </div>
 
@@ -44,9 +89,11 @@ const sourceLinks = [
 
     <nav class="case-index" aria-label="Case study sections">
       <div class="case-shell">
+        <a href="#ninth-island">Market one</a>
         <a href="#starting-point">Starting point</a>
+        <a href="#retail">Retail</a>
         <a href="#strategy">Strategy</a>
-        <a href="#current-signal">Current signal</a>
+        <a href="#seattle">Seattle</a>
         <a href="#campaign">Campaign</a>
         <a href="#measurement">Measurement</a>
       </div>
@@ -54,40 +101,165 @@ const sourceLinks = [
 
     <section class="personal-note">
       <div class="case-shell personal-grid">
-        <p class="section-number">01 · Why this one</p>
         <blockquote>
           Zippy's is not an abstract brand to me. It is post-game meals, family orders, and knowing what everyone wants before the menu opens.
         </blockquote>
-        <p class="usual-order">My usual:<br /><strong>Korean Fried Chicken<br />+ Orange Bang</strong></p>
+        <p class="usual-order">My usual:<br /><strong>Korean Fried Chicken<br />+ Orange Bang</strong><br /><span>Zippy's own words for the second half of it: “the perfect companion to a Zippy's meal.”</span></p>
       </div>
+    </section>
+
+    <section class="case-shell section-block ninth-island" id="ninth-island">
+      <div class="section-heading">
+        <h2>They call Las Vegas the ninth island for a reason.</h2>
+      </div>
+      <div class="two-column-copy">
+        <div>
+          <p class="lead">Zippy's opened its first restaurant outside Hawaiʻi in Las Vegas on October 10, 2023, at 10:10 in the morning. It had been announced in 2018 for a 2020 debut; the pandemic stopped construction in between.</p>
+          <p>Vegas was the obvious first move. So many people from Hawaiʻi live there that the city gets called the ninth island, and that is not just local slang: when Zippy's spoke about closing a location this summer, KHON2 reported the company would keep exploring sites "for the ninth island" and look to bring the brand to other states.</p>
+        </div>
+        <div>
+          <p>What happened next is the part worth studying. Five restaurants opened in thirty one months. Then, four weeks after the fifth opened, Zippy's closed its Hualapai Way store, calling it a strategic decision in its continued growth plans and moving every Hualapai team member to another Las Vegas location.</p>
+          <p>The lesson is pace. A brand can be genuinely wanted in a city and still add addresses faster than repeat behavior justifies. That is the single constraint market two has to respect.</p>
+        </div>
+      </div>
+
+      <ol class="timeline-rail" aria-label="Zippy's Las Vegas timeline">
+        {vegasTimeline.map((step) => (
+          <li>
+            <span>{step.date}</span>
+            <strong>{step.place}</strong>
+            <small>{step.note}</small>
+          </li>
+        ))}
+      </ol>
+
+      <div class="tally">
+        <div><span>Restaurants today</span><strong>26</strong></div>
+        <div><span>On the mainland</span><strong>4</strong></div>
+        <div><span>Mainland metros</span><strong>1</strong></div>
+        <blockquote>
+          “We continue to explore other locations for Zippy's in the area, as well as states beyond.”
+          <cite>Zippy's statement on the Hualapai Way closure, June 16, 2026</cite>
+        </blockquote>
+      </div>
+
+      <figure class="wide-shot">
+        <Image src={vegasStorefront} alt="Zippy's restaurant on South Eastern Avenue in Las Vegas, an orange and grey building with a lit Zippy's sign reading dine in, take out, bakery" widths={[720, 1100, 1600]} sizes="(min-width: 900px) 1180px, 92vw" loading="lazy" />
+        <figcaption>Zippy's on South Eastern Avenue, store three, opened September 2025. Zippy's own photography of its own building.</figcaption>
+      </figure>
     </section>
 
     <section class="case-shell section-block" id="starting-point">
       <div class="section-heading">
-        <p class="eyebrow">The starting point</p>
-        <h2>The original question was expansion. The better question was what must not be lost.</h2>
+        <h2>Expansion already happened. The question now is what market two costs.</h2>
       </div>
       <div class="two-column-copy">
         <div>
-          <p class="lead">I completed the original strategy independently in 2024, then rebuilt it in 2026 as a sharper portfolio case study.</p>
-          <p>The core tension still holds: Zippy's has recognizable products, digital ordering, and deep loyalty in Hawaiʻi. Mainland growth could create access for people who miss it and introduce the brand to new customers. It could also turn a specific local institution into a generic regional chain.</p>
+          <p class="lead">I wrote the original strategy independently in the summer of 2024, when Zippy's had twenty three restaurants and exactly one of them was on the mainland.</p>
+          <p>Two years later the count is twenty six, four are on the mainland, and all four are in Las Vegas. The 2024 paper argued Zippy's should expand. It was right, and that is no longer the interesting claim. The interesting claim is what the second market should cost, and in what order.</p>
         </div>
         <div>
-          <p>This rebuild separates evidence from proposal. Public brand behavior informs the strategy; Seattle, the staged launch model, and the campaign are my recommendations, not claims about Zippy's plans.</p>
-          <p>The goal is not to copy a Hawaiʻi restaurant elsewhere. It is to carry the relationship people have with the brand into a new market.</p>
+          <p>This rebuild separates evidence from proposal. Zippy's public brand behavior, its retail distribution, and the Las Vegas record are evidence. Seattle, the sequencing, the trade areas, and the campaign are my recommendations, not statements about Zippy's plans.</p>
+          <p>The goal is not to copy a Hawaiʻi restaurant into another city. It is to carry the relationship people already have with the brand into a market where Zippy's has shelf space and no address.</p>
         </div>
+      </div>
+    </section>
+
+    <section class="case-shell evidence-gallery" id="evidence">
+      <h2 class="evidence-heading">Zippy's isn't starting market two from zero.</h2>
+      <div class="evidence-grid">
+        <figure>
+          <Image src={brandSplash} alt="Zippy's app splash screen with local Hawai'i iconography: slippers, a whale, a surfboard, and hang-loose script" widths={[300, 450, 600]} sizes="(min-width: 900px) 260px, 45vw" loading="lazy" />
+          <figcaption>The brand's own app leans all the way into local identity, not generic fast-food visual language.</figcaption>
+        </figure>
+        <figure>
+          <Image src={appStore} alt="Zippy's app listing on the App Store showing a 4.8 rating across 6.5K reviews" widths={[300, 450, 600]} sizes="(min-width: 900px) 260px, 45vw" loading="lazy" />
+          <figcaption>6.5K ratings at 4.8 stars: proof of digital-ordering demand before a single dollar is spent in a new market.</figcaption>
+        </figure>
+        <figure>
+          <Image src={rewardsApp} alt="Zipster Rewards screen inside the Zippy's app showing a Zipcoins balance and a redeemable reward" widths={[300, 450, 600]} sizes="(min-width: 900px) 260px, 45vw" loading="lazy" />
+          <figcaption>Zipster Rewards already tracks Zipcoins and redemptions, the exact loyalty infrastructure the retention gate below depends on.</figcaption>
+        </figure>
+        <figure>
+          <Image src={communitySignal} alt="In-store Zippy's poster tying a Shoyu Pork special to the Okinawan Festival, with proceeds supporting the festival" widths={[300, 450, 600]} sizes="(min-width: 900px) 260px, 45vw" loading="lazy" />
+          <figcaption>Community-through-food isn't a one-off: this Okinawan Festival tie-in runs the same play as the Max Holloway sponsorship below.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="retail-section" id="retail">
+      <div class="case-shell">
+        <div class="section-heading">
+          <h2>The shelf is already there.</h2>
+        </div>
+
+        <div class="two-column-copy retail-intro">
+          <div>
+            <p class="lead">Zippy's makes its frozen retail line in a USDA-certified plant in Hawaiʻi, licensed to ship frozen product across state lines. The chili alone moves more than one hundred tons a month.</p>
+            <p>On the mainland it sits in Costco, Sam's Club, Safeway and Walmart. In the Seattle area it sits in Uwajimaya, a Seattle-founded Asian grocer with stores in the Chinatown International District, Bellevue and Renton. Uwajimaya describes its own Hawaiian cuisine selection as running “From Lau Lau, Portuguese Sausage to Zippy's famous chili.”</p>
+          </div>
+          <div>
+            <p>That matters more than it sounds. A restaurant is a lease, a build-out, a hiring plan and a guess. A freezer door is a channel Zippy's already pays for, already ships to, and can already read.</p>
+            <p>So the first gate in a Seattle plan is not a pop-up and it is not a site search. It is pulling the retail movement Zippy's already generates in that metro, by store, and letting it say which trade area wants a restaurant before anyone signs for one.</p>
+          </div>
+        </div>
+
+        <div class="receipt">
+          <p class="receipt-label">From the original paper · MKT 3500 · Summer 2024</p>
+          <blockquote>
+            “Partnering with local grocery stores and supermarkets to offer Zippy's signature products, such as the famous chili, in the ready-to-eat and frozen food sections. This is already being done in an Asian food market in Seattle.”
+          </blockquote>
+          <p class="receipt-note">I wrote that two years before this rebuild, under Channels of Distribution. The Asian food market was Uwajimaya. The recommendation has not changed; the evidence caught up to it.</p>
+        </div>
+
+        <div class="door-grid" aria-label="Uwajimaya store footprint">
+          {shelfDoors.map((door) => (
+            <article>
+              <span>{door.city}</span>
+              <strong>{door.place}</strong>
+              <small>{door.note}</small>
+            </article>
+          ))}
+        </div>
+
+        <div class="line-extension">
+          <div class="line-copy">
+            <p class="eyebrow light">Independent product concept</p>
+            <h3>The second SKU: frozen Korean Fried Chicken.</h3>
+            <p>Zippy's already owns a freezer door in the market it should enter next. The cheapest way to grow that market is not another door. It is another product behind the one it has.</p>
+            <p>Korean Fried Chicken is the candidate, and not because it is my order. Zippy's menu describes it as “ten crispy golden fried chunks of tender chicken drizzled with sweet, salty, garlicky Korean style sauce.” It is also the current headline promotion on their own homepage: a $10.99 Korean Chicken and Chili Plate, fried chicken in sweet Korean sauce next to a scoop of Zippy's Chili, running on Oʻahu and in Las Vegas.</p>
+            <p>So the pairing is not my invention. It is their best offer this month. The proposal is only to put it in a box, next to the chili it is already plated with: air fry from frozen, no fryer, no technique required.</p>
+            <p>Its closest shelf competitor is Trader Joe's orange chicken, a product that built a following with no restaurant behind it at all. Zippy's would enter that category with sixty years of brand and a plate people already order by name. Chili on one side, chicken on the other, one freezer door. That is a basket.</p>
+          </div>
+
+          <div class="concept-stack">
+            <div class="concept-pack" aria-label="Speculative frozen product concept">
+              <span class="pack-brand">Zippy's</span>
+              <strong>Korean<br />Fried<br />Chicken</strong>
+              <p class="pack-method">Air fry from frozen</p>
+              <div class="pack-rule"></div>
+              <div class="pack-foot"><small>18 oz · Frozen</small><small>Concept</small></div>
+            </div>
+          </div>
+        </div>
+
+        <figure class="plate-shot">
+          <Image src={koreanFriedChicken} alt="Zippy's Korean Fried Chicken plate lunch with two scoops of rice and macaroni salad" widths={[720, 1100, 1440]} sizes="(min-width: 900px) 1180px, 92vw" loading="lazy" />
+          <figcaption>The plate the SKU is derived from. Zippy's product photography, used as reference for an independent concept.</figcaption>
+        </figure>
+
+        <p class="boundary"><strong>Product boundary:</strong> the frozen Korean Fried Chicken concept and its packaging are mine, not Zippy's. Nothing here reports a product Zippy's has announced, tested, or priced.</p>
       </div>
     </section>
 
     <section class="thesis-band" id="strategy">
       <div class="case-shell">
-        <p class="eyebrow light">The strategy</p>
         <h2>Earn the right to build the restaurant.</h2>
         <div class="strategy-grid">
           <article>
             <span>01</span>
-            <h3>Start with Hawaiʻi-connected demand</h3>
-            <p>Test where existing cultural familiarity can create the first repeat customers, not just launch-day attention.</p>
+            <h3>Start where the shelf already sells</h3>
+            <p>Existing retail distribution is a demand instrument Zippy's already owns. Read it by store before spending anything on a new market.</p>
           </article>
           <article>
             <span>02</span>
@@ -96,49 +268,50 @@ const sourceLinks = [
           </article>
           <article>
             <span>03</span>
-            <h3>Scale only after repeat behavior</h3>
-            <p>Move from waitlist to pop-up, retail test, delivery kitchen, and only then a permanent location.</p>
+            <h3>Add the next site only after the first repeats</h3>
+            <p>Las Vegas opened five restaurants in thirty one months and closed one four weeks after the fifth. Appetite was never the risk. Pace was.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <section class="case-shell section-block market-section">
+    <section class="case-shell section-block market-section" id="seattle">
       <div class="section-heading split-heading">
         <div>
-          <p class="eyebrow">Recommended pilot</p>
-          <h2>Seattle first. The West Coast remains the portfolio.</h2>
+          <h2>If Vegas is the ninth island, Seattle is the tenth.</h2>
         </div>
-        <p>This is a working market hypothesis, not a claim that Seattle has already been validated.</p>
+        <p>Seattle is a hypothesis. The sequence below is how the shelf settles it before a lease does.</p>
       </div>
       <div class="market-card">
-        <div><span>Market 01</span><strong>Seattle</strong></div>
-        <p>Hawaiʻi ties, Asian and Pacific Islander food culture, direct travel, and a market I know personally make Seattle a strong place to learn before expanding farther.</p>
+        <div><span>Market 02</span><strong>Seattle</strong></div>
+        <p>Washington is the third most common destination for people leaving Hawaiʻi and the third largest Native Hawaiian and Pacific Islander population in the country. It is also the only major diaspora market where Zippy's already has paid shelf space and no restaurant.</p>
         <ul>
-          <li>Measure local waitlist concentration</li>
-          <li>Run a weekend pop-up</li>
-          <li>Track new-to-brand share and repeat intent</li>
+          <li>5,855 movers from Hawaiʻi, 8.6% of departures</li>
+          <li>80,406 NHPI statewide, 19,400 in King County</li>
+          <li>Three Uwajimaya doors, zero Zippy's addresses</li>
         </ul>
       </div>
+
+      <div class="campus-note">
+        <p><strong>Stage 03 does not need a storefront.</strong>  It needs the densest concentration of Hawaiʻi people per square foot in the metro, at close to zero venue cost, with a built-in reason to post about it. That is a university quad. I spent four years at Seattle University, where the Hawaiʻi cohort is not a rounding error, and UW is the larger version of the same bet. One day on campus produces pre-order counts, rewards sign-ups and a scannable waitlist by ZIP code, which is more usable evidence than a weekend of downtown foot traffic.</p>
+      </div>
+
       <ol class="gate-line" aria-label="Stage-gated expansion model">
-        <li><span>01</span><strong>Measure demand</strong><small>Waitlist, search interest, retail sales</small></li>
-        <li><span>02</span><strong>Weekend pop-up</strong><small>Sell-through, order mix, new customers</small></li>
-        <li><span>03</span><strong>Retail test</strong><small>Repeat purchase and household reach</small></li>
-        <li><span>04</span><strong>Delivery kitchen</strong><small>Margin, radius, 30/60-day repeat</small></li>
-        <li><span>05</span><strong>Permanent site</strong><small>Only after demand and operations clear the gate</small></li>
+        {gateStages.map((stage) => (
+          <li><span>{stage.n}</span><strong>{stage.title}</strong><small>{stage.note}</small></li>
+        ))}
       </ol>
     </section>
 
     <section class="community-signal" id="current-signal">
       <div class="case-shell signal-grid">
         <div>
-          <p class="eyebrow light">A current signal · July 2026</p>
           <h2>Show up inside the community, not only in its ad feed.</h2>
         </div>
         <div>
           <p>The first Max Holloway Golf Classic is scheduled for July 20, 2026, at Kapolei Golf Club. Its event page lists Zippy's in the sponsor group and schedules a named “Zippy's Breakfast and Warm-Up” at 9:00 a.m.</p>
-          <p>That is strategically meaningful because the brand is participating through food, familiarity, and a local athlete. A mainland launch should preserve that instinct: join real community moments before asking the market for attention.</p>
-          <a href="https://maxhollowayfoundation.com/golf-tournament/" target="_blank" rel="noreferrer">View the event page ↗</a>
+          <p>That is strategically meaningful because the brand is participating through food, familiarity, and a local athlete. A market-two launch should preserve that instinct: join real community moments before asking a new city for attention.</p>
+          <a class="zip-button" href="https://maxhollowayfoundation.com/golf-tournament/" target="_blank" rel="noreferrer">View the event page ↗</a>
         </div>
       </div>
     </section>
@@ -170,7 +343,7 @@ const sourceLinks = [
           <article><span>01</span><h3>Show Me Your Order</h3><p>Real stories from people with Hawaiʻi ties.</p></article>
           <article><span>02</span><h3>Five Orders, Five Stories</h3><p>Make menu range human and memorable.</p></article>
           <article><span>03</span><h3>My Usual</h3><p>Connect saved favorites to repeat behavior.</p></article>
-          <article><span>04</span><h3>Seattle Weekend</h3><p>A pop-up designed to collect evidence.</p></article>
+          <article><span>04</span><h3>Campus Weekend</h3><p>A pop-up designed to collect evidence.</p></article>
         </div>
 
         <p class="boundary"><strong>Creative boundary:</strong> Celebrity likeness is not used in the speculative advertising. The concept uses original characters; public videos and articles are research references only.</p>
@@ -179,32 +352,30 @@ const sourceLinks = [
 
     <section class="case-shell section-block measurement-section" id="measurement">
       <div class="section-heading">
-        <p class="eyebrow">What success would mean</p>
         <h2>Attention is the opening metric, not the outcome.</h2>
       </div>
       <dl class="metric-list">
+        <div><dt>Distribution</dt><dd>Retail movement by store · shelf placement · second-SKU sell-through</dd></div>
         <div><dt>Demand</dt><dd>Waitlist conversion · ZIP-code concentration · branded search lift</dd></div>
-        <div><dt>Trial</dt><dd>Sell-through · new-to-brand share · order mix · average order value</dd></div>
+        <div><dt>Trial</dt><dd>Pop-up sell-through · new-to-brand share · order mix · average order value</dd></div>
         <div><dt>Retention</dt><dd>Rewards sign-ups · favorite saves · 30/60-day repeat</dd></div>
         <div><dt>Economics</dt><dd>Contribution margin · acquisition cost · delivery radius · waste</dd></div>
       </dl>
     </section>
 
     <section class="case-shell reflection">
-      <p class="eyebrow">Reflection</p>
       <div>
-        <h2>The rebuild made the recommendation more disciplined.</h2>
-        <p>The 2024 work correctly focused on pop-ups, digital ordering, loyalty, Hawaiʻi-connected communities, and authentic storytellers. Revisiting it in 2026 forced me to choose one launch market, define gates, separate proof from hypothesis, and design measurement before media.</p>
-        <p>The lesson I would carry into real client work: protect what people already love, then make every expansion step earn the next one.</p>
+        <h2>The rebuild changed the answer, not just the wording.</h2>
+        <p>The 2024 paper argued for pop-ups, digital ordering, loyalty, Hawaiʻi-connected communities and authentic storytellers, and it named a Seattle Asian market as a distribution channel before I understood how much weight that line could carry. What it did not do was survive contact with what Zippy's actually did next.</p>
+        <p>Rebuilding it in 2026 meant checking every claim against five openings and one closure, choosing a single market, and moving retail from a footnote to the first gate. The correction I would carry into client work: find out whether the company already answered your question before you spend a page asking it.</p>
       </div>
     </section>
 
     <section class="sources-section">
       <div class="case-shell sources-grid">
         <div>
-          <p class="eyebrow light">Disclosure</p>
           <h2>Solo, independent strategy</h2>
-          <p>I completed this project independently for academic and portfolio purposes. It was not commissioned by, affiliated with, endorsed by, or presented to Zippy's Restaurants.</p>
+          <p>I completed this project independently for academic and portfolio purposes. It was not commissioned by, affiliated with, endorsed by, or presented to Zippy's Restaurants. Location counts, opening dates and the Las Vegas closure are reported facts from the sources listed here. Seattle, the trade areas, the campus pop-up, the frozen Korean Fried Chicken concept and the campaign are my recommendations.</p>
         </div>
         <div>
           <p class="source-label">Selected public sources</p>
@@ -213,7 +384,7 @@ const sourceLinks = [
               <li><a href={source.href} target="_blank" rel="noreferrer">{source.label} ↗</a></li>
             ))}
           </ul>
-          <a class="top-link" href="#top">Back to top ↑</a>
+          <a class="zip-button top-link" href="#top">Back to top ↑</a>
         </div>
       </div>
     </section>
@@ -222,154 +393,300 @@ const sourceLinks = [
 
 <style>
   .zippys-case {
-    --z-paper: #f3eee3;
+    /* Type, scraped from zippys.com 2026-08-31. Their stack is Kinescope
+       (display), DIN Condensed (nav, buttons) and Nunito (body). Kinescope and
+       DIN Condensed are commercial, so this runs the real Nunito against
+       Oswald, the closest open stand-in for DIN Condensed. Faces are declared
+       and licence-noted in global.css. */
+    --z-display: "Oswald", "Arial Narrow", "Helvetica Neue", sans-serif;
+    --z-body: "Nunito", var(--font-sans), sans-serif;
+    /* Radius: Zippy's puts everything on generously rounded panels. Grids and
+       hairline rules stay square so the data still reads as data. */
+    --z-radius: 26px;
+
+    /* Palette values are Zippy's own custom properties, read off their CSS the
+       same day: --primary-orange #ff8a3d, --supporting-blue #9cdbd9,
+       --supporting-brown #63513d, deep brown #473729, cream #f3f2ed. */
+    --z-paper: #f3f2ed;
     --z-ink: #142521;
     --z-muted: #5f6965;
     /* Was #167979, which measured 4.49:1 on --z-paper and missed WCAG AA for
        small text by 0.01. Imperceptibly darker, now 4.61:1. Also used as a
        section background, where darkening only improves the light text on it. */
     --z-teal: #157777;
-    --z-aqua: #9bd7d4;
+    --z-aqua: #9cdbd9;
     /* Brand orange, for the poster gradient and other large or decorative
        fills. At 2.61:1 on paper it is nowhere near legible as small text, so
        it must not be used for type. */
-    --z-orange: #ef6e31;
+    --z-orange: #ff8a3d;
     /* The type-safe orange, 4.57:1. Same hue family, dark enough to read at
        12px. DESIGN.md sanctions this page's palette as a brand exception, but
        the exception never covered contrast: every label still has to clear AA
        on its own ground. */
     --z-orange-ink: #ae5023;
     --z-gold: #efb65a;
-    --z-brown: #49362a;
+    --z-brown: #473729;
+    --z-brown-mid: #63513d;
     --z-line: rgba(20, 37, 33, 0.18);
     background: var(--z-paper);
     color: var(--z-ink);
+    font-family: var(--z-body);
+    /* Zippy's lays a faint diagonal watermark over its cream grounds. Same
+       device, dialled well down so body copy still sits on flat paper. */
+    background-image: repeating-linear-gradient(
+      135deg,
+      transparent 0 38px,
+      rgba(20, 37, 33, 0.022) 39px 41px
+    );
   }
+
+  /* ---------- Type system ----------
+     Zippy's sets every heading in condensed uppercase and never uses a serif.
+     One rule drives all of them so a size change stays a size change. */
+  .zippys-case h1,
+  .zippys-case h2,
+  .zippys-case h3,
+  .zippys-case .display {
+    font-family: var(--z-display);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.005em;
+    line-height: 1.02;
+    text-wrap: balance;
+  }
+  .zippys-case p,
+  .zippys-case li,
+  .zippys-case dd,
+  .zippys-case blockquote { font-family: var(--z-body); }
+
+  /* The case index is sticky at top:0 and 60px tall, so an anchor jump used to
+     park the target heading underneath it. scroll-margin, not scroll-padding:
+     this style block is scoped to the page, and html is not in scope. */
+  .zippys-case [id] { scroll-margin-top: 76px; }
 
   .case-shell { width: min(1180px, calc(100% - 48px)); margin-inline: auto; }
   .back-row { min-height: 58px; display: flex; align-items: center; justify-content: space-between; gap: 24px; border-bottom: 1px solid var(--z-line); }
-  .back-row p, .back-link { margin: 0; color: var(--z-muted); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; text-decoration: none; }
+  .back-row p, .back-link { margin: 0; color: var(--z-brown-mid); font-family: var(--z-display); font-size: 0.95rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; text-decoration: none; }
   .back-link:hover { color: var(--z-ink); }
-  .eyebrow, .section-number, .source-label { margin: 0 0 18px; color: var(--z-teal); font-size: 0.78rem; font-weight: 800; letter-spacing: 0.13em; text-transform: uppercase; }
+  .eyebrow, .section-number, .source-label, .receipt-label { margin: 0 0 22px; color: var(--z-teal); font-family: var(--z-display); font-size: 1.05rem; font-weight: 600; letter-spacing: 0.045em; line-height: 1.25; text-transform: uppercase; }
   .eyebrow.light { color: var(--z-aqua); }
 
   .hero { min-height: 760px; padding-block: clamp(64px, 9vw, 118px); display: grid; grid-template-columns: minmax(0, 0.92fr) minmax(360px, 0.78fr); align-items: center; gap: clamp(48px, 8vw, 112px); }
   .hero h1, .section-heading h2, .thesis-band h2, .community-signal h2, .campaign-heading h2, .reflection h2, .sources-section h2 {
-    margin: 0; font-family: var(--font-serif); font-weight: 600; letter-spacing: -0.055em; line-height: 0.93;
+    margin: 0; font-weight: 700;
   }
-  .hero h1 { max-width: 700px; font-size: clamp(4rem, 7vw, 7.2rem); }
-  .question { max-width: 720px; margin: 34px 0 0; font-family: var(--font-serif); font-size: clamp(1.45rem, 2.4vw, 2.2rem); line-height: 1.18; }
+  .hero h1 { max-width: 12ch; font-size: clamp(3.4rem, 6.4vw, 6.4rem); }
+  /* The question is the one place a lowercase voice reads better than a
+     headline, so it stays sentence case in the body face. */
+  .question { max-width: 34ch; margin: 30px 0 0; font-size: clamp(1.2rem, 1.7vw, 1.6rem); font-weight: 600; line-height: 1.45; }
   .meta-grid { margin-top: 44px; padding-top: 20px; border-top: 1px solid var(--z-line); display: grid; gap: 14px; }
   .meta-grid div { display: grid; grid-template-columns: 110px 1fr; gap: 18px; }
-  .meta-grid span { color: var(--z-muted); font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
-  .meta-grid strong { font-size: 0.88rem; }
+  .meta-grid span { color: var(--z-muted); font-family: var(--z-display); font-size: .92rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+  .meta-grid strong { font-size: 0.95rem; }
 
-  .order-poster { min-height: 590px; padding: 30px; position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: flex-start; background: linear-gradient(140deg, var(--z-orange), #f28a43 52%, var(--z-gold)); color: var(--z-brown); box-shadow: 18px 18px 0 var(--z-brown); }
+  .order-poster { min-height: 590px; padding: 34px; border-radius: var(--z-radius); position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: flex-start; background: linear-gradient(140deg, var(--z-orange), #f28a43 52%, var(--z-gold)); color: var(--z-brown); box-shadow: 18px 18px 0 var(--z-brown); }
   .order-poster::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(135deg, transparent 0 29px, rgba(73,54,42,.12) 30px 31px); pointer-events: none; }
   .order-poster > * { position: relative; z-index: 1; }
-  .poster-label, .order-poster small { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.11em; text-transform: uppercase; }
-  .order-poster strong { max-width: 460px; margin-top: 86px; font-size: clamp(2.4rem, 4.4vw, 4.6rem); line-height: 0.9; letter-spacing: -0.05em; text-transform: uppercase; }
-  .order-poster strong + i { margin: 12px 0 -72px; font-family: var(--font-serif); font-size: 2rem; }
-  .order-poster i + strong { margin-top: 82px; }
+  .poster-label, .order-poster small { font-family: var(--z-display); font-size: .92rem; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; }
+  .order-poster strong { max-width: 460px; margin-top: 78px; font-family: var(--z-display); font-weight: 700; font-size: clamp(2.3rem, 4.1vw, 4.2rem); line-height: 0.98; letter-spacing: 0.005em; text-transform: uppercase; }
+  .order-poster strong + i { margin: 14px 0 0; font-family: var(--z-display); font-style: normal; font-weight: 600; font-size: 1.6rem; line-height: 1; }
+  .order-poster i + strong { margin-top: 14px; }
   .poster-rule { width: 100%; flex: 1; min-height: 50px; margin: 28px 0 18px; border-bottom: 3px solid var(--z-brown); }
-  .order-poster p { margin: 0 0 20px; font-family: var(--font-serif); font-size: clamp(2rem, 3.3vw, 3.6rem); line-height: 0.95; }
+  .order-poster p { margin: 0 0 20px; font-family: var(--z-display); font-weight: 600; text-transform: uppercase; font-size: clamp(1.6rem, 2.5vw, 2.6rem); line-height: 1.02; }
 
   .case-index { position: sticky; top: 0; z-index: 20; background: rgba(243,238,227,.94); border-block: 1px solid var(--z-line); backdrop-filter: blur(10px); }
   .case-index .case-shell { min-height: 58px; display: flex; align-items: center; gap: 28px; overflow-x: auto; }
-  .case-index a { flex: 0 0 auto; color: var(--z-muted); font-size: 0.78rem; font-weight: 800; text-decoration: none; }
+  .case-index a { flex: 0 0 auto; color: var(--z-brown-mid); font-family: var(--z-display); font-size: 1rem; font-weight: 600; letter-spacing: .03em; text-transform: uppercase; text-decoration: none; }
   .case-index a:hover { color: var(--z-teal); }
 
   .personal-note { padding-block: 40px; background: var(--z-ink); color: var(--z-paper); }
-  .personal-grid { display: grid; grid-template-columns: 160px 1fr 230px; gap: clamp(28px, 6vw, 76px); align-items: start; }
+  .personal-grid { display: grid; grid-template-columns: 1fr 260px; gap: clamp(28px, 6vw, 76px); align-items: start; }
   .section-number { color: var(--z-aqua); }
-  blockquote { margin: 0; max-width: 760px; font-family: var(--font-serif); font-size: clamp(1.35rem, 2.4vw, 2.1rem); line-height: 1.25; }
-  .usual-order { margin: 0; color: #c8d1ce; font-size: 0.84rem; }
+  blockquote { margin: 0; max-width: 46ch; font-size: clamp(1.15rem, 1.8vw, 1.6rem); font-weight: 600; line-height: 1.5; }
+  .usual-order { margin: 0; color: #c8d1ce; font-size: 0.95rem; line-height: 1.6; }
   .usual-order strong { color: var(--z-paper); }
 
-  .section-block { padding-block: clamp(90px, 11vw, 150px); }
-  .section-heading { max-width: 980px; }
-  .section-heading h2, .community-signal h2, .thesis-band h2, .reflection h2 { font-size: clamp(2.8rem, 5.2vw, 5.6rem); }
-  .two-column-copy { margin-top: 60px; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(44px, 8vw, 110px); }
-  .two-column-copy p, .split-heading > p, .reflection p, .sources-section p { color: var(--z-muted); line-height: 1.75; }
-  .two-column-copy p { margin: 0 0 18px; }
-  .two-column-copy .lead { color: var(--z-ink); font-size: 1.15rem; }
+  .section-block { padding-block: clamp(64px, 6.5vw, 96px); }
+  .section-heading { max-width: none; }
+  .section-heading h2 { max-width: 24ch; }
+  .section-heading h2, .community-signal h2, .thesis-band h2, .reflection h2, .retail-section h2 { font-size: clamp(2.2rem, 4vw, 4rem); }
+  /* Headings were running four lines at 0.93 leading and then dropping copy
+     right underneath. Cap the measure, open the leading, and put a real gap
+     between the heading block and the columns. */
+  .two-column-copy { margin-top: 52px; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(36px, 5vw, 76px); }
+  .two-column-copy p, .split-heading > p, .reflection p, .sources-section p { color: var(--z-muted); line-height: 1.7; }
+  .two-column-copy p { margin: 0 0 20px; max-width: 62ch; }
+  .two-column-copy p:last-child { margin-bottom: 0; }
+  .two-column-copy .lead { color: var(--z-ink); font-size: 1.12rem; font-weight: 600; line-height: 1.55; }
+
+  /* ---------- Market one: the Las Vegas record ---------- */
+  .ninth-island { padding-bottom: clamp(48px, 5vw, 72px); }
+  .timeline-rail { margin: 60px 0 0; padding: 0; display: grid; grid-template-columns: repeat(6, 1fr); list-style: none; border-block: 1px solid var(--z-line); }
+  .timeline-rail li { min-height: 210px; padding: 22px 18px; border-right: 1px solid var(--z-line); display: flex; flex-direction: column; }
+  .timeline-rail li:last-child { border-right: 0; background: var(--z-aqua); }
+  .timeline-rail span { color: var(--z-orange-ink); font-family: var(--z-display); font-size: .95rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+  .timeline-rail strong { margin-top: 54px; font-family: var(--z-display); font-weight: 700; text-transform: uppercase; font-size: 1.15rem; line-height: 1.08; }
+  .timeline-rail small { margin-top: 10px; color: var(--z-muted); font-size: .88rem; line-height: 1.5; }
+  .timeline-rail li:last-child small { color: #2f4640; }
+
+  .tally { margin-top: 44px; padding-top: 26px; border-top: 1px solid var(--z-line); display: grid; grid-template-columns: repeat(3, 150px) 1fr; gap: clamp(28px, 5vw, 60px); align-items: start; }
+  .tally > div { display: grid; gap: 6px; }
+  .tally span { color: var(--z-muted); font-family: var(--z-display); font-size: .95rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+  .tally strong { font-family: var(--z-display); font-weight: 700; font-size: clamp(2.6rem, 4vw, 3.6rem); line-height: .95; }
+  .tally blockquote { max-width: 44ch; font-size: clamp(1rem, 1.3vw, 1.2rem); font-weight: 600; line-height: 1.55; }
+  .tally cite { display: block; margin-top: 14px; color: var(--z-muted); font-family: var(--z-body); font-size: .9rem; font-style: normal; }
+
+  .evidence-gallery { padding-block: clamp(40px, 4vw, 60px) clamp(64px, 7vw, 96px); border-bottom: 1px solid var(--z-line); }
+  .evidence-heading { max-width: 26ch; font-size: clamp(1.8rem, 3vw, 2.8rem); }
+  .evidence-grid { margin-top: 44px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
+  .evidence-grid figure { margin: 0; display: flex; flex-direction: column; }
+  .evidence-grid img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 18px; }
+  .evidence-grid figcaption { margin-top: 16px; color: var(--z-muted); font-size: 0.92rem; line-height: 1.55; }
+
+  /* ---------- Retail before real estate ---------- */
+  .retail-section { padding-block: clamp(90px, 11vw, 150px); background: var(--z-ink); color: var(--z-paper); }
+  .retail-section .section-heading h2 { color: var(--z-paper); }
+  .retail-intro p { color: #c6d0cc; }
+  .retail-intro .lead { color: var(--z-paper); }
+
+  .receipt { margin-top: clamp(52px, 6vw, 76px); padding: clamp(32px, 4vw, 52px); background: var(--z-paper); color: var(--z-ink); border-radius: var(--z-radius); }
+  .receipt-label { color: var(--z-orange-ink); }
+  .receipt blockquote { max-width: 54ch; font-size: clamp(1.1rem, 1.6vw, 1.45rem); font-weight: 600; line-height: 1.55; }
+  .receipt-note { max-width: 760px; margin: 24px 0 0; color: var(--z-muted); line-height: 1.7; }
+
+  .door-grid { margin-top: clamp(48px, 6vw, 72px); display: grid; grid-template-columns: repeat(4, 1fr); border-block: 1px solid rgba(243,238,227,.3); }
+  .door-grid article { min-height: 200px; padding: 24px 20px; border-right: 1px solid rgba(243,238,227,.3); display: flex; flex-direction: column; }
+  .door-grid article:last-child { border-right: 0; opacity: .62; }
+  .door-grid span { color: var(--z-aqua); font-family: var(--z-display); font-size: .95rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+  .door-grid strong { margin-top: 46px; font-family: var(--z-display); font-weight: 700; text-transform: uppercase; font-size: 1.15rem; line-height: 1.08; }
+  .door-grid small { margin-top: 10px; color: #c2ccc8; font-size: .88rem; line-height: 1.55; }
+
+  .line-extension { margin-top: clamp(56px, 6vw, 88px); display: grid; grid-template-columns: 1fr 0.74fr; gap: clamp(40px, 5vw, 72px); align-items: start; }
+  .line-copy h3 { margin: 0 0 26px; font-size: clamp(1.8rem, 2.8vw, 2.6rem); }
+  .line-copy p { margin: 0 0 20px; max-width: 62ch; color: #c6d0cc; line-height: 1.7; }
+
+  .concept-stack { display: grid; gap: 26px; }
+  .concept-pack { min-height: 420px; padding: 30px; border-radius: var(--z-radius); position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: flex-start; background: var(--z-orange); color: var(--z-brown); box-shadow: 14px 14px 0 rgba(0,0,0,.35); }
+  .concept-pack::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(45deg, transparent 0 23px, rgba(71,55,41,.13) 24px 25px); pointer-events: none; }
+  .concept-pack > * { position: relative; z-index: 1; }
+  .pack-brand { font-family: var(--z-display); font-size: .95rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+  .concept-pack strong { margin-top: 40px; font-family: var(--z-display); font-weight: 700; font-size: clamp(2.1rem, 3.2vw, 2.9rem); line-height: .98; letter-spacing: .005em; text-transform: uppercase; }
+  .pack-method { margin: 18px 0 0; font-family: var(--z-display); font-weight: 600; text-transform: uppercase; font-size: 1.35rem; line-height: 1.05; }
+  .pack-rule { width: 100%; flex: 1; min-height: 26px; margin: 24px 0 14px; border-bottom: 3px solid var(--z-brown); }
+  .pack-foot { width: 100%; display: flex; justify-content: space-between; gap: 16px; }
+  .pack-foot small { font-family: var(--z-display); font-size: .9rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+
+  .plate-shot, .wide-shot { margin: clamp(40px, 5vw, 64px) 0 0; }
+  .wide-shot img { width: 100%; aspect-ratio: 24 / 9; object-fit: cover; border-radius: var(--z-radius); }
+  .wide-shot figcaption { margin-top: 16px; max-width: 78ch; color: var(--z-muted); font-size: .92rem; line-height: 1.55; }
+  .usual-order span { display: block; margin-top: 14px; color: #a9b4b0; font-size: .88rem; line-height: 1.5; }
+  .plate-shot img { width: 100%; aspect-ratio: 24 / 9; object-fit: cover; border-radius: var(--z-radius); }
+  .plate-shot figcaption { margin-top: 16px; color: #c2ccc8; font-size: .9rem; line-height: 1.55; }
 
   .thesis-band { padding-block: clamp(90px, 10vw, 138px); background: var(--z-brown); color: var(--z-paper); }
   .thesis-band h2 { max-width: 850px; }
   .strategy-grid { margin-top: 64px; border-block: 1px solid rgba(243,238,227,.3); display: grid; grid-template-columns: repeat(3, 1fr); }
-  .strategy-grid article { min-height: 330px; padding: 28px; border-right: 1px solid rgba(243,238,227,.3); }
+  .strategy-grid article { min-height: 300px; padding: 30px 28px 34px; border-right: 1px solid rgba(243,238,227,.3); }
   .strategy-grid article:last-child { border-right: 0; }
   .strategy-grid span { color: var(--z-gold); font-weight: 800; }
-  .strategy-grid h3 { margin: 78px 0 14px; font-family: var(--font-serif); font-size: 1.8rem; line-height: 1.05; }
+  .strategy-grid h3 { margin: 52px 0 16px; font-size: 1.55rem; }
   .strategy-grid p { margin: 0; color: #ddd4c8; line-height: 1.65; }
 
   .split-heading { max-width: none; display: grid; grid-template-columns: 1fr 0.52fr; align-items: end; gap: 70px; }
   .split-heading > p { margin: 0; }
-  .market-card { margin-top: 60px; padding: clamp(34px, 5vw, 62px); display: grid; grid-template-columns: 0.62fr 1fr 0.72fr; gap: 50px; align-items: center; background: var(--z-aqua); }
-  .market-card div { display: grid; gap: 8px; }
-  .market-card span { color: var(--z-teal); font-size: 0.72rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
-  .market-card strong { font-family: var(--font-serif); font-size: clamp(2.6rem, 4.5vw, 4.8rem); line-height: .95; }
+  .market-card { margin-top: 52px; padding: clamp(34px, 5vw, 58px); display: grid; grid-template-columns: 0.62fr 1fr 0.72fr; gap: 46px; align-items: center; background: var(--z-aqua); border-radius: var(--z-radius); }
+  .market-card > div { display: grid; gap: 8px; }
+  .market-card span { color: #0f5a58; font-family: var(--z-display); font-size: .95rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+  .market-card strong { font-family: var(--z-display); font-weight: 700; text-transform: uppercase; font-size: clamp(2.4rem, 3.8vw, 3.8rem); line-height: .98; }
   .market-card p { margin: 0; }
   .market-card ul { margin: 0; padding: 0; list-style: none; }
-  .market-card li { padding: 10px 0; border-bottom: 1px solid rgba(20,37,33,.24); font-size: .82rem; font-weight: 700; }
+  .market-card li { padding: 12px 0; border-bottom: 1px solid rgba(20,37,33,.24); font-size: .92rem; font-weight: 700; }
+
+  .campus-note { margin-top: 40px; padding: clamp(30px, 3.5vw, 46px); max-width: 880px; background: #fff; border-radius: var(--z-radius); }
+  .campus-note p { margin: 0; color: var(--z-muted); font-size: 1.05rem; line-height: 1.7; }
+  .campus-note strong { color: var(--z-ink); }
+
   .gate-line { margin: 44px 0 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); list-style: none; border-block: 1px solid var(--z-line); }
   .gate-line li { min-height: 230px; padding: 24px 20px; border-right: 1px solid var(--z-line); display: flex; flex-direction: column; }
   .gate-line li:last-child { border-right: 0; }
-  .gate-line span { color: var(--z-orange-ink); font-size: .74rem; font-weight: 800; }
-  .gate-line strong { margin-top: auto; font-family: var(--font-serif); font-size: 1.35rem; line-height: 1.05; }
-  .gate-line small { margin-top: 10px; color: var(--z-muted); line-height: 1.45; }
+  .gate-line span { color: var(--z-orange-ink); font-family: var(--z-display); font-size: 1rem; font-weight: 600; }
+  .gate-line strong { margin-top: 58px; font-family: var(--z-display); font-weight: 700; text-transform: uppercase; font-size: 1.2rem; line-height: 1.08; }
+  .gate-line small { margin-top: 10px; color: var(--z-muted); font-size: .9rem; line-height: 1.55; }
 
   .community-signal { padding-block: clamp(92px, 11vw, 150px); background: var(--z-teal); color: #f8f4eb; }
   .signal-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(50px, 10vw, 140px); }
-  .signal-grid p { margin: 0 0 20px; color: #d8e8e5; line-height: 1.75; }
-  .signal-grid a { color: white; font-weight: 800; text-underline-offset: 4px; }
+  .signal-grid p { margin: 0 0 20px; max-width: 62ch; color: #d8e8e5; line-height: 1.7; }
+  /* Zippy's puts every call to action in a solid orange block with condensed
+     white caps. Their brand orange (#ff8a3d) is decorative-only, so the fill is
+     darkened until white type on it clears AA: #b8501a is 5.0:1. The first pass
+     used #d9621f, which measured 3.67:1 and failed. */
+  .zip-button {
+    display: inline-block; margin-top: 8px; padding: 14px 26px;
+    background: #b8501a; color: #fff;
+    font-family: var(--z-display); font-size: .95rem; font-weight: 600;
+    letter-spacing: .05em; text-transform: uppercase; text-decoration: none;
+    transition: background 160ms var(--ease-out);
+  }
+  .zip-button:hover { background: #9e4615; }
+  .signal-grid .zip-button { background: var(--z-paper); color: #10433f; }
+  .signal-grid .zip-button:hover { background: #fff; }
 
-  .campaign-section { padding-block: clamp(90px, 11vw, 150px); background: var(--z-ink); color: var(--z-paper); }
+  .campaign-section { padding-block: clamp(90px, 11vw, 150px); background: var(--z-brown); color: var(--z-paper); }
   .campaign-heading { display: grid; grid-template-columns: 1.2fr .5fr; align-items: end; gap: 80px; }
-  .campaign-heading h2 { font-size: clamp(3.5rem, 7vw, 7.5rem); }
-  .campaign-heading p { margin: 0; color: #c6d0cc; }
+  .campaign-heading h2 { font-size: clamp(2.8rem, 5.4vw, 5.6rem); }
+  .campaign-heading p { margin: 0; color: #ddd4c8; }
   .campaign-board { margin-top: 70px; display: grid; grid-template-columns: 1.18fr .82fr; border: 1px solid rgba(243,238,227,.3); }
   .campaign-board article { min-height: 510px; padding: clamp(32px, 5vw, 62px); display: flex; flex-direction: column; }
-  .campaign-board article > span { color: var(--z-aqua); font-size: .74rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
-  .film-card h3, .pop-card h3 { margin: 44px 0 20px; font-family: var(--font-serif); font-size: clamp(2.8rem, 4.8vw, 5.2rem); line-height: .94; }
-  .film-card p { max-width: 650px; color: #c6d0cc; }
+  .campaign-board article > span { color: var(--z-aqua); font-family: var(--z-display); font-size: .95rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+  .film-card h3, .pop-card h3 { margin: 40px 0 22px; font-size: clamp(2rem, 3.4vw, 3.5rem); }
+  .film-card p { max-width: 650px; color: #ddd4c8; }
   .film-card strong { margin-top: auto; color: var(--z-gold); }
   .pop-card { background: var(--z-gold); color: var(--z-brown); }
   .pop-card > span { color: var(--z-brown) !important; }
-  .pop-card h3 { margin-top: 52px; font-size: clamp(2.6rem, 4vw, 4.4rem); }
+  .pop-card h3 { margin-top: 48px; font-size: clamp(1.9rem, 3vw, 3rem); }
   .ticket { margin-top: auto; padding: 18px; display: grid; gap: 6px; background: var(--z-paper); border: 2px solid var(--z-brown); transform: rotate(-2deg); }
-  .ticket small { color: var(--z-orange-ink); font-weight: 800; text-transform: uppercase; }
+  .ticket small { color: var(--z-orange-ink); font-family: var(--z-display); font-size: .92rem; font-weight: 600; text-transform: uppercase; }
   .pop-card > p { margin: 28px 0 0; padding-top: 16px; border-top: 2px solid var(--z-brown); font-weight: 800; text-transform: uppercase; }
   .campaign-system { display: grid; grid-template-columns: repeat(4, 1fr); border-left: 1px solid rgba(243,238,227,.3); }
   .campaign-system article { min-height: 250px; padding: 25px; border-right: 1px solid rgba(243,238,227,.3); border-bottom: 1px solid rgba(243,238,227,.3); }
-  .campaign-system span { color: var(--z-orange-ink); font-weight: 800; }
-  .campaign-system h3 { margin: 56px 0 10px; font-family: var(--font-serif); font-size: 1.45rem; }
-  .campaign-system p { margin: 0; color: #aeb8b4; font-size: .85rem; }
+  .campaign-system span { color: var(--z-gold); font-weight: 800; }
+  .campaign-system h3 { margin: 40px 0 12px; font-size: 1.25rem; }
+  .campaign-system p { margin: 0; color: #ddd4c8; font-size: .92rem; line-height: 1.55; }
   .boundary { margin: 40px 0 0; padding-block: 20px; border-block: 1px solid rgba(243,238,227,.3); color: #c6d0cc; }
   .boundary strong { color: var(--z-aqua); }
+  .campaign-section .boundary { color: #ddd4c8; }
+  .campaign-section .boundary strong { color: var(--z-gold); }
 
   .measurement-section { display: grid; grid-template-columns: .82fr 1.18fr; gap: clamp(60px, 10vw, 140px); }
   .metric-list { margin: 0; border-top: 1px solid var(--z-line); }
   .metric-list div { padding: 22px 0; display: grid; grid-template-columns: 120px 1fr; gap: 30px; border-bottom: 1px solid var(--z-line); }
-  .metric-list dt { color: var(--z-orange-ink); font-size: .76rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
-  .metric-list dd { margin: 0; color: var(--z-muted); }
+  .metric-list dt { color: var(--z-orange-ink); font-family: var(--z-display); font-size: .98rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+  .metric-list dd { margin: 0; color: var(--z-muted); line-height: 1.6; }
 
-  .reflection { padding-block: clamp(90px, 11vw, 150px); display: grid; grid-template-columns: 170px 1fr; gap: clamp(50px, 9vw, 130px); border-top: 1px solid var(--z-line); }
-  .reflection h2 { max-width: 900px; }
-  .reflection p { max-width: 760px; }
+  .reflection { padding-block: clamp(72px, 8vw, 112px); border-top: 1px solid var(--z-line); }
+  .reflection h2 { max-width: 20ch; margin-bottom: 30px; }
+  .reflection p { max-width: 66ch; margin: 0 0 20px; }
 
-  .sources-section { padding-block: clamp(78px, 9vw, 120px); background: var(--z-brown); color: var(--z-paper); }
+  .sources-section { padding-block: clamp(78px, 9vw, 120px); background: var(--z-ink); color: var(--z-paper); }
   .sources-grid { display: grid; grid-template-columns: 1fr .8fr; gap: clamp(60px, 10vw, 150px); }
-  .sources-section h2 { font-size: clamp(2.8rem, 5vw, 5rem); }
-  .sources-section p { color: #ddd4c8; }
+  .sources-section h2 { font-size: clamp(2.2rem, 3.6vw, 3.4rem); }
+  .sources-section p { color: #c6d0cc; }
   .sources-section ul { margin: 0; padding: 0; list-style: none; border-top: 1px solid rgba(243,238,227,.3); }
   .sources-section li { border-bottom: 1px solid rgba(243,238,227,.3); }
   .sources-section li a { display: block; padding: 15px 0; color: var(--z-paper); text-decoration: none; }
   .sources-section li a:hover { color: var(--z-aqua); }
-  .top-link { display: inline-block; margin-top: 32px; color: var(--z-aqua); font-weight: 800; }
+  .top-link { margin-top: 32px; }
+
+  @media (max-width: 1100px) {
+    .timeline-rail { grid-template-columns: repeat(3, 1fr); }
+    .timeline-rail li { border-bottom: 1px solid var(--z-line); }
+    .timeline-rail li:nth-child(3n) { border-right: 0; }
+    .tally { grid-template-columns: repeat(3, 1fr); }
+    .tally blockquote { grid-column: 1 / -1; }
+  }
 
   @media (max-width: 900px) {
-    .hero, .personal-grid, .two-column-copy, .split-heading, .market-card, .signal-grid, .campaign-heading, .measurement-section, .reflection, .sources-grid { grid-template-columns: 1fr; }
+    .hero, .personal-grid, .two-column-copy, .split-heading, .market-card, .signal-grid, .campaign-heading, .measurement-section, .sources-grid, .line-extension { grid-template-columns: 1fr; }
     .hero { min-height: auto; }
     .order-poster { min-height: 520px; }
     .personal-grid { gap: 22px; }
@@ -379,9 +696,12 @@ const sourceLinks = [
     .strategy-grid h3 { margin-top: 54px; }
     .gate-line { grid-template-columns: 1fr 1fr; }
     .gate-line li { min-height: 190px; border-bottom: 1px solid var(--z-line); }
+    .evidence-grid { grid-template-columns: repeat(2, 1fr); }
+    .door-grid { grid-template-columns: 1fr 1fr; }
+    .door-grid article { border-bottom: 1px solid rgba(243,238,227,.3); }
+    .door-grid article:nth-child(2n) { border-right: 0; }
     .campaign-board { grid-template-columns: 1fr; }
     .campaign-system { grid-template-columns: 1fr 1fr; }
-    .reflection { gap: 28px; }
   }
 
   @media (max-width: 560px) {
@@ -395,11 +715,16 @@ const sourceLinks = [
     .order-poster strong + i { margin-bottom: -58px; }
     .order-poster i + strong { margin-top: 66px; }
     .case-index .case-shell { gap: 20px; }
-    .section-heading h2, .community-signal h2, .thesis-band h2, .reflection h2 { font-size: clamp(2.65rem, 13vw, 4rem); }
+    .section-heading h2, .community-signal h2, .thesis-band h2, .reflection h2, .retail-section h2 { font-size: clamp(2.65rem, 13vw, 4rem); }
     .market-card { gap: 28px; }
-    .gate-line, .campaign-system { grid-template-columns: 1fr; }
+    .gate-line, .campaign-system, .timeline-rail, .door-grid { grid-template-columns: 1fr; }
     .gate-line li { min-height: 170px; border-right: 0; }
+    .timeline-rail li { min-height: 150px; border-right: 0; }
+    .door-grid article { min-height: 150px; border-right: 0; }
+    .tally { grid-template-columns: 1fr 1fr; }
+    .evidence-grid { grid-template-columns: 1fr; }
     .campaign-board article { min-height: 460px; }
+    .concept-pack { min-height: 360px; }
     .metric-list div { grid-template-columns: 1fr; gap: 6px; }
   }
 </style>

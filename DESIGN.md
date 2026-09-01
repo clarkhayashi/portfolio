@@ -147,10 +147,19 @@ a colour appearing nowhere in this file stays a real signal of drift.
   route, and nothing else, ever. A campaign case study wears its subject's
   colours for the same reason the imagery rule asks every photo to be about the
   thing beside it: the palette is evidence, not decoration. Sanctioned by Clark,
-  2026-08-06. Two conditions hold it in place. Every label still has to clear
-  WCAG AA on its own ground, brand colour or not, and the type rules are not
-  part of the exception: no tracked uppercase there either, because letter
-  spacing is a generic editorial device and not something Zippy's owns.
+  2026-08-06. **Extended to type 2026-08-31, also by Clark.** The exception
+  originally stopped at colour, on the reasoning that letter spacing is a
+  generic editorial device Zippy's does not own. That reasoning does not hold
+  for the faces themselves: Zippy's runs condensed uppercase display type and
+  no serif anywhere, so setting the case study in Zodiak made it read as an
+  editorial magazine about Zippy's rather than as work in Zippy's language.
+  The page now runs Nunito, which is the body face on zippys.com, against
+  Oswald, the closest open substitute for the DIN Condensed they use in
+  navigation and buttons. Their display face, Kinescope, is commercial and is
+  not self-hosted. Both substitutes are SIL OFL and sit in `public/fonts/`
+  beside the core faces; no external font request is added. Scoped to that one
+  route, like the palette. One condition still holds, unchanged and absolute:
+  every label clears WCAG AA on its own ground, brand colour or not.
 
 - **Streak flame (#C2371F):** the Duolingo card on /side-quests, and nothing
   else. Sanctioned by Clark, 2026-08-07, on the same reasoning as Zippy's: a
