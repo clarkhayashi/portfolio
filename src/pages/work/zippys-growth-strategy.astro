@@ -8,6 +8,7 @@ import rewardsApp from "../../assets/work/zippys-rewards-app.jpg";
 import koreanFriedChicken from "../../assets/work/zippys-korean-fried-chicken.jpg";
 import vegasStorefront from "../../assets/work/zippys-vegas-storefront.jpg";
 import kfcConceptBox from "../../assets/work/zippys-kfc-concept-box.png";
+import momoaVideo from "../../assets/work/zippys-momoa-jolly-video.jpg";
 
 const sourceLinks = [
   { label: "Zippy's · Las Vegas locations", href: "https://www.zippys.com/lasvegas" },
@@ -18,6 +19,8 @@ const sourceLinks = [
   { label: "Uwajimaya · Meat and Hawaiian Cuisine", href: "https://www.uwajimaya.com/departments/meat/" },
   { label: "Zippy's · About Us", href: "https://www.zippys.com/about-zippys" },
   { label: "Zippy's · Menu and current promotions", href: "https://www.zippys.com/" },
+  { label: "Jolly · Jason Momoa fed us Hawaiian Comfort food!", href: "https://www.youtube.com/watch?v=Pfe_cH7hfUY" },
+  { label: "Aloha State Daily · The Wrecking Crew Pac is now available at Zippy's", href: "https://alohastatedaily.com/2026/01/12/the-wrecking-crew-pac-is-now-available-at-zippys/" },
   { label: "Zippy's · Zippy's x Orange Bang collection", href: "https://shop.zippys.com/collections/zippys-x-orange-bang" },
   { label: "Zippy's · Zipster Rewards", href: "https://www.zippys.com/zipster-rewards" },
   { label: "Max Holloway Foundation · Golf Classic", href: "https://maxhollowayfoundation.com/golf-tournament/" },
@@ -280,16 +283,17 @@ const gateStages = [
       </div>
       <div class="market-card">
         <div><span>Market 02</span><strong>Seattle</strong></div>
-        <p>Washington is the third most common destination for people leaving Hawaiʻi and the third largest Native Hawaiian and Pacific Islander population in the country. It is also the only major diaspora market where Zippy's already has paid shelf space and no restaurant.</p>
+        <p>Washington takes the third most people leaving Hawaiʻi of any state, and holds the third largest Native Hawaiian and Pacific Islander population in the country. Zippy's already sells here. It just has nowhere to sit down.</p>
         <ul>
           <li>5,855 movers from Hawaiʻi, 8.6% of departures</li>
           <li>80,406 NHPI statewide, 19,400 in King County</li>
           <li>Three Uwajimaya doors, zero Zippy's addresses</li>
         </ul>
+        <p class="stat-source">Migration figures: KHON2 on Census Bureau state-to-state flows. Population figures: 2020 Census, Native Hawaiian and Pacific Islander alone. Both linked in full at the foot of the page.</p>
       </div>
 
       <div class="campus-note">
-        <p><strong>Stage 03 does not need a storefront.</strong>  It needs the densest concentration of Hawaiʻi people per square foot in the metro, at close to zero venue cost, with a built-in reason to post about it. That is a university quad. I spent four years at Seattle University, where the Hawaiʻi cohort is not a rounding error, and UW is the larger version of the same bet. One day on campus produces pre-order counts, rewards sign-ups and a scannable waitlist by ZIP code, which is more usable evidence than a weekend of downtown foot traffic.</p>
+        <p><strong>Stage 03 does not need a storefront.</strong>  It needs the densest concentration of Hawaiʻi people per square foot in the metro, at close to zero venue cost, with a built-in reason to post about it. That is a university quad. I spent four years at Seattle University and saw how many students there come from Hawaiʻi. UW is the same bet at a larger scale. One day on campus produces pre-order counts, rewards sign-ups and a scannable waitlist by ZIP code, which is more usable evidence than a weekend of downtown foot traffic.</p>
       </div>
 
       <ol class="gate-line" aria-label="Stage-gated expansion model">
@@ -342,7 +346,34 @@ const gateStages = [
           <article><span>04</span><h3>Campus Weekend</h3><p>A pop-up designed to collect evidence.</p></article>
         </div>
 
-        <p class="boundary"><strong>Creative boundary:</strong> Celebrity likeness is not used in the speculative advertising. The concept uses original characters; public videos and articles are research references only.</p>
+        <div class="receipt receipt-dark">
+          <p class="receipt-label">The second receipt · MKT 3500 · Summer 2024</p>
+          <blockquote>
+            “If Zippy were able to capitalize by marketing with people who have clout on the national stage, it would be huge for national expansion.”
+          </blockquote>
+          <p class="receipt-note">The paper named the people it had in mind: Obama, Bruno Mars and Jason Momoa, all three on record as Zippy's regulars. I had no information Zippy's was planning anything. It was a read on what the brand already owned.</p>
+        </div>
+
+        <div class="momoa-grid">
+          <div class="momoa-copy">
+            <h3>A year later, it happened. Then Zippy's productized it.</h3>
+            <p>On August 1, 2025 the British YouTube channel Jolly published “Jason Momoa fed us Hawaiian Comfort food!” Momoa walks two British hosts through chili and rice, mac salad, fried chicken and saimin. It travelled the way the paper hoped a celebrity moment would: a wave of reaction videos from other creators, and more than 700,000 likes on the TikTok cut alone.</p>
+            <p>Then Zippy's turned it into inventory. From January 12 to March 1, 2026, every location in Hawaiʻi and Southern Nevada sold the Wrecking Crew Pac, a co-marketing tie-in with Momoa and Prime Video timed to his film's January 28 premiere.</p>
+            <p>That is the second time this project read a move before the company made it. The first was the Seattle grocery shelf. Neither was a prediction with a date on it, and I am not claiming either as one. Both came from the same premise the campaign above rests on: what Zippy's owns is its food and the people who already love it, and both of those travel further than a building does.</p>
+          </div>
+
+          <figure class="video-card">
+            <button class="video-play" type="button" data-video="Pfe_cH7hfUY" aria-label="Play the video: Jason Momoa fed us Hawaiian Comfort food, on the Jolly channel. Opens an embedded YouTube player.">
+              <Image src={momoaVideo} alt="Jason Momoa with the two Jolly hosts behind a bowl of Zippy's fried chicken, a plate lunch and a bowl of saimin" widths={[520, 840, 1280]} sizes="(min-width: 900px) 520px, 92vw" loading="lazy" />
+              <span class="video-mark" aria-hidden="true">
+                <svg viewBox="0 0 68 48" width="68" height="48" focusable="false"><path d="M66.5 7.7a8.6 8.6 0 0 0-6-6.1C55.2 0 34 0 34 0S12.8 0 7.5 1.6a8.6 8.6 0 0 0-6 6.1A90 90 0 0 0 0 24a90 90 0 0 0 1.5 16.3 8.6 8.6 0 0 0 6 6.1C12.8 48 34 48 34 48s21.2 0 26.5-1.6a8.6 8.6 0 0 0 6-6.1A90 90 0 0 0 68 24a90 90 0 0 0-1.5-16.3z" fill="currentColor"/><path d="M27 34V14l18 10z" fill="#fff"/></svg>
+              </span>
+            </button>
+            <figcaption>Jolly, August 1, 2025. Third-party video, embedded on click so nothing loads from YouTube until you ask for it. Not affiliated with this project.</figcaption>
+          </figure>
+        </div>
+
+        <p class="boundary"><strong>Creative boundary:</strong> the speculative campaign uses original characters and no celebrity likeness. The Jason Momoa material above is reported fact with sources attached, not part of the concept, and the video belongs to Jolly.</p>
       </div>
     </section>
 
@@ -412,6 +443,23 @@ const gateStages = [
       { threshold: 0.2 }
     );
     railObserver.observe(rail);
+  }
+
+  // Swap the facade for the real player only when asked. Keeps YouTube off
+  // the page for every reader who never clicks.
+  const play = document.querySelector(".video-play");
+  if (play) {
+    play.addEventListener("click", () => {
+      const frame = document.createElement("iframe");
+      frame.className = "video-frame";
+      frame.src =
+        "https://www.youtube-nocookie.com/embed/" + play.dataset.video + "?autoplay=1";
+      frame.title = "Jason Momoa fed us Hawaiian Comfort food, on the Jolly channel";
+      frame.allow = "accelerometer; autoplay; encrypted-media; picture-in-picture";
+      frame.allowFullscreen = true;
+      play.replaceWith(frame);
+      frame.focus();
+    });
   }
 
   const navLinks = Array.from(document.querySelectorAll(".case-index a"));
@@ -633,8 +681,24 @@ const gateStages = [
   .retail-intro p { color: #c6d0cc; }
   .retail-intro .lead { color: var(--z-paper); }
 
+  .receipt-dark { margin-top: clamp(52px, 6vw, 76px); }
+  .momoa-grid { margin-top: clamp(48px, 5vw, 72px); display: grid; grid-template-columns: 1fr 0.8fr; gap: clamp(40px, 5vw, 72px); align-items: start; }
+  .momoa-copy h3 { margin: 0 0 24px; font-size: clamp(1.7rem, 2.6vw, 2.4rem); }
+  .momoa-copy p { margin: 0 0 20px; max-width: 62ch; color: #ddd4c8; line-height: 1.7; }
+  .momoa-copy p:last-child { margin-bottom: 0; }
+  .video-card { margin: 0; }
+  /* A facade, not an embed. No request reaches YouTube until the click. */
+  .video-play { position: relative; display: block; width: 100%; padding: 0; border: 0; background: none; cursor: pointer; border-radius: var(--z-radius); overflow: hidden; }
+  .video-play img { width: 100%; height: auto; display: block; }
+  .video-mark { position: absolute; inset: 0; display: grid; place-items: center; color: rgba(20,20,20,.78); transition: color 160ms var(--ease-out), transform 160ms var(--ease-out); }
+  .video-play:hover .video-mark, .video-play:focus-visible .video-mark { color: #cc0000; transform: scale(1.06); }
+  .video-card figcaption { margin-top: 16px; color: #c2ccc8; font-size: .9rem; line-height: 1.55; }
+  .video-frame { width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: var(--z-radius); display: block; }
+  .stat-source { margin: 18px 0 0; color: #2f4640; font-size: .82rem; line-height: 1.55; }
+
   .receipt { margin-top: clamp(52px, 6vw, 76px); padding: clamp(32px, 4vw, 52px); background: var(--z-paper); color: var(--z-ink); border-radius: var(--z-radius); }
   .receipt-label { color: var(--z-orange-ink); }
+  .receipt-dark .receipt-label { color: var(--z-orange-ink); }
   .receipt blockquote { max-width: 54ch; font-size: clamp(1.1rem, 1.6vw, 1.45rem); font-weight: 600; line-height: 1.55; }
   .receipt-note { max-width: 760px; margin: 24px 0 0; color: var(--z-muted); line-height: 1.7; }
 
@@ -765,7 +829,7 @@ const gateStages = [
   }
 
   @media (max-width: 900px) {
-    .hero, .personal-grid, .two-column-copy, .split-heading, .market-card, .signal-grid, .campaign-heading, .sources-grid, .line-extension, .reflection { grid-template-columns: 1fr; }
+    .hero, .personal-grid, .two-column-copy, .split-heading, .market-card, .signal-grid, .campaign-heading, .sources-grid, .line-extension, .reflection, .momoa-grid { grid-template-columns: 1fr; }
     .hero { min-height: auto; }
     .order-poster { min-height: 520px; }
     .personal-grid { gap: 22px; }

@@ -87,6 +87,14 @@ their own background rather than cropped, because cropping cut axis labels.
                                   on neighbouring packages. Left in deliberately
                                   at Clark's direction: it reads as a comp rather
                                   than a photograph of a real product.
+- zippys-momoa-jolly-video.jpg     Thumbnail for the Jolly video "Jason Momoa
+                                  fed us Hawaiian Comfort food!" (2025-08-01).
+                                  Saved locally on purpose: the case study
+                                  renders it as a click-to-play facade, so no
+                                  request reaches YouTube until a reader asks
+                                  for the video. Third-party image used as the
+                                  link target for the video it depicts, which is
+                                  the subject-is-the-subject case in CLAUDE.md.
 - zippys-vegas-storefront.jpg     Zippy's on S Eastern Ave, Las Vegas (store
                                   three, opened Sep 2025). Source: Zippy's own
                                   photography on zippys.com/lasvegas, pulled from
