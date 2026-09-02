@@ -115,6 +115,23 @@ export const projects: Project[] = [
     statusType: "building",
   },
   */
+  /* Fan Demand Lab, same rule as Real Estate Lead Analytics above: pulled from
+     Selected Work until feature engineering and modeling are done, so this
+     stays a "building" project with no numbers to show yet, not a visible
+     row with nothing behind it. The case study itself is untouched at
+     src/pages/work/fan-demand-lab.md.
+  {
+    title: "Fan Demand Lab",
+    description:
+      "A SQL-first model of NBA home attendance, built on AWS: S3 and Lambda collectors, DuckDB feature engineering, and a self-built Elo rating system validated against FiveThirtyEight's historical ratings.",
+    tags: ["SQL", "DuckDB", "AWS"],
+    lane: "Analytics + Data",
+    proof: "13 seasons backfilled · Elo validated against FiveThirtyEight",
+    href: "/work/fan-demand-lab",
+    statusLabel: "Currently building",
+    statusType: "building",
+  },
+  */
   {
     title: "Tokyo Airbnb Pricing & Marketplace Analysis",
     description:
