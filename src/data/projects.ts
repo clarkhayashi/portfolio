@@ -27,6 +27,9 @@ export interface Project {
   tags: string[];
   /** Which professional lane this proves, shown as a small eyebrow label. */
   lane: string;
+  /** When the work was done: a year, or a term like "Fall 2023". Sourced from
+   *  the case study, its archive, or the constitution, never guessed. */
+  year?: string;
   /** Scannable proof metrics, e.g. "50+ use cases · 19+ interviews". */
   proof?: string;
   /** Omit href to render a non-clickable row (e.g. work in progress). */
@@ -45,6 +48,7 @@ export const projects: Project[] = [
       "Eight seasons of participation data, turned into dashboards and a set of recommendations for scheduling, marketing, and retention.",
     tags: ["Excel", "Tableau", "Stakeholder Reporting"],
     lane: "Operations Analytics",
+    year: "2026",
     proof: "8 seasons · 4,169 player-years · 648 played in 2025",
     href: "/work/intramural-participation",
     statusLabel: "Analysis complete · recommendations proposed",
@@ -60,6 +64,7 @@ export const projects: Project[] = [
       "A solo, independent mainland growth strategy for Zippy's: Seattle-first market entry, stage-gated expansion, and a speculative campaign built around the orders people remember.",
     tags: ["Marketing Strategy", "Consumer Insight", "Campaign Design"],
     lane: "Marketing Strategy",
+    year: "2026",
     proof: "Solo project · 2024 thesis rebuilt in 2026",
     href: "/work/zippys-growth-strategy",
     statusLabel: "Completed · independent case study",
@@ -75,6 +80,7 @@ export const projects: Project[] = [
       "Interactive Tableau dashboard on Seattle building permit data, built with an Applied Analytics SU team. Analyzed trends in construction activity and permitting, then presented findings to the club. Live on Tableau Public.",
     tags: ["Tableau", "Team Case Study", "Public Data"],
     lane: "Analytics + Data",
+    year: "Fall 2023",
     proof: "Team of 9 analysts · live, interactive dashboard",
     href: "https://public.tableau.com/app/profile/daniel.rios5181/viz/SeattleBuildingPermitAnalysis/Dashboard2",
     external: true,
@@ -91,6 +97,7 @@ export const projects: Project[] = [
       "Airbnb vs. hotel value across the Hawaiian islands: 29,011 Inside Airbnb listings, island and neighborhood pricing, ratings, and zoning context, built into an interactive Tableau dashboard with a course partner.",
     tags: ["Tableau", "Data Visualization", "Team Case Study"],
     lane: "Analytics + Data",
+    year: "2025",
     proof: "29,011 listings analyzed · 30 neighborhoods · 14-worksheet workbook",
     href: "/work/hawaii-value-stays",
     statusLabel: "Completed · team project",
@@ -109,6 +116,7 @@ export const projects: Project[] = [
       "GA4, Google Tag Manager, Search Console, UTM strategy, and local SEO reporting for a family real estate business. Results publish after a full month of clean data.",
     tags: ["GA4", "GTM", "Search Console"],
     lane: "Marketing + SEO",
+    year: "2026",
     proof: "Full measurement stack, built from zero",
     href: "/work/real-estate-lead-analytics",
     statusLabel: "Currently building",
@@ -126,6 +134,7 @@ export const projects: Project[] = [
       "A SQL-first model of NBA home attendance, built on AWS: S3 and Lambda collectors, DuckDB feature engineering, and a self-built Elo rating system validated against FiveThirtyEight's historical ratings.",
     tags: ["SQL", "DuckDB", "AWS"],
     lane: "Analytics + Data",
+    year: "2026",
     proof: "13 seasons backfilled · Elo validated against FiveThirtyEight",
     href: "/work/fan-demand-lab",
     statusLabel: "Currently building",
@@ -138,6 +147,7 @@ export const projects: Project[] = [
       "Pricing distribution, submarket trends, and host recommendations from 25,000+ Tokyo Airbnb listings, analyzed in Python and visualized in Tableau.",
     tags: ["Python", "Tableau", "Pricing Analytics"],
     lane: "Analytics + Data",
+    year: "2026",
     proof: "25,000+ listings analyzed",
     href: "/work/tokyo-airbnb-pricing",
     statusLabel: "Case study · in progress",
@@ -149,6 +159,7 @@ export const projects: Project[] = [
       "A lightweight, searchable reading shelf for honest notes on books I finished, paused, or plan to revisit. Built as a portable static site with local assets and no third-party JavaScript.",
     tags: ["Vanilla JavaScript", "Information Design", "Static Web"],
     lane: "Visual Communication",
+    year: "2026",
     proof: "11 books · search and status filters · 0 dependencies",
     href: "https://clarkhayashi.github.io/my-websites/clark-reading-notes/",
     external: true,

@@ -9,6 +9,8 @@ interface Props {
   description: string;
   tags: string[];
   lane?: string;
+  /** Year or term the work was done; sits beside the lane eyebrow in bark. */
+  year?: string;
   proof?: string;
   href?: string;
   external?: boolean;
@@ -28,6 +30,7 @@ const {
   description,
   tags,
   lane,
+  year,
   proof,
   href,
   external,
@@ -55,9 +58,15 @@ const Heading = headingLevel;
     <span class="select-none font-sans text-3xl font-black leading-none tracking-[-0.03em] text-bark/25 md:text-4xl">{number}</span>
     <div>
       {
-        lane && (
+        /* The year rides on the eyebrow rather than getting its own line: a
+           recruiter scanning wants "what kind of work, when" in one glance.
+           Bark for the year, so the lane keeps the teal that marks it as the
+           row's label and the date reads as metadata. */
+        (lane || year) && (
           <p class="mb-1.5 text-[13px] font-medium text-teal-deep">
             {lane}
+            {lane && year && <span aria-hidden="true"> · </span>}
+            {year && <span class="text-bark">{year}</span>}
           </p>
         )
       }
