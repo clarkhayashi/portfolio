@@ -43,6 +43,18 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    title: "Personal AI Workspace",
+    description:
+      "The system I run my job search and side projects through: custom Claude skills, guardrail hooks, scheduled tasks, and planner-to-executor handoffs between models, with my approval before anything goes out.",
+    tags: ["Claude Code", "Automation", "AI Enablement"],
+    lane: "AI-Enabled Workflows",
+    year: "2026",
+    proof: "9 custom skills · 2 guardrail hooks · scheduled runs",
+    href: "/work/ai-workspace",
+    statusLabel: "In daily use",
+    statusType: "progress",
+  },
+  {
     title: "Intramural Sports Participation Analysis",
     description:
       "Eight seasons of participation data, turned into dashboards and a set of recommendations for scheduling, marketing, and retention.",
