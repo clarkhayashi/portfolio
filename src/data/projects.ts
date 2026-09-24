@@ -79,7 +79,7 @@ export const projects: Project[] = [
     year: "2026",
     proof: "7 minigames · phone controls · room-code multiplayer",
     href: "/work/bad-bets",
-    statusLabel: "Beta · local multiplayer",
+    statusLabel: "Beta · online multiplayer",
     statusType: "building",
   },
   {
