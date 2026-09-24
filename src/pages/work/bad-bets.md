@@ -25,11 +25,9 @@ Start a game and share the room code. Everyone joins from their own phone. The h
 
 The seven games include matching answers, numerical guesses, a food draft, drawing, finding the faker, an in-person Shadowbox face-off, and a category game called Keep It Going. Shadowbox and Keep It Going use sound cues so the group can look up from their phones.
 
-## What I designed
+## How it took shape
 
-I set the game concept and rules, directed the build with Codex, and tested the flows. Early versions put too many choices on the home screen and made betting harder to follow. I reduced the entry screen to Start a game and Join a game, moved game selection into room setup, and gave each minigame its own visual style.
-
-The rules keep everyone involved: players never get eliminated from the session, creative-game judges cannot bet on the outcome they control, and physical-game scores need player confirmation before chips move.
+This came together through trial and error. I took references from games and interfaces I liked, drew on my own experience, and brainstormed ways to make them work for this game. I set the direction, worked with Codex to build it, and kept revising what felt confusing or unnecessary as I played.
 
 ## Before · the early prototype
 
@@ -47,12 +45,9 @@ The first version put a promotional headline, instructions and a room form on th
 
 <style>.iteration-shot{margin:2rem 0}.iteration-shot img{display:block;width:100%;height:auto;border-radius:8px}.iteration-shot figcaption{margin-top:.65rem;font-size:.875rem;line-height:1.6;color:#56616d}</style>
 
-## What the references changed
-
-[Nintendo’s UI/UX design article](https://www.nintendo.co.jp/jobs/introduction/design/work03.html) helped frame the work around the whole play experience: edit information, test repeatedly and make the next action understandable without a long explanation. My application is a simple entry screen, setup choices in the room and help near the action it explains.
-
-I also reviewed [Persona 5](https://www.gameuidatabase.com/gameData.php?id=72) for expressive visual hierarchy and [Pokémon Legends: Arceus](https://www.gameuidatabase.com/gameData.php?id=1372) for restrained prompts and structured results. These are references for decisions, not templates to copy. The game keeps its own visual identity and avoids the deeper menus those larger games need.
-
-## Current status
-
-This is a beta for small-group playtesting. Online room hosting is live. An eight-player production test verified shared rooms, simultaneous answers, consistent results, and reconnects. Automated checks cover scoring, private information, room permissions, and simultaneous actions. They do not replace testing with a full group of friends. Timing, balance, and the feel of each round are still being refined.
+<section class="try-game" aria-labelledby="try-game-title">
+  <h2 id="try-game-title">Try it with your friends</h2>
+  <p>It’s still a work in progress. If you play, please let me know what you think — what was fun, what was confusing, and what you’d change.</p>
+  <div class="try-actions"><a class="try-primary" href="https://bad-bets.vercel.app/" target="_blank" rel="noopener">Try the game ↗</a><a href="mailto:hayashiclark@gmail.com?subject=I%20tried%20Bad%20Bets">Tell me what you think ↗</a></div>
+</section>
+<style>.try-game{margin-top:3rem;padding:2rem 0;border-top:1px solid #d8dfdf}.try-actions{display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap}.try-actions a{display:inline-flex;align-items:center;min-height:48px}.try-actions .try-primary{padding:12px 24px;border-radius:10px;background:#087f98;color:white;text-decoration:none;font-weight:600}</style>

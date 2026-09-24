@@ -146,3 +146,20 @@ label{font-size:14px;font-weight:500}
 .mode-options button{background:#e7ecec;color:var(--ink);text-align:left}
 .mode-options button:hover{background:#dbe6e6}
 .round-setting{border:0;padding:0;margin:0 0 32px}.round-setting legend{font-size:20px;font-weight:600;margin-bottom:12px}.round-options{display:flex;gap:10px;flex-wrap:wrap}.round-options button{min-width:52px;min-height:48px;background:#e7ecec;color:var(--ink)}.round-options button[aria-pressed=true]{background:#087f98;color:white}.round-options button:disabled{opacity:.65}
+
+/* Setup follows the order of decisions: invite, choose, then start. */
+#app[data-phase=lobby] .layout{grid-template-columns:minmax(0,1fr);max-width:960px;margin:auto}
+#app[data-phase=lobby] .room-top{margin-bottom:26px}
+#app[data-phase=lobby] .stage-heading{margin-bottom:18px}
+#app[data-phase=lobby] .invite-panel{display:block;padding:0 0 18px}
+.invite-code-row{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.invite-code-row button{min-height:44px;font-size:14px}
+#app[data-phase=lobby] .invite-panel p{margin:6px 0 0;overflow-wrap:anywhere;font-size:14px}
+.lobby-players{margin:0 0 28px;padding-bottom:20px;border-bottom:1px solid #25334518}
+.lobby-roster{display:flex;flex-wrap:wrap;gap:8px}
+.lobby-roster span{padding:8px 12px;background:#e7ecec;border-radius:24px;font-size:14px;overflow-wrap:anywhere;max-width:100%}
+.lobby-players .micro{margin:10px 0 0}
+#app[data-phase=lobby] .game-library{margin-top:24px}
+#app[data-phase=lobby] .lobby-start{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;border-top:1px solid #25334518;padding-top:24px;margin:12px 0 24px}
+#app[data-phase=lobby] .lobby-start .seat-status{margin:0;font-size:14px}
+@media(max-width:560px){.invite-code-row{gap:12px}.invite-code-row .invite-code{font-size:40px;letter-spacing:5px}#app[data-phase=lobby] .lobby-start{display:block}#app[data-phase=lobby] .lobby-start button{width:100%;margin-top:12px}}
