@@ -27,6 +27,6 @@ setInterval(()=>{
  const turn=document.querySelector('#beat-turn');if(turn&&s.game==='rhythm'&&!p.practice){const k=Math.min(s.active.length*2-1,Math.max(0,Math.floor((elapsed-3000)/4500)));turn.textContent=`${s.players.find(x=>x.id===s.active[k%s.active.length])?.name} · lap ${Math.floor(k/s.active.length)+1}/2`;}
  const key=`${s.round}:${p.started}:${tick}`;if(key===lastBeat)return;lastBeat=key;
  if(s.you!==s.host||!audio||audio.state!=='running'||localMute)return;
- const osc=audio.createOscillator(),gain=audio.createGain();osc.connect(gain);gain.connect(audio.destination);osc.frequency.value=step===2?880:countdown?520:360;gain.gain.setValueAtTime(.0001,audio.currentTime);gain.gain.exponentialRampToValueAtTime(.17,audio.currentTime+.01);gain.gain.exponentialRampToValueAtTime(.0001,audio.currentTime+.16);osc.start();osc.stop(audio.currentTime+.18);
+ const osc=audio.createOscillator(),gain=audio.createGain();osc.connect(gain);gain.connect(audio.destination);osc.frequency.value=step===2?880:countdown?520:360;gain.gain.setValueAtTime(.0001,audio.currentTime);gain.gain.exponentialRampToValueAtTime(.17,audio.currentTime+.01);gain.gain.exponentialRampToValueAtTime(.0001,audio.currentTime+.16);osc.onended=()=>{osc.disconnect();gain.disconnect();};osc.start();osc.stop(audio.currentTime+.18);
 },60);
 document.addEventListener('visibilitychange',()=>{if(document.hidden){localMute=true;lastBeat='';}});

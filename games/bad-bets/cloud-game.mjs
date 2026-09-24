@@ -22,10 +22,11 @@ export async function cloudRequest(store,action,{state=false}={}){
   game.tick();
   if(!game.rooms.has(code))throw new PublicError('This room has expired. Join a new room.',404);
   let result;
-  if(state){player.lastSeen=Date.now();room.last=Date.now();result=game.view(room,player);}
+  if(state){if(Date.now()-(player.lastSeen||0)>=2000){player.lastSeen=Date.now();room.last=Date.now();}result=game.view(room,player);}
   else if(action.type==='join'){result=game.join(code,action.name);room.last=Date.now();}
   else{player.lastSeen=Date.now();game.action(room,player,action);result={ok:true,state:game.view(room,player)};}
-  if(await store.compareAndSwap(code,before,JSON.stringify(room)))return result;
+  const after=JSON.stringify(room);
+  if(after===before||await store.compareAndSwap(code,before,after))return result;
  }
  throw new PublicError('The room is busy. Try again.',503);
 }

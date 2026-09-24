@@ -4,8 +4,9 @@
   "type": "module",
   "scripts": {
     "start": "node server.mjs",
-    "test": "node --test test.mjs cloud-test.mjs",
-    "build": "node build.mjs"
+    "test": "node --test test.mjs cloud-test.mjs performance-test.mjs",
+    "build": "node build.mjs",
+    "benchmark": "node --expose-gc benchmark.mjs"
   },
   "engines": {
     "node": "22.x"

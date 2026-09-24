@@ -26,7 +26,7 @@ export function physicalAction(g,r,player,a){
   if(r.game==='shadow'&&p.scores[a.player]===3){physicalStop(r);g.phase(r,'physicalConfirm');}
  }else if(a.type==='physicalDodge'){
   if(!keeper||r.game!=='shadow'||r.phase!=='physical'||p.practice)throw Error('Only the scorekeeper can switch the attacker during play.');
-  p.undo.push({scores:{...p.scores},attacker:p.attacker});p.attacker=r.active.find(id=>id!==p.attacker);
+  p.undo.push({scores:{...p.scores},attacker:p.attacker});if(p.undo.length>60)p.undo.shift();p.attacker=r.active.find(id=>id!==p.attacker);
  }else if(a.type==='physicalUndo'){
   if(!keeper||!p.undo.length)throw Error('No score change to undo.');const old=p.undo.pop();p.scores=old.scores;p.attacker=old.attacker;p.confirmed=[];physicalStop(r);g.phase(r,'physical');
  }else if(a.type==='physicalFinish'){

@@ -1,0 +1,22 @@
+{
+  "recordedAt": "2026-09-24T01:45:27.860Z",
+  "environment": "Same-machine HTTP, loopback; not a physical-phone Wi-Fi or internet measurement",
+  "requests": 800,
+  "concurrency": 8,
+  "p50Ms": 1.952459000000033,
+  "p95Ms": 2.713832999999994,
+  "maxMs": 3.8659159999999986,
+  "requestsPerSecond": 3420.855566667398,
+  "eightPlayerRound": "passed",
+  "soakRooms": 3000,
+  "retainedRooms": 0,
+  "heapAfterGcBytes": [
+    10983664,
+    10675600,
+    10675880,
+    10684808,
+    10693024,
+    10691800
+  ],
+  "limitations": "Synthetic short benchmark; does not prove absence of leaks or predict cloud performance."
+}
