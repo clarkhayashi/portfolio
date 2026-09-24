@@ -1,3 +1,7 @@
+# Bad Bets deployment preparation (2026-09-23)
+
+Added the independent party game under `games/bad-bets`. It has its own Vercel configuration and should be imported as a separate project with that root directory. The portfolio's Astro routes and content are unchanged in this preparation commit. The game uses shared Redis room state in production and an in-memory server locally. Its 38 engine/concurrency tests pass. Public deployment and the portfolio project link remain pending until the live game passes verification. Do not describe it as launched yet.
+
 # Clark Hayashi Portfolio · Handover (living continuity record)
 
 Last updated: 2026-07-30 (Selected Work thumbnails). Read `CLAUDE.md`

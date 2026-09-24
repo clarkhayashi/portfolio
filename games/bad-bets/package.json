@@ -1,0 +1,13 @@
+{
+  "name": "bad-bets",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test test.mjs cloud-test.mjs",
+    "build": "node build.mjs"
+  },
+  "engines": {
+    "node": "22.x"
+  }
+}
