@@ -1,0 +1,27 @@
+import {randomInt} from 'node:crypto';
+export const creativeGames=['draft','draw','auction','quips'];
+export const restaurants=['McDonald’s','Taco Bell','Wendy’s','Burger King','Chick-fil-A','Popeyes','Sonic','Dairy Queen','Shake Shack','Five Guys','In-N-Out','Jack in the Box','Subway','Chipotle','Panda Express','KFC','Arby’s','Culver’s','Whataburger','Dunkin’'];
+export const slots=['main','side','drink','dessert'];
+export const quips=[
+'The worst thing to hear from your GPS.','A terrible name for a luxury hotel.','The real reason pigeons walk like that.','An unusual item on a wedding registry.','A warning label your couch needs.','The worst slogan for a dentist.','Something a raccoon would put on its résumé.','The least helpful superhero power.','A rejected flavor of toothpaste.','The first law if cats ran the country.',
+'A terrible excuse for missing a meeting.','The secret ingredient in airport coffee.','A suspicious name for a babysitting service.','The worst prize inside a cereal box.','A feature nobody asked for in a refrigerator.','What the moon complains about.','A terrible name for a group chat.','The last thing you want your barber to say.','A surprising rule at a ghost’s house.','The worst theme for a birthday party.',
+'The title of a documentary about your laundry.','An unpopular fortune cookie prediction.','What a shopping cart thinks about all day.','A terrible thing to announce over a plane’s speakers.','The first purchase of a millionaire hamster.','An honest slogan for a printer.','The most awkward thing to bring to a potluck.','A secret handshake that went too far.','The real reason your socks disappear.','A terrible name for a meditation app.',
+'An item on a vampire’s grocery list.','What a potato texts after a first date.','A new Olympic sport nobody trained for.','The least romantic message written in the sky.','A terrible password hint.','What your houseplants say when you leave.','A suspicious thing to write on a moving box.','An unexpectedly strict rule at a penguin wedding.','The worst sound for a doorbell.','A terrible motivational quote for a gym wall.',
+'The name of a pirate’s accounting firm.','A complaint from the monster under your bed.','A terrible addition to an emergency kit.','What aliens misunderstand about brunch.','The weirdest reason to receive a trophy.','A job interview question for a wizard.','The title of your microwave’s autobiography.','A terrible feature for a smart umbrella.','The worst thing to whisper at a museum.','An unusual perk at a haunted office.',
+'A menu item at a restaurant run by toddlers.','The worst way to begin a toast.','A new button your elevator definitely doesn’t need.','The secret hobby of a traffic cone.','A terrible thing to print on a welcome mat.','What a dragon orders at a drive-through.','An unpopular upgrade to a shopping basket.','The worst sentence to put on a business card.','An apology from your alarm clock.','The name of a support group for lost Tupperware lids.'
+];
+const shuffle=a=>{const b=[...a];for(let i=b.length-1;i;i--){const j=randomInt(i+1);[b[i],b[j]]=[b[j],b[i]];}return b;};
+export function setupAuction(r){r.auction={revision:0,slot:0,budgets:Object.fromEntries(r.active.map(p=>[p,20])),order:shuffle(r.active),cursor:0,rejected:0,pool:shuffle(restaurants),pending:[],bid:0,leader:null,passed:[]};r.active.forEach(p=>r.picks[p]=[]);nextLot(r);}
+function nextLot(r){const a=r.auction;const missing=r.active.filter(p=>r.picks[p].length===a.slot);if(!missing.length){a.slot++;a.rejected=0;a.pool=shuffle(restaurants);if(a.slot===4){a.done=true;return;}}
+ const players=r.active.filter(p=>r.picks[p].length===a.slot);
+ a.pending=[];a.bid=0;a.leader=null;a.passed=[];
+ if(a.rejected>=2||players.length===1){a.pending=players.map(player=>({player,restaurant:take(a)}));a.turn=null;return;}
+ a.restaurant=take(a);a.eligible=a.order.filter(p=>players.includes(p));a.cursor%=a.eligible.length;a.turn=a.eligible[a.cursor];
+}
+function take(a){if(!a.pool.length)a.pool=shuffle(restaurants);return a.pool.pop();}
+export function auctionAction(g,r,p,action){const a=r.auction;if(r.phase!=='auction'||!a)throw Error('The auction has ended.');if(action.revision!==a.revision)throw Error('The bid changed. Check the current auction.');
+ if(action.type==='auctionItem'){const pending=a.pending.find(x=>x.player===p.id);if(!pending)throw Error('Wait until you win a restaurant.');const item=String(action.value||'').trim();if(!item||item.length>80)throw Error('Name your item in 80 characters or fewer.');r.picks[p.id].push(`${slots[a.slot]}: ${item} — ${pending.restaurant}`);a.pending=a.pending.filter(x=>x!==pending);if(!a.pending.length)nextLot(r);
+ }else{if(a.pending.length||a.turn!==p.id)throw Error('Wait for your turn.');if(action.type==='auctionRaise'){const cap=a.budgets[p.id]-(3-a.slot);if(a.bid+1>cap)throw Error('Keep $1 for each remaining meal slot.');a.bid++;a.leader=p.id;}else if(action.type==='auctionPass')a.passed.push(p.id);else throw Error('Unknown auction action.');
+ const remaining=a.eligible.filter(p=>!a.passed.includes(p));if(!remaining.length){a.rejected++;a.cursor++;nextLot(r);}else if(remaining.length===1&&a.leader===remaining[0]){a.budgets[a.leader]-=a.bid;a.pending=[{player:a.leader,restaurant:a.restaurant}];a.turn=null;a.rejected=0;a.cursor++;}else{let index=a.eligible.indexOf(p.id);do{index=(index+1)%a.eligible.length;}while(a.passed.includes(a.eligible[index])||a.eligible[index]===a.leader);a.turn=a.eligible[index];}}
+ a.revision++;if(a.done)g.phase(r,'pitch',20);
+}

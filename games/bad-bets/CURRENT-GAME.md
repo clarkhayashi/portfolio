@@ -13,21 +13,25 @@ Home has Start a game and Join a game. Start asks for Party mode or Minigames, t
 
 ## Modes
 
-- **Party mode:** 100 starting chips; the host chooses 3, 6, 9, 12 or 15 rounds (default 9). Most chips wins. Everyone plays in ordinary rounds; choose a 5/10/20-chip bet before the game reveal. Every third round uses the spotlight entry ladder. Only selected contestants pay. If fewer than two stay in, an eligible everyone-plays game runs free. A win returns the stake plus an equal profit; a loss loses the stake; a draw refunds it. Balances below 5 top up to 5 before the next round.
+- **Party mode:** 100 starting chips; the host chooses 3, 6, 9, 12 or 15 rounds (default 9). Most chips wins. Everyone plays in ordinary rounds; choose a 5/10/20-chip bet before the game reveal. Every third round uses the spotlight entry ladder. Only selected contestants pay. If fewer than two stay in, an eligible everyone-plays game runs free. A win returns the stake plus an equal profit; a loss loses the stake; a draw refunds it. Below 5 chips, players may request one optional 20-chip dare comeback, with consent and no debt. Declining keeps them in the audience.
 - **Minigames:** choose one compatible game; no betting, chip changes, or tournament standings. Play again or choose another game using the same room. Ineligible games show their minimum player count.
 - Mixer remains a parked prototype, outside the public mode menu.
 
-## Seven games
+## Nine games
 
 | Game | Players | What happens | Win condition |
 |---|---|---|---|
 | Same Brain? | 2–8 | Everyone writes a short answer | Match another player; normalization ignores articles/case/punctuation |
 | Ballpark | 2–8 | Guess a number | Closest guess, or lowest average team error in spotlight |
-| Food Court Draft | 3–8 | Two contestants draft main/side/drink/wildcard, then pitch | Audience vote; tied/no votes refund |
-| Drawn Into Trouble | 3–8 | Two contestants draw on their phones | Audience vote; tied/no votes refund |
+| Food Court Draft | 2–8 standalone; 4+ Party | Contestants snake-draft main/side/drink/wildcard, then pitch | Audience vote; tied/no votes refund |
+| Drawn Into Trouble | 2–8 standalone; 4+ Party | Contestants draw on their phones | Audience vote; tied/no votes refund |
 | Who’s Faking? | 4–8 | One faker sees only the category; everyone takes a clue turn, discusses, votes | Identify the faker; a tied accusation lets the faker escape |
-| Shadowbox | 2–8 | Two players point/look in person on the beat | First to 3 total hits; final score confirmed by both |
+| Shadowbox | 2–8 | Two players point/look in person on the beat | First to 3 total hits; 10-second score review |
 | Keep It Going | 2–8 | Everyone names an item on the beat, two laps | Fewest mistakes; whole-room tie refunds |
+| Food Auction | 2–8 standalone; 4+ Party | $20 meal budget, restaurant-first live bids, four slots | Independent audience vote in Party |
+| Bad Answers | 2–8 standalone; 4+ Party | 45-second original prompt, 140-character answer, 20-second private vote | Highest votes; incomplete matchups refund |
+
+Creative Party rounds reserve two judges; the host may enable larger matchups except Bad Answers, which remains a two-person face-off. Standalone creative games allow all players to create and vote for someone else with no chip payouts; two-player reveals are unscored.
 
 ## Shadowbox controls
 
@@ -35,13 +39,13 @@ The app assigns two contestants and a starting attacker. An audience member is s
 
 Only the host device plays sound: a three-count lead-in, then two low beeps and a high GO beep. Try the beat runs one practice cycle without scoring. Start round runs the real beat. Same direction = hit for the attacker. Different direction = dodge and switch roles. Use +/− for hits and Dodged to change the attacker. Undo restores the previous score/attacker. Anyone can pause. The host resumes.
 
-At 3 hits the beat stops. Both contestants confirm before any payout. Fix the score reopens a paused round and clears confirmations. The host can finish early for a group-agreed result; equal scores tie. No audience side bets here, since results are manually judged.
+At 3 hits the beat stops. Contestants have a 10-second review window before payout. An objection opens a 30-second correction window; unresolved disputes refund. Fix the score reopens a paused round and clears confirmations. The host can finish early for a group-agreed result; equal scores tie. No audience side bets here, since results are manually judged.
 
 ## Keep It Going controls
 
 The group chooses a category, and the host selects a built-in one, enters a custom category (70 characters max), or taps **Can’t decide? Let us pick for you**. Includes US states, fast-food chains, cereals, sports teams, celebrities, cookout things, pizza toppings, bad first-date locations, and more.
 
-Follow the displayed order. Two low beats to clap; say the answer on the high beat. Each turn lasts 4.5 seconds after the three-count lead-in. Two laps end automatically. The host records 0–2 mistakes per person: at most one per turn. A repeat, hesitation, or invalid answer is judged by the group. Pause to resolve a dispute. Everybody confirms the final scores; nobody is eliminated mid-round.
+Follow the displayed order. Two low beats to clap; say the answer on the high beat. Each turn lasts 4.5 seconds after the three-count lead-in. Two laps end automatically. The host records 0–2 mistakes per person: at most one per turn. A repeat, hesitation, or invalid answer is judged by the group. Pause to resolve a dispute. Everyone can review the final scores for 10 seconds; nobody is eliminated mid-round.
 
 ## Visual identity
 
@@ -61,15 +65,15 @@ Room code, navigation, and player names remain consistent. Reduced-motion prefer
 - Physical score changes reject stale requests. Changes clear score confirmations.
 - If the host hides the rhythm tab, playback pauses. A missing host heartbeat also pauses the beat.
 - After 30 seconds disconnected, another player can take over as host. The host can remove an absent player after 30 seconds; an unfinished round is cancelled and stakes refunded.
-- Leaving an active round refunds stakes. Reconnect with the same tab to retain your seat.
+- Voluntary departure forfeits the departing contestant’s stake and refunds the remaining contestants. Removing a disconnected contestant refunds the round after the grace period. Reconnect with the same tab to retain your seat.
 
 ## Current limits / review notes
 
 - Physical games require the same room and human judging. No microphone/camera detection.
 - Keep the host device awake and volume audible. Audio requires a user gesture; visual beat cues also appear.
 - Public rooms use Redis and expire after 12 hours without a successful state write. The optional local server keeps rooms in memory and loses them on restart.
-- The tutorial video covers the original Party loop; written rules also explain Minigames and the physical games.
-- The Figma review is an earlier snapshot and does not yet include these new screens/styles.
+- The obsolete tutorial is removed from help. The NotebookLM brief is updated; a new recording remains pending.
+- Figma remains a partial review snapshot; see its sync manifest. Release mockups are separate evidence.
 - Prompt libraries are deliberately small for local testing. Same Brain currently uses normalized exact matching, not semantic matching.
 - The phone drawing mode is freehand; the earlier funny-title extension is not implemented.
 

@@ -18,11 +18,12 @@ export async function cloudRequest(store,action,{state=false}={}){
   const room=JSON.parse(before);const game=new Game();game.rooms.set(code,room);
   let player;
   // Authenticate before advancing timers or changing connection state.
-  if(state||action.type!=='join')player=game.player(room,action.token);
+  const display=state&&room.displayToken&&action.token===room.displayToken;if((state&&!display)||(!state&&action.type!=='join'))player=game.player(room,action.token);
   game.tick();
   if(!game.rooms.has(code))throw new PublicError('This room has expired. Join a new room.',404);
   let result;
-  if(state){if(Date.now()-(player.lastSeen||0)>=2000){player.lastSeen=Date.now();room.last=Date.now();}result=game.view(room,player);}
+  if(display){result=game.publicView(room);}
+  else if(state){if(Date.now()-(player.lastSeen||0)>=2000){player.lastSeen=Date.now();room.last=Date.now();}result=game.view(room,player);}
   else if(action.type==='join'){result=game.join(code,action.name);room.last=Date.now();}
   else{player.lastSeen=Date.now();game.action(room,player,action);result={ok:true,state:game.view(room,player)};}
   const after=JSON.stringify(room);

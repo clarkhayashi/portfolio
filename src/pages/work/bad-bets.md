@@ -23,7 +23,7 @@ statusType: "building"
 
 Start a game and share the room code. Everyone joins from their own phone. The host chooses 3, 6, 9, 12 or 15 rounds in Party mode, with play chips; Minigames lets the group choose one game and replay it without betting.
 
-The seven games include matching answers, numerical guesses, a food draft, drawing, finding the faker, an in-person Shadowbox face-off, and a category game called Keep It Going. Shadowbox and Keep It Going use sound cues so the group can look up from their phones.
+The nine games include matching answers, numerical guesses, a food draft, a restaurant auction, funny-answer face-offs, drawing, finding the faker, an in-person Shadowbox face-off, and a category game called Keep It Going. Shadowbox and Keep It Going use sound cues so the group can look up from their phones.
 
 ## How it took shape
 

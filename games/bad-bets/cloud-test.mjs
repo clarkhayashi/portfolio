@@ -29,7 +29,7 @@ test('invalid tokens cannot change stored state and overdue rounds advance on re
 test('concurrent final votes settle chips exactly once',async()=>{
  const s=new Store();const h=await cloudRequest(s,{type:'create',name:'Host'});const peers=[];
  for(let i=0;i<3;i++)peers.push(await cloudRequest(s,{type:'join',code:h.code,name:`Guest${i}`}));
- const r=JSON.parse(await s.get(h.code));r.round=1;r.game='draw';r.phase='vote';r.deadline=Date.now()+30000;r.active=r.players.slice(0,2).map(p=>p.id);r.stakes=Object.fromEntries(r.active.map(id=>[id,5]));r.active.forEach(id=>r.players.find(p=>p.id===id).chips-=5);r.submissions={};r.votes={};r.bets={};r.picks={};r.teams=[];s.data.set(h.code,JSON.stringify(r));
+ const r=JSON.parse(await s.get(h.code));r.round=1;r.game='draw';r.phase='vote';r.deadline=Date.now()+30000;r.active=r.players.slice(0,2).map(p=>p.id);r.stakes=Object.fromEntries(r.active.map(id=>[id,5]));r.active.forEach(id=>r.players.find(p=>p.id===id).chips-=5);r.submissions=Object.fromEntries(r.active.map(id=>[id,'data:image/png;base64,abc']));r.votes={};r.bets={};r.picks={};r.teams=[];s.data.set(h.code,JSON.stringify(r));
  await Promise.all(peers.slice(1).map(a=>cloudRequest(s,{...a,type:'vote',player:r.active[0]})));
  const final=JSON.parse(await s.get(h.code));assert.equal(final.phase,'result');assert.equal(final.players[0].chips,105);assert.equal(final.history.length,1);
 });
