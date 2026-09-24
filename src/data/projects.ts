@@ -71,6 +71,18 @@ export const projects: Project[] = [
     },
   },
   {
+    title: "Bad Bets",
+    description:
+      "A browser party game for 2 to 8 people. Join by room code, play quick minigames, or compete across nine rounds with play chips. Built with Codex and revised through hands-on testing.",
+    tags: ["Product Design", "Game Design", "JavaScript"],
+    lane: "Product Design",
+    year: "2026",
+    proof: "7 minigames · phone controls · room-code multiplayer",
+    href: "/work/bad-bets",
+    statusLabel: "Beta · local multiplayer",
+    statusType: "building",
+  },
+  {
     title: "Growing Without Losing Home",
     description:
       "A solo, independent mainland growth strategy for Zippy's: Seattle-first market entry, stage-gated expansion, and a speculative campaign built around the orders people remember.",

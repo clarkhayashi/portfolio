@@ -1,0 +1,6 @@
+const form=document.querySelector('#feedback'),status=document.querySelector('#status'),link=document.querySelector('#email-link');
+function draft(){const a=Object.fromEntries(new FormData(form));link.href=`mailto:hayashiclark@gmail.com?subject=${encodeURIComponent(`[Party game ${a.kind}] ${a.title}`)}&body=${encodeURIComponent(a.details)}`;return a;}
+form.addEventListener('input',draft);
+form.addEventListener('submit',async e=>{e.preventDefault();const button=form.querySelector('button');button.disabled=true;status.textContent='Sending…';try{const r=await fetch('/api/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(draft()),signal:AbortSignal.timeout(12000)});const d=await r.json();if(!r.ok)throw Error(d.error||'Could not send. Try email instead.');status.textContent='Received. Thanks for helping improve the game.';form.reset();draft();}catch(e){status.textContent=e.name==='TimeoutError'?'Could not confirm delivery. Keep this text and try email instead.':e.message;}finally{button.disabled=false;}});
+
+fetch('/api/feedback').then(r=>r.json()).then(d=>{form.querySelector('button').disabled=!d.ready;if(!d.ready)status.textContent='Use email for now. The private inbox is being connected.';}).catch(()=>{status.textContent='Use the email option below.';});
