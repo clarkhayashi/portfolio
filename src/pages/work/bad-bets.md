@@ -7,7 +7,7 @@ statusLabel: "Beta · playtesting"
 statusType: "building"
 ---
 
-[Open the game preview](https://bad-bets.vercel.app/) · [Suggest a game or report a bug](https://bad-bets.vercel.app/feedback.html)
+[Play Bad Bets](https://bad-bets.vercel.app/) · [Suggest a game or report a bug](https://bad-bets.vercel.app/feedback.html)
 
 ## The game
 
@@ -23,4 +23,4 @@ The rules keep everyone involved: players never get eliminated from the session,
 
 ## Current status
 
-This is a beta for small-group playtesting. Same-Wi-Fi multiplayer has been tested locally; public room hosting is still being connected. The hosted site currently provides a preview. Automated checks cover scoring, private information, room permissions, and simultaneous actions. They do not replace testing with a full group of friends. Timing, balance, and the feel of each round are still being refined.
+This is a beta for small-group playtesting. Online room hosting is live. An eight-player production test verified shared rooms, simultaneous answers, consistent results, and reconnects. Automated checks cover scoring, private information, room permissions, and simultaneous actions. They do not replace testing with a full group of friends. Timing, balance, and the feel of each round are still being refined.
