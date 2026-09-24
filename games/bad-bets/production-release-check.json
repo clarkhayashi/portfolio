@@ -1,0 +1,10 @@
+{
+  "checkedAt": "2026-09-24T18:57:47.479Z",
+  "nineGames": true,
+  "concurrentQuipsRound": "passed",
+  "publicAnswersHiddenBeforeReveal": true,
+  "fourPlayerAuctionAllPassFallback": "passed",
+  "auctionActions": 48,
+  "requestMedianMs": 321.8427500000007,
+  "note": "API integration evidence, not physical device or observed group testing"
+}
