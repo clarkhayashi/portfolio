@@ -138,3 +138,11 @@ label{font-size:14px;font-weight:500}
 .channel-dialog:has(.tutorial-video){width:min(900px,96vw);max-width:96vw}
 .tutorial-video{display:block;width:100%;height:auto;aspect-ratio:16/9;background:#253344;border-radius:10px}
 .tutorial-rules{margin:24px 0}.tutorial-rules summary{cursor:pointer;font-weight:600}
+
+/* Secondary navigation stays separate from the main play actions. */
+.simple-help{display:flex;align-items:center;justify-content:space-between;gap:20px;max-width:1100px;margin:24px auto 0;padding:20px 0;border-top:1px solid #25334514}
+.simple-help button,.simple-help a{display:inline-flex;align-items:center;min-height:44px;padding:8px 0;color:var(--muted);font:inherit;font-size:14px;text-decoration:none;background:none;border:0;border-radius:0}
+.simple-help a:hover,.simple-help button:hover{color:var(--ink);text-decoration:underline;background:none}
+.mode-options button{background:#e7ecec;color:var(--ink);text-align:left}
+.mode-options button:hover{background:#dbe6e6}
+.round-setting{border:0;padding:0;margin:0 0 32px}.round-setting legend{font-size:20px;font-weight:600;margin-bottom:12px}.round-options{display:flex;gap:10px;flex-wrap:wrap}.round-options button{min-width:52px;min-height:48px;background:#e7ecec;color:var(--ink)}.round-options button[aria-pressed=true]{background:#087f98;color:white}.round-options button:disabled{opacity:.65}
