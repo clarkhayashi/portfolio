@@ -89,3 +89,17 @@ test('Date Night can be created directly, requires two, and either partner can e
  const g=new Game(),a=g.create('A','mixer'),r=g.rooms.get(a.code);assert.equal(r.deck,'date');g.join(r.code,'B');g.join(r.code,'C');assert.throws(()=>g.action(r,r.players[0],{type:'start'}),/two/);
  g.action(r,r.players[2],{type:'leave'});g.phase(r,'lobby');g.action(r,r.players[0],{type:'start'});g.action(r,r.players[1],{type:'mixerEnd'});assert.equal(r.phase,'finished');
 });
+test('Date Night keep it light: either partner can stay light, no more depth checks',()=>{
+ const {g,r,p}=setup(2);g.action(r,p[0],{type:'configure',mode:'mixer',deck:'date'});g.action(r,p[0],{type:'start'});
+ const firstTwelve=r.mixerDeck.slice(0,12).map(c=>c[1]);
+ for(let n=1;n<=12;n++)g.action(r,p[0],{type:'mixerSkip',round:n});
+ assert.equal(r.phase,'dateCheck');g.action(r,p[0],{type:'dateReady'});
+ g.action(r,p[1],{type:'dateLight'});
+ assert.equal(r.round,13);assert.equal(r.phase,'mixer');assert.equal(r.mixerDeck.length,24);
+ assert.deepEqual(r.mixerDeck.slice(0,12).map(c=>c[1]),firstTwelve);
+ const v=g.view(r,p[0]);assert.equal(v.dateLevel,'Keep it light');assert.equal(v.mixerTotal,24);
+ assert.ok(r.mixerDeck.slice(12).every(c=>typeof c[1]==='string'&&!c[2]));
+ assert.ok(r.mixerDeck.slice(12).some(c=>/ or .+\?$/.test(c[1])),'either/or options are spoken in the prompt');
+ for(let n=13;n<=24;n++){assert.notEqual(r.phase,'dateCheck');g.action(r,p[1],{type:'mixerSkip',round:n});}
+ assert.equal(r.phase,'finished');assert.ok(p.every(q=>q.chips===100));
+});

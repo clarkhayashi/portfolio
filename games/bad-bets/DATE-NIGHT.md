@@ -12,3 +12,7 @@ Research: Aron et al. (1997), The Experimental Generation of Interpersonal Close
 Practice and instructions: https://ggia.berkeley.edu/practice/36_questions_for_increasing_closeness
 
 Validation: 82 automated tests pass, including full 36-card progression, consent gates, duplicate consent, two-player restriction, no typed personal answers, unchanged chips, and either-player exit. Browser/device playtesting and public deployment of this change are not yet verified.
+
+## Keep it light (added 2026-09-24)
+
+At each "Go a little deeper?" check, either partner can choose **Keep it light**. The deeper levels are skipped and 12 light cards follow (the Break the Ice deck, reworded for two people). After that choice there are no more depth checks. Going deeper still needs both partners to say yes.

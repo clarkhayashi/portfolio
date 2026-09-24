@@ -176,4 +176,6 @@ const date=[
  ]
 ];
 export const decks={ice,deeper,date};
+// Date Night "Keep it light" path: the Break the Ice cards, with either/or options spoken aloud.
+export const lightCards=ice.map(([kind,text,opts])=>{text=text.replace('the person after you','your partner').replace('your group adventure','an adventure together');return [kind,opts?`${text} ${opts.map((o,i)=>i?o[0].toLowerCase()+o.slice(1):o).join(' or ')}?`:text];});
 export const deckNames={ice:'Break the Ice',deeper:'A Little Deeper',date:'Date Night'};

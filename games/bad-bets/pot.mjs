@@ -49,7 +49,7 @@ export function installPotRules(Game){
  };
  Game.prototype.closePot=function(r){r.pot.turn=null;r.pot.revision++;r.active=remain(r);r.voteOrder=r.voteOrder.filter(id=>r.active.includes(id));
   if(r.active.length===1){r.uncontested=true;this.settle(r);return;}
-  if(r.active.length<2){this.cancel(r,'No contestants remain. Contributions returned.');return;}
+  if(r.active.length<2){this.cancel(r,'Nobody is left in this round. Everyone gets their chips back.');return;}
   if(r.auction){ // Auction was prepared before folds; rebuild for the remaining creators.
    this.resetPotAuction(r);
   }
@@ -85,15 +85,15 @@ export function installPotRules(Game){
    if(a.round!==undefined&&a.round!==r.round)throw Error('The round changed.');p.left=true;if(r.host===p.id)r.host=this.live(r)[0]?.id;
    if(r.contestants.includes(p.id)){r.forfeits.push(p.id);if(!r.folded.includes(p.id))r.folded.push(p.id);
     if(['spin','wager'].includes(r.phase)){if(remain(r).length<=1)this.closePot(r);else if(r.pot.turn===p.id)this.nextPotTurn(r);}else{r.active=r.active.filter(id=>id!==p.id);if(['draft','auction','imposter','shadow','rhythm'].includes(r.game)||r.active.length<2){r.uncontested=r.active.length===1;r.interruptedForfeit=true;this.settle(r);}}
-   }else if(creative.includes(r.game)&&this.voters(r).length<2)this.cancel(r,'Fewer than two independent judges remain. Contributions returned.');
+   }else if(creative.includes(r.game)&&this.voters(r).length<2)this.cancel(r,'Fewer than 2 judges are left. Everyone gets their chips back.');
    this.emit(r);return;
   }
   const result=old.action.call(this,r,p,a);if(a.type==='rematch'){r.pot=null;r.stakes={};r.contestants=[];r.folded=[];r.judges=[];r.issuedChips=0;this.emit(r);}return result;
  };
  Game.prototype.settle=function(r){if(!modern(r)||!r.pot)return old.settle.call(this,r);if(r.potSettled||['result','finished'].includes(r.phase))return;
   const scores={},totals={},valid=r.active.filter(id=>!r.forfeits.includes(id)&&!player(r,id).left);let detail='',refund=!!r.forceDraw;
-  if(r.interruptedForfeit&&valid.length>1){for(const id of valid)scores[id]=1;detail='A contestant left before the challenge could finish. Remaining contestants split the matched pot; the departing player forfeits their entry.';}
-  else if(r.uncontested){for(const id of valid)scores[id]=1;detail='Everyone else folded or forfeited. The remaining player takes the matched pot; uncalled chips return.';}
+  if(r.interruptedForfeit&&valid.length>1){for(const id of valid)scores[id]=1;detail='A player left before the round finished. The players still in split the pot. The player who left loses their chips.';}
+  else if(r.uncontested){for(const id of valid)scores[id]=1;detail='Everyone else folded or dropped out. The last player takes the chips they matched; the rest go back.';}
   else if(r.game==='number'){for(const id of valid)if(r.submissions[id]!==undefined)scores[id]=-Math.abs(Number(r.submissions[id])-r.answer);detail=`The answer is ${r.answer.toLocaleString()}. Closest valid answer wins each pot.`;}
   else if(r.game==='brain'){const norm=s=>s.toLowerCase().replace(/[^a-z0-9 ]/g,'').replace(/^(a|an|the) /,'').trim().replace(/\s+/g,' '),groups=Object.create(null);for(const id of valid){const a=norm(r.submissions[id]||'');if(a)(groups[a]||=[]).push(id);}const matched=Object.values(groups).filter(g=>g.length>1).flat();if(!matched.length||matched.length===r.contestants.length)refund=true;else for(const id of matched)scores[id]=1;detail=refund?'Everyone matched or nobody matched. Entries returned.':'Matching players split the pot. Missing answers cannot win.';}
   else if(r.game==='imposter'){for(const [v,id] of Object.entries(r.votes))if(valid.includes(v))totals[id]=(totals[id]||0)+1;const max=Math.max(0,...Object.values(totals)),leaders=Object.keys(totals).filter(id=>totals[id]===max);const caught=leaders.length===1&&leaders[0]===r.imposter;if(!max)refund=true;else for(const id of valid)if((caught?id!==r.imposter:id===r.imposter)&&r.submissions[id])scores[id]=1;detail=`The word was “${r.secret}”. ${player(r,r.imposter).name} was the faker. ${!max?'No votes; entries returned.':caught?'The group caught the faker and shares the pot.':'The faker escaped and takes the pot.'}`;}
@@ -101,10 +101,10 @@ export function installPotRules(Game){
    const submitted=valid.filter(id=>['draw','quips'].includes(r.game)?!!r.submissions[id]:(r.picks[id]?.length===4));
    for(const [v,id] of Object.entries(r.votes))if(r.judges.includes(v)&&submitted.includes(id))totals[id]=(totals[id]||0)+1;
    if(this.voters(r).length<2)refund=true;
-   if(submitted.length===1&&!refund){scores[submitted[0]]=1;detail='The other entry was not completed. Its committed chips were forfeited.';}
-   else if(!sum(Object.values(totals))){refund=true;detail='No valid votes. Contributions returned.';}
-   else{for(const id of submitted)scores[id]=totals[id]||0;detail='Private audience votes rank the entries. Tied leaders split each eligible pot.';}
-  }else if(['shadow','rhythm'].includes(r.game)){for(const id of valid)scores[id]=(r.game==='rhythm'?-1:1)*(r.physical.scores[id]||0);detail='Reviewed score decides each eligible pot.';}
+   if(submitted.length===1&&!refund){scores[submitted[0]]=1;detail='The other player didn’t finish, so they lose the chips they put in.';}
+   else if(!sum(Object.values(totals))){refund=true;detail='No votes came in. Everyone gets their chips back.';}
+   else{for(const id of submitted)scores[id]=totals[id]||0;detail='Secret judge votes rank the entries. If players tie for first, they split the chips.';}
+  }else if(['shadow','rhythm'].includes(r.game)){for(const id of valid)scores[id]=(r.game==='rhythm'?-1:1)*(r.physical.scores[id]||0);detail='The confirmed score decides who wins the chips.';}
   if(r.forceDraw)detail='Round cancelled. Contributions returned.';
   const order=rotate(r.players.map(p=>p.id),(r.round-1)%r.players.length),{payouts,pots}=distribute(r.stakes,scores,order,{refund});
   const changes={};for(const [id,n] of Object.entries(payouts)){player(r,id).chips+=n;changes[id]=n-(r.stakes[id]||0);}
