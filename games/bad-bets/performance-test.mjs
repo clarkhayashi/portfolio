@@ -51,3 +51,15 @@ test('authenticated local actions refresh player presence',async()=>{
  const result=await response.json();assert.equal(response.status,200);assert.equal(result.state.players[0].disconnected,false);assert.ok(Date.now()-p.lastSeen<1000);
  }finally{await new Promise(resolve=>server.close(resolve));}
 });
+
+ test('local room reads authenticate with a header and reject a wrong token',async()=>{
+ const g=new Game(),h=g.create('Host');const server=createServer(g);
+ await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
+ try {
+ const url=`http://127.0.0.1:${server.address().port}/state?code=${h.code}`;
+ const ok=await fetch(url,{headers:{Authorization:`Bearer ${h.token}`}});
+ assert.equal(ok.status,200);assert.equal((await ok.json()).players[0].name,'Host');
+ const bad=await fetch(url,{headers:{Authorization:'Bearer incorrect'}});
+ assert.equal(bad.status,400);assert.ok((await bad.json()).error);
+ }finally{await new Promise(resolve=>server.close(resolve));}
+ });
