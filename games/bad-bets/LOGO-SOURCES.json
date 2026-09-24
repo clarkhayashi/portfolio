@@ -1,0 +1,170 @@
+{
+  "purpose": "Restaurant identification in Food Auction and specifically branded Draft choices. Marks belong to their respective owners; no affiliation is implied. Files are locally hosted, unmodified artwork.",
+  "retrieved": "2026-09-24",
+  "assets": [
+    {
+      "name": "McDonald\u2019s",
+      "file": "mcdonalds.svg",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/0/05/McDonald%27s_square_2020.svg",
+      "reference": "https://en.wikipedia.org/wiki/File:McDonald's_square_2020.svg",
+      "bytes": 687,
+      "sha256": "e022119c1ffcb128c7a26c2b63ba8dbacbdb8ac476c0fd9fd6ad91cdd80130b8"
+    },
+    {
+      "name": "Taco Bell",
+      "file": "taco-bell.svg",
+      "source": "https://upload.wikimedia.org/wikipedia/en/b/b7/Taco_Bell_2023.svg",
+      "reference": "https://en.wikipedia.org/wiki/File:Taco_Bell_2023.svg",
+      "site": "https://www.tacobell.com/",
+      "bytes": 3635,
+      "sha256": "7b756ddaf0740466772129c46fed9d8d8ae3abc13b4eb3a6e13c9f9f0fd334ca"
+    },
+    {
+      "name": "Wendy\u2019s",
+      "file": "wendys.svg",
+      "source": "https://www.wendys.com/themes/custom/wendys_main/wendys-logo.svg",
+      "site": "https://www.wendys.com/",
+      "bytes": 39303,
+      "sha256": "f303c87baf607b7ddcda7fe76e819668849955543fd290e1926734ec42616c2a"
+    },
+    {
+      "name": "Burger King",
+      "file": "burger-king.svg",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/c/cc/Burger_King_2020.svg",
+      "reference": "https://en.wikipedia.org/wiki/File:Burger_King_2020.svg",
+      "site": "https://www.bk.com/",
+      "bytes": 6730,
+      "sha256": "bebb99faebfa09fa803cc611979ef8a019ef730dec69ed46b9a07488874d9b89"
+    },
+    {
+      "name": "Chick-fil-A",
+      "file": "chick-fil-a.svg",
+      "source": "https://www.chick-fil-a.com/wp-content/uploads/sites/2/2025/04/Chick-fil-A-header-logo.svg",
+      "site": "https://www.chick-fil-a.com/",
+      "bytes": 5111,
+      "sha256": "59876ecb0031dd80753e83346bd6295b4fdeefea82523602459680e0db74d493"
+    },
+    {
+      "name": "Popeyes",
+      "file": "popeyes.png",
+      "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/26/Logo_Popeyes_en_letras.png/250px-Logo_Popeyes_en_letras.png",
+      "reference": "https://en.wikipedia.org/wiki/File:Logo_Popeyes_en_letras.png",
+      "bytes": 4228,
+      "sha256": "04a40d53eb31dcf40949491612b4948efab562d7da54e0cf26af9ba5c3d8e4f9"
+    },
+    {
+      "name": "Sonic",
+      "file": "sonic.png",
+      "source": "https://www.sonicdrivein.com/brands/sdi/apple-touch-icon.png",
+      "site": "https://www.sonicdrivein.com/",
+      "bytes": 5639,
+      "sha256": "91570a4829895b4b2a7c09fccef7893a4882b111cf0fc64970f74c77dc7c89d8"
+    },
+    {
+      "name": "Dairy Queen",
+      "file": "dairy-queen.png",
+      "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ae/Dairy_Queen_logo.svg/250px-Dairy_Queen_logo.svg.png",
+      "reference": "https://en.wikipedia.org/wiki/File:Dairy_Queen_logo.svg",
+      "bytes": 14136,
+      "sha256": "0fd95b06ba0e02af585eb269dd948fca3b063b67a7a09e0e4215d06825cdce58"
+    },
+    {
+      "name": "Shake Shack",
+      "file": "shake-shack.svg",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/9/96/Shake_Shack_logo.svg",
+      "reference": "https://en.wikipedia.org/wiki/File:Shake_Shack_logo.svg",
+      "bytes": 17976,
+      "sha256": "8ba47cd0ccece4e1c38cbe600a420b60ae828451831f9f2a8cd1f86f937c1b6a"
+    },
+    {
+      "name": "Five Guys",
+      "file": "five-guys.svg",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/8/80/Five_Guys_logo.svg",
+      "reference": "https://en.wikipedia.org/wiki/File:Five_Guys_logo.svg",
+      "bytes": 26479,
+      "sha256": "c28adbc843a1bf08490f6742548e5659897abe22cce29e07ffcd2d0c8c09a510"
+    },
+    {
+      "name": "In-N-Out",
+      "file": "in-n-out.svg",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/8/8c/InNOut_2021_logo.svg",
+      "reference": "https://en.wikipedia.org/wiki/File:InNOut_2021_logo.svg",
+      "bytes": 6252,
+      "sha256": "6d72e7d9a9127886b0c5a6395d6867e8b4a6499b4ca42b89c0f5735f01511f72"
+    },
+    {
+      "name": "Jack in the Box",
+      "file": "jack-in-the-box.svg",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/4/42/Jack_in_the_Box_2022_logo.svg",
+      "reference": "https://en.wikipedia.org/wiki/File:Jack_in_the_Box_2022_logo.svg",
+      "site": "https://www.jackinthebox.com/",
+      "bytes": 12766,
+      "sha256": "ab707b15ef1a1689ee11f75c5097d34c0113957d005af0ba777daa76b26cae07"
+    },
+    {
+      "name": "Subway",
+      "file": "subway.svg",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Subway_2016_logo.svg",
+      "reference": "https://en.wikipedia.org/wiki/File:Subway_2016_logo.svg",
+      "site": "https://www.subway.com/en-us",
+      "bytes": 1702,
+      "sha256": "780dfa5b7e140183276a8cd691ede33fbedda90d62577fdedd54e6e2647742a8"
+    },
+    {
+      "name": "Chipotle",
+      "file": "chipotle.svg",
+      "source": "https://www.chipotle.com/content/experience-fragments/chipotle/us/en/xf-header/master/_jcr_content/root/container_712714414/image_411084835.coreimg.svg/1689182077517/cmg-medallion-logo.svg",
+      "site": "https://www.chipotle.com/",
+      "bytes": 8162,
+      "sha256": "e4bd47f46d31e3c98533c8ed2c172bd5996e1699f780c35749f661f907fe183c"
+    },
+    {
+      "name": "Panda Express",
+      "file": "panda-express.svg",
+      "source": "https://upload.wikimedia.org/wikipedia/en/8/85/Panda_Express_logo.svg",
+      "reference": "https://en.wikipedia.org/wiki/File:Panda_Express_logo.svg",
+      "bytes": 23062,
+      "sha256": "247bf46109f7596a4c80228feb415ff122ed9929e898532a47e373ea6817458c"
+    },
+    {
+      "name": "KFC",
+      "file": "kfc.ico",
+      "source": "https://www.kfc.com/favicon.ico",
+      "site": "https://www.kfc.com/",
+      "bytes": 15406,
+      "sha256": "3674686f327a983c8a15e413634dd6dafe151c0a080a3bb224f55ebfabb19ce1"
+    },
+    {
+      "name": "Arby\u2019s",
+      "file": "arbys.png",
+      "source": "https://www.arbys.com/brands/arbys/apple-touch-icon.png",
+      "site": "https://www.arbys.com/",
+      "bytes": 10649,
+      "sha256": "1e01b90c9e3c1398dbf5927924f25c52d8868f2a9d3cd38fcea5ef5a6db55bd5"
+    },
+    {
+      "name": "Culver\u2019s",
+      "file": "culvers.svg",
+      "source": "https://cdn.culvers.com/Attachments/NewItems/culvers-logo_20230517162556_0.svg",
+      "site": "https://www.culvers.com/",
+      "bytes": 2879,
+      "sha256": "2b0ab89bf62665cee6776f8014655a0a4dce8f14cc7454d4f0c825e4eef2e8be"
+    },
+    {
+      "name": "Whataburger",
+      "file": "whataburger.png",
+      "source": "https://whataburger.com/assets/images/favIcons/apple-touch-icon.png",
+      "site": "https://whataburger.com/",
+      "bytes": 6067,
+      "sha256": "21d0e3cf646f4abc2439d7c26ca855bcbcfa258e11bc4dd552c3163d85a06c15"
+    },
+    {
+      "name": "Dunkin\u2019",
+      "file": "dunkin.png",
+      "source": "https://www.dunkindonuts.com/brands/dun/apple-touch-icon.png",
+      "site": "https://www.dunkindonuts.com/en",
+      "bytes": 21876,
+      "sha256": "4cc49dd23cfac62c4e22bc3c3f0d39a805d914efbe1810ae304d28a4e53c1ec4"
+    }
+  ]
+}
