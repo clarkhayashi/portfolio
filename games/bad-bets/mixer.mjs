@@ -27,19 +27,153 @@ const deeper=[
  ['Either / Or','Choose a gift from a friend.',['A thoughtful note','An afternoon together']],
  ['Play','Finish this sentence: I feel most like myself when…']
 ];
+// Original prompts inspired by gradual reciprocal disclosure, not the research instrument.
+export const dateLevels=['Keep it light','A little more','Closer together'];
 const date=[
- ['Share','What tiny detail would make an ordinary evening together feel like a date?'],
- ['Either / Or','Pick your next low-budget date.',['Invent a three-course picnic','Explore a neighborhood with no plan']],
- ['Play','Pitch a dream date with a ten-dollar budget.'],
- ['Share','What is a small habit of yours that a partner should get a friendly warning about?'],
- ['Either / Or','A surprise afternoon opens up.',['Try something neither has done','Revisit a favorite place']],
- ['Play','Make up a name for your imaginary two-person restaurant.'],
- ['Share','What helps you feel listened to?'],
- ['Either / Or','Pick your relationship superpower.',['Always know the right snack','Always know when a hug would help']],
- ['Play','Describe a kind gesture you would love to give or receive.'],
- ['Share','What would you like to learn together?'],
- ['Either / Or','Choose an evening soundtrack.',['Songs from your teenage years','Songs neither of you knows']],
- ['Play','Give your next imaginary vacation a movie title.']
+ [
+  "Share",
+  "What little ritual makes you look forward to an ordinary evening?"
+ ],
+ [
+  "Share",
+  "Which place brings out your most playful side?"
+ ],
+ [
+  "Share",
+  "What hobby would you enjoy being hilariously bad at together?"
+ ],
+ [
+  "Share",
+  "What food has a story attached to it for you?"
+ ],
+ [
+  "Share",
+  "What tiny thing did someone notice about you that made you smile?"
+ ],
+ [
+  "Share",
+  "What would you put in a care package for your past self?"
+ ],
+ [
+  "Share",
+  "Which version of you shows up around your oldest friends?"
+ ],
+ [
+  "Share",
+  "What is a small adventure you would actually say yes to this week?"
+ ],
+ [
+  "Share",
+  "What part of your routine would you like someone to understand better?"
+ ],
+ [
+  "Share",
+  "What have you changed your mind about in a good way lately?"
+ ],
+ [
+  "Share",
+  "What makes a conversation feel easy for you?"
+ ],
+ [
+  "Share",
+  "What is something from this conversation you would like to hear more about?"
+ ],
+ [
+  "Share",
+  "What quiet decision turned out to matter more than you expected?"
+ ],
+ [
+  "Share",
+  "What did you once find difficult that now feels natural?"
+ ],
+ [
+  "Share",
+  "What is a tradition you want to keep, change, or invent?"
+ ],
+ [
+  "Share",
+  "When has someone helped you feel capable without taking over?"
+ ],
+ [
+  "Share",
+  "What part of your life would you like to make more room for?"
+ ],
+ [
+  "Share",
+  "What is a memory you would describe through sounds or smells?"
+ ],
+ [
+  "Share",
+  "What expectation have you given yourself permission to let go of?"
+ ],
+ [
+  "Share",
+  "What kind of encouragement works for you when you are unsure?"
+ ],
+ [
+  "Share",
+  "What would trying something new look like if nobody graded you?"
+ ],
+ [
+  "Share",
+  "What does a good apology look like in everyday life to you?"
+ ],
+ [
+  "Share",
+  "What is a small risk you are glad you took?"
+ ],
+ [
+  "Share",
+  "What did you learn about the other person that surprised you today?"
+ ],
+ [
+  "Share",
+  "What helps you say that something is not working for you?"
+ ],
+ [
+  "Share",
+  "When you go quiet, what would you like the other person to check rather than assume?"
+ ],
+ [
+  "Share",
+  "What would feeling supported look like in the coming week?"
+ ],
+ [
+  "Share",
+  "What part of yourself do you want to make less effort to hide?"
+ ],
+ [
+  "Share",
+  "What boundary makes it easier for you to relax with someone?"
+ ],
+ [
+  "Share",
+  "How would you like us to handle a misunderstanding before it grows?"
+ ],
+ [
+  "Share",
+  "What is something you are still figuring out and do not need an answer for yet?"
+ ],
+ [
+  "Share",
+  "What have you appreciated about how the other person listened today?"
+ ],
+ [
+  "Share",
+  "What helps you feel cared for without feeling managed?"
+ ],
+ [
+  "Share",
+  "What would you like us to ask each other more often?"
+ ],
+ [
+  "Share",
+  "What is one small thing we could try together without promising a big outcome?"
+ ],
+ [
+  "Share",
+  "What would you like to carry from this conversation into the next time we meet?"
+ ]
 ];
 export const decks={ice,deeper,date};
 export const deckNames={ice:'Break the Ice',deeper:'A Little Deeper',date:'Date Night'};

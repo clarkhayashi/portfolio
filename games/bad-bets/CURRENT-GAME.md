@@ -82,3 +82,7 @@ Room code, navigation, and player names remain consistent. Reduced-motion prefer
 ## Quick feedback
 
 Copy any game/screen name above and add **keep / change / cut**, or describe what feels confusing, slow, or fun.
+
+
+## Date Night (local update, September 24)
+Start a game → Date Night. Two people, 36 original spoken questions in three levels. Both opt in before going deeper; either can skip or finish. No scoring or typed answers. See DATE-NIGHT.md for provenance and validation. Public deployment not yet verified.

@@ -71,3 +71,21 @@ test('host can recover an abandoned confirmation only after disconnect grace per
 test('nine-round party sessions with only physical games finish for two through eight players',()=>{for(let n=2;n<=8;n++){const {g,r,p}=setup(n);r.enabledGames=['rhythm','shadow'];g.action(r,p[0],{type:'start'});for(let round=1;round<=9;round++){if(r.phase==='entry')for(const q of p)g.action(r,q,{type:'entry',stay:true});let guard=0;while(r.phase!=='result'){assert.ok(guard++<30);if(r.phase==='entry')for(const q of p.filter(q=>!r.eliminated.includes(q.id)))g.action(r,q,{type:'entry',stay:true});if(r.phase==='physicalSetup'){if(r.game==='rhythm')g.action(r,p[0],{type:'physicalCategory',value:'States',revision:r.physical.revision});g.action(r,p[0],{type:'physicalStart',revision:r.physical.revision});}else if(r.phase==='physical')g.action(r,p[0],{type:'physicalFinish',revision:r.physical.revision});else if(r.phase==='physicalConfirm'){const revision=r.physical.revision;for(const pid of r.active)g.action(r,p.find(q=>q.id===pid),{type:'physicalConfirm',revision});}else g.advance(r);}g.action(r,p[0],{type:'next'});}assert.equal(r.phase,'finished');assert.ok(p.every(q=>Number.isFinite(q.chips)));}});
 
 test('host round count is validated, shared and ends at the selected round',()=>{for(const rounds of [3,6,9,12,15]){const {g,r,p}=setup();assert.throws(()=>g.action(r,p[1],{type:'roundCount',rounds}));for(const invalid of [0,4,99,'6',null])assert.throws(()=>g.action(r,p[0],{type:'roundCount',rounds:invalid}));g.action(r,p[0],{type:'roundCount',rounds});assert.equal(g.view(r,p[1]).totalRounds,rounds);r.round=rounds-1;g.phase(r,'result');g.action(r,p[0],{type:'next'});assert.equal(r.round,rounds);assert.notEqual(r.phase,'finished');assert.throws(()=>g.action(r,p[0],{type:'roundCount',rounds:3}));g.phase(r,'result');g.action(r,p[0],{type:'next'});assert.equal(r.phase,'finished');g.action(r,p[0],{type:'rematch'});assert.equal(r.totalRounds,rounds);}});
+
+test('Date Night progresses by depth with mutual consent and no stored answers',()=>{
+ const {g,r,p}=setup(2);g.action(r,p[0],{type:'configure',mode:'mixer',deck:'date'});g.action(r,p[0],{type:'start'});
+ assert.equal(r.mixerDeck.length,36);assert.equal(g.view(r,p[0]).dateFirst,p[0].id);
+ assert.throws(()=>g.action(r,p[0],{type:'mixerAnswer',value:'private personal story'}),/out loud/);
+ assert.throws(()=>g.action(r,p[0],{type:'mixerReveal'}),/Both/);
+ for(let n=1;n<=12;n++){assert.equal(r.round,n);g.action(r,p[0],{type:'mixerSkip',round:n});}
+ assert.equal(r.phase,'dateCheck');g.action(r,p[0],{type:'dateReady'});g.action(r,p[0],{type:'dateReady'});assert.equal(r.phase,'dateCheck');
+ g.action(r,p[1],{type:'dateReady'});assert.equal(r.round,13);assert.equal(r.phase,'mixer');
+ for(let n=13;n<=24;n++)g.action(r,p[1],{type:'mixerSkip',round:n});
+ assert.equal(r.phase,'dateCheck');p.forEach(q=>g.action(r,q,{type:'dateReady'}));
+ for(let n=25;n<=36;n++)g.action(r,p[1],{type:'mixerSkip',round:n});
+ assert.equal(r.phase,'finished');assert.ok(p.every(q=>q.chips===100));
+});
+test('Date Night can be created directly, requires two, and either partner can end',()=>{
+ const g=new Game(),a=g.create('A','mixer'),r=g.rooms.get(a.code);assert.equal(r.deck,'date');g.join(r.code,'B');g.join(r.code,'C');assert.throws(()=>g.action(r,r.players[0],{type:'start'}),/two/);
+ g.action(r,r.players[2],{type:'leave'});g.phase(r,'lobby');g.action(r,r.players[0],{type:'start'});g.action(r,r.players[1],{type:'mixerEnd'});assert.equal(r.phase,'finished');
+});
