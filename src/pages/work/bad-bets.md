@@ -1,6 +1,6 @@
 ---
 layout: ../../layouts/CaseStudy.astro
-title: Bad Bets
+title: Oops, All In
 summary: "A browser party game for 2 to 8 people, built around quick rounds and friends playing together."
 tags: ["Product Design", "Game Design", "JavaScript", "Codex"]
 statusLabel: "Beta · playtesting"
@@ -12,7 +12,7 @@ statusType: "building"
 <div class="play-showcase">
   <a class="play-launch" href="https://bad-bets.vercel.app/" target="_blank" rel="noopener">Play full screen ↗</a>
   <p>Play here, or open the game full screen. Friends join at <a href="https://bad-bets.vercel.app/">bad-bets.vercel.app</a> with your room code.</p>
-  <iframe src="https://bad-bets.vercel.app/" title="Play Bad Bets — live multiplayer game" loading="lazy" allow="autoplay; fullscreen" allowfullscreen style="width:100%;height:720px;border:1px solid #d8dfdf;border-radius:16px;background:#f8f7f2;"></iframe>
+  <iframe src="https://bad-bets.vercel.app/" title="Play Oops, All In — live multiplayer game" loading="lazy" allow="autoplay; fullscreen" allowfullscreen style="width:100%;height:720px;border:1px solid #d8dfdf;border-radius:16px;background:#f8f7f2;"></iframe>
   <p class="play-utility"><a href="https://bad-bets.vercel.app/feedback.html" target="_blank" rel="noopener">Suggest a game or report a bug</a></p>
 </div>
 <style>
@@ -34,12 +34,12 @@ This came together through trial and error. I took references from games and int
 The first version put a promotional headline, instructions and a room form on the same screen. I wanted people to start playing with less reading, so I reduced the entry point to two actions and moved the game choices into setup.
 
 <figure class="iteration-shot">
-  <a href="/images/bad-bets/early-entry.png" target="_blank" rel="noopener"><img src="/images/bad-bets/early-entry.png" width="2940" height="1666" loading="lazy" decoding="async" alt="Early Bad Bets entry screen with a large promotional headline, explanatory copy and a combined join and create-room form." /></a>
+  <a href="/images/bad-bets/early-entry.png" target="_blank" rel="noopener"><img src="/images/bad-bets/early-entry.png" width="2940" height="1666" loading="lazy" decoding="async" alt="Early Oops, All In entry screen with a large promotional headline, explanatory copy and a combined join and create-room form." /></a>
   <figcaption>Early entry screen. The current version above puts Start and Join first.</figcaption>
 </figure>
 
 <figure class="iteration-shot">
-  <a href="/images/bad-bets/early-results.png" target="_blank" rel="noopener"><img src="/images/bad-bets/early-results.png" width="2940" height="1668" loading="lazy" decoding="async" alt="Early Bad Bets results screen with a large generic heading, a list of chip losses and a separate numeric leaderboard." /></a>
+  <a href="/images/bad-bets/early-results.png" target="_blank" rel="noopener"><img src="/images/bad-bets/early-results.png" width="2940" height="1668" loading="lazy" decoding="async" alt="Early Oops, All In results screen with a large generic heading, a list of chip losses and a separate numeric leaderboard." /></a>
   <figcaption>Early results screen. This exposed another design problem: the outcome and its explanation need to come before the bookkeeping. That remains part of the next results pass.</figcaption>
 </figure>
 
@@ -48,6 +48,6 @@ The first version put a promotional headline, instructions and a room form on th
 <section class="try-game" aria-labelledby="try-game-title">
   <h2 id="try-game-title">Try it with your friends</h2>
   <p>It’s still a work in progress. If you play, please let me know what you think — what was fun, what was confusing, and what you’d change.</p>
-  <div class="try-actions"><a class="try-primary" href="https://bad-bets.vercel.app/" target="_blank" rel="noopener">Try the game ↗</a><a href="mailto:hayashiclark@gmail.com?subject=I%20tried%20Bad%20Bets">Tell me what you think ↗</a></div>
+  <div class="try-actions"><a class="try-primary" href="https://bad-bets.vercel.app/" target="_blank" rel="noopener">Try the game ↗</a><a href="mailto:hayashiclark@gmail.com?subject=I%20tried%20Oops%2C%20All%20In">Tell me what you think ↗</a></div>
 </section>
 <style>.try-game{margin-top:3rem;padding:2rem 0;border-top:1px solid #d8dfdf}.try-actions{display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap}.try-actions a{display:inline-flex;align-items:center;min-height:48px}.try-actions .try-primary{padding:12px 24px;border-radius:10px;background:#087f98;color:white;text-decoration:none;font-weight:600}</style>
