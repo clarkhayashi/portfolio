@@ -1,4 +1,4 @@
-# Bad Bets — current playable build
+# Oops, All In — current playable build
 
 ## Open it
 
@@ -13,7 +13,9 @@ Home has Start a game and Join a game. Start asks for Party mode or Minigames, t
 
 ## Modes
 
-- **Party mode:** 100 starting chips; the host chooses 3, 6, 9, 12 or 15 rounds (default 9). Most chips wins. Everyone plays in ordinary rounds; choose a 5/10/20-chip bet before the game reveal. Every third round uses the spotlight entry ladder. Only selected contestants pay. If fewer than two stay in, an eligible everyone-plays game runs free. A win returns the stake plus an equal profit; a loss loses the stake; a draw refunds it. Below 5 chips, players may request one optional 20-chip dare comeback, with consent and no debt. Declining keeps them in the audience.
+- **Party mode:** 100 starting pretend chips; host chooses 3/6/9/12/15 rounds. Game and roles are selected before betting; the prompt stays hidden. A 5-chip minimum goes into the shared pot. Competitive rounds allow one raise turn per contestant and one final match/fold response. Rounds 1–2 cap the total at 20. Round 3 onward unlocks 50, 100, custom totals and confirmed All In. A shorter stack can compete only for its matched portion; uncalled chips return. Same Brain and Who’s Faking use fixed equal 5-chip entries. Most chips at the end wins. One optional, consensual 20-chip dare comeback is available below 5; no debt. Old rooms finish under the old economy; create a fresh room for these rules.
+- **Timing:** planning estimates, not measured promises: 3 rounds 10–15 min; 6 rounds 20–30; 9 rounds 30–45; 12 rounds 40–60; 15 rounds 50–75. More players, raising, draft and discussion can run longer.
+
 - **Minigames:** choose one compatible game; no betting, chip changes, or tournament standings. Play again or choose another game using the same room. Ineligible games show their minimum player count.
 - Mixer remains a parked prototype, outside the public mode menu.
 
@@ -22,7 +24,7 @@ Home has Start a game and Join a game. Start asks for Party mode or Minigames, t
 | Game | Players | What happens | Win condition |
 |---|---|---|---|
 | Same Brain? | 2–8 | Everyone writes a short answer | Match another player; normalization ignores articles/case/punctuation |
-| Ballpark | 2–8 | Guess a number | Closest guess, or lowest average team error in spotlight |
+| Ballpark | 2–8 | Guess a number | Closest valid individual guess; each side pot ranks its eligible players |
 | Food Court Draft | 2–8 standalone; 4+ Party | Contestants snake-draft main/side/drink/wildcard, then pitch | Audience vote; tied/no votes refund |
 | Drawn Into Trouble | 2–8 standalone; 4+ Party | Contestants draw on their phones | Audience vote; tied/no votes refund |
 | Who’s Faking? | 4–8 | One faker sees only the category; everyone takes a clue turn, discusses, votes | Identify the faker; a tied accusation lets the faker escape |
@@ -61,11 +63,11 @@ Room code, navigation, and player names remain consistent. Reduced-motion prefer
 
 ## Recovery and fairness
 
-- Judges cannot place outcome bets; objective Ballpark audience predictions lock before play.
+- Judges are assigned before betting and cannot bet on their result. Folded contestants cannot judge. Side betting is off.
 - Physical score changes reject stale requests. Changes clear score confirmations.
 - If the host hides the rhythm tab, playback pauses. A missing host heartbeat also pauses the beat.
-- After 30 seconds disconnected, another player can take over as host. The host can remove an absent player after 30 seconds; an unfinished round is cancelled and stakes refunded.
-- Voluntary departure forfeits the departing contestant’s stake and refunds the remaining contestants. Removing a disconnected contestant refunds the round after the grace period. Reconnect with the same tab to retain your seat.
+- After 30 seconds disconnected, another player can take over as host. The host can remove an absent player after 30 seconds. A departing contestant forfeits committed chips; an interrupted stateful challenge shares the matched pot among remaining contestants. Losing an independent judge below the two-judge minimum cancels the round consistently.
+- Reconnect with the same tab to retain your seat and committed chips. Missing submissions do not automatically cancel everyone’s bets.
 
 ## Current limits / review notes
 

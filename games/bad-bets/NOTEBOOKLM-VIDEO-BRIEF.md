@@ -1,19 +1,26 @@
-# NotebookLM video brief — nine-game field-test build
+# Oops, All In — 60-second explainer
 
-Create a friendly 90–120 second explainer for Bad Bets. Use only the rules below. Sound like a friend starting a game night: conversational, direct, relaxed, no sales pitch or exaggerated announcer voice. Use one narrator, short sentences, clear captions, and actual UI captures. Do not invent mechanics, claim the game is unbiased, or show the old automatic-refill tutorial. Say pretend chips once. Never imply real money, mandatory drinking, debt, or gambling winnings.
+Shared-pot release, September 24, 2026. Supersedes the independent-stake tutorial. One relaxed narrator, conversational pace, captions, actual gameplay captures. Aim for 55–70 seconds. This is a brief, not a generated video.
 
-## Storyboard and narration
-1. Show Start / Join. “Start a game, or join with the room code and your name. Everyone uses their own phone. No download.”
-2. Show host settings. “Choose Party mode for chips, or Minigames to pick an activity. The host chooses the games and how many rounds to play.”
-3. Show a chip example. “Party mode starts you with 100 pretend chips. Before an ordinary round, choose five, ten, or twenty. Bet ten and win? You gain ten. Lose? You lose ten. Draw? You get it back.”
-4. Show the Spotlight entry. “Every third round is a face-off. Decide whether to enter at the total price shown. Stepping out is free, and only selected contestants pay.”
-5. Show a private audience vote and reveal. “Your phone tells you your job. Creative games have at least two audience judges. They vote privately and can’t bet on the result they’re judging. Other games use answers or observed scores.”
-6. Brief montage: funny answers, food, drawing, faker, pointing/dodging, category rhythm. “Answer, draw, bluff, bid, or look up and play in person. Each activity explains your next move when you need it.”
-7. Show comeback offer. “Below five chips? Once per game, you can ask for a short dare you agree to. Complete it for twenty chips, with no debt. You can pass and stay in the audience.”
-8. Show results and replay. “Most chips at the end wins. If you just want another game, switch to Minigames. Try it with your friends and tell us what worked—and what got confusing.”
+## Narration
+“Start a game, share the room code, and join on your phones. Pick your games and how many rounds you’ve got time for.
+
+Party mode starts everyone with a hundred pretend chips. See the game, then place your bets before the prompt appears. Five chips gets you in. Match, raise, or fold. Folded chips stay in the pot.
+
+The first two rounds stop at twenty. From round three, eligible games let you go all in. Short stack? You can only win the portion you’ve matched.
+
+Then answer, draw, bluff, draft, or look up for a face-off. Creative games get independent judges who can’t bet. Same Brain and Who’s Faking keep a fixed five-chip entry.
+
+Results show where every chip went. Most chips at the end wins. Just want to play? Choose Minigames.”
+
+## Capture sequence
+0–8 seconds: Start/Join, room code, host round choices and estimate.
+8–23: 100 balance → game picked → pot controls; show 5 entry and a raise.
+23–33: Fun police opening limit → round-three All In confirmation. Illustrate 20/100/100 as 60 main pot and 160 side pot; the short stack cannot win 220.
+33–48: real gameplay montage and independent private voting.
+48–60: results with pot breakdown, final standings, Minigames and playable address.
 
 ## Accuracy notes
-Host round choices: 3,6,9,12,15. Ordinary stakes 5/10/20. Spotlight totals 5→10→20, not added charges. Creative Party needs 4+ players. No paid judging bypass. Ballpark alone permits an audience prediction. Two-player creative Minigames reveal without scored voting. Auction budget $20 is separate from chips; restaurant-first, then player names food. Four meal slots. Physical games require everyone together. Ties refund when everyone ties; joint creative leaders can win otherwise. Do not narrate every edge case—leave those in written help.
+New rooms use shared pots; old rooms retain old rules. One raise opportunity each then one final match/fold response. Whole-stack bets after round 2 require confirmation. Uncalled excess returns. Tied leaders split eligible layers; an all-contributor tie returns that layer. Missing entries cannot win; if nobody supplies an eligible result, entries return. Same Brain: matched players share; everyone or nobody matching refunds. Faker: caught → group shares; escape → faker wins. Judges are assigned before betting; folded contestants cannot judge. Side bets are off. One optional consensual 20-chip comeback below 5; no debt or automatic refill. Physical games require being together.
 
-## Production acceptance
-Check all numbers and labels against the final UI. Captions must match narration. Mobile playback and caption legibility must be checked on real devices before replacing the website video. This file is a production brief; no new video has been generated by this release.
+Estimates including setup: 3 rounds 10–15 min; 6 rounds 20–30; 9 rounds 30–45; 12 rounds 40–60; 15 rounds 50–75. Unmeasured, not guarantees. Use actual UI captures of this version, never the old refill/house-payout video. Verify captions and mobile playback before publication.

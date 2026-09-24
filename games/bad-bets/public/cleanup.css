@@ -163,3 +163,9 @@ label{font-size:14px;font-weight:500}
 #app[data-phase=lobby] .lobby-start{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;border-top:1px solid #25334518;padding-top:24px;margin:12px 0 24px}
 #app[data-phase=lobby] .lobby-start .seat-status{margin:0;font-size:14px}
 @media(max-width:560px){.invite-code-row{gap:12px}.invite-code-row .invite-code{font-size:40px;letter-spacing:5px}#app[data-phase=lobby] .lobby-start{display:block}#app[data-phase=lobby] .lobby-start button{width:100%;margin-top:12px}}
+
+/* Brief, non-flashing feedback; the reason remains readable. */
+#toast.fun-police{background:#fff4cf;color:#293c48;border:2px solid #087f98;animation:fun-police-pop .35s ease-out;width:min(90vw,480px);z-index:100}
+@keyframes fun-police-pop{0%{transform:translate(-50%,12px) rotate(-2deg)}65%{transform:translate(-50%,-3px) rotate(1deg)}100%{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){#toast.fun-police{animation:none}}
+#potform{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:20px 0}#potform input{max-width:140px}.stage .row{flex-wrap:wrap}

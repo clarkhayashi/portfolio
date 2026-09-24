@@ -1,7 +1,8 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {Game} from './server.mjs';
-function setup(n=4){const g=new Game(),a=g.create('P0'),r=g.rooms.get(a.code);r.banEnabled=false;r.enabledGames=['brain','number','draft','draw','imposter'];for(let i=1;i<n;i++)g.join(a.code,`P${i}`);return {g,r,p:r.players};}
+function setup(n=4){const g=new Game(),a=g.create('P0'),r=g.rooms.get(a.code);r.potVersion=1; // Legacy-room migration coverage. New economy is covered in pot-test.mjs.
+r.banEnabled=false;r.enabledGames=['brain','number','draft','draw','imposter'];for(let i=1;i<n;i++)g.join(a.code,`P${i}`);return {g,r,p:r.players};}
 function mode(g,r,kind,spot=false){g.fresh(r);r.spot=spot;r.candidates=g.pool(r);g.choose(r);r.game=kind;r.active=r.players.map(p=>p.id);r.teams=[r.active.slice(0,2),r.active.slice(2)];g.phase(r,'play',30);}
 test('rooms enforce nickname uniqueness, capacity, host control and auth',()=>{const {g,r,p}=setup(8);assert.throws(()=>g.join(r.code,'extra'));assert.throws(()=>g.player(r,'bad'));assert.throws(()=>g.action(r,p[1],{type:'start'}));g.action(r,p[0],{type:'start'});assert.throws(()=>g.join(r.code,'new'));});
 test('all-in personal stakes and matching payouts settle only once',()=>{const {g,r,p}=setup();g.fresh(r);g.action(r,p[0],{type:'stake',amount:20});g.choose(r);r.game='brain';g.phase(r,'play',30);const answers=['A Hippo!','hippo','pizza','bird'];p.forEach((q,i)=>g.action(r,q,{type:'submit',value:answers[i]}));assert.equal(r.phase,'result');assert.equal(p[0].chips,120);assert.equal(p[1].chips,105);assert.equal(p[2].chips,95);g.settle(r);assert.equal(p[0].chips,120);});
