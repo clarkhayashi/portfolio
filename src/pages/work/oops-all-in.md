@@ -10,10 +10,10 @@ statusType: "building"
 ## Now · try the current game
 
 <div class="play-showcase">
-  <a class="play-launch" href="https://bad-bets.vercel.app/" target="_blank" rel="noopener">Play full screen ↗</a>
-  <p>Play here, or open the game full screen. Friends join at <a href="https://bad-bets.vercel.app/">bad-bets.vercel.app</a> with your room code.</p>
-  <iframe src="https://bad-bets.vercel.app/" title="Play Oops, All In, a live multiplayer game" loading="lazy" allow="autoplay; fullscreen" allowfullscreen style="width:100%;height:720px;border:1px solid #d8dfdf;border-radius:16px;background:#f8f7f2;"></iframe>
-  <p class="play-utility"><a href="https://bad-bets.vercel.app/feedback.html" target="_blank" rel="noopener">Suggest a game or report a bug</a></p>
+  <a class="play-launch" href="https://play.clarkhayashi.com/" target="_blank" rel="noopener">Play full screen ↗</a>
+  <p>Play here, or open the game full screen. Friends join at <a href="https://play.clarkhayashi.com/">play.clarkhayashi.com</a> with your room code.</p>
+  <iframe src="https://play.clarkhayashi.com/" title="Play Oops, All In, a live multiplayer game" loading="lazy" allow="autoplay; fullscreen" allowfullscreen style="width:100%;height:720px;border:1px solid #d8dfdf;border-radius:16px;background:#f8f7f2;"></iframe>
+  <p class="play-utility"><a href="https://play.clarkhayashi.com/feedback.html" target="_blank" rel="noopener">Suggest a game or report a bug</a></p>
 </div>
 <style>
 .play-showcase .play-launch{display:inline-flex;align-items:center;min-height:48px;padding:12px 22px;border-radius:10px;background:#087f98;color:white;text-decoration:none;font-weight:600}.play-showcase .play-launch:focus-visible{outline:3px solid #087f98;outline-offset:4px}.play-showcase .play-utility{font-size:14px;text-align:right}@media(max-width:560px){.play-showcase iframe{height:680px!important}.play-showcase .play-launch{width:100%;justify-content:center}}
@@ -68,6 +68,6 @@ I wanted the game to feel like a sticker sheet. The mascot is a poker chip that 
 <section class="try-game" aria-labelledby="try-game-title">
   <h2 id="try-game-title">Try it with your friends</h2>
   <p>It’s still a work in progress. If you play, please let me know what you think: what was fun, what was confusing, and what you’d change.</p>
-  <div class="try-actions"><a class="try-primary" href="https://bad-bets.vercel.app/" target="_blank" rel="noopener">Try the game ↗</a><a href="mailto:hayashiclark@gmail.com?subject=I%20tried%20Oops%2C%20All%20In">Tell me what you think ↗</a></div>
+  <div class="try-actions"><a class="try-primary" href="https://play.clarkhayashi.com/" target="_blank" rel="noopener">Try the game ↗</a><a href="mailto:hayashiclark@gmail.com?subject=I%20tried%20Oops%2C%20All%20In">Tell me what you think ↗</a></div>
 </section>
 <style>.try-game{margin-top:3rem;padding:2rem 0;border-top:1px solid #d8dfdf}.try-actions{display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap}.try-actions a{display:inline-flex;align-items:center;min-height:48px}.try-actions .try-primary{padding:12px 24px;border-radius:10px;background:#087f98;color:white;text-decoration:none;font-weight:600}</style>

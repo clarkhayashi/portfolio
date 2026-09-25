@@ -6,7 +6,7 @@ import {GAMES,gameById} from './catalog.js';
 import {art,tiles,gameLibrary,wheel,remaining} from './ui.js';
 import {finaleScreen,finaleUi,isFinaleScreen} from './finale-ui.js';
 const app=document.querySelector('#app');const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let inviteOrigin=location.origin;
+let inviteOrigin=location.hostname==='bad-bets.vercel.app'?'https://play.clarkhayashi.com':location.origin;
 fetch('/info').then(r=>r.json()).then(d=>{if(['localhost','127.0.0.1'].includes(location.hostname)&&d.addresses[0])inviteOrigin=`http://${d.addresses[0]}:${location.port}`;}).catch(()=>{});
 let savedAuth=null;try{savedAuth=JSON.parse(sessionStorage.getItem('badbets')||'null');}catch{try{sessionStorage.removeItem('badbets');}catch{}}
 // Seats also live in localStorage per room so a closed tab can rejoin. ?new=1 skips this for test players.

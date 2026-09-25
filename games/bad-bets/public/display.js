@@ -296,7 +296,7 @@ export function messageScreen(title,detail=''){
 function boot(){
  const root=document.querySelector('#display'),conn=document.querySelector('#connection'),fsBtn=document.querySelector('#fullscreen');
  const params=new URLSearchParams(location.search),code=(params.get('room')||'').toUpperCase(),token=location.hash.slice(1);
- let stopped=false,lastVersion=-1,lastHtml='',lastKey='',offset=0,failures=0,known=null,joinOrigin=location.origin,wake=null;
+ let stopped=false,lastVersion=-1,lastHtml='',lastKey='',offset=0,failures=0,known=null,joinOrigin=location.hostname==='bad-bets.vercel.app'?'https://play.clarkhayashi.com':location.origin,wake=null;
  const qrCache=new Map();
  const qr=url=>{if(!qrCache.has(url)){let svg='';try{if(window.qrcode){const q=window.qrcode(0,'M');q.addData(url);q.make();svg=q.createSvgTag({cellSize:6,margin:2,scalable:true});}}catch{}qrCache.set(url,svg);}return qrCache.get(url);};
  const ctx={qr,joinUrl:c=>`${joinOrigin}/?room=${encodeURIComponent(c||'')}`,get joinHost(){return joinOrigin.replace(/^https?:\/\//,'');}};
