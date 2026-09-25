@@ -592,3 +592,50 @@ export const PACKS = {
     food: []
   }
 };
+
+// Herd round fallback prompts (Same Brain at 4+ players): [question, option A, option B].
+// Used only when the writer runs out of time or leaves. All ages. Question up to 90 characters, options up to 30.
+export const HERD_PROMPTS = [
+  ["Fight 1 horse-sized duck or 100 duck-sized horses?","1 horse-sized duck","100 duck-sized horses"],
+  ["Pizza or tacos for the rest of your life?","Pizza","Tacos"],
+  ["Beach day or mountain day?","Beach","Mountains"],
+  ["Spam musubi or manapua?","Spam musubi","Manapua"],
+  ["Shave ice or ice cream?","Shave ice","Ice cream"],
+  ["Plate lunch: extra rice or extra mac salad?","Extra rice","Extra mac salad"],
+  ["North Shore or Waikiki?","North Shore","Waikiki"],
+  ["Slippers or sneakers all day?","Slippers","Sneakers"],
+  ["Cats or dogs?","Cats","Dogs"],
+  ["Morning person or night owl?","Morning person","Night owl"],
+  ["Pancakes or waffles?","Pancakes","Waffles"],
+  ["Ketchup or mustard on a hot dog?","Ketchup","Mustard"],
+  ["Be able to fly or be invisible?","Fly","Invisible"],
+  ["Live in a treehouse or a houseboat?","Treehouse","Houseboat"],
+  ["Watch the game at home or at the stadium?","At home","At the stadium"],
+  ["Basketball or football?","Basketball","Football"],
+  ["Dunk contest or three-point contest?","Dunk contest","Three-point contest"],
+  ["Win the Super Bowl or win an Olympic gold?","Super Bowl","Olympic gold"],
+  ["Be the coach or the star player?","Coach","Star player"],
+  ["Movie at home or at the theater?","At home","At the theater"],
+  ["Superhero or supervillain for a day?","Superhero","Supervillain"],
+  ["Read the book or watch the movie?","Book","Movie"],
+  ["Cartoons or live action?","Cartoons","Live action"],
+  ["Go back in time or jump to the future?","The past","The future"],
+  ["Talk to animals or speak every language?","Talk to animals","Every language"],
+  ["Always be 10 minutes early or 10 minutes late?","10 minutes early","10 minutes late"],
+  ["Sweet snacks or salty snacks?","Sweet","Salty"],
+  ["Chicken nuggets or french fries?","Nuggets","Fries"],
+  ["Cereal: milk first or cereal first?","Milk first","Cereal first"],
+  ["Summer or winter?","Summer","Winter"],
+  ["Road trip or plane trip?","Road trip","Plane trip"],
+  ["Camping in a tent or a fancy hotel?","Tent","Fancy hotel"],
+  ["Have a pet dinosaur or a pet dragon?","Dinosaur","Dragon"],
+  ["Sing in front of everyone or dance in front of everyone?","Sing","Dance"],
+  ["Only whisper or only shout for a day?","Whisper","Shout"],
+  ["Sneeze glitter or hiccup bubbles?","Sneeze glitter","Hiccup bubbles"],
+  ["Have fingers as long as legs or legs as short as fingers?","Long fingers","Short legs"],
+  ["Ride a giant turtle or a giant chicken to school?","Giant turtle","Giant chicken"],
+  ["Be stuck in an elevator with a goat or a goose?","Goat","Goose"],
+  ["Hot chocolate or lemonade?","Hot chocolate","Lemonade"],
+  ["Roller coasters or water slides?","Roller coasters","Water slides"],
+  ["Text or call?","Text","Call"]
+];

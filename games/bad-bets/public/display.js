@@ -24,6 +24,7 @@ export function statusText(s){
  const g=gameById(s.game)?.name;
  const map={lobby:'Waiting for players',ban:'Vote a game off the wheel',banResult:'The wheel is set',entry:'Stay in or sit out?',stake:'Placing bets',spin:'Spinning the wheel',wager:'Betting round',reveal:'Get ready',play:'Answer on your phones',clue:'Clue time',discuss:'Talk it out',vote:'Voting time',pitch:'Pitch time',auction:'Bidding war',draft:'Fantasy draft',physicalSetup:'Get in position',physical:'Playing live',physicalConfirm:'Checking the score',physicalDispute:'Score check',result:'Round results',finished:'Final standings',comeback:'Comeback chance',paused:'Paused',mixer:s.deck==='date'?'Date Night':'Your turn to share',mixerReveal:s.deck==='date'?'Date Night':'Answers are in',dateCheck:'Date Night'};
  if(s.game==='finale'&&s.finale){const m={finaleWrite:'Writing prompts',finalePick:'Picking the best prompt',finalePlay:'Playing the winning prompt',finaleVote:'Voting time',result:'One More Round results'};if(m[s.phase])return m[s.phase];}
+ if(s.herd&&s.game==='brain'){const m={herdWrite:'Writing a this-or-that',herdVote:'Pick a side on your phones',result:'Herd round results'};if(m[s.phase])return m[s.phase];}
  if(s.phase==='play'&&s.game==='draw')return 'Drawing on phones';
  if(s.phase==='play'&&s.game==='number')return 'Guess on your phones';
  if(s.phase==='vote'&&s.game==='imposter')return 'Who is the imposter? Vote now';
@@ -279,11 +280,27 @@ export function finaleScene(s){
  return `<section class="result"><div class="result-main"><p class="eyebrow result-game" style="${gameVars('finale')}">One More Round</p><h1 class="headline">${head}</h1>${(R.played||[]).map(x=>`<p class="lead">“${esc(x.text)}” · ${x.writer?`⭐ Best Prompt: <strong>${nameOf(s,x.writer)}</strong>${f.chips?' +20':''}`:'Built-in prompt'}</p>`).join('')}${R.toilet?`<p class="lead">🚽 Toilet Bowl: dishonourable mention · <strong>${nameOf(s,R.toilet)}</strong>${f.chips?' +10':''}</p>`:''}<ul class="entries${R.entries.length>4?' many':''}">${R.entries.map(e=>`<li class="${R.winners.includes(e.player)?'win':''}"><p class="entry-head"><span>${nameOf(s,e.player)}</span><em>${e.votes} vote${e.votes===1?'':'s'}${f.chips&&award(e.player,'main')?` · +${award(e.player,'main')}`:''}</em></p>${finaleEntry(e)}</li>`).join('')}</ul></div>${f.chips?scoreboard(s,{highlight:R.winners}):''}</section>`;
 }
 
+// Herd round (Same Brain at 4+ players). Picks stay hidden until the reveal.
+const isHerd=s=>!!s.herd&&s.game==='brain'&&['reveal','herdWrite','herdVote','result'].includes(s.phase);
+const herdNames=(s,ids,sheep)=>`<ul class="herd-names">${ids.map(id=>`<li class="${id===sheep?'black-sheep':''}">🐑 ${nameOf(s,id)}</li>`).join('')||'<li>Nobody</li>'}</ul>`;
+export function herdScene(s){
+ const h=s.herd||{},writer=nameOf(s,h.asker);
+ if(s.phase==='reveal')return `${gameBanner(s,timer(s))}<section class="center"><h1 class="big">Herd round</h1><p class="lead">${writer} writes a this-or-that. Everyone else picks a side. The smaller side loses.</p></section>`;
+ if(s.phase==='herdWrite')return `${gameBanner(s,timer(s))}<section class="center"><h1 class="big">${writer} is writing a this-or-that…</h1><p class="lead">Get ready to pick a side. The smaller side loses.</p></section>`;
+ if(s.phase==='herdVote')return `${gameBanner(s,timer(s))}<section class="prompt-wrap"><p class="prompt">${esc(h.question)}</p><p class="lead">A: <strong>${esc(h.a)}</strong> · B: <strong>${esc(h.b)}</strong></p>${progress(h.locked,h.total,'locked')}</section>`;
+ const r=s.result||{},o=h.reveal;if(!o||o.cancelled)return result(s);
+ const opt=k=>esc(k==='a'?h.a:h.b),paid=h.chips&&o.penalty?` · pays ${chips(o.penalty)}`:'';
+ const head=o.tie?'Even split':o.easy?'Too easy!':`The Herd picked ${opt(o.side)}`;
+ const call=o.easy?`<p class="vetoed herd-call"><span>Too easy!</span> ${writer} wrote a no-brainer${paid}</p>`:o.sheep?`<p class="vetoed herd-call"><span>🐑 Black Sheep</span> ${nameOf(s,o.sheep)}${paid}</p>`:'';
+ const col=k=>{const ids=k==='a'?o.A:o.B;return `<li class="${o.side===k?'win':''}"><p class="entry-head"><span>${k.toUpperCase()} · ${opt(k)}</span><em>${ids.length}</em></p>${herdNames(s,ids,o.sheep)}</li>`;};
+ return `<section class="result"><div class="result-main"><p class="eyebrow result-game" style="${gameVars('brain')}">${art('brain')}Same Brain? · Herd round</p><h1 class="headline">${head}</h1><p class="lead">${esc(h.question)}</p>${call}<ul class="entries herd-cols">${col('a')}${col('b')}</ul>${o.missed.length?`<p class="lead">No pick: ${names(s,o.missed)}</p>`:''}</div>${s.mode==='minigames'?'':scoreboard(s,{highlight:r.winners||[]})}</section>`;
+}
+
 const SCENES={lobby,ban,banResult:ban,entry,stake,spin,wager,reveal,play,clue,discuss,vote,pitch,draft,auction,physicalSetup:physical,physical,physicalConfirm:physical,physicalDispute:physical,result,finished,comeback,paused,mixer,mixerReveal:mixer,dateCheck:dateNight};
 
 export function render(s,ctx={}){
  ctx={qr:()=>'',joinUrl:c=>`/?room=${encodeURIComponent(c||'')}`,joinHost:'',...ctx};
- const scene=(s.finale&&(String(s.phase).startsWith('finale')||s.phase==='result'))?finaleScene:SCENES[s.phase]||(()=>`${gameBanner(s)}<section class="center"><h1>${esc(statusText(s))}</h1><p class="lead">Follow along on your phones.</p></section>`);
+ const scene=(s.finale&&(String(s.phase).startsWith('finale')||s.phase==='result'))?finaleScene:isHerd(s)?herdScene:SCENES[s.phase]||(()=>`${gameBanner(s)}<section class="center"><h1>${esc(statusText(s))}</h1><p class="lead">Follow along on your phones.</p></section>`);
  const theme=themeFor(s);
  const top=`<header class="top"><img class="brand" src="/brand/logo-horizontal.svg" alt="Oops, All In" width="422" height="158"><span class="status">${esc(statusText(s))}</span><span class="meta">${s.phase!=='lobby'&&s.code?`Room <b>${esc(s.code)}</b>`:''}${roundText(s)?` · ${esc(roundText(s))}`:''}</span></header>`;
  return {key:`${s.phase}|${s.round}|${s.game||''}`,theme,html:`${top}<main class="stage phase-${esc(s.phase)}">${scene(s,ctx)}</main>`};

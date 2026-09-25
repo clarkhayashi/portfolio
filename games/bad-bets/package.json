@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "start": "node server.mjs",
-    "test": "node --test pot-test.mjs release-test.mjs test.mjs cloud-test.mjs performance-test.mjs feedback-test.mjs packs-test.mjs ratings-test.mjs themes-test.mjs finale-test.mjs usage-test.mjs scout-test.mjs",
+    "test": "node --test pot-test.mjs release-test.mjs test.mjs cloud-test.mjs performance-test.mjs feedback-test.mjs packs-test.mjs ratings-test.mjs themes-test.mjs finale-test.mjs usage-test.mjs scout-test.mjs herd-test.mjs",
     "build": "node build.mjs",
     "benchmark": "node --expose-gc benchmark.mjs"
   },

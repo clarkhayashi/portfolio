@@ -23,7 +23,7 @@ export function builtinIds(){
 }
 // The prompt id a finished round can be rated under, or null if it is not a built-in prompt.
 export function rateTarget(r){
- if(!r||r.phase!=='result'||r.mode==='mixer'||!r.game)return null;
+ if(!r||r.phase!=='result'||r.mode==='mixer'||!r.game||r.herd)return null; // Herd questions are player-written or stock: never rated
  const kind=RATED_GAMES[r.game];if(!kind)return null;
  const text=r.game==='imposter'?r.secret:r.game==='rhythm'?(r.physical?.category||r.prompt):r.prompt;
  if(typeof text!=='string'||!text)return null;
