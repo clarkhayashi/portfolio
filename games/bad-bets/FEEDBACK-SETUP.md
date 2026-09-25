@@ -1,6 +1,6 @@
 # Private feedback intake
 Repository: https://github.com/clarkhayashi/party-game-feedback (private)
-Public form: https://bad-bets.vercel.app/feedback.html
+Public form: https://play.clarkhayashi.com/feedback.html (also bad-bets.vercel.app)
 
 The email option works through the player's mail app. Direct GitHub delivery remains disabled until both the feedback credential and Redis rate limiter are configured.
 

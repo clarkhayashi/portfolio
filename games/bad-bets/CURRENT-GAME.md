@@ -2,7 +2,7 @@
 
 ## Open it
 
-Public game: https://bad-bets.vercel.app/
+Public game: https://play.clarkhayashi.com/ (old address https://bad-bets.vercel.app/ still works)
 Website project: https://clarkhayashi.com/work/bad-bets
 
 Join from separate devices using the same room code. Internet multiplayer uses shared Redis storage; no account or install is required. Physical games still require players to be together.
