@@ -40,3 +40,10 @@ test('concurrent repeated raises debit once and retain a single next turn',async
  const action={...h,type:'potBet',move:'raise',total:20,round:v.round,revision:v.pot.revision};const results=await Promise.allSettled([cloudRequest(s,action),cloudRequest(s,action)]);
  assert.equal(results.filter(x=>x.status==='fulfilled').length,1);r=JSON.parse(await s.get(h.code));assert.equal(r.players[0].chips,80);assert.equal(r.stakes[r.players[0].id],20);assert.equal(r.players.reduce((n,p)=>n+p.chips,0)+Object.values(r.stakes).reduce((a,b)=>a+b,0),200);
 });
+test('storage hiccups (bad JSON, HTTP errors, network) surface as Room storage errors',async()=>{
+ const {RedisRoomStore}=await import('./room-store.mjs');const store=new RedisRoomStore({UPSTASH_REDIS_REST_URL:'https://redis.invalid',UPSTASH_REDIS_REST_TOKEN:'t'});const real=globalThis.fetch;
+ try{
+  for(const fake of [async()=>new Response('<html>502</html>',{status:502}),async()=>new Response('not json',{status:200}),async()=>{throw TypeError('fetch failed');},async()=>new Response('{"error":"x"}',{status:200})]){globalThis.fetch=fake;await assert.rejects(store.get('ABCD'),/Room storage/);}
+  globalThis.fetch=async()=>new Response('{"result":"ok"}',{status:200});assert.equal(await store.get('ABCD'),'ok');
+ }finally{globalThis.fetch=real;}
+});

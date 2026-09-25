@@ -20,8 +20,8 @@ function nextLot(r){const a=r.auction;const missing=r.active.filter(p=>r.picks[p
 }
 function take(a){if(!a.pool.length)a.pool=shuffle(restaurants);return a.pool.pop();}
 export function auctionAction(g,r,p,action){const a=r.auction;if(r.phase!=='auction'||!a)throw Error('The auction has ended.');if(action.revision!==a.revision)throw Error('The bid changed. Check the current auction.');
- if(action.type==='auctionItem'){const pending=a.pending.find(x=>x.player===p.id);if(!pending)throw Error('Wait until you win a restaurant.');const item=String(action.value||'').trim();if(!item||item.length>80)throw Error('Name your item in 80 characters or fewer.');r.picks[p.id].push(`${slots[a.slot]}: ${item} — ${pending.restaurant}`);a.pending=a.pending.filter(x=>x!==pending);if(!a.pending.length)nextLot(r);
+ if(action.type==='auctionItem'){const pending=a.pending.find(x=>x.player===p.id);if(!pending)throw Error('Wait until you win a restaurant.');const item=String(action.value||'').trim();if(!item||item.length>80)throw Error('Name your item in 80 characters or fewer.');r.picks[p.id].push(`${slots[a.slot][0].toUpperCase()+slots[a.slot].slice(1)}: ${item} (${pending.restaurant})`);a.pending=a.pending.filter(x=>x!==pending);if(!a.pending.length)nextLot(r);
  }else{if(a.pending.length||a.turn!==p.id)throw Error('Wait for your turn.');if(action.type==='auctionRaise'){const cap=a.budgets[p.id]-(3-a.slot);if(a.bid+1>cap)throw Error('Keep $1 for each remaining meal slot.');a.bid++;a.leader=p.id;}else if(action.type==='auctionPass')a.passed.push(p.id);else throw Error('Unknown auction action.');
  const remaining=a.eligible.filter(p=>!a.passed.includes(p));if(!remaining.length){a.rejected++;a.cursor++;nextLot(r);}else if(remaining.length===1&&a.leader===remaining[0]){a.budgets[a.leader]-=a.bid;a.pending=[{player:a.leader,restaurant:a.restaurant}];a.turn=null;a.rejected=0;a.cursor++;}else{let index=a.eligible.indexOf(p.id);do{index=(index+1)%a.eligible.length;}while(a.passed.includes(a.eligible[index])||a.eligible[index]===a.leader);a.turn=a.eligible[index];}}
- a.revision++;if(a.done)g.phase(r,'pitch',20);
+ a.revision++;if(a.done)g.phase(r,'pitch',30);
 }

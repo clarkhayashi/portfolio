@@ -39,3 +39,4 @@ test('all nine games complete a paid round with conserved chips',()=>{
   assert.equal(wealth(r),400,game);assert.ok(r.result.pots.length,game);
  }
 });
+test('betting turns give first-time players 20 seconds',()=>{const {g,r}=setup(4);g.advance(r);assert.equal(r.phase,'wager');const left=r.deadline-Date.now();assert.ok(left>18000&&left<=20000,String(left));});

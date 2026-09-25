@@ -27,7 +27,7 @@ export function installPotRules(Game){
  Game.prototype.create=function(...args){const result=old.create.apply(this,args);this.rooms.get(result.code).potVersion=2;return result;};
  Game.prototype.pool=function(r,spot=r.spot){const pool=old.pool.call(this,r,spot);if(!modern(r))return pool;const funded=this.live(r).filter(p=>p.chips>0).length;return pool.filter(id=>restricted.includes(id)?this.live(r).filter(p=>p.chips>=5).length>=(id==='imposter'?4:2):funded>=2);};
  Game.prototype.fresh=function(r){if(modern(r)){r.pot=null;r.contestants=[];r.folded=[];r.forfeits=[];r.judges=[];r.uncontested=false;r.interruptedForfeit=false;r.potSettled=false;r.issuedChips ||=0;}return old.fresh.call(this,r);};
- Game.prototype.roundReady=function(r){if(!modern(r))return old.roundReady.call(this,r);const low=this.live(r).find(p=>p.chips<5&&!p.comebackUsed&&!p.comebackDeclined);if(low){r.comeback={player:low.id,stage:'offer',dare:''};this.phase(r,'comeback',30);return;}r.comeback=null;if(this.live(r).filter(p=>p.chips>0).length<2){this.phase(r,'finished');return;}r.candidates=this.pool(r).filter(id=>id!==r.banned);if(r.banEnabled&&r.candidates.length>=3)this.phase(r,'ban',18);else this.betting(r);};
+ Game.prototype.roundReady=function(r){if(!modern(r))return old.roundReady.call(this,r);const low=this.live(r).find(p=>p.chips<5&&!p.comebackUsed&&!p.comebackDeclined);if(low){r.comeback={player:low.id,stage:'offer',dare:''};this.phase(r,'comeback',60);return;}r.comeback=null;if(this.live(r).filter(p=>p.chips>0).length<2){this.phase(r,'finished');return;}r.candidates=this.pool(r).filter(id=>id!==r.banned);if(r.banEnabled&&r.candidates.length>=3)this.phase(r,'ban',18);else this.betting(r);};
  Game.prototype.betting=function(r){if(!modern(r))return old.betting.call(this,r);this.choose(r);};
  Game.prototype.choose=function(r){if(!modern(r))return old.choose.call(this,r);if(r.pot)throw Error('This round already has a pot.');
   // Selection reuses the established game setup without debiting legacy stakes.
@@ -40,10 +40,10 @@ export function installPotRules(Game){
   r.pot={revision:0,stage:'opening',target:5,queue:[],turn:null,fixed:restricted.includes(r.game),opening:r.round<=2};
  };
  Game.prototype.openPot=function(r){const b=r.pot;for(const id of remain(r))pay(r,id,Math.min(5,player(r,id).chips));
-  if(b.fixed){this.phase(r,'reveal',10);return;}
+  if(b.fixed){this.phase(r,'reveal',15);return;}
   b.queue=rotate([...r.contestants],(r.round-1)%r.contestants.length);this.nextPotTurn(r);
  };
- Game.prototype.nextPotTurn=function(r){const b=r.pot;while(b.queue.length){const id=b.queue.shift();if(r.folded.includes(id)||player(r,id).left||player(r,id).chips===0)continue;if(b.stage==='response'&&(r.stakes[id]||0)>=b.target)continue;b.turn=id;b.revision++;this.phase(r,'wager',12);return;}
+ Game.prototype.nextPotTurn=function(r){const b=r.pot;while(b.queue.length){const id=b.queue.shift();if(r.folded.includes(id)||player(r,id).left||player(r,id).chips===0)continue;if(b.stage==='response'&&(r.stakes[id]||0)>=b.target)continue;b.turn=id;b.revision++;this.phase(r,'wager',20);return;}
   if(b.stage==='opening'){b.stage='response';b.queue=rotate([...r.contestants],(r.round-1)%r.contestants.length);return this.nextPotTurn(r);}
   this.closePot(r);
  };
@@ -54,7 +54,7 @@ export function installPotRules(Game){
    this.resetPotAuction(r);
   }
   if(r.physical){for(const id of Object.keys(r.physical.scores))if(!r.active.includes(id))delete r.physical.scores[id];if(!r.active.includes(r.physical.attacker))r.physical.attacker=r.active[0];}
-  this.phase(r,'reveal',10);
+  this.phase(r,'reveal',15);
  };
  Game.prototype.potAction=function(r,p,a){const b=r.pot;if(r.phase!=='wager'||a.round!==r.round||a.revision!==b.revision||b.turn!==p.id)throw Error('That betting turn has changed. Use the current screen.');
   const have=r.stakes[p.id]||0,stack=have+p.chips;

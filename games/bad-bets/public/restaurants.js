@@ -11,4 +11,4 @@ const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;
 export function restaurantLogo(name){return Object.hasOwn(RESTAURANTS,name)?`<span class="restaurant-mark"><img src="/logos/${RESTAURANTS[name]}" alt="" width="80" height="80" decoding="async"></span>`:'';}
 export function restaurantHeading(name){return `<h3 class="restaurant-heading">${restaurantLogo(name)}<span>${esc(name)}</span></h3>`;}
 const draftBrands={'Big Mac':'McDonald’s','Crunchwrap':'Taco Bell'};
-export function foodLabel(value){const brand=Object.keys(RESTAURANTS).find(name=>String(value).endsWith(' — '+name))||(Object.hasOwn(draftBrands,value)?draftBrands[value]:null);return `${brand?restaurantLogo(brand):''}<span>${esc(value)}</span>`;}
+export function foodLabel(value){const brand=Object.keys(RESTAURANTS).find(name=>String(value).endsWith(' ('+name+')')||String(value).endsWith(' — '+name))||(Object.hasOwn(draftBrands,value)?draftBrands[value]:null);return `${brand?restaurantLogo(brand):''}<span>${esc(value)}</span>`;}

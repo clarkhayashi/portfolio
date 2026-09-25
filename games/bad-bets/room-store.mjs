@@ -8,7 +8,7 @@ if count == 1 then redis.call('EXPIRE', KEYS[1], ARGV[1]) end
 return count`;
 export class RedisRoomStore {
  constructor(env=process.env){this.url=env.UPSTASH_REDIS_REST_URL||env.KV_REST_API_URL;this.token=env.UPSTASH_REDIS_REST_TOKEN||env.KV_REST_API_TOKEN;if(!this.url||!this.token)throw Error('Room storage is not configured.');}
- async command(args){const response=await fetch(this.url,{method:'POST',headers:{Authorization:`Bearer ${this.token}`,'Content-Type':'application/json'},body:JSON.stringify(args),signal:AbortSignal.timeout(3500)});const data=await response.json();if(!response.ok||data.error)throw Error('Room storage is temporarily unavailable.');return data.result;}
+ async command(args){let response,data;try{response=await fetch(this.url,{method:'POST',headers:{Authorization:`Bearer ${this.token}`,'Content-Type':'application/json'},body:JSON.stringify(args),signal:AbortSignal.timeout(3500)});data=await response.json();}catch{throw Error('Room storage is temporarily unavailable.');}if(!response.ok||!data||data.error)throw Error('Room storage is temporarily unavailable.');return data.result;}
  get(code){return this.command(['GET',`bad-bets:room:${code}`]);}
  async compareAndSwap(code,before,after){return await this.command(['EVAL',CAS,1,`bad-bets:room:${code}`,before||'',after,43200])===1;}
  async allow(key,limit,seconds){return await this.command(['EVAL',RATE,1,`bad-bets:rate:${key}`,seconds])<=limit;}

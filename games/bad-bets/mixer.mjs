@@ -16,7 +16,7 @@ const ice=[
 const deeper=[
  ['Share','What small gesture makes you feel included?'],
  ['Either / Or','After a difficult day, what sounds better?',['Someone listening','Someone making you laugh']],
- ['Play','Give someone here a specific, sincere compliment—or share something you appreciate about yourself.'],
+ ['Play','Give someone here a specific, sincere compliment, or share something you appreciate about yourself.'],
  ['Share','What is something you have grown to like about yourself?'],
  ['Either / Or','Which would you like more of this month?',['Unplanned adventures','Quiet time with good company']],
  ['Play','Describe your ideal low-pressure day in three words.'],
