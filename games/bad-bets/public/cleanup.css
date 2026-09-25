@@ -218,3 +218,27 @@ label{font-size:14px;font-weight:500}
 .theme-badge{display:inline-flex;align-items:center;gap:.4em;margin:.3em 0;font-weight:700}
 .theme-badge .restaurant-mark{width:40px;height:40px;padding:4px;border-radius:8px}
 .theme-chip img{width:36px;height:36px;object-fit:contain}
+
+/* Brand kit 2026-09-24: self-hosted OFL fonts, header lockup, home hero */
+@font-face{font-family:'Baloo 2';font-style:normal;font-weight:800;font-display:swap;src:url(/fonts/baloo-2-latin-800-normal.woff2) format('woff2')}
+@font-face{font-family:'Cherry Bomb One';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/cherry-bomb-one-latin-400-normal.woff2) format('woff2')}
+.brand{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:#1c2433;font-family:'Baloo 2',ui-rounded,system-ui,sans-serif;font-weight:800;font-size:23px;letter-spacing:-.3px;line-height:1}
+.brand-mark{width:32px;height:32px;flex:none;display:block}
+.brand .brand-word{display:inline-block;background:none;margin:0;border-radius:0;padding:3px 0 0;color:#1c2433;font-size:inherit;letter-spacing:inherit}
+.brand-word b{color:#E98D7D;font-weight:800}
+.home-hero{display:flex;justify-content:center;margin:0 0 6px}
+.home-hero img{display:block;height:min(38vh,300px);width:auto;max-width:100%}
+.simple-home:has(.home-hero){min-height:auto;padding:4px 0 8px}
+@media(max-width:560px){.brand{font-size:20px}.brand-mark{width:30px;height:30px}.home-hero img{height:min(34vh,260px)}}
+
+/* Theme art is a die-cut sticker: no box behind it. A soft shadow keeps its
+   white border readable on the off-white page. */
+span.restaurant-mark.theme-mark{background:none;padding:0;border-radius:0;box-shadow:none;overflow:visible}
+span.restaurant-mark.theme-mark img,.theme-chip img{filter:drop-shadow(0 1px 2px rgba(28,36,51,.22))}
+.theme-badge span.restaurant-mark.theme-mark{width:44px;height:44px}
+.pack-chip.theme-chip{position:relative;background:transparent;border-color:transparent;box-shadow:none;padding:8px 6px}
+.pack-chip.theme-chip img{width:44px;height:44px}
+.pack-chip.theme-chip[aria-pressed=true]{background:transparent;border-color:transparent;box-shadow:none}
+.pack-chip.theme-chip[aria-pressed=true] strong{color:#087F98;text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:4px}
+.pack-chip.theme-chip[aria-pressed=true]::after{content:'';position:absolute;top:4px;left:40px;width:20px;height:20px;border-radius:50%;background:#087F98 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5.5 10.5l3 3 6-7' fill='none' stroke='%23fff' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/100% no-repeat;box-shadow:0 0 0 2px #F8F7F3}
+.pack-chip.theme-chip:focus-visible{outline:3px solid #087F98;outline-offset:2px}

@@ -267,12 +267,12 @@ export function render(s,ctx={}){
  ctx={qr:()=>'',joinUrl:c=>`/?room=${encodeURIComponent(c||'')}`,joinHost:'',...ctx};
  const scene=SCENES[s.phase]||(()=>`${gameBanner(s)}<section class="center"><h1>${esc(statusText(s))}</h1><p class="lead">Follow along on your phones.</p></section>`);
  const theme=themeFor(s);
- const top=`<header class="top"><span class="brand">Oops, All In</span><span class="status">${esc(statusText(s))}</span><span class="meta">${s.phase!=='lobby'&&s.code?`Room <b>${esc(s.code)}</b>`:''}${roundText(s)?` · ${esc(roundText(s))}`:''}</span></header>`;
+ const top=`<header class="top"><img class="brand" src="/brand/logo-horizontal.svg" alt="Oops, All In" width="422" height="158"><span class="status">${esc(statusText(s))}</span><span class="meta">${s.phase!=='lobby'&&s.code?`Room <b>${esc(s.code)}</b>`:''}${roundText(s)?` · ${esc(roundText(s))}`:''}</span></header>`;
  return {key:`${s.phase}|${s.round}|${s.game||''}`,theme,html:`${top}<main class="stage phase-${esc(s.phase)}">${scene(s,ctx)}</main>`};
 }
 
 export function messageScreen(title,detail=''){
- return `<header class="top"><span class="brand">Oops, All In</span><span class="status"></span><span class="meta"></span></header><main class="stage"><section class="center"><h1 class="big">${esc(title)}</h1>${detail?`<p class="lead">${esc(detail)}</p>`:''}</section></main>`;
+ return `<header class="top"><img class="brand" src="/brand/logo-horizontal.svg" alt="Oops, All In" width="422" height="158"><span class="status"></span><span class="meta"></span></header><main class="stage"><section class="center"><h1 class="big">${esc(title)}</h1>${detail?`<p class="lead">${esc(detail)}</p>`:''}</section></main>`;
 }
 
 // ---------- browser runtime ----------
