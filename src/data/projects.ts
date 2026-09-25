@@ -73,13 +73,13 @@ export const projects: Project[] = [
   {
     title: "Oops, All In",
     description:
-      "A browser party game for 2 to 8 people. Join by room code, play quick minigames, or compete across nine rounds with play chips. Built with Codex and revised through hands-on testing.",
+      "A browser party game for 2 to 12 people. Join by room code, play nine quick minigames, and bet pretend chips on yourself. Built with Codex and Claude Code.",
     tags: ["Product Design", "Game Design", "JavaScript"],
     lane: "Product Design",
     year: "2026",
-    proof: "7 minigames · phone controls · room-code multiplayer",
+    proof: "9 minigames · up to 12 players · room-code multiplayer",
     href: "/work/bad-bets",
-    statusLabel: "Beta · online multiplayer",
+    statusLabel: "Beta · ready for group testing",
     statusType: "building",
   },
   {

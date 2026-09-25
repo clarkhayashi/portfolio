@@ -1,9 +1,9 @@
 ---
 layout: ../../layouts/CaseStudy.astro
 title: Oops, All In
-summary: "A browser party game for 2 to 8 people, built around quick rounds and friends playing together."
-tags: ["Product Design", "Game Design", "JavaScript", "Codex"]
-statusLabel: "Beta · playtesting"
+summary: "A browser party game for 2 to 12 people. Quick minigames and pretend-chip betting, played on everyone's own phone."
+tags: ["Product Design", "Game Design", "JavaScript", "Codex", "Claude Code"]
+statusLabel: "Beta · ready for group testing"
 statusType: "building"
 ---
 
@@ -12,7 +12,7 @@ statusType: "building"
 <div class="play-showcase">
   <a class="play-launch" href="https://bad-bets.vercel.app/" target="_blank" rel="noopener">Play full screen ↗</a>
   <p>Play here, or open the game full screen. Friends join at <a href="https://bad-bets.vercel.app/">bad-bets.vercel.app</a> with your room code.</p>
-  <iframe src="https://bad-bets.vercel.app/" title="Play Oops, All In — live multiplayer game" loading="lazy" allow="autoplay; fullscreen" allowfullscreen style="width:100%;height:720px;border:1px solid #d8dfdf;border-radius:16px;background:#f8f7f2;"></iframe>
+  <iframe src="https://bad-bets.vercel.app/" title="Play Oops, All In, a live multiplayer game" loading="lazy" allow="autoplay; fullscreen" allowfullscreen style="width:100%;height:720px;border:1px solid #d8dfdf;border-radius:16px;background:#f8f7f2;"></iframe>
   <p class="play-utility"><a href="https://bad-bets.vercel.app/feedback.html" target="_blank" rel="noopener">Suggest a game or report a bug</a></p>
 </div>
 <style>
@@ -21,13 +21,17 @@ statusType: "building"
 
 ## The game
 
-Start a game and share the room code. Everyone joins from their own phone. The host chooses 3, 6, 9, 12 or 15 rounds in Party mode, with play chips; Minigames lets the group choose one game and replay it without betting.
+Start a game and share the room code, a QR code, or an invite from your phone's share sheet. Everyone joins from their own phone, up to 12 players, with no app and no account. An optional TV screen shows the room code, prompts and scores to the whole room.
 
-The nine games include matching answers, numerical guesses, a food draft, a restaurant auction, funny-answer face-offs, drawing, finding the faker, an in-person Shadowbox face-off, and a category game called Keep It Going. Shadowbox and Keep It Going use sound cues so the group can look up from their phones.
+**Three ways to play.** Party mode is quick minigames where everyone starts with 100 pretend chips and bets on themselves each round (stay in, raise, fold, and from round 3, go all in). Minigames is the same games with no chips. Date Night is 36 questions for two people that get more personal level by level, and you only go deeper if you both say yes.
+
+**Nine games.** Same Brain (match answers), Ballpark (guess the number), Fantasy Draft, Bidding War, Bad Answers, Drawn Into Trouble, Imposter, Shadowbox (an in-person pointing duel) and Keep It Going (name things to a beat). Fantasy Draft and Bidding War roll a random theme each time, from Food Court and Heist Crew to NBA, NFL and MLB lineups mixing stars and cult heroes, and anyone can veto the theme once per game.
 
 ## How it took shape
 
-This came together through trial and error. I took references from games and interfaces I liked, drew on my own experience, and brainstormed ways to make them work for this game. I set the direction, worked with Codex to build it, and kept revising what felt confusing or unnecessary as I played.
+This came together through trial and error. I took references from games and interfaces I liked, drew on my own experience, and brainstormed ways to make them work for this game. I set the direction and made the calls; Codex and Claude Code did most of the building, and I kept revising what felt confusing or unnecessary as I played.
+
+Before the first group test I ran an audit as if strangers were at the party: could someone join without help, understand a bet, and recover if their phone locked? That led to plain betting words ("stay in" instead of "match"), a clear warning that folding loses the chips you put in, rejoin after a closed tab, and a one-tap "Was this one fun?" rating after each round. The ratings are anonymous counts per prompt, and prompts people like start coming up more often.
 
 ## Before · the early prototype
 
@@ -47,7 +51,7 @@ The first version put a promotional headline, instructions and a room form on th
 
 <section class="try-game" aria-labelledby="try-game-title">
   <h2 id="try-game-title">Try it with your friends</h2>
-  <p>It’s still a work in progress. If you play, please let me know what you think — what was fun, what was confusing, and what you’d change.</p>
+  <p>It’s still a work in progress. If you play, please let me know what you think: what was fun, what was confusing, and what you’d change.</p>
   <div class="try-actions"><a class="try-primary" href="https://bad-bets.vercel.app/" target="_blank" rel="noopener">Try the game ↗</a><a href="mailto:hayashiclark@gmail.com?subject=I%20tried%20Oops%2C%20All%20In">Tell me what you think ↗</a></div>
 </section>
 <style>.try-game{margin-top:3rem;padding:2rem 0;border-top:1px solid #d8dfdf}.try-actions{display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap}.try-actions a{display:inline-flex;align-items:center;min-height:48px}.try-actions .try-primary{padding:12px 24px;border-radius:10px;background:#087f98;color:white;text-decoration:none;font-weight:600}</style>
