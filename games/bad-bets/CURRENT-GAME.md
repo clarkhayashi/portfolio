@@ -94,3 +94,9 @@ Copy any game/screen name above and add **keep / change / cut**, or describe wha
 
 ## Date Night (local update, September 24)
 Start a game → Date Night. Two people, 36 original spoken questions in three levels. Both opt in before going deeper; either can skip or finish. No scoring or typed answers. See DATE-NIGHT.md for provenance and validation. Public deployment not yet verified.
+
+## One More Round (finale, added 2026-09-24)
+
+"Oops, I guess one more round?" replaces the last Party round when 3 or more players are in the room, and is also a Minigame (no chips).
+Write a prompt (Answer it or Draw it), pick the best with quick "this or that" taps (never your own), everyone plays it (top two prompts with 9 or more players), then vote (1 vote, 2 with 6 or more).
+Party payout is from the house, so nobody pays to play: double pot (2 x 10 x players) to the top entry, 10 chips to the lowest (Toilet Bowl), +20 to the writer of each played prompt. Written prompts are never saved outside the room.

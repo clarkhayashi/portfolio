@@ -9,6 +9,7 @@ export const GAMES = [
  {id:'number',name:'Ballpark',short:'Ballpark',icon:'#',color:'#b2b5ec',ink:'#313158',min:2,formats:['all','spot'],label:'Closest guess wins',description:'Big guesses. Small margins. Get closest.'},
  {id:'draft',maxAll:8,name:'Fantasy Draft',short:'Fantasy Draft',icon:'≋',color:'#f1c778',ink:'#573c16',min:2,formats:['spot'],label:'Create · reveal · vote',description:'Draft your dream team. Win the room.'},
  {id:'draw',maxAll:10,name:'Drawn Into Trouble',short:'Draw Trouble',icon:'✎',color:'#eea99c',ink:'#562c29',min:2,formats:['spot'],label:'Create · reveal · vote',description:'Terrible drawings. Excellent arguments.'},
+ {id:'finale',maxAll:12,name:'One More Round',title:'Oops, I guess one more round?',short:'One More Round',icon:'↻',color:'#ffb77a',ink:'#4d2a14',min:3,formats:[],label:'Write · pick · play · vote',description:'Everyone writes a prompt. The room plays the best one.'},
  {id:'imposter',name:'Imposter',short:'Imposter',icon:'◉',color:'#a7cbb3',ink:'#254733',min:4,formats:['all'],label:'Everyone plays',description:'One secret word. One imposter. Trust nobody.'}
 ];
 export const gameById=id=>GAMES.find(g=>g.id===id);

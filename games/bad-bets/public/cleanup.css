@@ -276,3 +276,15 @@ span.restaurant-mark.theme-mark img,.theme-chip img{filter:drop-shadow(0 1px 2px
 .pack-setting.compact legend small{font-weight:400;color:#6b7f8a;font-size:13px;margin-left:6px}
 .pack-setting.compact .pack-options{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .pack-setting.compact .pack-chip{display:inline-flex;flex-direction:row;padding:6px 12px;border-radius:999px;font-size:14px;font-weight:600;line-height:1.2}
+/* One More Round (final round) */
+.finale-modes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 4px}
+.finale-modes button{min-height:56px;font-size:16px}
+.finale-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
+.finale-choice{display:flex;flex-direction:column;align-items:flex-start;gap:10px;text-align:left;min-height:170px;background:#fff7ef;color:#4d2a14;border:2px solid #f0c9a6;padding:14px}
+.finale-choice .tag{margin:0;background:#ffe4cc;color:#6b3a17}
+.finale-choice-text{font-size:18px;line-height:1.35;font-weight:750;overflow-wrap:anywhere}
+.finale-entry.voted{border-color:#079bb8;background:#eef9fb}
+.finale-award{background:#fff1d6;color:#6b4513;margin:0 6px 8px 0}
+.finale-group{margin-top:26px}
+.finale-examples ul{margin:8px 0 0;padding-left:18px}
+@media(max-width:420px){.finale-choice{min-height:150px;padding:12px}.finale-choice-text{font-size:16px}}

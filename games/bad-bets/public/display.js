@@ -22,6 +22,7 @@ const isDrawing=v=>typeof v==='string'&&/^data:image\/png;base64,[A-Za-z0-9+/=]+
 export function statusText(s){
  const g=gameById(s.game)?.name;
  const map={lobby:'Waiting for players',ban:'Vote a game off the wheel',banResult:'The wheel is set',entry:'Stay in or sit out?',stake:'Placing bets',spin:'Spinning the wheel',wager:'Betting round',reveal:'Get ready',play:'Answer on your phones',clue:'Clue time',discuss:'Talk it out',vote:'Voting time',pitch:'Pitch time',auction:'Bidding war',draft:'Fantasy draft',physicalSetup:'Get in position',physical:'Playing live',physicalConfirm:'Checking the score',physicalDispute:'Score check',result:'Round results',finished:'Final standings',comeback:'Comeback chance',paused:'Paused',mixer:s.deck==='date'?'Date Night':'Your turn to share',mixerReveal:s.deck==='date'?'Date Night':'Answers are in',dateCheck:'Date Night'};
+ if(s.game==='finale'&&s.finale){const m={finaleWrite:'Writing prompts',finalePick:'Picking the best prompt',finalePlay:'Playing the winning prompt',finaleVote:'Voting time',result:'One More Round results'};if(m[s.phase])return m[s.phase];}
  if(s.phase==='play'&&s.game==='draw')return 'Drawing on phones';
  if(s.phase==='play'&&s.game==='number')return 'Guess on your phones';
  if(s.phase==='vote'&&s.game==='imposter')return 'Who is the imposter? Vote now';
@@ -262,11 +263,26 @@ function mixer(s){
  return `<section class="prompt-wrap"><p class="eyebrow">${esc(s.mixerKind||'')}</p><p class="prompt">${esc(s.prompt||'')}</p>${opts.length?`<ul class="cards">${opts.map(o=>`<li>${esc(o)}</li>`).join('')}</ul>`:''}${progress(s.responseCount,total,'responded')}</section>`;
 }
 
+// One More Round (the final round). Authors stay hidden until results.
+const FINALE_MODE={answer:'✍️ Answer it',draw:'🎨 Draw it'};
+function finaleEntry(e){return isDrawing(e.value)?`<img class="drawing" src="${esc(e.value)}" alt="Drawing">`:`<p class="answer">${esc(e.value)}</p>`;}
+function finaleBanner(s){return `<div class="banner" style="${gameVars('finale')}"><img class="art" src="/art/finale.svg" alt="" onerror="this.onerror=null;this.src='/brand/logo-mark.svg'"><div><p class="banner-name">Oops, I guess one more round?</p><p class="banner-how">Everyone writes a prompt. The room plays the best one.</p></div>${timer(s)}</div>`;}
+export function finaleScene(s){
+ const f=s.finale||{},two=(f.played||[]).length>1;
+ if(s.phase==='finaleWrite')return `${finaleBanner(s)}<section class="center"><h1 class="big">${Number(f.promptsIn)||0} of ${Number(f.total)||0} prompts in</h1><p class="lead">Write one short prompt on your phone. Pick ✍️ Answer it or 🎨 Draw it.</p>${progress(f.promptsIn,f.total,'prompts in')}</section>`;
+ if(s.phase==='finalePick')return `${finaleBanner(s)}<section class="center"><h1 class="big">Picking the best prompt</h1><p class="lead">This or that? Tap the funnier prompt on your phone.</p>${progress(f.picked,f.total,'players done')}</section>`;
+ if(s.phase==='finalePlay')return `${finaleBanner(s)}${(f.played||[]).map((x,i)=>`<section class="prompt-wrap${two?' small':''}"><p class="eyebrow">${two?`Group ${i+1} · `:''}${FINALE_MODE[x.mode]||''}</p><p class="prompt">${esc(x.text)}</p></section>`).join('')}<section class="center tight">${progress(f.sent,f.playing,'sent')}</section>`;
+ if(s.phase==='finaleVote'){const list=f.entries||[];return `${finaleBanner(s)}${(f.played||[]).map((x,i)=>`<section class="prompt-wrap small"><p class="prompt">${esc(x.text)}</p></section><ul class="entries${list.length>4?' many':''}">${list.filter(e=>e.group===i).map((e,n)=>`<li><p class="entry-head"><span>Entry ${n+1}</span></p>${finaleEntry(e)}</li>`).join('')}</ul>`).join('')}<p class="line center-text">Vote on your phones · ${Number(f.voted)||0} of ${Number(f.total)||0} done</p>`;}
+ const R=f.reveal||{entries:[],played:[],winners:[],best:[]},award=(id,why)=>((R.awards||{})[id]||[]).filter(a=>a.why===why).reduce((t,a)=>t+a.n,0);
+ const n=(R.winners||[]).length,head=n?(f.chips?`${names(s,R.winners)} ${n>1?'split':'takes'} the main pot of ${chips(R.pot)}!`:`${names(s,R.winners)} ${n>1?'tie for the win':'wins'}!`):(f.chips?'Nobody took the main pot':'No votes, no winner');
+ return `<section class="result"><div class="result-main"><p class="eyebrow result-game" style="${gameVars('finale')}">One More Round</p><h1 class="headline">${head}</h1>${(R.played||[]).map(x=>`<p class="lead">“${esc(x.text)}” · ${x.writer?`⭐ Best Prompt: <strong>${nameOf(s,x.writer)}</strong>${f.chips?' +20':''}`:'Built-in prompt'}</p>`).join('')}${R.toilet?`<p class="lead">🚽 Toilet Bowl: dishonourable mention · <strong>${nameOf(s,R.toilet)}</strong>${f.chips?' +10':''}</p>`:''}<ul class="entries${R.entries.length>4?' many':''}">${R.entries.map(e=>`<li class="${R.winners.includes(e.player)?'win':''}"><p class="entry-head"><span>${nameOf(s,e.player)}</span><em>${e.votes} vote${e.votes===1?'':'s'}${f.chips&&award(e.player,'main')?` · +${award(e.player,'main')}`:''}</em></p>${finaleEntry(e)}</li>`).join('')}</ul></div>${f.chips?scoreboard(s,{highlight:R.winners}):''}</section>`;
+}
+
 const SCENES={lobby,ban,banResult:ban,entry,stake,spin,wager,reveal,play,clue,discuss,vote,pitch,draft,auction,physicalSetup:physical,physical,physicalConfirm:physical,physicalDispute:physical,result,finished,comeback,paused,mixer,mixerReveal:mixer,dateCheck:dateNight};
 
 export function render(s,ctx={}){
  ctx={qr:()=>'',joinUrl:c=>`/?room=${encodeURIComponent(c||'')}`,joinHost:'',...ctx};
- const scene=SCENES[s.phase]||(()=>`${gameBanner(s)}<section class="center"><h1>${esc(statusText(s))}</h1><p class="lead">Follow along on your phones.</p></section>`);
+ const scene=(s.finale&&(String(s.phase).startsWith('finale')||s.phase==='result'))?finaleScene:SCENES[s.phase]||(()=>`${gameBanner(s)}<section class="center"><h1>${esc(statusText(s))}</h1><p class="lead">Follow along on your phones.</p></section>`);
  const theme=themeFor(s);
  const top=`<header class="top"><img class="brand" src="/brand/logo-horizontal.svg" alt="Oops, All In" width="422" height="158"><span class="status">${esc(statusText(s))}</span><span class="meta">${s.phase!=='lobby'&&s.code?`Room <b>${esc(s.code)}</b>`:''}${roundText(s)?` · ${esc(roundText(s))}`:''}</span></header>`;
  return {key:`${s.phase}|${s.round}|${s.game||''}`,theme,html:`${top}<main class="stage phase-${esc(s.phase)}">${scene(s,ctx)}</main>`};
