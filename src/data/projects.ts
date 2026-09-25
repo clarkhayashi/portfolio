@@ -79,7 +79,7 @@ export const projects: Project[] = [
     lane: "Product Design",
     year: "2026",
     proof: "9 minigames · up to 12 players · room-code multiplayer",
-    href: "/work/bad-bets",
+    href: "/work/oops-all-in",
     statusLabel: "Beta · ready for group testing",
     statusType: "building",
     thumb: {

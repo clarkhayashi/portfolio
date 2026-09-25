@@ -29,5 +29,17 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    {
+      "source": "/work/bad-bets",
+      "destination": "/work/oops-all-in",
+      "permanent": true
+    },
+    {
+      "source": "/work/bad-bets/",
+      "destination": "/work/oops-all-in",
+      "permanent": true
+    }
   ]
 }
