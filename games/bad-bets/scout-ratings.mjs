@@ -187,6 +187,8 @@ export const RATINGS = {
     "Anderson Varejao": [45, 55, "Hustle rebounder, flopping reputation"]
   },
   nfl: {
+    "Walter Jones": [55, 96, "Shutdown left tackle"],
+    "Jason Kelce": [52, 92, "Smart, nimble center"],
     "Patrick Mahomes": [97, 85, "Generational arm talent, three rings"],
     "Josh Allen": [93, 80, "Dual-threat cannon arm, MVP"],
     "Lamar Jackson": [92, 75, "Electric runner, two-time MVP"],
@@ -595,6 +597,7 @@ export const RATINGS = {
     "Rowdy Tellez": [58, 40, "Left-handed platoon power bat"],
     "Pedro Alvarez": [65, 40, "Boom-or-bust power third baseman"],
     "Steve Pearce": [55, 50, "World Series MVP journeyman bat"],
-    "Wily Mo Pena": [58, 40, "Raw power, contact struggles"]
+    "Wily Mo Pena": [58, 40, "Raw power, contact struggles"],
+    "Edwin Diaz": [88, 62, "Elite strikeout closer"]
   }
 };

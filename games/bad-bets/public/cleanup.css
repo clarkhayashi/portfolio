@@ -321,3 +321,18 @@ span.restaurant-mark.theme-mark img,.theme-chip img{filter:drop-shadow(0 1px 2px
 .pack-setting.compact .pack-options{display:flex;flex-wrap:wrap;gap:8px}
 .pack-setting.compact .pack-chip{flex-direction:row;align-items:center;justify-content:center;text-align:center;min-height:42px;padding:8px 16px;border-radius:999px;font-size:15px;line-height:1.2}
 .quick-sports input,.grade-call input{accent-color:#087f98}
+
+/* Quick 1v1 lobby */
+.quick-vs{display:flex;align-items:center;gap:10px;margin:22px 0 6px}
+.quick-seat{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:14px 8px;border:3px solid #1c2433;border-radius:16px;background:#fff;box-shadow:3px 3px 0 #1c2433;min-width:0;text-align:center}
+.quick-seat b{font-size:16px;color:#1c2433;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}.quick-seat small{font-size:12px;color:#6b7280}
+.quick-seat.empty{border-style:dashed;box-shadow:none;background:transparent}.quick-seat.empty b{font-size:14px;font-weight:600;color:#4b5563}
+.quick-seat .avatar{width:38px;height:38px;font-size:16px;border:2.5px solid #1c2433;background:#CBE8EB;color:#1c2433;font-weight:800}
+.quick-vs-label{font-weight:850;font-size:18px;color:#E98D7D}
+.quick-label{margin:20px 0 8px;font-size:13px;font-weight:800;color:#1c2433}
+.quick-pills{display:grid;grid-template-columns:1fr 1fr;gap:8px}.quick-pills.three{grid-template-columns:repeat(3,1fr)}
+.quick-pill{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:64px;padding:10px 6px;border:2px solid #cfdadf;border-radius:14px;background:#fff;color:#1c2433;text-align:center}
+.quick-pill b{font-size:16px}.quick-pill span{font-size:12px;font-weight:500;color:#586e7b}
+.quick-pill.on{border-color:#087f98;background:#e8f5f8;box-shadow:inset 0 0 0 1px #087f98}
+.quick-pills.three+button.full,.quick-pills.three+p{margin-top:22px}
+.quick-seat{min-height:118px;justify-content:center}.quick-vs{align-items:stretch}.quick-vs-label{align-self:center}

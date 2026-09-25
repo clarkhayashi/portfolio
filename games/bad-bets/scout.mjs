@@ -33,10 +33,11 @@ function table(theme){
 }
 export function percentile(theme,score){const s=table(theme);let lo=0;while(lo<s.length&&s[lo]<=score)lo++;return Math.round(100*lo/s.length);}
 
-export function scout(theme,names){
+export function scout(theme,raw){
+ const parts=raw.map(x=>{const i=String(x).indexOf(': ');return i>0?[x.slice(0,i),x.slice(i+2)]:[null,x];}),names=parts.map(p=>p[1]);
  const t=DRAFT_THEMES[theme],score=teamScore(theme,names),pct=percentile(theme,score);
  const grade=GRADES.find(([,min])=>pct>=min)[0];
- const players=names.map((n,i)=>{const r=rating(theme,n);return {name:n,slot:t.slots[i]?.id.toUpperCase()||'',ovr:Math.round(Math.max(r.off,r.def)*0.65+Math.min(r.off,r.def)*0.35),note:r.note};});
+ const players=names.map((n,i)=>{const r=rating(theme,n);return {name:n,slot:(parts[i][0]||t.slots[i]?.id||'').toUpperCase(),ovr:Math.round(Math.max(r.off,r.def)*0.65+Math.min(r.off,r.def)*0.35),note:r.note};});
  return {score,pct,top:Math.max(1,100-pct),grade,band:bandOf(grade),report:report(theme,names),players};
 }
 

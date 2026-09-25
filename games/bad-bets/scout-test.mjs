@@ -20,3 +20,18 @@ test('quick 1v1 draft ends with a scout-grade winner, not a forced tie',()=>{
  const [s1,s2]=[host.id,guest.id].map(id=>r.result.scout[id].score);
  if(s1!==s2){assert.equal(r.result.winners.length,1);assert.equal(r.result.tie,false);}
 });
+test('quick 1v1 auction ends with scout grades, and the room holds only two',()=>{
+ const g=new Game();const h=g.create('Clark','minigames','nfl','auction');const r=g.rooms.get(h.code);g.join(h.code,'Maya');
+ assert.throws(()=>g.join(h.code,'Kai'),/full/);
+ assert.equal(r.selectedGame,'auction');assert.equal(r.themes.auction,'nfl');
+ const host=r.players.find(p=>p.token===h.token);
+ g.action(r,host,{type:'quickSetup',sport:'mlb'});assert.equal(r.themes.auction,'mlb');assert.equal(r.themes.draft,'mlb');
+ g.action(r,host,{type:'start'});
+ for(let i=0;i<40&&r.phase!=='auction';i++)g.advance(r);
+ assert.equal(r.phase,'auction');
+ for(let i=0;i<400&&r.phase==='auction';i++){const a=r.auction;const who=r.players.find(p=>r.active.includes(p.id)&&(()=>{try{g.action(r,p,{type:'auctionPass',revision:a.revision});return true;}catch{return false;}})());if(!who)g.advance(r);}
+ assert.equal(r.phase,'pitch');
+ g.openVote(r);
+ assert.equal(r.phase,'result');
+ for(const id of r.active){assert.equal(r.result.scout[id].players.length,4);assert.ok(/^[A-F]/.test(r.result.scout[id].grade));}
+});
