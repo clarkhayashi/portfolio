@@ -12,7 +12,7 @@ export function physicalAction(g,r,player,a){
  if(a.revision!==p.revision)throw Error('The score changed. Check the current score and try again.');
  if(a.type==='physicalCategory'){
   if(!host||r.phase!=='physicalSetup'||r.game!=='rhythm')throw Error('The host chooses the category before play.');
-  p.category=a.random?categories[randomInt(categories.length)]:String(a.value||'').trim().slice(0,70);if(!p.category)throw Error('Choose or write a category.');r.prompt=p.category;
+  p.category=a.random?(g.drawContent?g.drawContent(r,'rhythm'):categories[randomInt(categories.length)]):String(a.value||'').trim().slice(0,70);if(!p.category)throw Error('Choose or write a category.');r.prompt=p.category;
  }else if(a.type==='physicalStart'){
   if(!host||['physicalConfirm','physicalDispute'].includes(r.phase))throw Error('Only the host can start the beat.');
   if(r.game==='rhythm'&&!p.category)throw Error('Choose a category first.');

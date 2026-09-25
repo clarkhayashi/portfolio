@@ -169,3 +169,41 @@ label{font-size:14px;font-weight:500}
 @keyframes fun-police-pop{0%{transform:translate(-50%,12px) rotate(-2deg)}65%{transform:translate(-50%,-3px) rotate(1deg)}100%{transform:translateX(-50%)}}
 @media(prefers-reduced-motion:reduce){#toast.fun-police{animation:none}}
 #potform{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:20px 0}#potform input{max-width:140px}.stage .row{flex-wrap:wrap}
+
+/* Tile art: drawn SVG from /art when present, line icon otherwise */
+.art-slot{display:flex;align-items:center;justify-content:center;width:100%;height:100%;min-height:0;overflow:hidden}
+.art-slot .tile-img{display:none;height:70%;max-height:70%;width:86%;min-width:0;object-fit:contain;transition:transform .22s cubic-bezier(.2,.8,.2,1)}
+.art-slot.has-art .tile-img{display:block}
+.art-slot.has-art .tile-fallback{display:none}
+.tile-art .art-slot{position:absolute;inset:0}
+.game-tile{transition:transform .22s cubic-bezier(.2,.8,.2,1)}
+.game-tile:not(:disabled):hover,.game-tile:not(:disabled):focus-visible{transform:translateY(-3px)}
+.game-tile:not(:disabled):hover .tile-img,.game-tile:not(:disabled):focus-visible .tile-img{transform:rotate(-3deg) scale(1.03)}
+.preview-demo .art-slot,.single-pick .art-slot{width:72px;height:72px}
+.preview-demo .tile-img,.single-pick .tile-img{height:100%}
+@media(prefers-reduced-motion:reduce){.game-tile,.art-slot .tile-img{transition:none}.game-tile:not(:disabled):hover,.game-tile:not(:disabled):focus-visible{transform:none}.game-tile:not(:disabled):hover .tile-img,.game-tile:not(:disabled):focus-visible .tile-img{transform:none}}
+
+/* Question packs and player-written prompts */
+.pack-setting,.custom-setting{border:0;padding:0;margin:22px 0 0;min-width:0}
+.pack-setting legend,.custom-setting legend{font-weight:700;font-size:16px;padding:0;margin-bottom:4px}
+.pack-options{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;margin-top:8px}
+.pack-chip{display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:left;padding:10px 12px;border-radius:12px;border:1.5px solid #cfdadf;background:#fff;color:#253345;min-width:0}
+.pack-chip span{font-size:13px;font-weight:400;color:#586e7b;overflow-wrap:anywhere}
+.pack-chip small{font-size:12px;color:#6b7f8a}
+.pack-chip[aria-pressed=true]{border-color:#087f98;background:#e8f5f8;box-shadow:inset 0 0 0 1px #087f98}
+.pack-chip:disabled{opacity:1;cursor:default}
+.pack-chip:disabled[aria-pressed=false]{opacity:.55}
+.custom-form{display:grid;gap:6px;margin-top:8px;max-width:520px}
+.custom-form label{font-size:13px;font-weight:600}
+.custom-form select,.custom-form input{width:100%;min-width:0}
+.custom-form [hidden]{display:none}
+.custom-mine{list-style:none;padding:0;margin:8px 0;display:grid;gap:6px;max-width:520px}
+.custom-mine li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 10px;border:1px solid #dfe6ea;border-radius:10px}
+.custom-mine li span{overflow-wrap:anywhere;min-width:0}
+.custom-mine small{color:#6b7f8a}
+
+/* Lobby invite: QR for in-person joins, share sheet for remote. */
+.invite-panel{display:flex;flex-wrap:wrap;gap:18px;align-items:center}
+.invite-qr{display:flex;flex-direction:column;align-items:center;gap:4px;background:#fff;padding:8px;border-radius:14px;border:1px solid var(--border)}
+.invite-qr svg{width:132px;height:132px;display:block}
+.invite-qr span{font-size:12px;font-weight:700;color:var(--ink)}
