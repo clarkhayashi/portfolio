@@ -336,3 +336,15 @@ span.restaurant-mark.theme-mark img,.theme-chip img{filter:drop-shadow(0 1px 2px
 .quick-pill.on{border-color:#087f98;background:#e8f5f8;box-shadow:inset 0 0 0 1px #087f98}
 .quick-pills.three+button.full,.quick-pills.three+p{margin-top:22px}
 .quick-seat{min-height:118px;justify-content:center}.quick-vs{align-items:stretch}.quick-vs-label{align-self:center}
+
+/* Home: two buttons + play-again chip; Start layer; More options */
+.simple-home .again-chip{width:auto;min-height:0;margin-top:4px;padding:10px 18px;border-radius:999px;border:2px solid #1c2433;background:#fff;color:#1c2433;font-size:15px;font-weight:700;text-align:center;letter-spacing:0}
+.simple-home .again-chip::after{content:''}
+.one-phone-note{margin:12px 2px 0}
+.more-options{margin:18px 0 0;border-top:1px solid var(--border);padding-top:6px;color:#1c2433;font-size:15px}
+.more-options>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:12px 0;font-weight:800;color:#1c2433;font-size:16px}
+.more-options>summary::-webkit-details-marker{display:none}
+.more-options>summary::after{content:'+';font-size:22px;font-weight:500;margin-left:12px}
+.more-options[open]>summary::after{content:'−'}
+.more-options>summary span{margin-left:auto;font-weight:500;font-size:13px;color:var(--muted)}
+.more-options .opt-head{margin:20px 0 6px;font-size:17px}
