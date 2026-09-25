@@ -40,9 +40,9 @@ body[data-game="auction"]{--accent:#985515;--paper:#fff7e4;background:#fff7e4}.a
 @media(prefers-reduced-motion:reduce){.preview-content,.preview-demo svg{animation:none}}
 
 /* Date Night: Blush paper at level 1, dimming to Candlelight by level 3. */
-body[data-game=mixer][data-date-level]{--dn-bg:#FBF1EC;--dn-card:#FFF8F5;--dn-ink:#3A2530;--dn-muted:#7A5D66;--dn-line:#EBD6D0;--dn-accent:#B8465E;--dn-on-accent:#fff;--dn-ghost:#C99A92;--ink:var(--dn-ink);--muted:var(--dn-muted);--border:var(--dn-line);--paper:var(--dn-card);background:var(--dn-bg);color:var(--dn-ink);transition:background-color 1s ease,color 1s ease}
-body[data-game=mixer][data-date-level="2"]{--dn-bg:#6E3F52;--dn-card:#7A4A5E;--dn-ink:#FBEFEA;--dn-muted:#E6C9C6;--dn-line:#93667A;--dn-accent:#F0A28F;--dn-on-accent:#3A1712;--dn-ghost:#C497A5}
-body[data-game=mixer][data-date-level="3"]{--dn-bg:#221A26;--dn-card:#2E2433;--dn-ink:#F7EEE6;--dn-muted:#C9B8B0;--dn-line:#4A3C50;--dn-accent:#E98D7D;--dn-on-accent:#3A1712;--dn-ghost:#7A6882}
+body[data-game=mixer][data-date-level]{--dn-bg:#FFE6DF;--dn-next:#F7A8A4;--dn-card:#FFF4F0;--dn-ink:#4D1F1A;--dn-muted:#85524A;--dn-line:#F3CFC6;--dn-accent:#E0404B;--dn-on-accent:#fff;--dn-ghost:#D9998F;--ink:var(--dn-ink);--muted:var(--dn-muted);--border:var(--dn-line);--paper:var(--dn-card);background:var(--dn-bg);color:var(--dn-ink);transition:background-color 1s ease,color 1s ease}
+body[data-game=mixer][data-date-level="2"]{--dn-bg:#E23B4D;--dn-next:#9E1F3A;--dn-card:#EC5565;--dn-ink:#fff;--dn-muted:#FFE3E5;--dn-line:#F07A86;--dn-accent:#FFD7DA;--dn-on-accent:#7A0E1C;--dn-ghost:#FFF}
+body[data-game=mixer][data-date-level="3"]{--dn-bg:#140A1E;--dn-next:#07030B;--dn-card:#221430;--dn-ink:#FDE8F1;--dn-muted:#CDB6CF;--dn-line:#3A2748;--dn-accent:#FF4F8B;--dn-on-accent:#1A0612;--dn-ghost:#9A78AE}
 body[data-game=mixer][data-date-level] :is(.brand,h1,h2,h3,strong,summary){color:var(--dn-ink)}
 body[data-game=mixer][data-date-level] :is(p,.micro,.eyebrow,#connection,li){color:var(--dn-muted)}
 body[data-game=mixer][data-date-level] header{border-color:var(--dn-line)}
@@ -54,3 +54,8 @@ body[data-game=mixer][data-date-level] button.ghost{background:transparent;color
 body[data-game=mixer][data-date-level] :is(.card,details,.panel){background:transparent;border-color:transparent;box-shadow:none;color:var(--dn-ink)}
 body[data-game=mixer][data-date-level] .note{background:var(--dn-card);border-color:var(--dn-line);color:var(--dn-ink)}
 @media (prefers-reduced-motion:reduce){body[data-game=mixer][data-date-level],body[data-game=mixer][data-date-level] :is(button){transition:none}}
+
+/* Date Night deepens card by card: --dn-depth (0 to 1) is set from round / total in app.js. */
+body[data-game=mixer][data-date-level]{background:color-mix(in oklab,var(--dn-bg),var(--dn-next) calc(var(--dn-depth,0) * 45%))}
+body[data-game=mixer][data-date-level] button.ghost{border-width:2px}
+body[data-game=mixer][data-date-level] .brand-word{color:var(--dn-ink);transition:color 1s ease}
