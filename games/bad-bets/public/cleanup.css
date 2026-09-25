@@ -298,3 +298,25 @@ span.restaurant-mark.theme-mark img,.theme-chip img{filter:drop-shadow(0 1px 2px
 .pot-screen .stage-heading{align-items:center;margin-bottom:4px}.pot-screen .stage-heading h2{margin:0}.pot-rule{margin:6px 0 10px}.pot-status{font-size:13px;margin:0 0 14px}.pot-mine{margin:0 0 10px;color:#1c2433}.pot-main{display:grid;grid-template-columns:2fr 1fr;gap:10px}.pot-main button{min-height:56px}.pot-label{font-size:12px;font-weight:800;letter-spacing:.3px;margin:18px 0 8px;color:#1c2433}.pot-raises{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.pot-raises button{min-height:50px;padding:10px 6px;font-variant-numeric:tabular-nums}.pot-custom{margin:14px 0 0}.pot-custom label{margin:0 0 6px;font-weight:600;color:var(--muted)}.pot-custom>div{display:grid;grid-template-columns:1fr auto;gap:10px}.pot-custom input{max-width:none}.pot-allin,.pot-limit{margin-top:16px;width:100%;min-height:56px}#potform.pot-custom{display:block;margin:14px 0 0}
 @media(max-width:560px){.pot-raises{grid-template-columns:repeat(2,1fr)}.pot-screen .micro{margin-top:18px}}
 .pot-screen .stage-heading h2{font-size:clamp(26px,7vw,40px)!important;letter-spacing:-1px}.pot-custom input{font-size:18px!important;min-height:50px;padding:12px 14px}
+
+/* Quick 1v1 + Scout grade */
+.simple-home button.quick-1v1{font-size:22px;min-height:0;padding:18px 32px;border:3px solid #1c2433;background:#fff;color:#1c2433;box-shadow:4px 4px 0 #1c2433}
+.simple-home button.quick-1v1 span{display:block;font-size:13px;font-weight:500;letter-spacing:0;color:#4b5563;margin-top:4px}
+.simple-home button.quick-1v1::after{content:''}
+.quick-sports{border:0;padding:0;margin:14px 0 0}.quick-sports legend{font-size:12px;font-weight:700;margin-bottom:6px}.quick-sports label{display:flex;gap:10px;align-items:center;font-size:15px;font-weight:600;margin:8px 0}.quick-sports input{width:auto;min-height:0}
+.grade-call{margin-top:22px;padding:16px;border:3px solid #1c2433;border-radius:16px;background:#fff;box-shadow:4px 4px 0 #1c2433}.grade-call p{margin:0 0 10px;color:#1c2433}.grade-call .row{display:grid;grid-template-columns:1fr 1fr 1.4fr;gap:8px}
+.scout-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:18px 0}
+.scout-card{position:relative;background:#fff;border:3px solid #1c2433;border-radius:18px;padding:16px 14px 12px;box-shadow:4px 4px 0 #1c2433}.scout-card.win{background:#FFF7E3}
+.scout-crown{position:absolute;top:-14px;left:50%;transform:translateX(-50%) rotate(-3deg);background:#F4CD72;border:2.5px solid #1c2433;border-radius:10px;font-weight:800;font-size:12px;padding:1px 10px;color:#1c2433}
+.scout-head{display:flex;justify-content:space-between;align-items:baseline;color:#1c2433;font-size:17px}.scout-head small{color:#6b7280;font-size:12px}
+.scout-grade{display:flex;align-items:baseline;gap:8px;margin:6px 0 2px;color:#1c2433}.scout-grade span{font-size:46px;font-weight:850;line-height:1;letter-spacing:-1px}.scout-grade small{font-size:12px;color:#4b5563;white-space:nowrap}
+.scout-report{font-size:13px;color:#374151;margin:4px 0 8px}
+.scout-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-top:1.5px dashed #d8d3c8;font-size:14px;color:#1c2433}.scout-row .pos{font-weight:800;font-size:11px;min-width:30px;text-align:center;border:2px solid #1c2433;border-radius:6px;background:#F8F7F3;padding:1px 2px}.scout-row .pl{flex:1;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scout-row .ovr{font-weight:800;color:#087F98}
+.scout-call{margin:8px 0 0;font-size:13px;font-weight:700;color:#B8323F}.scout-call.hit{color:#087F98}
+
+/* Lobby: icon buttons for QR and TV display; pack pills centered */
+.icon-btn{display:inline-grid;place-items:center;width:46px;height:46px;min-height:46px;padding:0;border-radius:12px;border:1.5px solid #cfdadf;background:#fff;color:#1c2433;flex:none}
+.icon-btn.on{border-color:#087f98;background:#e8f5f8;color:#087f98}
+.invite-code-row{display:flex;align-items:center;flex-wrap:wrap;gap:10px}
+.pack-setting.compact .pack-options{display:flex;flex-wrap:wrap;gap:8px}
+.pack-setting.compact .pack-chip{flex-direction:row;align-items:center;justify-content:center;text-align:center;min-height:42px;padding:8px 16px;border-radius:999px;font-size:15px;line-height:1.2}

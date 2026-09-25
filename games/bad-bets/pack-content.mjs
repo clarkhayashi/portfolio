@@ -208,7 +208,7 @@ export const CORE_EXTRA = {
 // faker items are [category, word]; number items are [question, answer, source].
 export const PACKS = {
   local: {
-    name: "Hawaii and local",
+    name: "Hawaii",
     description: "Hawaii food, places, and everyday island life. Local style, but anyone can play.",
     brain: [
       "The best side on a plate lunch",

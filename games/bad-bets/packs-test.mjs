@@ -37,7 +37,7 @@ test('custom prompts: limits, validation, removal by author only',()=>{const {g,
  add(p[0],'faker','Mochi','Food');assert.equal(r.custom.length,2);assert.throws(()=>add(p[0],'draw','A cat surfing'),new RegExp(String(CUSTOM_LIMIT)));
  add(p[1],'draw','A cat surfing');assert.throws(()=>g.action(r,p[1],{type:'removeCustom',index:1}),/gone/);g.action(r,p[0],{type:'removeCustom',index:0});assert.deepEqual(r.custom.map(c=>c.text),['Mochi','A cat surfing']);
  r.phase='play';assert.throws(()=>add(p[2],'brain','Too late?'));});
-test('custom prompts join the right bags and show up in draws',()=>{const {g,r,p}=lobby();g.action(r,p[1],{type:'addCustom',kind:'brain',value:'Best plate lunch?'});g.action(r,p[2],{type:'addCustom',kind:'faker',value:'Spam musubi',category:'Snacks'});g.action(r,p[2],{type:'addCustom',kind:'rhythm',value:'Oahu beaches'});
+test('custom prompts join the right bags and show up in draws',()=>{const {g,r,p}=lobby();r.packs=[];g.action(r,p[1],{type:'addCustom',kind:'brain',value:'Best plate lunch?'});g.action(r,p[2],{type:'addCustom',kind:'faker',value:'Spam musubi',category:'Snacks'});g.action(r,p[2],{type:'addCustom',kind:'rhythm',value:'Oahu beaches'});
  const n=pool('brain',[],r.custom).length;assert.ok(Array.from({length:n},()=>draw(r,'brain')).includes('Best plate lunch?'));
  const m=pool('faker',[],r.custom).length;assert.ok(Array.from({length:m},()=>draw(r,'faker')).some(x=>x[0]==='Spam musubi'&&x[1]==='Snacks'));
  const k=pool('rhythm',[],r.custom).length;assert.ok(Array.from({length:k},()=>draw(r,'rhythm')).includes('Oahu beaches'));
