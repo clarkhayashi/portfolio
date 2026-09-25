@@ -32,7 +32,7 @@ export function rateTarget(r){
 
 // Local server (no Redis): in-memory anonymous counters.
 const local=new Map();
-export function recordLocal(id,vote){const c=local.get(id)||{fire:0,meh:0};c[vote]++;local.set(id,c);}
+export function recordLocal(id,vote){const c=local.get(id)||{fire:0,meh:0};c[vote]=(c[vote]||0)+1;local.set(id,c);}
 export function localCounts(){return Object.fromEntries(local);}
 export function resetLocalCounts(){local.clear();}
 // Redis hash fields look like "<id>:fire". Anything malformed is dropped.

@@ -1,4 +1,5 @@
 import {restaurantHeading,foodLabel,lotHeading,themeBadge,buildWord} from './restaurants.js';
+import {loadCardArt,cardLabel,lotArt} from './card-art.js';
 import {gameById,MAX_PLAYERS} from './catalog.js';
 
 // ---------- pure rendering (importable in node for tests) ----------
@@ -68,7 +69,7 @@ function entryContent(s,id,answers){
  else if(a!==undefined&&a!==null&&a!==''&&!(s.game==='draw'))out+=`<p class="answer">${esc(a)}</p>`;
  else if(s.game==='draw')out+=`<p class="answer muted">No drawing</p>`;
  const picks=(s.result?.picks||s.picks||{})[id]||[];
- if(picks.length)out+=`<ul class="meal">${picks.map(item=>`<li>${foodLabel(item)}</li>`).join('')}</ul>`;
+ if(picks.length)out+=`<ul class="meal">${picks.map((item,i)=>`<li>${cardLabel(s,item,i)}</li>`).join('')}</ul>`;
  return out||'<p class="answer muted">No answer</p>';
 }
 
@@ -144,7 +145,7 @@ function promptBlock(s,{lead='',foot=''}={}){
 
 function reveal(s){
  if(PHYSICAL.includes(s.game))return hero(s,{eyebrow:'Up next · in person',sub:`<p class="line">${esc(s.prompt||'')} ${timer(s)}</p>${players(s)}`});
- if(s.game==='auction'||s.game==='draft')return `${gameBanner(s,timer(s))}${promptBlock(s,{lead:'Get ready. It starts on your phones.'})}`;
+ if(s.game==='auction'||s.game==='draft')return `${gameBanner(s,timer(s))}${s.veto?.done?`<p class="vetoed" role="status"><span>Vetoed!</span> ${esc(s.veto.from)} is out.</p>`:''}${promptBlock(s,{lead:'Get ready. It starts on your phones.'})}`;
  if(s.game==='imposter')return `${gameBanner(s,timer(s))}<section class="prompt-wrap">${s.category?`<p class="eyebrow">Category</p><p class="prompt">${esc(s.category)}</p>`:''}<p class="lead">Check your phone. Everyone sees the secret word except the imposter.</p></section>`;
  return `${gameBanner(s,timer(s))}${promptBlock(s,{lead:'Get ready. Answers open in a moment.'})}`;
 }
@@ -187,22 +188,22 @@ function vote(s){
 
 function pitch(s){
  const ids=s.active||[];
- return `${gameBanner(s,timer(s))}<section class="center tight"><h1>Pitch your ${buildWord(s)}</h1><p class="lead">Tell everyone why it’s great. Judges vote next.</p></section><ul class="entries${ids.length>4?' many':''}">${ids.map(id=>`<li><p class="entry-head"><span>${nameOf(s,id)}</span></p><ul class="meal">${((s.picks||{})[id]||[]).map(item=>`<li>${foodLabel(item)}</li>`).join('')||'<li class="muted">No picks</li>'}</ul></li>`).join('')}</ul>`;
+ return `${gameBanner(s,timer(s))}<section class="center tight"><h1>Pitch your ${buildWord(s)}</h1><p class="lead">Tell everyone why it’s great. Judges vote next.</p></section><ul class="entries${ids.length>4?' many':''}">${ids.map(id=>`<li><p class="entry-head"><span>${nameOf(s,id)}</span></p><ul class="meal">${((s.picks||{})[id]||[]).map((item,i)=>`<li>${cardLabel(s,item,i)}</li>`).join('')||'<li class="muted">No picks</li>'}</ul></li>`).join('')}</ul>`;
 }
 
 function draft(s){
  const ids=s.active||[],cards=s.cards||[];
- return `${gameBanner(s,timer(s))}<section class="center tight"><p class="turn">${s.draftPlayer?`<strong>${nameOf(s,s.draftPlayer)}</strong> is picking`:'Drafting…'}</p>${cards.length?`<ul class="cards">${cards.map(c=>`<li>${foodLabel(c)}</li>`).join('')}</ul>`:''}</section>
- <ul class="entries${ids.length>4?' many':''}">${ids.map(id=>`<li class="${id===s.draftPlayer?'now':''}"><p class="entry-head"><span>${nameOf(s,id)}</span></p><ul class="meal">${((s.picks||{})[id]||[]).map(item=>`<li>${foodLabel(item)}</li>`).join('')||'<li class="muted">Nothing yet</li>'}</ul></li>`).join('')}</ul>`;
+ return `${gameBanner(s,timer(s))}<section class="center tight"><p class="turn">${s.draftPlayer?`<strong>${nameOf(s,s.draftPlayer)}</strong> is picking`:'Drafting…'}</p>${cards.length?`<ul class="cards">${cards.map(c=>`<li>${cardLabel(s,c,s.draftStep)}</li>`).join('')}</ul>`:''}</section>
+ <ul class="entries${ids.length>4?' many':''}">${ids.map(id=>`<li class="${id===s.draftPlayer?'now':''}"><p class="entry-head"><span>${nameOf(s,id)}</span></p><ul class="meal">${((s.picks||{})[id]||[]).map((item,i)=>`<li>${cardLabel(s,item,i)}</li>`).join('')||'<li class="muted">Nothing yet</li>'}</ul></li>`).join('')}</ul>`;
 }
 
 function auction(s){
  const a=s.auction||{},ids=s.active||[];
  let head='';
- if((a.pending||[]).length)head=`<p class="turn"><strong>${nameOf(s,a.pending[0].player)}</strong> is choosing from</p>${lotHeading(a.pending[0].restaurant,a)}`;
- else if(a.restaurant)head=`<p class="eyebrow">Up for bids</p>${lotHeading(a.restaurant,a)}<p class="turn">${a.leader?`Top bid <strong>$${Number(a.bid)||0}</strong> by ${nameOf(s,a.leader)}`:'No bids yet'}</p>${a.turn?`<p class="line"><strong>${nameOf(s,a.turn)}</strong>’s turn to bid or pass</p>`:''}`;
+ if((a.pending||[]).length)head=`<p class="turn"><strong>${nameOf(s,a.pending[0].player)}</strong> is choosing from</p>${lotHeading(a.pending[0].restaurant,a,lotArt(s,a.pending[0].restaurant))}`;
+ else if(a.restaurant)head=`<p class="eyebrow">Up for bids</p>${lotHeading(a.restaurant,a,lotArt(s,a.restaurant))}<p class="turn">${a.leader?`Top bid <strong>$${Number(a.bid)||0}</strong> by ${nameOf(s,a.leader)}`:'No bids yet'}</p>${a.turn?`<p class="line"><strong>${nameOf(s,a.turn)}</strong>’s turn to bid or pass</p>`:''}`;
  return `${gameBanner(s,timer(s))}<section class="center tight auction">${head}</section>
- <ul class="entries${ids.length>4?' many':''}">${ids.map(id=>`<li class="${id===a.turn?'now':''}"><p class="entry-head"><span>${nameOf(s,id)}</span>${a.budgets&&a.budgets[id]!==undefined?`<em>$${Number(a.budgets[id])} left</em>`:''}</p><ul class="meal">${((s.picks||{})[id]||[]).map(item=>`<li>${foodLabel(item)}</li>`).join('')||'<li class="muted">Nothing yet</li>'}</ul></li>`).join('')}</ul>`;
+ <ul class="entries${ids.length>4?' many':''}">${ids.map(id=>`<li class="${id===a.turn?'now':''}"><p class="entry-head"><span>${nameOf(s,id)}</span>${a.budgets&&a.budgets[id]!==undefined?`<em>$${Number(a.budgets[id])} left</em>`:''}</p><ul class="meal">${((s.picks||{})[id]||[]).map((item,i)=>`<li>${cardLabel(s,item,i)}</li>`).join('')||'<li class="muted">Nothing yet</li>'}</ul></li>`).join('')}</ul>`;
 }
 
 function physical(s){
@@ -286,6 +287,7 @@ function boot(){
  // On a local server, point phones at the LAN address instead of localhost.
  if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)){fetch('/info').then(r=>r.json()).then(d=>{if(d.addresses?.[0]){joinOrigin=`http://${d.addresses[0]}${location.port?':'+location.port:''}`;lastHtml='';}}).catch(()=>{});}
  const setConn=(text,bad)=>{conn.textContent=text;conn.hidden=!text;conn.classList.toggle('bad',!!bad);};
+ loadCardArt(()=>{lastHtml='';});
  const applyTheme=t=>{const st=document.documentElement.style;st.setProperty('--bg',t.bg);st.setProperty('--ink',t.ink);st.setProperty('--accent',t.accent);st.setProperty('--muted',t.muted);document.documentElement.dataset.theme=t.name;};
  const tick=()=>{const now=Date.now()+offset;for(const el of root.querySelectorAll('.timer[data-deadline]')){const left=Math.max(0,Math.ceil((Number(el.dataset.deadline)-now)/1000));el.textContent=`${Math.floor(left/60)}:${String(left%60).padStart(2,'0')}`;el.classList.toggle('low',left<=5);}};
  setInterval(tick,250);

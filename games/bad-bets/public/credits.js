@@ -1,0 +1,7 @@
+// Lists every player headshot with its author, license and source, straight from players.json.
+import {headshot,setCardArtData} from './card-art.js';
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const safeUrl=u=>/^https:\/\//.test(String(u||''))?esc(u):'';
+const doc=typeof document==='undefined'?null:document,list=doc?.querySelector('#players'),status=doc?.querySelector('#players-status');
+export function creditsHtml(players){return Object.entries(players).filter(([k,v])=>!k.startsWith('_')&&v&&typeof v==='object').sort(([a],[b])=>a.localeCompare(b)).map(([name,p])=>{const lic=safeUrl(p.licenseUrl),src=safeUrl(p.source);return `<li>${headshot(name)}<div><strong>${esc(name)}</strong><p class="micro">Photo by ${esc(p.author||'Unknown')} · ${lic?`<a href="${lic}" rel="noopener" target="_blank">${esc(p.license||'License')}</a>`:esc(p.license||'')}${src?` · <a href="${src}" rel="noopener" target="_blank">Source</a>`:''}${p.modified?` · ${esc(p.modified)}`:''}</p></div></li>`;}).join('');}
+if(list)fetch('/players/players.json').then(r=>{if(!r.ok)throw Error();return r.json();}).then(players=>{setCardArtData(players,{});list.innerHTML=creditsHtml(players);const n=list.children.length;status.textContent=`${n} ${n===1?'photo':'photos'}.`;}).catch(()=>{status.textContent='The photo list could not load. Try again in a moment.';});

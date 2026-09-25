@@ -1,0 +1,993 @@
+{
+ "_props": [
+  {
+   "file": "plane.svg",
+   "name": "plane",
+   "description": "Airplane, top view"
+  },
+  {
+   "file": "rocket.svg",
+   "name": "rocket",
+   "description": "Rocket ship"
+  },
+  {
+   "file": "suitcase.svg",
+   "name": "suitcase",
+   "description": "Travel suitcase"
+  },
+  {
+   "file": "camera.svg",
+   "name": "camera",
+   "description": "Tourist camera"
+  },
+  {
+   "file": "palm-tree.svg",
+   "name": "palm-tree",
+   "description": "Palm tree on a sand island"
+  },
+  {
+   "file": "mountain.svg",
+   "name": "mountain",
+   "description": "Snowy mountain peak"
+  },
+  {
+   "file": "tent.svg",
+   "name": "tent",
+   "description": "Camping tent"
+  },
+  {
+   "file": "house.svg",
+   "name": "house",
+   "description": "Little house"
+  },
+  {
+   "file": "tree.svg",
+   "name": "tree",
+   "description": "Tree with a little treehouse"
+  },
+  {
+   "file": "castle.svg",
+   "name": "castle",
+   "description": "Castle with towers"
+  },
+  {
+   "file": "bed.svg",
+   "name": "bed",
+   "description": "Cozy bed"
+  },
+  {
+   "file": "boat.svg",
+   "name": "boat",
+   "description": "Sailboat"
+  },
+  {
+   "file": "fish.svg",
+   "name": "fish",
+   "description": "Tropical fish"
+  },
+  {
+   "file": "whale.svg",
+   "name": "whale",
+   "description": "Whale with a spout"
+  },
+  {
+   "file": "wave.svg",
+   "name": "wave",
+   "description": "Ocean wave"
+  },
+  {
+   "file": "hot-air-balloon.svg",
+   "name": "hot-air-balloon",
+   "description": "Hot air balloon"
+  },
+  {
+   "file": "helicopter.svg",
+   "name": "helicopter",
+   "description": "Helicopter"
+  },
+  {
+   "file": "igloo.svg",
+   "name": "igloo",
+   "description": "Igloo"
+  },
+  {
+   "file": "eiffel-tower.svg",
+   "name": "eiffel-tower",
+   "description": "Eiffel Tower"
+  },
+  {
+   "file": "ferris-wheel.svg",
+   "name": "ferris-wheel",
+   "description": "Ferris wheel"
+  },
+  {
+   "file": "moon.svg",
+   "name": "moon",
+   "description": "Crescent moon and stars"
+  },
+  {
+   "file": "lantern.svg",
+   "name": "lantern",
+   "description": "Paper lantern"
+  },
+  {
+   "file": "ghost.svg",
+   "name": "ghost",
+   "description": "Friendly ghost"
+  },
+  {
+   "file": "lifebuoy.svg",
+   "name": "lifebuoy",
+   "description": "Lifeguard ring"
+  },
+  {
+   "file": "car.svg",
+   "name": "car",
+   "description": "Red sports car"
+  },
+  {
+   "file": "bus.svg",
+   "name": "bus",
+   "description": "Bus or van"
+  },
+  {
+   "file": "motorcycle.svg",
+   "name": "motorcycle",
+   "description": "Motorcycle"
+  },
+  {
+   "file": "bike.svg",
+   "name": "bike",
+   "description": "Bicycle"
+  },
+  {
+   "file": "skateboard.svg",
+   "name": "skateboard",
+   "description": "Skateboard"
+  },
+  {
+   "file": "shopping-cart.svg",
+   "name": "shopping-cart",
+   "description": "Shopping cart"
+  },
+  {
+   "file": "horse.svg",
+   "name": "horse",
+   "description": "Horse head"
+  },
+  {
+   "file": "gas-pump.svg",
+   "name": "gas-pump",
+   "description": "Gas pump"
+  },
+  {
+   "file": "steering-wheel.svg",
+   "name": "steering-wheel",
+   "description": "Steering wheel"
+  },
+  {
+   "file": "laptop.svg",
+   "name": "laptop",
+   "description": "Laptop"
+  },
+  {
+   "file": "game-controller.svg",
+   "name": "game-controller",
+   "description": "Game controller"
+  },
+  {
+   "file": "chess-knight.svg",
+   "name": "chess-knight",
+   "description": "Chess knight piece"
+  },
+  {
+   "file": "robot.svg",
+   "name": "robot",
+   "description": "Robot"
+  },
+  {
+   "file": "key.svg",
+   "name": "key",
+   "description": "Golden key"
+  },
+  {
+   "file": "safe.svg",
+   "name": "safe",
+   "description": "Bank safe"
+  },
+  {
+   "file": "money-bag.svg",
+   "name": "money-bag",
+   "description": "Money bag"
+  },
+  {
+   "file": "dice.svg",
+   "name": "dice",
+   "description": "Pair of dice"
+  },
+  {
+   "file": "phone.svg",
+   "name": "phone",
+   "description": "Smartphone"
+  },
+  {
+   "file": "lightbulb.svg",
+   "name": "lightbulb",
+   "description": "Idea lightbulb"
+  },
+  {
+   "file": "disguise.svg",
+   "name": "disguise",
+   "description": "Fake glasses and mustache"
+  },
+  {
+   "file": "mask.svg",
+   "name": "mask",
+   "description": "Robber eye mask"
+  },
+  {
+   "file": "bow-tie.svg",
+   "name": "bow-tie",
+   "description": "Fancy bow tie"
+  },
+  {
+   "file": "dress.svg",
+   "name": "dress",
+   "description": "Gown or dress"
+  },
+  {
+   "file": "shirt.svg",
+   "name": "shirt",
+   "description": "Uniform shirt with name tag"
+  },
+  {
+   "file": "badge.svg",
+   "name": "badge",
+   "description": "Security badge"
+  },
+  {
+   "file": "top-hat.svg",
+   "name": "top-hat",
+   "description": "Magician top hat"
+  },
+  {
+   "file": "pirate-hat.svg",
+   "name": "pirate-hat",
+   "description": "Pirate hat with skull"
+  },
+  {
+   "file": "crown.svg",
+   "name": "crown",
+   "description": "Royal crown"
+  },
+  {
+   "file": "trophy.svg",
+   "name": "trophy",
+   "description": "Trophy cup"
+  },
+  {
+   "file": "gift.svg",
+   "name": "gift",
+   "description": "Wrapped gift"
+  },
+  {
+   "file": "pacifier.svg",
+   "name": "pacifier",
+   "description": "Baby pacifier"
+  },
+  {
+   "file": "whistle.svg",
+   "name": "whistle",
+   "description": "Coach whistle"
+  },
+  {
+   "file": "chef-hat.svg",
+   "name": "chef-hat",
+   "description": "Chef hat"
+  },
+  {
+   "file": "first-aid.svg",
+   "name": "first-aid",
+   "description": "First aid kit"
+  },
+  {
+   "file": "star.svg",
+   "name": "star",
+   "description": "Gold star"
+  },
+  {
+   "file": "heart.svg",
+   "name": "heart",
+   "description": "Heart"
+  },
+  {
+   "file": "rose.svg",
+   "name": "rose",
+   "description": "Red rose"
+  },
+  {
+   "file": "candle.svg",
+   "name": "candle",
+   "description": "Lit candle"
+  },
+  {
+   "file": "zombie-hand.svg",
+   "name": "zombie-hand",
+   "description": "Zombie hand rising from the ground"
+  },
+  {
+   "file": "mystery.svg",
+   "name": "mystery",
+   "description": "Mystery box with a question mark"
+  },
+  {
+   "file": "speech-bubble.svg",
+   "name": "speech-bubble",
+   "description": "Speech bubble with dots"
+  },
+  {
+   "file": "cat.svg",
+   "name": "cat",
+   "description": "Cat face"
+  },
+  {
+   "file": "dog.svg",
+   "name": "dog",
+   "description": "Golden dog face"
+  },
+  {
+   "file": "parrot.svg",
+   "name": "parrot",
+   "description": "Parrot"
+  },
+  {
+   "file": "pigeon.svg",
+   "name": "pigeon",
+   "description": "Pigeon"
+  },
+  {
+   "file": "raccoon.svg",
+   "name": "raccoon",
+   "description": "Raccoon face"
+  },
+  {
+   "file": "koala.svg",
+   "name": "koala",
+   "description": "Sleepy koala face"
+  },
+  {
+   "file": "chicken.svg",
+   "name": "chicken",
+   "description": "Chicken"
+  },
+  {
+   "file": "drumstick.svg",
+   "name": "drumstick",
+   "description": "Chicken drumstick"
+  },
+  {
+   "file": "baseball-bat.svg",
+   "name": "baseball-bat",
+   "description": "Baseball bat"
+  },
+  {
+   "file": "frying-pan.svg",
+   "name": "frying-pan",
+   "description": "Frying pan"
+  },
+  {
+   "file": "shovel.svg",
+   "name": "shovel",
+   "description": "Garden shovel"
+  },
+  {
+   "file": "pool-noodle.svg",
+   "name": "pool-noodle",
+   "description": "Pool noodle"
+  },
+  {
+   "file": "bow-arrow.svg",
+   "name": "bow-arrow",
+   "description": "Bow and arrow"
+  },
+  {
+   "file": "sword.svg",
+   "name": "sword",
+   "description": "Sword"
+  },
+  {
+   "file": "umbrella.svg",
+   "name": "umbrella",
+   "description": "Umbrella"
+  },
+  {
+   "file": "tennis-racket.svg",
+   "name": "tennis-racket",
+   "description": "Tennis racket and ball"
+  },
+  {
+   "file": "fire-extinguisher.svg",
+   "name": "fire-extinguisher",
+   "description": "Fire extinguisher"
+  },
+  {
+   "file": "book.svg",
+   "name": "book",
+   "description": "Open book"
+  },
+  {
+   "file": "flame.svg",
+   "name": "flame",
+   "description": "Fire flame"
+  },
+  {
+   "file": "pizza.svg",
+   "name": "pizza",
+   "description": "Pizza slice"
+  },
+  {
+   "file": "burger.svg",
+   "name": "burger",
+   "description": "Burger"
+  },
+  {
+   "file": "taco.svg",
+   "name": "taco",
+   "description": "Taco"
+  },
+  {
+   "file": "hot-dog.svg",
+   "name": "hot-dog",
+   "description": "Hot dog"
+  },
+  {
+   "file": "fries.svg",
+   "name": "fries",
+   "description": "French fries"
+  },
+  {
+   "file": "ice-cream.svg",
+   "name": "ice-cream",
+   "description": "Ice cream cone"
+  },
+  {
+   "file": "donut.svg",
+   "name": "donut",
+   "description": "Frosted donut"
+  },
+  {
+   "file": "cookie.svg",
+   "name": "cookie",
+   "description": "Chocolate chip cookie"
+  },
+  {
+   "file": "cake.svg",
+   "name": "cake",
+   "description": "Birthday cake"
+  },
+  {
+   "file": "noodle-bowl.svg",
+   "name": "noodle-bowl",
+   "description": "Bowl of noodles"
+  },
+  {
+   "file": "sushi.svg",
+   "name": "sushi",
+   "description": "Sushi nigiri"
+  },
+  {
+   "file": "can.svg",
+   "name": "can",
+   "description": "Canned food"
+  },
+  {
+   "file": "pickle.svg",
+   "name": "pickle",
+   "description": "Pickle"
+  },
+  {
+   "file": "hot-sauce.svg",
+   "name": "hot-sauce",
+   "description": "Hot sauce bottle"
+  },
+  {
+   "file": "carrot.svg",
+   "name": "carrot",
+   "description": "Carrot"
+  },
+  {
+   "file": "apple.svg",
+   "name": "apple",
+   "description": "Apple"
+  },
+  {
+   "file": "corn.svg",
+   "name": "corn",
+   "description": "Corn on the cob"
+  },
+  {
+   "file": "egg.svg",
+   "name": "egg",
+   "description": "Fried egg"
+  },
+  {
+   "file": "bacon.svg",
+   "name": "bacon",
+   "description": "Strip of bacon"
+  },
+  {
+   "file": "candy.svg",
+   "name": "candy",
+   "description": "Wrapped candy"
+  },
+  {
+   "file": "popcorn.svg",
+   "name": "popcorn",
+   "description": "Popcorn bucket"
+  },
+  {
+   "file": "pancakes.svg",
+   "name": "pancakes",
+   "description": "Stack of pancakes"
+  },
+  {
+   "file": "ice-pop.svg",
+   "name": "ice-pop",
+   "description": "Ice pop"
+  },
+  {
+   "file": "soda-can.svg",
+   "name": "soda-can",
+   "description": "Soda can"
+  },
+  {
+   "file": "milkshake.svg",
+   "name": "milkshake",
+   "description": "Milkshake"
+  },
+  {
+   "file": "coffee.svg",
+   "name": "coffee",
+   "description": "Coffee cup to go"
+  },
+  {
+   "file": "water-bottle.svg",
+   "name": "water-bottle",
+   "description": "Water bottle"
+  },
+  {
+   "file": "drink-cup.svg",
+   "name": "drink-cup",
+   "description": "Cup of lemonade with a straw"
+  },
+  {
+   "file": "cocktail.svg",
+   "name": "cocktail",
+   "description": "Cocktail glass"
+  },
+  {
+   "file": "music-note.svg",
+   "name": "music-note",
+   "description": "Music notes"
+  },
+  {
+   "file": "guitar.svg",
+   "name": "guitar",
+   "description": "Ukulele or guitar"
+  },
+  {
+   "file": "microphone.svg",
+   "name": "microphone",
+   "description": "Microphone"
+  },
+  {
+   "file": "disco-ball.svg",
+   "name": "disco-ball",
+   "description": "Disco ball"
+  },
+  {
+   "file": "bowling.svg",
+   "name": "bowling",
+   "description": "Bowling pin and ball"
+  },
+  {
+   "file": "washer.svg",
+   "name": "washer",
+   "description": "Laundromat washing machine"
+  },
+  {
+   "file": "alarm-clock.svg",
+   "name": "alarm-clock",
+   "description": "Alarm clock"
+  },
+  {
+   "file": "golf-flag.svg",
+   "name": "golf-flag",
+   "description": "Golf flag and ball"
+  },
+  {
+   "file": "ice-skate.svg",
+   "name": "ice-skate",
+   "description": "Ice skate"
+  },
+  {
+   "file": "plant.svg",
+   "name": "plant",
+   "description": "Potted plant"
+  },
+  {
+   "file": "palette.svg",
+   "name": "palette",
+   "description": "Paint palette"
+  }
+ ],
+ "_fallback": "mystery",
+ "vacation/destination/Tokyo": "lantern",
+ "vacation/destination/Paris": "eiffel-tower",
+ "vacation/destination/Hawaii": "palm-tree",
+ "vacation/destination/The Moon": "moon",
+ "vacation/destination/Grandma's House": "house",
+ "vacation/destination/Iceland": "igloo",
+ "vacation/destination/A Water Park": "wave",
+ "vacation/destination/Antarctica": "igloo",
+ "vacation/destination/Las Vegas": "dice",
+ "vacation/destination/The Grand Canyon": "mountain",
+ "vacation/destination/A Cruise Ship": "boat",
+ "vacation/destination/A Tiny Island": "palm-tree",
+ "vacation/destination/Your Own Backyard": "plant",
+ "vacation/destination/Rome": "camera",
+ "vacation/destination/A Gas Station": "gas-pump",
+ "vacation/destination/Mount Everest": "mountain",
+ "vacation/stay/Five-Star Hotel": "bed",
+ "vacation/stay/Treehouse": "tree",
+ "vacation/stay/Igloo": "igloo",
+ "vacation/stay/Tent in the Rain": "tent",
+ "vacation/stay/Castle": "castle",
+ "vacation/stay/Houseboat": "boat",
+ "vacation/stay/Your Car": "car",
+ "vacation/stay/Bunk Bed Hostel": "bed",
+ "vacation/stay/Beach Hut": "palm-tree",
+ "vacation/stay/Haunted Inn": "ghost",
+ "vacation/stay/Cousin's Couch": "bed",
+ "vacation/stay/Airport Bench": "plane",
+ "vacation/stay/Luxury Yacht": "boat",
+ "vacation/stay/Cabin in the Woods": "tree",
+ "vacation/stay/Underwater Hotel": "fish",
+ "vacation/stay/Space Station": "rocket",
+ "vacation/activity/Surfing Lessons": "wave",
+ "vacation/activity/Skydiving": "plane",
+ "vacation/activity/Museum Tour": "camera",
+ "vacation/activity/Napping All Day": "bed",
+ "vacation/activity/Swimming with Sharks": "fish",
+ "vacation/activity/Hot Air Balloon Ride": "hot-air-balloon",
+ "vacation/activity/Karaoke Night": "microphone",
+ "vacation/activity/Zip Lining": "tree",
+ "vacation/activity/Sandcastle Contest": "castle",
+ "vacation/activity/Counting Pigeons": "pigeon",
+ "vacation/activity/Volcano Hike": "flame",
+ "vacation/activity/Theme Park Rides": "ferris-wheel",
+ "vacation/activity/Waiting in Line": "alarm-clock",
+ "vacation/activity/Cooking Class": "chef-hat",
+ "vacation/activity/Whale Watching": "whale",
+ "vacation/activity/Buying Fridge Magnets": "gift",
+ "vacation/buddy/Your Best Friend": "heart",
+ "vacation/buddy/Your Grandpa": "disguise",
+ "vacation/buddy/A Golden Retriever": "dog",
+ "vacation/buddy/A Tour Guide": "suitcase",
+ "vacation/buddy/Your Little Cousin": "pacifier",
+ "vacation/buddy/A Pirate": "pirate-hat",
+ "vacation/buddy/A Talking Parrot": "parrot",
+ "vacation/buddy/A Famous Chef": "chef-hat",
+ "vacation/buddy/Your Gym Teacher": "whistle",
+ "vacation/buddy/A Mime": "top-hat",
+ "vacation/buddy/A Lifeguard": "lifebuoy",
+ "vacation/buddy/A Robot Butler": "robot",
+ "vacation/buddy/A Sleepy Koala": "koala",
+ "vacation/buddy/A Movie Star": "star",
+ "vacation/buddy/Someone Who Snores": "bed",
+ "vacation/buddy/Your Mom": "heart",
+ "vacation/lots/First Class Seats": "plane",
+ "vacation/lots/Middle Seat by the Bathroom": "plane",
+ "vacation/lots/Beach Villa": "palm-tree",
+ "vacation/lots/Tokyo Food Tour": "sushi",
+ "vacation/lots/Paris Rooftop Dinner": "eiffel-tower",
+ "vacation/lots/Safari Jeep Ride": "bus",
+ "vacation/lots/Northern Lights Cabin": "moon",
+ "vacation/lots/Swim with Dolphins": "fish",
+ "vacation/lots/Grand Canyon Helicopter": "helicopter",
+ "vacation/lots/Hawaii Snorkel Trip": "fish",
+ "vacation/lots/Castle Sleepover": "castle",
+ "vacation/lots/Theme Park Fast Pass": "ferris-wheel",
+ "vacation/lots/Hot Spring Soak": "wave",
+ "vacation/lots/Ski Chalet": "mountain",
+ "vacation/lots/Private Island Day": "palm-tree",
+ "vacation/lots/Gondola Ride in Venice": "boat",
+ "vacation/lots/Camping in a Thunderstorm": "tent",
+ "vacation/lots/Airport Layover Nap": "bed",
+ "vacation/lots/Cruise Ship Buffet": "boat",
+ "vacation/lots/Space Tourist Seat": "rocket",
+ "heist/driver/Stunt Driver": "steering-wheel",
+ "heist/driver/Your Grandma": "disguise",
+ "heist/driver/Race Car Pro": "car",
+ "heist/driver/Taxi Driver": "car",
+ "heist/driver/Lost Tourist": "suitcase",
+ "heist/driver/Bus Driver": "bus",
+ "heist/driver/Ice Cream Truck Guy": "ice-cream",
+ "heist/driver/A Cat": "cat",
+ "heist/driver/Getaway Expert": "steering-wheel",
+ "heist/driver/Student Driver": "steering-wheel",
+ "heist/driver/Pizza Delivery Guy": "pizza",
+ "heist/driver/Retired Racer": "trophy",
+ "heist/driver/A Toddler": "pacifier",
+ "heist/driver/Rally Champion": "trophy",
+ "heist/driver/Bumper Car Kid": "car",
+ "heist/driver/Someone Who Brakes Early": "steering-wheel",
+ "heist/hacker/Teen Genius": "lightbulb",
+ "heist/hacker/Grandpa with Email": "phone",
+ "heist/hacker/Laptop Wizard": "laptop",
+ "heist/hacker/Hoodie Kid": "laptop",
+ "heist/hacker/Tech Support Guy": "phone",
+ "heist/hacker/A Smart Fridge": "robot",
+ "heist/hacker/Pro Gamer": "game-controller",
+ "heist/hacker/Chess Champion": "chess-knight",
+ "heist/hacker/Password Guesser": "key",
+ "heist/hacker/A Very Smart Dog": "dog",
+ "heist/hacker/Math Teacher": "book",
+ "heist/hacker/Satellite Expert": "rocket",
+ "heist/hacker/Keyboard Smasher": "laptop",
+ "heist/hacker/Coding Camp Grad": "laptop",
+ "heist/hacker/Movie Hacker": "popcorn",
+ "heist/hacker/Someone Who Types Fast": "laptop",
+ "heist/disguise/Fake Mustache": "disguise",
+ "heist/disguise/Tuxedo": "bow-tie",
+ "heist/disguise/Guard Uniform": "badge",
+ "heist/disguise/Chicken Costume": "chicken",
+ "heist/disguise/Big Sunglasses": "disguise",
+ "heist/disguise/Delivery Uniform": "shirt",
+ "heist/disguise/Trench Coat": "mask",
+ "heist/disguise/Clown Suit": "top-hat",
+ "heist/disguise/Potted Plant": "plant",
+ "heist/disguise/Fancy Ball Gown": "dress",
+ "heist/disguise/Kids Stacked in Coat": "shirt",
+ "heist/disguise/Paper Bag Mask": "mask",
+ "heist/disguise/Janitor Outfit": "shirt",
+ "heist/disguise/Wedding Dress": "dress",
+ "heist/disguise/Astronaut Suit": "rocket",
+ "heist/disguise/Just a Name Tag": "shirt",
+ "heist/ride/Sports Car": "car",
+ "heist/ride/Motorcycle": "motorcycle",
+ "heist/ride/Tandem Bike": "bike",
+ "heist/ride/Helicopter": "helicopter",
+ "heist/ride/Hot Air Balloon": "hot-air-balloon",
+ "heist/ride/Speedboat": "boat",
+ "heist/ride/Garbage Truck": "bus",
+ "heist/ride/Horse": "horse",
+ "heist/ride/Skateboard": "skateboard",
+ "heist/ride/Minivan": "bus",
+ "heist/ride/Shopping Cart": "shopping-cart",
+ "heist/ride/Monster Truck": "car",
+ "heist/ride/City Bus": "bus",
+ "heist/ride/Jet Ski": "wave",
+ "heist/ride/Golf Cart": "golf-flag",
+ "heist/ride/Rowboat": "boat",
+ "heist/lots/The Nervous Intern": "coffee",
+ "heist/lots/The Retired Magician": "top-hat",
+ "heist/lots/The Smooth Talker": "speech-bubble",
+ "heist/lots/The Guy Who Knows a Guy": "phone",
+ "heist/lots/The Quiet Genius": "lightbulb",
+ "heist/lots/The Ex-Stuntman": "motorcycle",
+ "heist/lots/The Nosy Neighbor": "house",
+ "heist/lots/The Master of Disguise": "disguise",
+ "heist/lots/The Gym Coach": "whistle",
+ "heist/lots/The Sleepy Security Guard": "badge",
+ "heist/lots/The Chess Grandma": "chess-knight",
+ "heist/lots/The Know-It-All Teen": "book",
+ "heist/lots/The Lucky Rookie": "dice",
+ "heist/lots/The Safe Cracker": "safe",
+ "heist/lots/The Clumsy Acrobat": "star",
+ "heist/lots/The Pickpocket": "money-bag",
+ "heist/lots/The Mall Santa": "gift",
+ "heist/lots/The Sweaty Locksmith": "key",
+ "heist/lots/The Bored Billionaire": "crown",
+ "heist/lots/The Trained Raccoon": "raccoon",
+ "zombie/weapon/Baseball Bat": "baseball-bat",
+ "zombie/weapon/Frying Pan": "frying-pan",
+ "zombie/weapon/Garden Rake": "shovel",
+ "zombie/weapon/Leaf Blower": "fire-extinguisher",
+ "zombie/weapon/Pool Noodle": "pool-noodle",
+ "zombie/weapon/Crossbow": "bow-arrow",
+ "zombie/weapon/Katana": "sword",
+ "zombie/weapon/Rubber Chicken": "chicken",
+ "zombie/weapon/Fire Extinguisher": "fire-extinguisher",
+ "zombie/weapon/Hockey Stick": "baseball-bat",
+ "zombie/weapon/Squirt Gun": "water-bottle",
+ "zombie/weapon/Golf Club": "golf-flag",
+ "zombie/weapon/Umbrella": "umbrella",
+ "zombie/weapon/Shovel": "shovel",
+ "zombie/weapon/Tennis Racket": "tennis-racket",
+ "zombie/weapon/Rolled-Up Magazine": "book",
+ "zombie/hideout/Shopping Mall": "shopping-cart",
+ "zombie/hideout/Lighthouse": "lantern",
+ "zombie/hideout/School Gym": "whistle",
+ "zombie/hideout/Treehouse": "tree",
+ "zombie/hideout/Houseboat": "boat",
+ "zombie/hideout/Old Prison": "key",
+ "zombie/hideout/Bowling Alley": "bowling",
+ "zombie/hideout/Army Base": "tent",
+ "zombie/hideout/Movie Theater": "popcorn",
+ "zombie/hideout/Grandma's Attic": "house",
+ "zombie/hideout/Porta Potty": "mystery",
+ "zombie/hideout/Castle": "castle",
+ "zombie/hideout/Farmhouse": "house",
+ "zombie/hideout/Bank Vault": "safe",
+ "zombie/hideout/Ferris Wheel": "ferris-wheel",
+ "zombie/hideout/Library": "book",
+ "zombie/snack/Canned Beans": "can",
+ "zombie/snack/Beef Jerky": "bacon",
+ "zombie/snack/Twinkies": "cake",
+ "zombie/snack/Granola Bar": "cookie",
+ "zombie/snack/Peanut Butter Jar": "can",
+ "zombie/snack/Spam": "can",
+ "zombie/snack/Instant Noodles": "noodle-bowl",
+ "zombie/snack/Hot Sauce Packets": "hot-sauce",
+ "zombie/snack/Dry Cereal": "noodle-bowl",
+ "zombie/snack/Birthday Cake": "cake",
+ "zombie/snack/Pickles": "pickle",
+ "zombie/snack/Trail Mix": "cookie",
+ "zombie/snack/Ice Pop": "ice-pop",
+ "zombie/snack/Crackers": "cookie",
+ "zombie/snack/Gummy Bears": "candy",
+ "zombie/snack/One Sad Carrot": "carrot",
+ "zombie/sidekick/Loyal Dog": "dog",
+ "zombie/sidekick/Army Medic": "first-aid",
+ "zombie/sidekick/Your Grandma": "disguise",
+ "zombie/sidekick/Farmer with a Truck": "bus",
+ "zombie/sidekick/Scared Mall Cop": "badge",
+ "zombie/sidekick/Park Ranger": "tree",
+ "zombie/sidekick/A Toddler": "pacifier",
+ "zombie/sidekick/Martial Arts Master": "sword",
+ "zombie/sidekick/Know-It-All Nerd": "book",
+ "zombie/sidekick/Cat Who Ignores You": "cat",
+ "zombie/sidekick/Nurse": "first-aid",
+ "zombie/sidekick/Scout Troop": "tent",
+ "zombie/sidekick/Friendly Zombie": "zombie-hand",
+ "zombie/sidekick/Pizza Chef": "chef-hat",
+ "zombie/sidekick/Chatty Parrot": "parrot",
+ "zombie/sidekick/Retired Wrestler": "trophy",
+ "zombie/lots/Costco": "shopping-cart",
+ "zombie/lots/Hardware Store": "shovel",
+ "zombie/lots/Sporting Goods Store": "baseball-bat",
+ "zombie/lots/Grocery Store": "shopping-cart",
+ "zombie/lots/Pharmacy": "first-aid",
+ "zombie/lots/Toy Store": "robot",
+ "zombie/lots/Gas Station": "gas-pump",
+ "zombie/lots/Pet Store": "dog",
+ "zombie/lots/Camping Store": "tent",
+ "zombie/lots/Dollar Store": "money-bag",
+ "zombie/lots/Bakery": "cake",
+ "zombie/lots/Music Store": "guitar",
+ "zombie/lots/School Cafeteria": "apple",
+ "zombie/lots/Garden Center": "plant",
+ "zombie/lots/Bowling Alley": "bowling",
+ "zombie/lots/Farm Stand": "corn",
+ "zombie/lots/Bookstore": "book",
+ "zombie/lots/Candy Shop": "candy",
+ "zombie/lots/Fire Station": "fire-extinguisher",
+ "zombie/lots/Movie Theater": "popcorn",
+ "date/place/Rooftop Garden": "plant",
+ "date/place/Bowling Alley": "bowling",
+ "date/place/Beach at Sunset": "palm-tree",
+ "date/place/Aquarium": "fish",
+ "date/place/Laundromat": "washer",
+ "date/place/Mini Golf": "golf-flag",
+ "date/place/Fancy Restaurant": "candle",
+ "date/place/Arcade": "game-controller",
+ "date/place/Planetarium": "moon",
+ "date/place/Farmers Market": "carrot",
+ "date/place/Ice Rink": "ice-skate",
+ "date/place/The DMV": "alarm-clock",
+ "date/place/Picnic in the Park": "apple",
+ "date/place/Karaoke Bar": "microphone",
+ "date/place/Corn Maze": "corn",
+ "date/place/Parking Lot": "car",
+ "date/food/Sushi": "sushi",
+ "date/food/Spaghetti": "noodle-bowl",
+ "date/food/Tacos": "taco",
+ "date/food/Fondue": "candle",
+ "date/food/Garlic Bread": "pizza",
+ "date/food/Cereal": "noodle-bowl",
+ "date/food/Lobster": "fish",
+ "date/food/Hot Dogs": "hot-dog",
+ "date/food/Midnight Pancakes": "pancakes",
+ "date/food/Spam Musubi": "sushi",
+ "date/food/Street Corn": "corn",
+ "date/food/Chicken Wings": "drumstick",
+ "date/food/Shave Ice": "ice-pop",
+ "date/food/Plain Rice": "noodle-bowl",
+ "date/food/Chocolate Fountain": "cake",
+ "date/food/Onion Rings": "donut",
+ "date/outfit/Tuxedo": "bow-tie",
+ "date/outfit/Sundress": "dress",
+ "date/outfit/Hoodie and Sweats": "shirt",
+ "date/outfit/Matching Outfits": "shirt",
+ "date/outfit/Aloha Shirt": "shirt",
+ "date/outfit/Cowboy Boots": "horse",
+ "date/outfit/Pajamas": "bed",
+ "date/outfit/Suit and Sneakers": "bow-tie",
+ "date/outfit/Leather Jacket": "motorcycle",
+ "date/outfit/Dinosaur Costume": "mystery",
+ "date/outfit/Ball Gown": "dress",
+ "date/outfit/Soccer Jersey": "shirt",
+ "date/outfit/Bathrobe": "bed",
+ "date/outfit/Sequin Jacket": "disco-ball",
+ "date/outfit/Wet Swimsuit": "wave",
+ "date/outfit/Your Work Uniform": "shirt",
+ "date/soundtrack/Slow Jams": "rose",
+ "date/soundtrack/Jazz Piano": "music-note",
+ "date/soundtrack/Ukulele Music": "guitar",
+ "date/soundtrack/Elevator Music": "music-note",
+ "date/soundtrack/Bagpipes": "music-note",
+ "date/soundtrack/Eighties Hits": "disco-ball",
+ "date/soundtrack/Country Ballads": "guitar",
+ "date/soundtrack/Heavy Metal": "guitar",
+ "date/soundtrack/Ocean Waves": "wave",
+ "date/soundtrack/Cartoon Theme Songs": "music-note",
+ "date/soundtrack/Violin at the Table": "guitar",
+ "date/soundtrack/Awkward Silence": "speech-bubble",
+ "date/soundtrack/Mariachi Band": "guitar",
+ "date/soundtrack/Your Own Humming": "music-note",
+ "date/soundtrack/Disco Hits": "disco-ball",
+ "date/soundtrack/Whale Sounds": "whale",
+ "date/lots/Rooftop Bar": "cocktail",
+ "date/lots/Bowling Alley": "bowling",
+ "date/lots/Beach Bonfire": "flame",
+ "date/lots/Aquarium": "fish",
+ "date/lots/Mini Golf": "golf-flag",
+ "date/lots/Fancy Steakhouse": "candle",
+ "date/lots/Taco Truck": "taco",
+ "date/lots/Ice Cream Parlor": "ice-cream",
+ "date/lots/Arcade": "game-controller",
+ "date/lots/Karaoke Room": "microphone",
+ "date/lots/Drive-In Movie": "popcorn",
+ "date/lots/Art Museum": "palette",
+ "date/lots/Farmers Market": "carrot",
+ "date/lots/Sushi Counter": "sushi",
+ "date/lots/Night Market": "lantern",
+ "date/lots/Stargazing Hill": "moon",
+ "date/lots/Ice Skating Rink": "ice-skate",
+ "date/lots/Late Night Diner": "pancakes",
+ "date/lots/Pottery Class": "palette",
+ "date/lots/Laundromat": "washer",
+ "food/main/Big Mac": "burger",
+ "food/main/Crunchwrap": "taco",
+ "food/main/Chicken sandwich": "burger",
+ "food/main/Veggie burger": "burger",
+ "food/main/Pizza slice": "pizza",
+ "food/main/Bean burrito": "taco",
+ "food/main/Nuggets": "drumstick",
+ "food/main/Hot dog": "hot-dog",
+ "food/side/Curly fries": "fries",
+ "food/side/Onion rings": "donut",
+ "food/side/Waffle fries": "fries",
+ "food/side/Hash browns": "fries",
+ "food/side/Mac & cheese": "noodle-bowl",
+ "food/side/Mozzarella sticks": "fries",
+ "food/side/Apple slices": "apple",
+ "food/side/Chips & guac": "taco",
+ "food/drink/Milkshake": "milkshake",
+ "food/drink/Lemonade": "drink-cup",
+ "food/drink/Iced coffee": "coffee",
+ "food/drink/Root beer": "soda-can",
+ "food/drink/Sweet tea": "drink-cup",
+ "food/drink/Orange soda": "soda-can",
+ "food/drink/Water": "water-bottle",
+ "food/drink/Hot chocolate": "coffee",
+ "food/wildcard/Extra pickles": "pickle",
+ "food/wildcard/Soft serve": "ice-cream",
+ "food/wildcard/Hot sauce": "hot-sauce",
+ "food/wildcard/Cookie": "cookie",
+ "food/wildcard/Bacon": "bacon",
+ "food/wildcard/Breakfast egg": "egg",
+ "food/wildcard/Donut": "donut",
+ "food/wildcard/Mystery sauce": "mystery"
+}

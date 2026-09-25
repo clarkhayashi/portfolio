@@ -2,7 +2,7 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {Game} from './server.mjs';
 import {quips,creativeGames} from './creative.mjs';
-const setup=(n=4,game='quips',mode='minigames')=>{const g=new Game(),a=g.create('Host',mode),r=g.rooms.get(a.code);for(let i=1;i<n;i++)g.join(a.code,'Guest '+i);r.selectedGame=game;r.banEnabled=false;g.action(r,r.players[0],{type:'start'});if(mode==='minigames')g.begin(r);return {g,r,p:r.players};};
+const setup=(n=4,game='quips',mode='minigames')=>{const g=new Game(),a=g.create('Host',mode),r=g.rooms.get(a.code);for(let i=1;i<n;i++)g.join(a.code,'Guest '+i);r.selectedGame=game;r.banEnabled=false;r.themes={draft:'food',auction:'food'};g.action(r,r.players[0],{type:'start'});if(mode==='minigames')g.begin(r);return {g,r,p:r.players};};
 const auction=(g,r,p,a)=>g.action(r,p,{...a,revision:r.auction.revision});
 test('60 unique original prompts',()=>{assert.equal(quips.length,60);assert.equal(new Set(quips).size,60);});
 test('standalone quips hides answers, supports eight writers and forbids self-voting',()=>{const {g,r,p}=setup(8);p.forEach((q,i)=>{assert.deepEqual(g.view(r,q).answers,{});g.action(r,q,{type:'submit',value:'Answer '+i});});assert.equal(r.phase,'vote');assert.throws(()=>g.action(r,p[0],{type:'vote',player:p[0].id}));p.forEach((q,i)=>g.action(r,q,{type:'vote',player:p[(i+1)%8].id}));assert.equal(r.result.tie,true);});

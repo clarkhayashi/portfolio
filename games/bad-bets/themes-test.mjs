@@ -19,13 +19,13 @@ const auction=(g,r,p,a)=>g.action(r,p,{...a,revision:r.auction.revision});
 
 test('game names: Imposter, Fantasy Draft, Bidding War with ids unchanged',async()=>{const {GAMES}=await import('./public/catalog.js');const by=Object.fromEntries(GAMES.map(g=>[g.id,g.name]));assert.equal(by.imposter,'Imposter');assert.equal(by.draft,'Fantasy Draft');assert.equal(by.auction,'Bidding War');assert.equal(JSON.stringify(GAMES).includes('Faking'),false);});
 
-test('rooms default to food themes; host sets valid themes only in the lobby',()=>{const g=new Game(),a=g.create('Host'),r=g.rooms.get(a.code);g.join(a.code,'B');const [h,b]=r.players;assert.deepEqual(r.themes,{draft:'food',auction:'food'});
- const v=g.view(r,h);assert.deepEqual(v.themes,{draft:'food',auction:'food'});assert.ok(v.themeOptions.draft.some(o=>o.id==='zz-test'));assert.equal(v.themeOptions.draft[0].icon,'/art/theme-food-draft.svg');
+test('rooms default to random themes; host sets valid themes only in the lobby (older rooms)',()=>{const g=new Game(),a=g.create('Host'),r=g.rooms.get(a.code);g.join(a.code,'B');const [h,b]=r.players;assert.deepEqual(r.themes,{draft:'random',auction:'random'});
+ const v=g.view(r,h);assert.deepEqual(v.themes,{draft:'random',auction:'random'});assert.ok(v.themeOptions.draft.some(o=>o.id==='zz-test'));assert.equal(v.themeOptions.draft[0].icon,'/art/theme-food-draft.svg');
  assert.throws(()=>g.action(r,b,{type:'setTheme',game:'draft',theme:'zz-test'}),/host/);assert.throws(()=>g.action(r,h,{type:'setTheme',game:'draft',theme:'nope'}),/theme/);assert.throws(()=>g.action(r,h,{type:'setTheme',game:'draft',theme:'zz-broken'}),/theme/);assert.throws(()=>g.action(r,h,{type:'setTheme',game:'brain',theme:'food'}));assert.throws(()=>g.action(r,h,{type:'setTheme',game:'draft',theme:'__proto__'}));
- g.action(r,h,{type:'setTheme',game:'auction',theme:'zz-test'});assert.deepEqual(r.themes,{draft:'food',auction:'zz-test'});assert.ok(!themeIds('draft').includes('zz-broken'));});
+ g.action(r,h,{type:'setTheme',game:'auction',theme:'zz-test'});assert.deepEqual(r.themes,{draft:'random',auction:'zz-test'});assert.ok(!themeIds('draft').includes('zz-broken'));});
 
-test('food theme keeps the original draft and auction',()=>{let {g,r}=setup(4,'draft');assert.equal(g.view(r,r.players[0]).theme.id,'food');assert.deepEqual(r.cards.slice(0,2),['Big Mac','Crunchwrap']);while(r.phase==='draft')g.advance(r);assert.ok(r.active.every(id=>r.picks[id].length===4));
- ({g,r}=setup(2,'auction'));assert.equal(r.auction.food,true);assert.equal(r.auction.slotCount,4);});
+test('food theme keeps the original draft and auction',()=>{let {g,r}=setup(4,'draft',{draft:'food'});assert.equal(g.view(r,r.players[0]).theme.id,'food');assert.deepEqual(r.cards.slice(0,2),['Big Mac','Crunchwrap']);while(r.phase==='draft')g.advance(r);assert.ok(r.active.every(id=>r.picks[id].length===4));
+ ({g,r}=setup(2,'auction',{auction:'food'}));assert.equal(r.auction.food,true);assert.equal(r.auction.slotCount,4);});
 
 test('themed draft uses theme slots, cards and prompts; five slots means five rounds',()=>{const {g,r,p}=setup(8,'draft',{draft:'zz-test'});assert.ok(TD.prompts.includes(r.prompt));const v=g.view(r,p[0]);assert.equal(v.theme.name,'Test Heist');assert.equal(v.theme.icon,'/art/theme-zz-test.svg');assert.deepEqual(v.theme.slots,['Driver','Hacker','Lookout','Inside person','Getaway car']);
  assert.ok(r.cards.length>=8&&r.cards.every(c=>c.startsWith('A card')));assert.equal(new Set(r.cards).size,r.cards.length);const turns=[];while(r.phase==='draft'){turns.push(g.draftPlayer(r));g.advance(r);}assert.equal(turns.length,40);assert.deepEqual(turns.slice(8,16),[...turns.slice(0,8)].reverse());assert.equal(r.phase,'pitch');assert.ok(r.active.every(id=>r.picks[id].length===5&&r.picks[id][4].startsWith('E card')));});
@@ -66,3 +66,45 @@ test('counts cache: refresh when stale, silent fallback on failure or hang',asyn
 
 test('cloud actions still work when the counts store fails',async()=>{clearGlobalCounts();const data=new Map();const store={get:async k=>data.get(k)||null,compareAndSwap:async(k,b,a)=>{if((data.get(k)||null)!==(b||null))return false;data.set(k,a);return true;},ratings:async()=>{throw Error('storage down');}};
  const host=await cloudRequest(store,{type:'create',name:'Host'});const out=await cloudRequest(store,{type:'join',code:host.code,name:'Guest'});assert.ok(out.token);await warmCounts({ratings:()=>new Promise(()=>{})},30);clearGlobalCounts();});
+
+// ---------- random themes with a veto ----------
+import {rollTheme,VETO_MS} from './themes.mjs';
+import {localCounts} from './ratings.mjs';
+const vroom=(n,game,mode='minigames')=>{const g=new Game(),a=g.create('Host',mode),r=g.rooms.get(a.code);for(let i=1;i<n;i++)g.join(a.code,'Guest '+i);r.selectedGame=game;r.enabledGames=[game];r.banEnabled=false;return {g,r,p:r.players};};
+test('random theme selection rotates through every theme before repeating',()=>{for(const game of ['draft','auction']){const r={bags:{},themes:{[game]:'random'}};const ids=themeIds(game);const seen=ids.map(()=>rollTheme(r,game));assert.deepEqual([...seen].sort(),[...ids].sort());assert.ok(ids.includes('food'));}});
+test('a round rolls a theme and offers a veto in the reveal',()=>{const {g,r,p}=vroom(4,'draft');g.action(r,p[0],{type:'start'});assert.equal(r.phase,'reveal');assert.ok(themeIds('draft').includes(r.roundTheme));const v=g.view(r,p[1]);assert.equal(v.veto.open,true);assert.equal(v.veto.left,true);assert.ok(v.veto.until>Date.now());assert.equal(g.publicView(r).veto,null);assert.throws(()=>g.action(r,p[0],{type:'beginGame'}),/veto timer/);});
+test('the first veto rerolls once to a different theme, and counts it anonymously',()=>{const {g,r,p}=vroom(4,'auction');g.action(r,p[0],{type:'start'});const from=r.roundTheme;const before=localCounts()[`theme-auction-${from}`]?.veto||0;
+ g.action(r,p[1],{type:'veto'});assert.notEqual(r.roundTheme,from);assert.equal(r.auction.theme,r.roundTheme);assert.equal(localCounts()[`theme-auction-${from}`].veto,before+1);
+ const v=g.view(r,p[2]);assert.equal(v.veto.done,true);assert.equal(v.veto.by,'Guest 1');assert.equal(v.veto.open,false);
+ assert.throws(()=>g.action(r,p[2],{type:'veto'}),/already vetoed/);assert.deepEqual(r.vetoUsed,[p[1].id]);
+ const tv=g.publicView(r);assert.deepEqual(Object.keys(tv.veto).sort(),['done','from']);assert.equal(JSON.stringify(tv).includes('vetoUsed'),false);});
+test('each player gets one veto per session',()=>{const {g,r,p}=vroom(4,'draft');g.action(r,p[0],{type:'start'});g.action(r,p[1],{type:'veto'});assert.equal(r.draftStep,0);assert.ok(r.active.every(id=>Array.isArray(r.picks[id])&&!r.picks[id].length));
+ g.begin(r);while(r.phase==='draft')g.advance(r);g.settle(r);g.action(r,p[0],{type:'replay'});assert.equal(r.phase,'reveal');assert.equal(g.view(r,p[1]).veto.left,false);assert.equal(g.view(r,p[2]).veto.left,true);
+ assert.throws(()=>g.action(r,p[1],{type:'veto'}),/already used/);g.action(r,p[2],{type:'veto'});assert.deepEqual(r.vetoUsed,[p[1].id,p[2].id]);});
+test('the veto closes after the window and in other phases',()=>{const {g,r,p}=vroom(4,'draft');g.action(r,p[0],{type:'start'});r.revealAt=Date.now()-VETO_MS-1;assert.throws(()=>g.action(r,p[1],{type:'veto'}),/closed/);g.action(r,p[0],{type:'beginGame'});assert.throws(()=>g.action(r,p[1],{type:'veto'}));});
+test('party mode: veto happens inside the 15 second reveal without extending it',()=>{let g,r,p;for(let i=0;i<200;i++){({g,r,p}=vroom(5,'draft','tournament'));r.enabledGames=['draft','auction','number'];g.action(r,p[0],{type:'start'});r.pot=null;g.fresh(r);r.pot=null;g.fresh(r);if(['draft','auction'].includes(r.game))break;}assert.ok(['draft','auction'].includes(r.game));let guard=0;while(r.phase!=='reveal'&&guard++<60){if(r.phase==='wager'){const q=p.find(x=>x.id===r.pot.turn);g.action(r,q,{type:'potBet',move:'match',round:r.round,revision:r.pot.revision});}else g.advance(r);}
+ assert.equal(r.phase,'reveal');
+ const deadline=r.deadline;g.action(r,p[3],{type:'veto'});assert.equal(r.deadline,deadline);assert.ok(r.deadline-r.revealAt<=15000);});
+test('food is still the safe default when theme content is missing',()=>{const r={bags:{},themes:{draft:'random'}};const saved={...DRAFT_THEMES};for(const k of Object.keys(DRAFT_THEMES))delete DRAFT_THEMES[k];try{assert.deepEqual(themeIds('draft'),['food']);for(let i=0;i<3;i++)assert.equal(rollTheme(r,'draft'),'food');const {g,r:room,p}=vroom(4,'draft');g.action(room,p[0],{type:'start'});assert.equal(room.roundTheme,'food');assert.throws(()=>g.action(room,p[1],{type:'veto'}),/no other theme/);assert.deepEqual(room.vetoUsed||[],[]);}finally{Object.assign(DRAFT_THEMES,saved);}});
+test('player themes: hoops and bench always, others by players:true',()=>{assert.equal(getTheme('draft','food').players,false);for(const id of ['hoops','bench'])if(themeIds('draft').includes(id))assert.equal(getTheme('draft',id).players,true);DRAFT_THEMES['zz-players']={...TD,players:true};try{assert.equal(getTheme('draft','zz-players').players,true);assert.equal(getTheme('draft','zz-test').players,false);}finally{delete DRAFT_THEMES['zz-players'];}});
+
+// ---------- card art ----------
+import {readFileSync,existsSync} from 'node:fs';
+const PLAYERS=JSON.parse(readFileSync(new URL('./public/players/players.json',import.meta.url)));
+const PROPS=JSON.parse(readFileSync(new URL('./public/art/props/props-map.json',import.meta.url)));
+test('card art: headshots, jersey fallback, props, and food logos kept',async()=>{const m=await import('./public/card-art.js');m.setCardArtData(PLAYERS,PROPS);
+ const hoops={game:'draft',theme:{id:'hoops',players:true,slotIds:['guard']}};const named=Object.keys(PLAYERS).find(k=>!k.startsWith('_'));
+ assert.match(m.cardLabel(hoops,named,0),/class="card-art headshot".*src="\/players\/[a-z0-9-]+\.jpg".*loading="lazy" decoding="async"/);
+ const missing=PLAYERS._missing[0];const j=m.cardLabel(hoops,missing,0);assert.match(j,/jersey/);assert.ok(j.includes(`>${m.initials(missing)}<`));assert.ok(['#087F98','#e05a47','#3b6fd6','#F4CD72','#BAB4EA'].includes(m.jerseyColor(missing)));assert.equal(m.jerseyColor(missing),m.jerseyColor(missing));
+ assert.match(m.cardLabel({game:'auction',theme:{id:'nfl',players:true},auction:{nameItem:false}},'Guard: Nobody Real',0),/jersey/);
+ const key=Object.keys(PROPS).find(k=>k.startsWith('heist/lots/'));const lot=key.split('/').slice(2).join('/');
+ assert.ok(m.lotArt({game:'auction',theme:{id:'heist'}},lot).includes(`/art/props/${PROPS[key]}.svg`));
+ assert.ok(m.cardLabel({game:'auction',theme:{id:'heist'},auction:{nameItem:false}},`Van: ${lot}`,0).includes(`/art/props/${PROPS[key]}.svg`));
+ assert.ok(m.cardLabel({game:'draft',theme:{id:'food',food:true}},'Big Mac',0).includes('/art/props/'));
+ assert.ok(m.cardLabel({game:'draft',theme:{id:'heist',slotIds:['x']}},'Not a card',0).includes('/art/props/mystery.svg'));
+ assert.equal(m.lotArt({game:'auction',theme:{id:'food',food:true}},'Taco Bell'),'');assert.match(m.cardLabel({game:'auction',theme:{id:'food',food:true}},'Main: Tacos (Taco Bell)',0),/logos\/taco-bell/);
+ for(const f of new Set(Object.values(PROPS).filter(v=>typeof v==='string')))assert.ok(existsSync(new URL(`./public/art/props/${f}.svg`,import.meta.url)),f);});
+test('credits list every headshot with license and source links',async()=>{const {creditsHtml}=await import('./public/credits.js');const html=creditsHtml(PLAYERS);const n=Object.keys(PLAYERS).filter(k=>!k.startsWith('_')).length;assert.equal((html.match(/<li>/g)||[]).length,n);assert.ok(html.includes('Source</a>'));assert.ok(html.includes('creativecommons.org'));});
+test('server serves headshots, props, maps, credits and font licenses',async()=>{const {createServer}=await import('./server.mjs');const srv=createServer();await new Promise(r=>srv.listen(0,r));const base=`http://localhost:${srv.address().port}`;try{
+ const file=Object.values(PLAYERS).find(v=>v&&v.file)?.file;for(const [path,type] of [[file,'image/jpeg'],['/art/props/mystery.svg','image/svg+xml'],['/players/players.json','application/json'],['/art/props/props-map.json','application/json'],['/credits.html','text/html'],['/credits.js','text/javascript'],['/card-art.js','text/javascript'],['/fonts/OFL-Baloo-2.txt','text/plain; charset=utf-8']]){const r=await fetch(base+path);assert.equal(r.status,200,path);assert.equal(r.headers.get('content-type'),type);await r.arrayBuffer();}
+ assert.equal((await fetch(base+'/players/../server.mjs')).status,404);}finally{srv.close();}});

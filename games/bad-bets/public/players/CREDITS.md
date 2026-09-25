@@ -1,0 +1,595 @@
+# Player headshot credits
+
+Headshots of basketball, football and baseball players used in the Starting Five, Deep Bench, Gridiron, Garbage Time, Diamond and Seventh-Inning Stretch themes. Every image comes from Wikimedia Commons, found through the player's Wikidata entry (P18). Only public domain, CC0, CC BY, and CC BY-SA images were accepted.
+
+All files here are **cropped and resized** (square head-and-shoulders crop, 256x256 JPEG) from the originals.
+CC BY and CC BY-SA licenses require the attribution below. Cropped versions of CC BY-SA images are
+adapted material and are shared under the same license as the original (CC BY-SA, same version).
+Public domain images need no attribution; credit is listed as a courtesy.
+
+## Credits
+
+- **Stephen Curry**: photo by Cyrus Saatsaz, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Stephen_Curry_Shooting_(cropped)_(cropped).jpg. Cropped and resized.
+- **Magic Johnson**: photo by Daniel Benavides from Austin, TX, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Magic_Johnson_at_SXSW_2022_(51958828669)_(cropped).jpg. Cropped and resized.
+- **Gary Payton**: photo by Keith Allison, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Gary_Payton,_Miami_Heat_circa_2007_(cropped).jpg. Cropped and resized.
+- **Sue Bird**: photo by SusanLesch, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0). Source: https://commons.wikimedia.org/wiki/File:Bird-20180912_(cropped).jpg. Cropped and resized.
+- **Chris Paul**: photo by Erik Drost, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Chris_Paul_(2022_All-Star_Weekend)_(cropped).jpg. Cropped and resized.
+- **Steve Nash**: photo by Scott L from Los Angeles, United States of America, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:SteveNash2014.jpg. Cropped and resized.
+- **Isiah Thomas**: photo by Keith Allison, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Isiah_Thomas_2007_(cropped).jpg. Cropped and resized.
+- **John Stockton**: photo by All-Pro Reels, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:John_Stockton_2022.jpg. Cropped and resized.
+- **Allen Iverson**: photo by Keith Allison, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Allen_Iverson_headshot.jpg. Cropped and resized.
+- **Russell Westbrook**: photo by Erik Drost, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Russell_Westbrook_(March_21,_2022)_(cropped).jpg. Cropped and resized.
+- **Luka Doncic**: photo by Erik Drost, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Luka_Doncic_(51914951721)_(cropped1).jpg. Cropped and resized.
+- **Jason Kidd**: photo by Keith Allison from Owings Mills, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Jason_Kidd.jpg. Cropped and resized.
+- **Caitlin Clark**: photo by John Mac, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Caitlin_Clark_Big_Ten_tournament_(cropped).jpg. Cropped and resized.
+- **Damian Lillard**: photo by nikk_la, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Damian_Lillard.jpg. Cropped and resized.
+- **Shai Gilgeous-Alexander**: photo by Frenchieinportland, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Shai_Gilgeous-Alexander_2_(cropped).jpg. Cropped and resized.
+- **Courtney Vandersloot**: photo by УГМК, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:%D0%91%D0%B0%D1%81%D0%BA%D0%B5%D1%82%D0%B1%D0%BE%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9_%D0%BA%D0%BB%D1%83%D0%B1_%D0%A3%D0%93%D0%9C%D0%9A_%E2%80%94_%D0%BE%D0%B1%D0%BB%D0%B0%D0%B4%D0%B0%D1%82%D0%B5%D0%BB%D0%B8_%D0%A1%D1%83%D0%BF%D0%B5%D1%80%D0%BA%D1%83%D0%B1%D0%BA%D0%B0_%D0%95%D0%B2%D1%80%D0%BE%D0%BF%D1%8B_2018_11_(cropped).jpg. Cropped and resized.
+- **Michael Jordan**: photo by Joshua Massel. Cropped by en:User:Quadzilla99, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Michael_Jordan.jpg. Cropped and resized.
+- **Kobe Bryant**: photo by Keith Allison from Hanover, MD, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Kobe_Bryant_2015.jpg. Cropped and resized.
+- **Dwyane Wade**: photo by Flickr user Keith Allison, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Dwyane_Wade_e1.jpg. Cropped and resized.
+- **Ray Allen**: photo by Keith Allison, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Ray_Allen_2008-01-13.jpg. Cropped and resized.
+- **Diana Taurasi**: photo by John Mac, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Diana_Taurasi_2024_(cropped).jpg. Cropped and resized.
+- **Klay Thompson**: photo by Keith Allison from Hanover, MD, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Klay_Thompson_(cropped).jpg. Cropped and resized.
+- **James Harden**: photo by Erik Drost, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Harden_dribbling_midcourt,_Cavaliers_vs_Nets_on_January_17,_2022_(cropped).jpg. Cropped and resized.
+- **Reggie Miller**: photo by Flickr user Philadelphia 76ers, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Reggie_Miller_crop.png. Cropped and resized.
+- **Jewell Loyd**: photo by Sphilbrick, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Jewell_Loyd_All-American_cropped.jpg. Cropped and resized.
+- **Anthony Edwards**: photo by Bryan Berlin, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Anthony_Edwards_Argentina_v_Egypt_7_July_2026-069_(cropped).jpg. Cropped and resized.
+- **Devin Booker**: photo by Keith Allison from Hanover, MD, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Devin_Booker_(30362063153)_(cropped).jpg. Cropped and resized.
+- **Arike Ogunbowale**: photo by Lorie Shaull, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Arike_Ogunbowale_01_(cropped).jpg. Cropped and resized.
+- **Kelsey Plum**: photo by Sakhalinio, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Kelsey_Plum_Fenerbah%C3%A7e_Women%27s_Basketball_vs_BC_Nadezhda_Orenburg_EuroLeague_Women_20171011_(2)_(cropped).jpg. Cropped and resized.
+- **Jerry West**: photo by Malcolm W. Emmons, Public domain. Source: https://commons.wikimedia.org/wiki/File:Jerry_West_1972.jpeg. Cropped and resized.
+- **Manu Ginobili**: photo by Mike, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Manu_Ginobili_Spurs-Magic011_(cropped).jpg. Cropped and resized.
+- **Vince Carter**: photo by Danny Bollinger, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Vince_Carter_2013-03-25_(1).jpg. Cropped and resized.
+- **LeBron James**: photo by Erik Drost, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:LeBron_James_(51959977144)_(cropped2).jpg. Cropped and resized.
+- **Larry Bird**: photo by Kurt Shimala, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Larrybird.jpg. Cropped and resized.
+- **Kevin Durant**: photo by Keith Allison, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Kevin_Durant_Feb_2014.jpg. Cropped and resized.
+- **Kawhi Leonard**: photo by Chensiyuan, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:1_kawhi_leonard_2019_nba_finals_(cropped).jpg. Cropped and resized.
+- **Scottie Pippen**: photo by Copyright by Steve Lipofsky Basketballphoto.com, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Lipofsky_Pippen.jpg. Cropped and resized.
+- **Maya Moore**: photo by Sphilbrick, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Maya_Moore_UConn.jpg. Cropped and resized.
+- **Julius Erving**: photo by Ash Carter, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Julius_Erving_2016.jpg. Cropped and resized.
+- **Jayson Tatum**: photo by Erik Drost, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Jayson_Tatum_(51687926198)_(cropped).jpg. Cropped and resized.
+- **Paul George**: photo by All-Pro Reels, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Pacers_Paul_George_(cropped).jpg. Cropped and resized.
+- **Carmelo Anthony**: photo by Erik Drost, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Carmelo_Anthony_-_51958670372_(cropped).jpg. Cropped and resized.
+- **Elgin Baylor**: photo by Unknown authorUnknown author, Public domain. Source: https://commons.wikimedia.org/wiki/File:Elgin_Baylor_Night_program-(cropped).jpg. Cropped and resized.
+- **Tamika Catchings**: photo by Ruben.caraveo, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Tamika_Catchings.jpg. Cropped and resized.
+- **Detlef Schrempf**: photo by lam_chihang derivative work: Shakeydeal33, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Detlef_Schrempf_(cropped).jpg. Cropped and resized.
+- **Jimmy Butler**: photo by Xuthoria, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:CES_2026_-_Jimmy_Butler_01_(cropped).jpg. Cropped and resized.
+- **Candace Parker**: photo by Lorie Shaull, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Candace_Parker_(cropped).jpg. Cropped and resized.
+- **Rashard Lewis**: photo by Keith Allison from Baltimore, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Rashard_Lewis.jpg. Cropped and resized.
+- **Tim Duncan**: photo by Keith Allison from Owings Mills, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Tim_Duncan.jpg. Cropped and resized.
+- **Shawn Kemp**: photo by Bryan Horowitz: Flickr, website, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Shawn_Kemp_(9523772347)_(cropped).jpg. Cropped and resized.
+- **Breanna Stewart**: photo by User:Zafer, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Breanna_Stewart_12_United_States_20260910_(1)_(cropped).JPG. Cropped and resized.
+- **Dirk Nowitzki**: photo by Sven Mandel, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Dirk_Nowitzki_-_2019202181209_2019-07-21_Champions_for_Charity_-_1829_-_B70I1864.jpg. Cropped and resized.
+- **Giannis Antetokounmpo**: photo by Keith Allison from Hanover, MD, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Giannis_Antetokounmpo_(24845003687)_(cropped).jpg. Cropped and resized.
+- **Kevin Garnett**: photo by Keith Allison from Baltimore, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Kevin_Garnett_2008-01-13.jpg. Cropped and resized.
+- **Charles Barkley**: photo by Chensiyuan, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:1_charles_barkley_2019_(cropped).jpg. Cropped and resized.
+- **Dennis Rodman**: photo by Tuomas Venhola, CC BY-SA 1.0 (https://creativecommons.org/licenses/by-sa/1.0). Source: https://commons.wikimedia.org/wiki/File:Dennis_Rodman_ToPo.jpg. Cropped and resized.
+- **A'ja Wilson**: photo by Lorie Shaull from St Paul, United States, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:A%27ja_Wilson.jpg. Cropped and resized.
+- **Blake Griffin**: photo by Keith Allison from Owings Mills, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Blake_Griffin_Clippers.jpg. Cropped and resized.
+- **Napheesa Collier**: photo by Zafer, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0). Source: https://commons.wikimedia.org/wiki/File:Napheesa_Collier_24_Fenerbah%C3%A7e_Women%27s_Basketball_20231009_(2).jpg. Cropped and resized.
+- **Chris Webber**: photo by inboundpass, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Chris_Webber_NBA_Asia_Challenge_2010.jpg. Cropped and resized.
+- **Anthony Davis**: photo by Erik Drost, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Anthony_Davis_pre-game_(cropped).jpg. Cropped and resized.
+- **Draymond Green**: photo by Chensiyuan, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Draymond_Green_2019.jpg. Cropped and resized.
+- **Shaquille O'Neal**: photo by MarkScottAustinTX, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Shaquille_O%27Neal_October_2017_(cropped).jpg. Cropped and resized.
+- **Kareem Abdul-Jabbar**: photo by Steve Jenner, Public domain. Source: https://commons.wikimedia.org/wiki/File:Kareem_Abdul-Jabbar_1975.jpeg. Cropped and resized.
+- **Hakeem Olajuwon**: photo by U.S. Department of State, Public domain. Source: https://commons.wikimedia.org/wiki/File:Nigerian_President_Buhari_Stands_With_Secretary_Kerry,_U.S._Delegation_After_They_Attended_His_Inauguration_Ceremony_(cropped).jpg. Cropped and resized.
+- **Bill Russell**: photo by Unknown authorUnknown author, Public domain. Source: https://commons.wikimedia.org/wiki/File:Bill_russell_dribbling_(cropped).jpg. Cropped and resized.
+- **Wilt Chamberlain**: photo by Wilt_Chamberlain2.jpg: Fred Palumbo, World Telegram staff photographer derivative work: JoeJohnson2 (talk), Public domain. Source: https://commons.wikimedia.org/wiki/File:Wilt_Chamberlain3.jpg. Cropped and resized.
+- **Nikola Jokic**: photo by All-Pro Reels, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Nikola_Jokic_free_throw_(cropped).jpg. Cropped and resized.
+- **Victor Wembanyama**: photo by Thomas S, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Victor_Wembanyama.jpg. Cropped and resized.
+- **Lisa Leslie**: photo by Angela George at https://www.flickr.com/photos/sharongraphics/, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:LisaLeslieDec10.jpg. Cropped and resized.
+- **Brittney Griner**: photo by Lorie Shaull, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Brittney_Griner_3_(cropped2).jpg. Cropped and resized.
+- **Yao Ming**: photo by Keith Allison from Baltimore, USA, CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0/). Source: https://commons.wikimedia.org/wiki/File:YaoMingonoffense2.jpg. Cropped and resized.
+- **Patrick Ewing**: photo by Patrick_Ewing_Magic.jpg: Mike derivative work: Lpdrew, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Patrick_Ewing_Magic_cropped.jpg. Cropped and resized.
+- **David Robinson**: photo by Petty Officer 1st Class Chad J. McNeeley, U.S. Navy., Public domain. Source: https://commons.wikimedia.org/wiki/File:David_Robinson_(Team_USA).jpg. Cropped and resized.
+- **Joel Embiid**: photo by All-Pro Reels, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Joel_Embiid_2019.jpg. Cropped and resized.
+- **Lauren Jackson**: photo by Bidgee, CC BY-SA 3.0 au (https://creativecommons.org/licenses/by-sa/3.0/au/deed.en). Source: https://commons.wikimedia.org/wiki/File:Lauren_Jackson_at_the_Welcome_Home_parade_in_Sydney_(1).jpg. Cropped and resized.
+- **Sylvia Fowles**: photo by Keith Allison, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Sylvia_Fowles_WNBA.jpg. Cropped and resized.
+- **Jalen Brunson**: photo by Erik Drost, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Jalen_Brunson_2023_(cropped).jpg. Cropped and resized.
+- **Tyrese Haliburton**: photo by OSU Athletics, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Tyrese_Haliburton.jpg. Cropped and resized.
+- **Paige Bueckers**: photo by John Mac, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Paige_Bueckers_Dallas_Wings_2_(cropped).jpg. Cropped and resized.
+- **Yuki Kawamura**: photo by りさこ, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Yuki_Kawamura_2020-2021.jpg. Cropped and resized.
+- **Donovan Mitchell**: photo by Frenchieinportland, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Donovan_Mitchell_Utah_2018_(cropped).jpg. Cropped and resized.
+- **Jaylen Brown**: photo by Keith Allison from Hanover, MD, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Jaylen_Brown_2017.jpg. Cropped and resized.
+- **Sabrina Ionescu**: photo by John Mac, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Sabrina_Ionescu_2024.jpg. Cropped and resized.
+- **Cooper Flagg**: photo by Hameltion, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en). Source: https://commons.wikimedia.org/wiki/File:Duke_at_UNC,_Mar_2025,_Flagg.jpg. Cropped and resized.
+- **Rui Hachimura**: photo by All-Pro Reels from District of Columbia, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:2019_Rui_Hachimura_dribble_(48824158846)_(cropped).jpg. Cropped and resized.
+- **Franz Wagner**: photo by Sven Mandel, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Franz_Wagner_(basketball).jpg. Cropped and resized.
+- **Mikal Bridges**: photo by TonyTheTiger, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:20170213_Villanova-Depaul_Mikal_Bridges_on_the_move.jpg. Cropped and resized.
+- **Paolo Banchero**: photo by Al Ward, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0). Source: https://commons.wikimedia.org/wiki/File:Paolo_Banchero.png. Cropped and resized.
+- **Zion Williamson**: photo by Erik Drost, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Zion_Williamson_2020.jpg. Cropped and resized.
+- **Angel Reese**: photo by John Mac, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Angel_Reese_Chicago_Sky_(cropped).jpg. Cropped and resized.
+- **Evan Mobley**: photo by Erik Drost, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Evan_Mobley.jpg. Cropped and resized.
+- **Alperen Sengun**: photo by Zafer, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0). Source: https://commons.wikimedia.org/wiki/File:Alperen_%C5%9Eeng%C3%BCn_23_T%C3%BCrkiye_20250823_(2)_(cropped).jpg. Cropped and resized.
+- **Chet Holmgren**: photo by Steve Cheng, Bruin Report Online, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Chet_Holmgren.jpg. Cropped and resized.
+- **Bam Adebayo**: photo by TonyTheTiger, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:20160330_MCDAAG_Bam_Adebayo_with_the_ball.jpg. Cropped and resized.
+- **Kamilla Cardoso**: photo by John Mac, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Kamilla_Cardoso_2025_(cropped).jpg. Cropped and resized.
+- **Jeremy Lin**: photo by nikk_la, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Jeremy_Lin_with_the_Knicks_and_reporters_(cropped).jpg. Cropped and resized.
+- **Nate Robinson**: photo by Keith Allison, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Nate_Robinson.jpg. Cropped and resized.
+- **Matthew Dellavedova**: photo by Erik Drost on Flickr, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Matthew_Dellavedova_(49166301537)_(cropped).jpg. Cropped and resized.
+- **Muggsy Bogues**: photo by Mark Warner, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Muggsy_Bogues_(cropped).jpg. Cropped and resized.
+- **Spud Webb**: photo by Diemheych, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Anthony_%27Spud%27_Webb.jpg. Cropped and resized.
+- **Yuta Tabuse**: photo by User:STB-1, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Tabuse_yuuta.jpg. Cropped and resized.
+- **Anthony Carter**: photo by CT Snow, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Anthony_Carter_cropped.jpg. Cropped and resized.
+- **T.J. McConnell**: photo by Beaverbasketball, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:T._J._McConnell_looking_up.jpg. Cropped and resized.
+- **Patrick Beverley**: photo by Artem Korzhimanov, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0). Source: https://commons.wikimedia.org/wiki/File:Patrick_Beverley_2011-03-19_(2).JPG. Cropped and resized.
+- **Mario Chalmers**: photo by Aaron V.. Cropped by User:Blueag9., CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Mario-Chalmers-KU-vs-UT-Feb-11-08.jpg. Cropped and resized.
+- **Derek Fisher**: photo by Keith Allison, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Derek_Fisher_Thunder.jpg. Cropped and resized.
+- **Scoot Henderson**: photo by Frenchieinportland, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0). Source: https://commons.wikimedia.org/wiki/File:Scoot_Henderson_2024_(cropped2).jpg. Cropped and resized.
+- **Natasha Cloud**: photo by Lorie Shaull, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Natasha_Cloud_(cropped).jpg. Cropped and resized.
+- **Reed Sheppard**: photo by Brady Saylor, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Reed_Sheppard_Kentucky_v._Kansas.jpg. Cropped and resized.
+- **J.R. Smith**: photo by Erik Drost, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:J.R._Smith_(40627108671)_(cropped).jpg. Cropped and resized.
+- **Alex Caruso**: photo by Dennis Adair, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Alex_Caruso.jpg. Cropped and resized.
+- **Jordan Clarkson**: photo by Erik Drost, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Cleveland_Cavaliers_vs._Brooklyn_Nets_(47112577701).jpg. Cropped and resized.
+- **Nick Young**: photo by Keith Allison, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Nick_Young_Lakers.jpg. Cropped and resized.
+- **Lou Williams**: photo by All-Pro Reels from District of Columbia, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Lou_Williams_(51636058937).jpg. Cropped and resized.
+- **Jamal Crawford**: photo by Mayor McGinn, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Jamal_Crawford_2011.jpg. Cropped and resized.
+- **Kyle Korver**: photo by Erik Drost, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Kyle_Korver_(25756529437)_(cropped).jpg. Cropped and resized.
+- **Steve Kerr**: photo by Chensiyuan, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:1_steve_kerr_2019_(cropped).jpg. Cropped and resized.
+- **Jason Terry**: photo by Keith Allison, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Jason_Terry_3.jpg. Cropped and resized.
+- **Austin Reaves**: photo by Kevin, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Austin_Reaves_Oklahoma_(cropped).jpg. Cropped and resized.
+- **Dalton Knecht**: photo by edwarddallas, Public domain. Source: https://commons.wikimedia.org/wiki/File:Dalton_Knecht,_2024.jpg. Cropped and resized.
+- **Sophie Cunningham**: photo by John Mac, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Sophie_Cunningham_Fever_(cropped).jpg. Cropped and resized.
+- **Dyson Daniels**: photo by Hoop District, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0). Source: https://commons.wikimedia.org/wiki/File:Dyson_Daniels.png. Cropped and resized.
+- **Jarrett Culver**: photo by Keenan Hairston from Raleigh, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Jarrett_Culver_(cropped).jpg. Cropped and resized.
+- **Brian Scalabrine**: photo by Original uploader was 8-Hype at en.wikipedia, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Brian_Scalabrine_of_the_Boston_Celtics_at_NBA_Media_Day_2007.png. Cropped and resized.
+- **Yuta Watanabe**: photo by Rikster2, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Yuta_Watanabe_GW.jpg. Cropped and resized.
+- **Jaime Jaquez Jr.**: photo by Steve Cheng, Bruin Report Online, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Jaime_Jaquez_Jr_2021_(cropped).jpg. Cropped and resized.
+- **Bruce Bowen**: photo by Tim_Duncan,_Andray_Blatche,_and_Bruce_Bowen_2009-02-21.jpg: Keith Allison derivative work: Lpdrew, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Bruce_Bowen_2009.jpg. Cropped and resized.
+- **Shane Battier**: photo by Keith Allison, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Shane_Battier_Houston.jpg. Cropped and resized.
+- **Metta World Peace**: photo by Keith Allison from Hanover, MD, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Metta_World_Peace.jpg. Cropped and resized.
+- **Andrei Kirilenko**: photo by Christopher Johnson, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Andrei_Kirilenko_in_2011.jpg. Cropped and resized.
+- **Matt Barnes**: photo by Bridget Samuels from College Park, MD, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Matt_Barnes9.jpg. Cropped and resized.
+- **Stephen Jackson**: photo by Original Image by w:User:Modenadude, Deriviative created by w:User:GateKeeperX., Public domain. Source: https://commons.wikimedia.org/wiki/File:StephenJacksonCrop.jpg. Cropped and resized.
+- **Hedo Turkoglu**: photo by Zafer, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0). Source: https://commons.wikimedia.org/wiki/File:Hidayet_T%C3%BCrko%C4%9Flu_20250218_(1).jpg. Cropped and resized.
+- **P.J. Tucker**: photo by Mwinog2777, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Pjtucker.jpg. Cropped and resized.
+- **Rick Fox**: photo by Greg2600, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Rick_Fox_(40679251643)_(cropped).jpg. Cropped and resized.
+- **Josh Hart**: photo by TonyTheTiger, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:20170213_Villanova-Depaul_Josh_Hart_driving.jpg. Cropped and resized.
+- **Kyle Anderson**: photo by Bagumba, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Kyle_Anderson_(cropped).JPG. Cropped and resized.
+- **Joe Ingles**: photo by Frenchieinportland, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Joe_Ingles_Utah_(cropped).jpg. Cropped and resized.
+- **Robert Horry**: photo by Michael Sandoval from Pleasant Hill, CA, USA, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Robert_Horry.jpg. Cropped and resized.
+- **Kelly Olynyk**: photo by All-Pro Reels, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Kelly_Olynyk_2022_(cropped).jpg. Cropped and resized.
+- **Yi Jianlian**: photo by Keith Allison from Owings Mills, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Yi_Jianlian_Wizards_2.jpg. Cropped and resized.
+- **Udonis Haslem**: photo by Keith Allison, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Udonis_Haslem.jpg. Cropped and resized.
+- **Luis Scola**: photo by Basketinside il basket a 360°, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Luis_Scola_Italy_(cropped).jpg. Cropped and resized.
+- **Mehmet Okur**: photo by Stephanie Young Merzel, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Mehmet_Okur_(cropped).jpg. Cropped and resized.
+- **Channing Frye**: photo by Channing_Frye_Suns.jpg: Keith Allison from Owings Mills, USA derivative work: Chrishmt0423 (talk), CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Channing_Frye_Suns_cropped.jpg. Cropped and resized.
+- **Charles Oakley**: photo by Kevin Coles, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Charles_Oakley,_2007_(cropped).jpg. Cropped and resized.
+- **Kurt Rambis**: photo by Eric_Lewis_&_Kurt_Rambis.jpg: Keith Allison from Owings Mills, USA derivative work: Chrishmt0423 (talk), CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Kurt_Rambis.jpg. Cropped and resized.
+- **Drew Gooden**: photo by Keith Allison, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Drew_Gooden_Wizards.jpg. Cropped and resized.
+- **Taj Gibson**: photo by Bobak Ha'Eri, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0). Source: https://commons.wikimedia.org/wiki/File:2009-0319-NCAAs-006-TajGibson22.jpg. Cropped and resized.
+- **Nick Collison**: photo by J.smith, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Nick_Collison.jpg. Cropped and resized.
+- **Mark Madsen**: photo by Bobak Ha'Eri, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0). Source: https://commons.wikimedia.org/wiki/File:012308-TC-Twolves004-MarkMadsen.jpg. Cropped and resized.
+- **Glen Davis**: photo by Mike, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Glen_Davis_Washington_at_Orlando_055.jpg. Cropped and resized.
+- **Boban Marjanovic**: photo by Zafer, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0). Source: https://commons.wikimedia.org/wiki/File:Boban_Marjanovi%C4%87_51_Fenerbah%C3%A7e_Basketbol_TBSL_20241006_(1).jpg. Cropped and resized.
+- **Luka Garza**: photo by Marc-Grégor Campredon, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Luka_Garza.jpg. Cropped and resized.
+- **Walker Kessler**: photo by Gamecock Central, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Walker_Kessler_(cropped).jpg. Cropped and resized.
+- **Zach Edey**: photo by Alexander Jonesi, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Zach_Edey_2_(cropped).jpg. Cropped and resized.
+- **Mark Williams**: photo by Hoop District, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0). Source: https://commons.wikimedia.org/wiki/File:Mark_Williams.png. Cropped and resized.
+- **Gheorghe Muresan**: photo by Keith Allison from Hanover, MD, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Gheorghe_Muresan_(15833043052).jpg. Cropped and resized.
+- **Shawn Bradley**: photo by Dustin Senger / Portfolio Area Support Group Qatar Public Affairs Office, Public domain. Source: https://commons.wikimedia.org/wiki/File:Bradley,_Shawn_(2008)_2.jpg. Cropped and resized.
+- **Steven Adams**: photo by Keith Allison from Hanover, MD, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Steven_Adams_(32049572304).jpg. Cropped and resized.
+- **Joakim Noah**: photo by Keith Allison from Owings Mills, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Joakim_Noah_3.jpg. Cropped and resized.
+- **Wang Zhizhi**: photo by daisybj Cropped by User:Noble Story, CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0/). Source: https://commons.wikimedia.org/wiki/File:Wang_ZhiZhi.jpg. Cropped and resized.
+- **Anderson Varejao**: photo by Erik Drost, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Anderson_Varej%C3%A3o_2021.jpg. Cropped and resized.
+- **Patrick Mahomes**: photo by U.S. Air National Guard Master Sgt. Michael Crane, Public domain. Source: https://commons.wikimedia.org/wiki/File:Patrick_Mahomes_military_appreciation2018_(cropped).jpg. Cropped and resized.
+- **Josh Allen**: photo by Erik Drost, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Josh_Allen.jpg. Cropped and resized.
+- **Lamar Jackson**: photo by All-Pro Reels, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Lamar_Jackson_2020.jpg. Cropped and resized.
+- **Joe Burrow**: photo by The White House from Washington, DC, Public domain. Source: https://commons.wikimedia.org/wiki/File:LSU_Football_at_the_White_House_(49400533066)_(cropped).jpg. Cropped and resized.
+- **Jalen Hurts**: photo by All-Pro Reels, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Jalen_Hurts_11-14-22_(cropped).jpg. Cropped and resized.
+- **Sam Darnold**: photo by Keith Allison, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Sam_Darnold.jpg. Cropped and resized.
+- **Jayden Daniels**: photo by All-Pro Reels, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Jayden_Daniels_2025.jpg. Cropped and resized.
+- **Drake Maye**: photo by utrhighlightvideos, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0). Source: https://commons.wikimedia.org/wiki/File:Drake_Maye_High_School.png. Cropped and resized.
+- **C.J. Stroud**: photo by Tennessee Titans, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0). Source: https://commons.wikimedia.org/wiki/File:CJ_Stroud_NFL_Combine_(cropped).png. Cropped and resized.
+- **Tom Brady**: photo by Congressman Charlie Crist, Public domain. Source: https://commons.wikimedia.org/wiki/File:Tom_Brady_2021.png. Cropped and resized.
+- **Peyton Manning**: photo by Jeffrey Beall, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Peyton_Manning_(cropped).jpg. Cropped and resized.
+- **Joe Montana**: photo by photo taken by flcikr user Phil Hull, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Joe_Montana_ESPN_cropped2.jpg. Cropped and resized.
+- **Dan Marino**: photo by Unknown, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Danmarino.jpg. Cropped and resized.
+- **John Elway**: photo by Photograph: Staff Sergeant Bradley Lail, United States Air Force Derivative work: Gogus, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:John_Elway.jpg. Cropped and resized.
+- **Aaron Rodgers**: photo by All-Pro Reels, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Aaron_Rodgers_Packers_OCT2021_(cropped).jpg. Cropped and resized.
+- **Russell Wilson**: photo by Aqwfyj, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Russell_Wilson_at_the_2013_Jessie_Vetter_Classic,_July_1,_2013.jpg. Cropped and resized.
+- **Matt Hasselbeck**: photo by Mike Morbeck, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Matt_Hasselbeck_(cropped).jpg. Cropped and resized.
+- **Warren Moon**: photo by Original Poster: Gamerscore Blog Cropped by Rico Shen, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Halo3LaunchInSeattle_WarrenMoon.jpg. Cropped and resized.
+- **Marcus Mariota**: photo by All-Pro Reels, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Marcus_Mariota_Commanders_2025.jpg. Cropped and resized.
+- **Tua Tagovailoa**: photo by CCS Pictures, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Tua_Tagovailoa_Miami_Dolphins_at_New_Orleans_Saints_2021_(cropped).jpg. Cropped and resized.
+- **Marshawn Lynch**: photo by Stephanie Rush, Pacific Regional Medical Command Public Affairs, Public domain. Source: https://commons.wikimedia.org/wiki/File:Marshawn_Lynch_Pro_Bowl_2013.jpg. Cropped and resized.
+- **Shaun Alexander**: photo by derivative work: Latics (talk) SeahawksTC-EWU-118.jpg: Tom McDonald, Jason Fierle., CC BY-SA 2.5 (https://creativecommons.org/licenses/by-sa/2.5). Source: https://commons.wikimedia.org/wiki/File:Shaun_Alexander_crop-SeahawksTC-EWU.jpg. Cropped and resized.
+- **Kenneth Walker III**: photo by Time2Football, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0). Source: https://commons.wikimedia.org/wiki/File:Kenneth_Walker_III_being_interviewed_by_Time2Football_2026_(cropped).png. Cropped and resized.
+- **Christian McCaffrey**: photo by All-Pro Reels, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Christian_McCaffrey_2019.jpg. Cropped and resized.
+- **Saquon Barkley**: photo by Chris Spon, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Saquon_Barkley.jpg. Cropped and resized.
+- **Bijan Robinson**: photo by Atlanta Falcons, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0). Source: https://commons.wikimedia.org/wiki/File:Bijan_Robinson.png. Cropped and resized.
+- **Jonathan Taylor**: photo by Brady Klain, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Jonathan_Taylor.jpg. Cropped and resized.
+- **Ashton Jeanty**: photo by JL 2.8, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Ashton_Jeanty_(cropped).jpg. Cropped and resized.
+- **Josh Jacobs**: photo by LOU WOP, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0). Source: https://commons.wikimedia.org/wiki/File:Josh_Jacobs.jpg. Cropped and resized.
+- **Barry Sanders**: photo by The original uploader was Timothymonaghan at English Wikipedia., CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0/). Source: https://commons.wikimedia.org/wiki/File:Barry_Sanders.JPG. Cropped and resized.
+- **Emmitt Smith**: photo by John Trainor, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:EmmittSmith2007.jpg. Cropped and resized.
+- **Jim Brown**: photo by Phil Konstantin, Public domain. Source: https://commons.wikimedia.org/wiki/File:JimBrownByPhilKonstantin.jpg. Cropped and resized.
+- **Adrian Peterson**: photo by Mike Morbeck, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Adrian_Peterson_(cropped).jpg. Cropped and resized.
+- **Bo Jackson**: photo by U.S. Army Materiel Command (AMC Photo by Chris Putman), CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Bo_Jackson,_2011_NCAA_Honors_Celebration,_San_Antonio,_TX.jpg. Cropped and resized.
+- **Eric Dickerson**: photo by Chris Rasmussen; cropped by User:Blueag9., Public domain. Source: https://commons.wikimedia.org/wiki/File:Eric_Dickerson-August_2010.jpg. Cropped and resized.
+- **Jerry Rice**: photo by Glenn's GISuser.com Map, Mash-up & GIS PhotoBlog (GISuser.com) from Canada, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Jerry_Rice.jpg. Cropped and resized.
+- **Randy Moss**: photo by [2] from Baltimore, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Randy-Moss_8-28-09_Patriots-vs-Redskins.jpg. Cropped and resized.
+- **Steve Largent**: photo by United States House of Representatives, Public domain. Source: https://commons.wikimedia.org/wiki/File:Stevelargent.jpg. Cropped and resized.
+- **Doug Baldwin**: photo by Jeffrey Beall, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Doug_Baldwin_(American_football).JPG. Cropped and resized.
+- **Tyler Lockett**: photo by Mike Morris, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Tyler_Lockett_2015.jpg. Cropped and resized.
+- **DK Metcalf**: photo by All-Pro Reels from District of Columbia, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:D.K._Metcalf_2020.jpg. Cropped and resized.
+- **Jaxon Smith-Njigba**: photo by FanDuel, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0). Source: https://commons.wikimedia.org/wiki/File:Jaxon_Smith-Njigba_FanDuel_Interview_(cropped).png. Cropped and resized.
+- **Justin Jefferson**: photo by All-Pro Reels, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Jefferson_2022.jpg. Cropped and resized.
+- **Ja'Marr Chase**: photo by All-Pro Reels, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Ja%27Marr_Chase.jpg. Cropped and resized.
+- **Tyreek Hill**: photo by Tyreek Hill, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0). Source: https://commons.wikimedia.org/wiki/File:Tyreek_Hill_2019.jpg. Cropped and resized.
+- **Puka Nacua**: photo by Sewageboy, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Nacua_731_(cropped).jpg. Cropped and resized.
+- **Amon-Ra St. Brown**: photo by FanDuel, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0). Source: https://commons.wikimedia.org/wiki/File:Amon-Ra_St._Brown_FanDuel_Interview.png. Cropped and resized.
+- **Malik Nabers**: photo by Tammy Anthony Baker, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Malik_Nabers_2024_Florida.jpg. Cropped and resized.
+- **Davante Adams**: photo by Kyle Engman, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Davante_Adams_Cropped.jpg. Cropped and resized.
+- **Calvin Johnson**: photo by Kevind810, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Calvin_Johnson_(cropped).png. Cropped and resized.
+- **Larry Fitzgerald**: photo by Keith Allison from Hanover, MD, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Larry_Fitzgerald_2017.jpg. Cropped and resized.
+- **Terrell Owens**: photo by Collision Conf from New Orleans, Louisiana, USA, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Terrell_Owens_2017-05-02_(34255853692)_(cropped).jpg. Cropped and resized.
+- **Julio Jones**: photo by Keith Allison from Hanover, MD, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Julio_Jones_2018.jpg. Cropped and resized.
+- **George Kittle**: photo by All-Pro Reels from District of Columbia, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:George_Kittle_2019_(48940368597).jpg. Cropped and resized.
+- **Rob Gronkowski**: photo by Chairman of the Joint Chiefs of Staff from Washington D.C, United States, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:190326-D-SW162-1977_(46564316465).jpg. Cropped and resized.
+- **Tony Gonzalez**: photo by Erik Drost, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Tony_Gonzalez_Thursday_Night_Football_DEC2023_(cropped).jpg. Cropped and resized.
+- **Shannon Sharpe**: photo by Staff Sgt Kristi Machado, USAF, Public domain. Source: https://commons.wikimedia.org/wiki/File:Shannon_Sharpe_at_Super_Bowl_XLI_pre-game_show_in_Miami.jpg. Cropped and resized.
+- **Antonio Gates**: photo by Phil Konstantin, Public domain. Source: https://commons.wikimedia.org/wiki/File:AntonioGatesByPhilKonstantin.jpg. Cropped and resized.
+- **Jason Witten**: photo by Jeffrey Beall, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0). Source: https://commons.wikimedia.org/wiki/File:Jason_Witten_2017.JPG. Cropped and resized.
+- **Mark Andrews**: photo by Keith Allison from Hanover, MD, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Mark_Andrews_(American_football).jpg. Cropped and resized.
+- **Trey McBride**: photo by Paul L Dineen, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Trey_McBride.jpg. Cropped and resized.
+- **Brock Bowers**: photo by BullDawg2021, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Brock_Bowers_2_(cropped).jpg. Cropped and resized.
+- **Sam LaPorta**: photo by Maize & Blue Nation, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:SamLaPorta.jpg. Cropped and resized.
+- **Mike Ditka**: photo by Tami Heilemann--Interior Staff, Public domain. Source: https://commons.wikimedia.org/wiki/File:Mike_Ditka_2008_NFL_Experience_48-DPA-02_01_02_08_(cropped).jpg. Cropped and resized.
+- **Kellen Winslow**: photo by U.S. Congressman Zach Wamp, Public domain. Source: https://commons.wikimedia.org/wiki/File:Kellen_Winslow_Sr_cropped.jpg. Cropped and resized.
+- **Jimmy Graham**: photo by Jeffrey Beall, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Jimmy_Graham.JPG. Cropped and resized.
+- **Zach Ertz**: photo by All-Pro Reels, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Zach_Ertz_2024.jpg. Cropped and resized.
+- **Greg Olsen**: photo by All-Pro Reels, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Greg_olsen_2019.jpg. Cropped and resized.
+- **Dallas Goedert**: photo by AlexanderJonesi, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Dallas_Goedert_(cropped).jpg. Cropped and resized.
+- **Dallas Clark**: photo by User:Manningmbd, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Dallas_Clark_in_2007.JPG. Cropped and resized.
+- **AJ Barner**: photo by Maize & Blue Nation, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:AJ_Barner.jpg. Cropped and resized.
+- **Richard Sherman**: photo by Erik Drost, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Richard_Sherman_TNF_DEC2023_(cropped).jpg. Cropped and resized.
+- **Earl Thomas**: photo by Jeffrey Beall, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Earl_Thomas_(defensive_back).JPG. Cropped and resized.
+- **Kam Chancellor**: photo by Mike Morris, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Kam_Chancellor_2014_2.jpg. Cropped and resized.
+- **Bobby Wagner**: photo by All-Pro Reels, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Bobby_Wagner_-_2025_Commanders_at_Chargers_(cropped).jpg. Cropped and resized.
+- **Manti Te'o**: photo by Shotgun Spratling/Neon Tommy, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Mantiteo2010.jpg. Cropped and resized.
+- **DeForest Buckner**: photo by Jeffrey Beall, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0). Source: https://commons.wikimedia.org/wiki/File:DeForest_Buckner.JPG. Cropped and resized.
+- **Lawrence Taylor**: photo by The White House, Public domain. Source: https://commons.wikimedia.org/wiki/File:Lawrence_Taylor_in_2025_(cropped).jpg. Cropped and resized.
+- **Reggie White**: photo by Barbara Kinney, Public domain. Source: https://commons.wikimedia.org/wiki/File:Reggie_White_at_the_White_House_Crop.jpg. Cropped and resized.
+- **Ray Lewis**: photo by Bobby Jones, Public domain. Source: https://commons.wikimedia.org/wiki/File:Ray_Lewis_at_Andrews_AFB_070821-F-0000J-002_crop.jpg. Cropped and resized.
+- **Deion Sanders**: photo by Flickr user ericifeng, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Deion_Sanders_11-May-2008_cropped.jpg. Cropped and resized.
+- **J.J. Watt**: photo by Jeffrey Beall, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:JJWatt.jpg. Cropped and resized.
+- **Aaron Donald**: photo by Atlanta Falcons, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0). Source: https://commons.wikimedia.org/wiki/File:Aaron_Donald_2014_combine.jpg. Cropped and resized.
+- **T.J. Watt**: photo by Erik Drost, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:TJ_Watt.jpg. Cropped and resized.
+- **Myles Garrett**: photo by Erik Drost, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Myles_Garrett_(2021).jpg. Cropped and resized.
+- **Micah Parsons**: photo by All-Pro Reels, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Micah_Parsons_Packers_2025.jpg. Cropped and resized.
+- **Sauce Gardner**: photo by Sgt. Andrew Valenza of the New York National Guard, Public domain. Source: https://commons.wikimedia.org/wiki/File:Sauce_Gardner_with_NY_National_Guard_(cropped).jpg. Cropped and resized.
+- **Aidan Hutchinson**: photo by All-Pro Reels, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Aidan_Hutchinson.jpg. Cropped and resized.
+- **Walter Jones**: photo by Luis Antonio Rodríguez Ochoa from Redmond, Washington. Cropped by User:Blueag9., CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Walter-Jones-2008-11-02-vsEagles.jpg. Cropped and resized.
+- **Jason Kelce**: photo by All-Pro Reels, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:JasonKelce.jpg. Cropped and resized.
+- **Tim Tebow**: photo by Clemed, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Tim_Tebow_Denver_Sports_Authority_Field_2012-01-01.jpg. Cropped and resized.
+- **Ryan Fitzpatrick**: photo by All-Pro Reels, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Ryan_Fitzpatrick_2021_-_2_(cropped)_(cropped).jpg. Cropped and resized.
+- **Brian Hoyer**: photo by Erik Daniel Drost, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Brian_Hoyer_2014_Browns_training_camp_(4).jpg. Cropped and resized.
+- **Chase Daniel**: photo by Saints_Victory_Parade_Canal_St._Brees.jpg: Derek Bridges derivative work: Lpdrew, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Chase_Daniel_Saints_parade.jpg. Cropped and resized.
+- **Kyle Orton**: photo by Jeffrey Beall, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Kyle_Orton2.jpg. Cropped and resized.
+- **Jon Kitna**: photo by Jon_Kitna_walks_off_field_in_2010.jpg: CEBImagery.com derivative work: Lpdrew, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Jon_Kitna_2010.jpg. Cropped and resized.
+- **Rex Grossman**: photo by Keith Allison, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:RexGrossmanRedskins.jpg. Cropped and resized.
+- **Jake Delhomme**: photo by Ed Schipul, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Jake_Delhomme_cropped.jpg. Cropped and resized.
+- **Mark Sanchez**: photo by All-Pro Reels from District of Columbia, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Washington_Football_Team_at_Atlanta_Falcons_(3_October_2021)_JMG_3299_(51555298779)_(cropped).jpg. Cropped and resized.
+- **Case Keenum**: photo by Kevin B Long, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Case_Keenum.jpg. Cropped and resized.
+- **Matt Flynn**: photo by Gabriel Cervantes, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Matt_Flynn1.jpg. Cropped and resized.
+- **Nick Foles**: photo by Governor Tom Wolf from Harrisburg, PA, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Nick_Foles_Philadelphia_Eagles_Super_Bowl_LII_Victory_Parade_(40140602902)_(cropped1).jpg. Cropped and resized.
+- **Gardner Minshew**: photo by Atlanta Falcons, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0). Source: https://commons.wikimedia.org/wiki/File:Gardner_Minshew.png. Cropped and resized.
+- **Taysom Hill**: photo by GrabitMike, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Taysom_Hill_Saints.jpg. Cropped and resized.
+- **Doug Flutie**: photo by Cmm3, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:2025,_Alum02,_Doug_Flutie.jpg. Cropped and resized.
+- **Tommy DeVito**: photo by TigerNet.com, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Tommy_DeVito.jpg. Cropped and resized.
+- **Colt McCoy**: photo by Keith Allison, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Colt_McCoy_Redskins.jpg. Cropped and resized.
+- **Danny Woodhead**: photo by Jack Newton from Austin, TX, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Danny_Woodhead_2011.jpg. Cropped and resized.
+- **Mike Alstott**: photo by Jeff Kern, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Mike_Alstott_ESPNWeekend2010-082.jpg. Cropped and resized.
+- **Peyton Hillis**: photo by Jeffrey Beall, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Peyton_Hillis_2012.JPG. Cropped and resized.
+- **BenJarvus Green-Ellis**: photo by Keith Allison from Baltimore, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:BenJarvus-Green-Ellis_8-28-09_Patriots-vs-Redskins.jpg. Cropped and resized.
+- **Jerome Bettis**: photo by DHHS, Public domain. Source: https://commons.wikimedia.org/wiki/File:Jerome_Bettis_at_Health_event,_May_2005,_cropped.jpg. Cropped and resized.
+- **Christine Michael**: photo by Dave Sizer, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Christine_Michael.jpg. Cropped and resized.
+- **Kyle Juszczyk**: photo by Time2Football, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0). Source: https://commons.wikimedia.org/wiki/File:49ers_FB_Kyle_Juszczyk_Super_Bowl_LIV_Interview_(cropped).png. Cropped and resized.
+- **Patrick Ricard**: photo by Tennessee Titans, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0). Source: https://commons.wikimedia.org/wiki/File:Patrick_Ricard.png. Cropped and resized.
+- **Darren Sproles**: photo by Jeffrey Beall, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Darren_Sproles.JPG. Cropped and resized.
+- **Dexter McCluster**: photo by Guiltlessgecko, Public domain. Source: https://commons.wikimedia.org/wiki/File:Mccluster_spring_game.jpg. Cropped and resized.
+- **Lorenzo Neal**: photo by Mass Communication Specialist 2nd Class Michael Hight, Public domain. Source: https://commons.wikimedia.org/wiki/File:Lorenzo_Neal_2-3-08_080203-N-5476H-021.jpg. Cropped and resized.
+- **Chris Carson**: photo by Jeffrey Beall, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0). Source: https://commons.wikimedia.org/wiki/File:Chris_Carson_(American_football).JPG. Cropped and resized.
+- **Rashaad Penny**: photo by Islanderzz, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Penny_Press.png. Cropped and resized.
+- **Rex Burkhead**: photo by Thomson200, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en). Source: https://commons.wikimedia.org/wiki/File:Rex_Burkhead_2013.jpg. Cropped and resized.
+- **Mike Tolbert**: photo by Jeffrey Beall, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0). Source: https://commons.wikimedia.org/wiki/File:Mike_Tolbert.JPG. Cropped and resized.
+- **Julian Edelman**: photo by Jeffrey Beall, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Julian_Edelman.JPG. Cropped and resized.
+- **Jermaine Kearse**: photo by Jeffrey Beall, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0). Source: https://commons.wikimedia.org/wiki/File:Jermaine_Kearse_2014.JPG. Cropped and resized.
+- **Golden Tate**: photo by Mike Morris, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Golden_Tate_vs._Rams_2013.jpg. Cropped and resized.
+- **Chad Johnson**: photo by Jeff Kern, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Chad_Ochocinco_ESPNWeekend2010-014_(cropped).jpg. Cropped and resized.
+- **Danny Amendola**: photo by Jeffrey Beall, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Danny_Amendola_Rams.JPG. Cropped and resized.
+- **Victor Cruz**: photo by David Shankbone, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0). Source: https://commons.wikimedia.org/wiki/File:Victor_Cruz_2012_Shankbone.JPG. Cropped and resized.
+- **Adam Thielen**: photo by Keith Allison, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Adam_Thielen_2017.jpg. Cropped and resized.
+- **Josh Cribbs**: photo by Gordon Vasquez, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Josh_Cribbsay_at_Playboy_Mansion,_Beverly_Hills.jpg. Cropped and resized.
+- **Devin Hester**: photo by Jauerback, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Devin_Hester_(cropped).jpg. Cropped and resized.
+- **Deion Branch**: photo by Jack Newton from Austin, TX, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Deion_Branch_in_2011.jpg. Cropped and resized.
+- **Wayne Chrebet**: photo by Photo by Tech. Sgt. Armando Vasquez, NJDMAVA/PA, Public domain. Source: https://commons.wikimedia.org/wiki/File:Wayne_Chrebet_(12106637915)_(cropped).jpg. Cropped and resized.
+- **Chris Hogan**: photo by Jeffrey Beall, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0). Source: https://commons.wikimedia.org/wiki/File:Chris_Hogan_(American_football).JPG. Cropped and resized.
+- **Cordarrelle Patterson**: photo by Matthew Deery, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Cordarrelle_Patterson_2014.jpg. Cropped and resized.
+- **Luke Willson**: photo by Mike Morris, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Luke_Willson.jpg. Cropped and resized.
+- **Martellus Bennett**: photo by David Shankbone, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0). Source: https://commons.wikimedia.org/wiki/File:Martellus_Bennett_2012_Shankbone.JPG. Cropped and resized.
+- **Vernon Davis**: photo by Keith Allison from Hanover, MD, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Vernon_Davis_2018_(cropped).jpg. Cropped and resized.
+- **Jared Cook**: photo by U.S. Air Force/Louis Briscese, Public domain. Source: https://commons.wikimedia.org/wiki/File:Jared_Cook.jpg. Cropped and resized.
+- **Kyle Rudolph**: photo by United States Marine Corps/Sgt. D.R. Cotton, Public domain. Source: https://commons.wikimedia.org/wiki/File:Kyle_Rudolph_Pro_Bowl_(cropped).JPG. Cropped and resized.
+- **Marcedes Lewis**: photo by Keith Allison from Hanover, MD, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Marcedes_Lewis_2014.jpg. Cropped and resized.
+- **Owen Daniels**: photo by Jeffrey Beall, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Owen_Daniels.JPG. Cropped and resized.
+- **Jermichael Finley**: photo by Mike Morbeck, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Jermichael_Finley.jpg. Cropped and resized.
+- **Ben Watson**: photo by Franziska, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Ben_Watson_2015.jpg. Cropped and resized.
+- **Dan Campbell**: photo by Chrisjnelson at en.wikipedia, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0). Source: https://commons.wikimedia.org/wiki/File:Dan_Campbell.jpg. Cropped and resized.
+- **Chris Cooley**: photo by flickr user dbking, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Chris_Cooley_at_Redskins_training_camp,_August_2006.jpg. Cropped and resized.
+- **Julius Thomas**: photo by Jeffrey Beall, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Julius_Thomas.JPG. Cropped and resized.
+- **Tyler Eifert**: photo by emeybee, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:TylerEifert.jpg. Cropped and resized.
+- **Logan Thomas**: photo by All-Pro Reels, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:WFT_TE_Logan_Thomas.jpg. Cropped and resized.
+- **Michael Bennett**: photo by Jeffrey Beall, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Michael_Bennett_(defensive_lineman).JPG. Cropped and resized.
+- **Brandon Mebane**: photo by Luis Antonio Rodríguez Ochoa from Redmond, Washington. Cropped by User:Blueag9., CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Brandon-Mebane-2008-11-02-vsEagles.jpg. Cropped and resized.
+- **Red Bryant**: photo by Jeffrey Beall, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Red_Bryant_2012.JPG. Cropped and resized.
+- **K.J. Wright**: photo by Jeffrey Beall, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:K._J._Wright.JPG. Cropped and resized.
+- **Malcolm Smith**: photo by Bobak Ha'Eri, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0). Source: https://commons.wikimedia.org/wiki/File:2010-0918-MichaelMorgan.JPG. Cropped and resized.
+- **Byron Maxwell**: photo by Mike Morris, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Byron_Maxwell_2014.jpg. Cropped and resized.
+- **Cliff Avril**: photo by Jeffrey Beall, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0). Source: https://commons.wikimedia.org/wiki/File:Cliff_Avril_2014.JPG. Cropped and resized.
+- **Vince Wilfork**: photo by Keith Allison from Baltimore, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Vince-Wilfork_8-28-09_Patriots-vs-Redskins.jpg. Cropped and resized.
+- **Jared Allen**: photo by MN National Guard, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0). Source: https://commons.wikimedia.org/wiki/File:Jared_Allen_2009.JPG. Cropped and resized.
+- **Tyson Alualu**: photo by BrokenSphere, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Tyson_Alualu_at_2009_Cal_Fan_Appreciation_Day.JPG. Cropped and resized.
+- **Jevon Kearse**: photo by Tennessee Titans, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0). Source: https://commons.wikimedia.org/wiki/File:Jevon_Kearse.jpg. Cropped and resized.
+- **Clay Matthews**: photo by Gabriel Cervantes, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Clay_Matthews_III.jpg. Cropped and resized.
+- **London Fletcher**: photo by Jeffrey Beall, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0). Source: https://commons.wikimedia.org/wiki/File:London_Fletcher.JPG. Cropped and resized.
+- **Tedy Bruschi**: photo by NFL_Live_ESPNWeekend2010-026.jpg: Jeff Kern derivative work: RanZag (talk), CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Tedy_Bruschi_2010.jpg. Cropped and resized.
+- **Mike Vrabel**: photo by Neil Cornrich, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Super_Bowl_2008_-_XLII_with_Mike_Vrabel_(cropped).JPG. Cropped and resized.
+- **Chris Long**: photo by Johnmaxmena2, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Chrislongrams2013a.jpg. Cropped and resized.
+- **Kyle Williams**: photo by Jeffrey Beall, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0). Source: https://commons.wikimedia.org/wiki/File:Kyle_Williams_(defensive_tackle).JPG. Cropped and resized.
+- **Roki Sasaki**: photo by ウィ貴公子, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:%E4%BD%90%E3%80%85%E6%9C%A8%E6%9C%97%E5%B8%8C_MLB_Tokyo_Series_by_Guggenheim_Pre-season_games_Los_Angeles_Dodgers_vs_%E8%AA%AD%E5%A3%B2%E3%82%B8%E3%83%A3%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%84_%E6%9D%B1%E4%BA%AC%E3%83%89%E3%83%BC%E3%83%A0_2025%E5%B9%B43%E6%9C%8815%E6%97%A5%E3%81%AE%E6%9D%B1%E4%BA%AC_202503151741_DSCN2909.jpg. Cropped and resized.
+- **Yu Darvish**: photo by D. Benjamin Miller, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en). Source: https://commons.wikimedia.org/wiki/File:Yu_Darvish_checks_a_runner,_Oct_07_2022_(cropped).jpg. Cropped and resized.
+- **Hideo Nomo**: photo by Sakuraikubuki, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:%E9%87%8E%E8%8C%82%E8%8B%B1%E9%9B%8420110216.jpg. Cropped and resized.
+- **Paul Skenes**: photo by U.S. Air Force photo by Senior Master Sgt. Ted Daigle, Public domain. Source: https://commons.wikimedia.org/wiki/File:Paul_Skenes_(8057125)_(cropped).jpg. Cropped and resized.
+- **Tarik Skubal**: photo by Sewageboy, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:DET_at_LAA_2025_-_Skubal_(11)_(cropped).jpg. Cropped and resized.
+- **Logan Gilbert**: photo by Erik Drost, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Logan_Gilbert_(51267861261)_(cropped).jpg. Cropped and resized.
+- **Felix Hernandez**: photo by LiAnna Davis, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Felix_Hernandez_close_up.JPG. Cropped and resized.
+- **Randy Johnson**: photo by User Googie man on en.wikipedia, CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0/). Source: https://commons.wikimedia.org/wiki/File:RandyJohnson.jpg. Cropped and resized.
+- **Sid Fernandez**: photo by Jeff Marquis, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Sid_Fernandez_1986.jpg. Cropped and resized.
+- **Sandy Koufax**: photo by publicity still, Public domain. Source: https://commons.wikimedia.org/wiki/File:Sandy_Koufax.jpg. Cropped and resized.
+- **Pedro Martinez**: photo by dbking, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Pedro_Mart%C3%ADnez_on_September_8,_2009.jpg. Cropped and resized.
+- **Clayton Kershaw**: photo by Keith Allison from Owings Mills, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Clayton_Kershaw_(8664700662).jpg. Cropped and resized.
+- **Mariano Rivera**: photo by User Keith Allison on Flickr, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Mariano_Rivera_allison_7_29_07.jpg. Cropped and resized.
+- **Justin Verlander**: photo by D. Benjamin Miller, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en). Source: https://commons.wikimedia.org/wiki/File:Justin_Verlander_pitching,_March_26,_2023_(1)_(cropped).jpg. Cropped and resized.
+- **Jacob deGrom**: photo by All-Pro Reels from District of Columbia, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Jacob_deGrom_pitches_in_the_2nd_inning_from_Nationals_vs._Mets_at_Nationals_Park,_September_26th,_2020_(All-Pro_Reels_Photography)_(50389894478)_(cropped).jpg. Cropped and resized.
+- **Cal Raleigh**: photo by Arc1294, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0). Source: https://commons.wikimedia.org/wiki/File:CalRaleigh2025.png. Cropped and resized.
+- **Kurt Suzuki**: photo by BADBOY_1975 on フォト蔵 (Original version) UCinternational (Crop), CC BY 2.1 jp (https://creativecommons.org/licenses/by/2.1/jp/deed.en). Source: https://commons.wikimedia.org/wiki/File:Kurt_Suzuki_on_March_28,_2012.jpg. Cropped and resized.
+- **Kenji Johjima**: photo by Cake6 (talk), CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:HT-Kenji-Jojima20100525.jpg. Cropped and resized.
+- **Johnny Bench**: photo by Rafael Amado Deras, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Bench_Johnny.jpg. Cropped and resized.
+- **Yogi Berra**: photo by Bowman Gum, Public domain. Source: https://commons.wikimedia.org/wiki/File:1953_Bowman_Yogi_Berra_(cropped).jpg. Cropped and resized.
+- **Mike Piazza**: photo by Arturo Pardavila III from Hoboken, NJ, USA, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Mike_Piazza_HOF_Press_Conference.jpg. Cropped and resized.
+- **Ivan Rodriguez**: photo by Wknight94, CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0/). Source: https://commons.wikimedia.org/wiki/File:Iv%C3%A1n_Rodr%C3%ADguez_(baseball).jpg. Cropped and resized.
+- **Buster Posey**: photo by Cbl62, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Buster_Posey_(2011).jpg. Cropped and resized.
+- **Yadier Molina**: photo by shgmom56 on Flickr (Original version) UCinternational (Crop), CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:DSC00636_Yadier_Molina.jpg. Cropped and resized.
+- **Salvador Perez**: photo by Keith Allison from Hanover, MD, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Salvador_Perez_(26925931234).jpg. Cropped and resized.
+- **Will Smith**: photo by ウィ貴公子, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Will_Smith_MLB_Tokyo_Series_by_Guggenheim_Pre-season_games_Los_Angeles_Dodgers_vs_%E8%AA%AD%E5%A3%B2%E3%82%B8%E3%83%A3%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%84_%E6%9D%B1%E4%BA%AC%E3%83%89%E3%83%BC%E3%83%A0_2025%E5%B9%B43%E6%9C%8815%E6%97%A5%E3%81%AE%E6%9D%B1%E4%BA%AC_202503151829_DSCN3035.jpg. Cropped and resized.
+- **Adley Rutschman**: photo by Maryland GovPics, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Adley_Rutschman_cropped_from_Pre_Game_Warmup_(52802968734).jpg. Cropped and resized.
+- **William Contreras**: photo by D. Benjamin Miller, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en). Source: https://commons.wikimedia.org/wiki/File:William_Contreras_stands_at_home_plate,_Aug_05_2022_(cropped).jpg. Cropped and resized.
+- **J.T. Realmuto**: photo by D. Benjamin Miller, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en). Source: https://commons.wikimedia.org/wiki/File:J._T._Realmuto_during_warmups,_September_22,_2024_(cropped).jpg. Cropped and resized.
+- **Joe Mauer**: photo by Keith Allison from Hanover, MD, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Joe_Mauer_in_2017_(34025539223).jpg. Cropped and resized.
+- **Roy Campanella**: photo by New York World-Telegram and the Sun staff photographer, Public domain. Source: https://commons.wikimedia.org/wiki/File:Roy_Campanella_cropped_NYWTS.jpg. Cropped and resized.
+- **Gary Carter**: photo by Resolute, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Gary_Carter_OC.JPG. Cropped and resized.
+- **Jorge Posada**: photo by Googie man on en.wikipedia, CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0/). Source: https://commons.wikimedia.org/wiki/File:Jorge_P.jpg. Cropped and resized.
+- **Kolten Wong**: photo by Johnmaxmena2, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Koltenwong2013cardinals.jpg. Cropped and resized.
+- **Kyle Seager**: photo by Keith Allison from Hanover, MD, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Kyle_Seager_(17919015822).jpg. Cropped and resized.
+- **Adrian Beltre**: photo by Keith Allison from Hanover, MD, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Adri%C3%A1n_Beltr%C3%A9_in_2017_(35197724614).jpg. Cropped and resized.
+- **Derek Jeter**: photo by D. Benjamin Miller, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en). Source: https://commons.wikimedia.org/wiki/File:Derek_Jeter_during_MLB_on_Fox_pre-game_show,_October_16,_2024_-_001_(cropped).jpg. Cropped and resized.
+- **Cal Ripken Jr.**: photo by Angela George, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:CalRipkenJrHWOFJune2013.jpg. Cropped and resized.
+- **Jackie Robinson**: photo by Harry Warnecke / Frank Livia / Robert F. Cranston / William Klein, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en). Source: https://commons.wikimedia.org/wiki/File:Jackie_Robinson,_NPG_97_135.jpg. Cropped and resized.
+- **Lou Gehrig**: photo by Unknown authorUnknown author, Public domain. Source: https://commons.wikimedia.org/wiki/File:Lou_Gehrig_in_1923_(cropped).jpg. Cropped and resized.
+- **Ozzie Smith**: photo by Johnmaxmena (talk)John Mena, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0). Source: https://commons.wikimedia.org/wiki/File:Ozzie_Smith_1983.jpg. Cropped and resized.
+- **Mike Schmidt**: photo by Ken Lund from Las Vegas, Nevada, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Mike_Schmidt.jpg. Cropped and resized.
+- **Ryne Sandberg**: photo by Wjmummert, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Pic_of_ryne_sandberg_from_the_early_90%27s.jpg. Cropped and resized.
+- **Freddie Freeman**: photo by All-Pro Reels on Flickr (Original version) UCinternational (Crop), CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Freddie_Freeman_on_April_23,_2024_(2).jpg. Cropped and resized.
+- **Francisco Lindor**: photo by D. Benjamin Miller, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en). Source: https://commons.wikimedia.org/wiki/File:Francisco_Lindor_during_warmups,_March_15,_2024_(1)_(cropped).jpg. Cropped and resized.
+- **Bobby Witt Jr.**: photo by Johnmaxmena2, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Bobbywittjrprofile.png. Cropped and resized.
+- **Mookie Betts**: photo by All-Pro Reels from District of Columbia, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Dodgers_at_Nationals_(53676957188)_(cropped).jpg. Cropped and resized.
+- **Jose Altuve**: photo by EricEnfermero, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Jose_Altuve_Astros_in_May_2014.jpg. Cropped and resized.
+- **Gunnar Henderson**: photo by Reunion, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0). Source: https://commons.wikimedia.org/wiki/File:GunnarHenderson.jpg. Cropped and resized.
+- **Elly De La Cruz**: photo by Minda Haas Kuhlmann, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Elly_De_La_Cruz_(52871797088)_(cropped).jpg. Cropped and resized.
+- **Vladimir Guerrero Jr.**: photo by Tricia Hall on Flickr, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Vladimir_Guerrero_Jr_(29228110127)_(cropped).jpg. Cropped and resized.
+- **Ichiro Suzuki**: photo by Keith Allison, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Ichiro_Suzuki_on_May_11,_2011.jpg. Cropped and resized.
+- **Ken Griffey Jr.**: photo by Keith Allison, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Ken_Griffey,_Jr._June_2009_(cropped).jpg. Cropped and resized.
+- **Julio Rodriguez**: photo by Leones del Escogido, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0). Source: https://commons.wikimedia.org/wiki/File:Julio_Rodr%C3%ADguez.png. Cropped and resized.
+- **Jay Buhner**: photo by Seattle Municipal Archives from Seattle, WA, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Jay_Buhner.jpg. Cropped and resized.
+- **Randy Arozarena**: photo by All-Pro Reels on Flickr (Original version) UCinternational (Crop), CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Randy_Arozarena_on_September_8,_2020_(2).jpg. Cropped and resized.
+- **Shane Victorino**: photo by Keith Allison on Flickr, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Shane_Victorino_on_July_28,_2013.jpg. Cropped and resized.
+- **Benny Agbayani**: photo by slgckgc, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Benny_Agbayani.jpg. Cropped and resized.
+- **Seiya Suzuki**: photo by User:STB-1, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Suzuki_seiya.jpg. Cropped and resized.
+- **Babe Ruth**: photo by Charles M. Conlon, Public domain. Source: https://commons.wikimedia.org/wiki/File:Babe_Ruth,_1933.jpg. Cropped and resized.
+- **Willie Mays**: photo by New York World-Telegram and the Sun staff photographer, William C. Greene, Public domain. Source: https://commons.wikimedia.org/wiki/File:Willie_Mays_cropped.jpg. Cropped and resized.
+- **Hank Aaron**: photo by Unknown authorUnknown author, Public domain. Source: https://commons.wikimedia.org/wiki/File:Hank_Aaron_1974.jpg. Cropped and resized.
+- **Mickey Mantle**: photo by Bowman, Public domain. Source: https://commons.wikimedia.org/wiki/File:1954_Bowman_Mickey_Mantle.jpg. Cropped and resized.
+- **Rickey Henderson**: photo by User Dlz28 on en.wikipedia, Public domain. Source: https://commons.wikimedia.org/wiki/File:Rickeyhenderson2002.jpg. Cropped and resized.
+- **Tony Gwynn**: photo by Krusty from Saint Paul, MN, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Tony_Gwynn_2011.jpg. Cropped and resized.
+- **Aaron Judge**: photo by The White House, Public domain. Source: https://commons.wikimedia.org/wiki/File:Aaron_Judge_posing_with_Donald_Trump_2025-09-11_(cropped).jpg. Cropped and resized.
+- **Juan Soto**: photo by Leo Altes, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Mets_Spring_Training,_March_23,_2025_(Leo_Altes)_-_00010_(cropped).jpg. Cropped and resized.
+- **Mike Trout**: photo by Mogami Kariya, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Mike_Trout_(52252097714)_(cropped).jpg. Cropped and resized.
+- **Ronald Acuna Jr.**: photo by Thomson200, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en). Source: https://commons.wikimedia.org/wiki/File:Ronald_Acu%C3%B1a_Jr._Sept_18,_2018.jpg. Cropped and resized.
+- **Kyle Tucker**: photo by Video by Sgt. BRANDON KEYS, Public domain. Source: https://commons.wikimedia.org/wiki/File:Kyle_Tucker_visits_Fort_Hood,_Texas_(cropped).png. Cropped and resized.
+- **Shohei Ohtani**: photo by The White House, Public domain. Source: https://commons.wikimedia.org/wiki/File:2026_Shohei_Ohtani_(cropped).jpg. Cropped and resized.
+- **Edgar Martinez**: photo by Kuyabribri, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:EdgarMartinez2009.jpg. Cropped and resized.
+- **Frank Thomas**: photo by No machine-readable author provided. Drdisque assumed (based on copyright claims)., CC BY 2.5 (https://creativecommons.org/licenses/by/2.5). Source: https://commons.wikimedia.org/wiki/File:FrankThomas2007.jpg. Cropped and resized.
+- **Nelson Cruz**: photo by Keith Allison, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Nelson_Cruz_2014.jpg. Cropped and resized.
+- **Kyle Schwarber**: photo by Tuh22823 on Wikimedia Commons (Original version) UCinternational (Crop), CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Kyle_Schwarber_on_April_8,_2023_(2).jpg. Cropped and resized.
+- **Giancarlo Stanton**: photo by Bloggeraccountusa, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Picture_of_Giancarlo_Stanton_during_Marlins_Fanfest_2012.jpg. Cropped and resized.
+- **Jim Thome**: photo by Keith Allison, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Jim_Thome_2008.jpg. Cropped and resized.
+- **Paul Molitor**: photo by Paul Morse, Public domain. Source: https://commons.wikimedia.org/wiki/File:Paul_Molitor_white_house.jpg. Cropped and resized.
+- **Travis Hafner**: photo by Keith Allison on Flickr, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Travis_Hafner_on_May_20,_2013.jpg. Cropped and resized.
+- **Harold Baines**: photo by User Dlz28 on en.wikipedia, Public domain. Source: https://commons.wikimedia.org/wiki/File:Harold_baines2001.jpg. Cropped and resized.
+- **Marcell Ozuna**: photo by Arturo Pardavila III on Flickr (Original version) UCinternational (Crop), CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Marcell_Ozuna_on_April_11,_2016.jpg. Cropped and resized.
+- **Brent Rooker**: photo by Jeffrey Hyde, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Brent_Rooker.jpg. Cropped and resized.
+- **J.D. Martinez**: photo by D. Benjamin Miller, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en). Source: https://commons.wikimedia.org/wiki/File:J._D._Martinez_on_first_base,_May_25,_2024_-_001_(cropped).jpg. Cropped and resized.
+- **Pete Alonso**: photo by D. Benjamin Miller, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en). Source: https://commons.wikimedia.org/wiki/File:Pete_Alonso_fist-bumps_teammates_during_introductions,_March_30,_2023_(cropped).jpg. Cropped and resized.
+- **Eugenio Suarez**: photo by Hayden Schiff from Cincinnati, USA, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:CINvARI_-_Eugenio_Suarez_(45306230042)_(cropped).jpg. Cropped and resized.
+- **Mitch Garver**: photo by Bryan Green, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Mitch_Garver_-_17180019977.jpg. Cropped and resized.
+- **Edwin Encarnacion**: photo by Arturo Pardavila III from Hoboken, NJ, USA, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Blue_Jays_slugger_Edwin_Encarnacion_talks_to_reporters_at_2016_All-Star_Game_availability._(28498724865).jpg. Cropped and resized.
+- **Josh Naylor**: photo by Erik Drost, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Josh_Naylor_(53479503388).jpg. Cropped and resized.
+- **Edwin Diaz**: photo by D. Benjamin Miller, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en). Source: https://commons.wikimedia.org/wiki/File:Edwin_Diaz_on_March_2,_2019_(cropped_2).jpg. Cropped and resized.
+- **Rich Hill**: photo by Minda Haas Kuhlmann, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Rich_Hill_(54574359318)_(cropped).jpg. Cropped and resized.
+- **Pat Venditte**: photo by Scott U, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Pat_Venditte_(20823242082)_(cropped).jpg. Cropped and resized.
+- **Jamie Moyer**: photo by Beno1983 on en.wikipedia, Public domain. Source: https://commons.wikimedia.org/wiki/File:Jamie_Moyer_Phillies.JPG. Cropped and resized.
+- **Fernando Rodney**: photo by Keith Allison on Flickr, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Fernando_Rodney_on_May_11,_2012.jpg. Cropped and resized.
+- **Brian Wilson**: photo by Rob Shenk, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Brian_Wilson_Fear_the_Beard.jpg. Cropped and resized.
+- **Kenley Jansen**: photo by Ian D'Andrea on Flickr (Original version) UCinternational (Crop), CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Kenley_Jansen_on_July_24,_2018_(2).jpg. Cropped and resized.
+- **R.A. Dickey**: photo by dbking on Flickr, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:MG_4618_R._A._Dickey.jpg. Cropped and resized.
+- **Hideki Okajima**: photo by Gaffky, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:HAWKS62-OKAJIMA.JPG. Cropped and resized.
+- **Koji Uehara**: photo by mjl816 on Flickr (Original version) UCinternational (Crop), CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Koji_Uehara_on_March_13,_2012.jpg. Cropped and resized.
+- **Kazuhiro Sasaki**: photo by Ogiyoshisan, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Kazuhiro_Sasaki_and_Kunihiko_Take_DSCN5872_20081206.JPG. Cropped and resized.
+- **Brandon League**: photo by Keith Allison on Flickr, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Brandon_League_on_April_19,_2013.jpg. Cropped and resized.
+- **Joba Chamberlain**: photo by jimmyack205 on Flickr, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Joba_Chamberlain_on_June_25,_2009.jpg. Cropped and resized.
+- **Jonathan Papelbon**: photo by Keith Allison, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Jonathan_Papelbon_warmups_2008.jpg. Cropped and resized.
+- **Brent Suter**: photo by Gage Skidmore, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Brent_Suter_by_Gage_Skidmore.jpg. Cropped and resized.
+- **Mark Buehrle**: photo by Sliver7, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Mark-Buehrle-20130301.JPG. Cropped and resized.
+- **Kent Tekulve**: photo by John Setzler, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Kent_Tekulve_2007.jpg. Cropped and resized.
+- **A.J. Pierzynski**: photo by Keith Allison, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:A.J._Pierzynski_April_2009.jpg. Cropped and resized.
+- **Jose Molina**: photo by Keith Allison on Flickr, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Jos%C3%A9_Molina_on_June_5,_2011.jpg. Cropped and resized.
+- **Mike Zunino**: photo by Keith Allison from Hanover, MD, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Mike_Zunino_(17301190133).jpg. Cropped and resized.
+- **Jesus Sucre**: photo by Keith Allison, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Jesus_Sucre_2014.jpg. Cropped and resized.
+- **Jeff Mathis**: photo by Keith Allison on Flickr, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Jeff_Mathis_on_April_24,_2012.jpg. Cropped and resized.
+- **Drew Butera**: photo by Joe Bielawa on Flickr (Original version) UCinternational (Crop), CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Drew_Butera_on_June_26,_2012.jpg. Cropped and resized.
+- **Stephen Vogt**: photo by D. Benjamin Miller, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en). Source: https://commons.wikimedia.org/wiki/File:Stephen_Vogt,_August_25,_2019_(cropped).jpg. Cropped and resized.
+- **Russell Martin**: photo by Keith Allison on Flickr, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Russell_Martin_2011.jpg. Cropped and resized.
+- **Jason Varitek**: photo by Keith Allison on Flickr, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Jason_Varitek_on_June_30,_2009.jpg. Cropped and resized.
+- **Bob Uecker**: photo by Unknown authorUnknown author, Public domain. Source: https://commons.wikimedia.org/wiki/File:Bob_Uecker_-_St._Louis_Cardinals_-_1965.jpg. Cropped and resized.
+- **Chris Gimenez**: photo by Keith Allison on Flickr, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Chris_Gimenez_on_July_1,_2014.jpg. Cropped and resized.
+- **Dioner Navarro**: photo by Keith Allison on Flickr (Original version) UCinternational (Crop), CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Dioner_Navarro_on_May_1,_2016.jpg. Cropped and resized.
+- **Carlos Ruiz**: photo by Matthew Straubmuller on Flickr, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Carlos_Ruiz_on_June_1,_2011_(2).jpg. Cropped and resized.
+- **David Eckstein**: photo by Djh57, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0). Source: https://commons.wikimedia.org/wiki/File:David_Eckstein_02.JPG. Cropped and resized.
+- **Pablo Sandoval**: photo by Keith Allison from Hanover, MD, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Pablo_Sandoval_(17234905956).jpg. Cropped and resized.
+- **Willie Bloomquist**: photo by Mwinog2777, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Bloomquistwin.jpg. Cropped and resized.
+- **Ben Zobrist**: photo by Keith Allison, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Ben_Zobrist_April_2014.jpg. Cropped and resized.
+- **Enrique Hernandez**: photo by EricEnfermero, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Enrique_Kike_Hernandez_Houston_Astros_July_2014.jpg. Cropped and resized.
+- **Nick Punto**: photo by Keith Allison on Flickr, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Nick_Punto_on_June_28,_2011.jpg. Cropped and resized.
+- **Mario Mendoza**: photo by Pittsburgh Pirates, Public domain. Source: https://commons.wikimedia.org/wiki/File:Mario_Mendoza_Pirates.jpg. Cropped and resized.
+- **Dylan Moore**: photo by U.S. Air Force photo by Kemberly Groue, Public domain. Source: https://commons.wikimedia.org/wiki/File:Dylan_Moore_(4401991)_(cropped).jpg. Cropped and resized.
+- **Lenn Sakata**: photo by Baltimore Orioles, Public domain. Source: https://commons.wikimedia.org/wiki/File:Lenn_Sakata.jpg. Cropped and resized.
+- **Munenori Kawasaki**: photo by ウィ貴公子, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:%E5%B7%9D%EF%A8%91%E5%AE%97%E5%89%87_cropped_from_202306181331_DSCN9410.jpg. Cropped and resized.
+- **Jose Iglesias**: photo by D. Benjamin Miller, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en). Source: https://commons.wikimedia.org/wiki/File:Jos%C3%A9_Iglesias_running_the_bases_after_hitting_a_walk-off_home_run,_March_17,_2024_-_00018_(cropped).jpg. Cropped and resized.
+- **Sean Casey**: photo by Captain-tucker, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Sean-casey-red-sox.jpg. Cropped and resized.
+- **Willians Astudillo**: photo by Buck Davidson on Flickr, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Willians_Astudillo_(20038714286).jpg. Cropped and resized.
+- **Ty France**: photo by Johnmaxmena2, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0). Source: https://commons.wikimedia.org/wiki/File:2025_Twins-Cardinals_Mar_29_Ty_France.png. Cropped and resized.
+- **Josh Harrison**: photo by Keith Allison from Hanover, MD, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Josh_Harrison_in_2017_(35149702545).jpg. Cropped and resized.
+- **Rick Ankiel**: photo by slgckgc on Flickr (Original version) UCinternational (Crop), CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Rick_Ankiel_on_May_21,_2013.jpg. Cropped and resized.
+- **Brett Gardner**: photo by User Keith Allison on Flickr, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:001B4375_Brett_Gardner.jpg. Cropped and resized.
+- **Jarrod Dyson**: photo by Keith Allison on Flickr, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Jarrod_Dyson_on_May_26,_2012.jpg. Cropped and resized.
+- **Billy Hamilton**: photo by Keith Allison, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Billy_Hamilton_2014.jpg. Cropped and resized.
+- **Terrance Gore**: photo by Minda Haas on Flickr (Original version) UCinternational (Crop), CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Terrance_Gore_on_January_29,_2015.jpg. Cropped and resized.
+- **Mitch Haniger**: photo by Keith Allison from Hanover, MD, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Mitch_Haniger_(29281543103).jpg. Cropped and resized.
+- **Raul Ibanez**: photo by Matthew Straubmuller on Flickr, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Ra%C3%BAl_Iba%C3%B1ez_on_June_1,_2011.jpg. Cropped and resized.
+- **Jonny Gomes**: photo by Keith Allison on Flickr, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Jonny_Gomes_on_April_3,_2014.jpg. Cropped and resized.
+- **Nick Swisher**: photo by Keith Allison, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Nick_Swisher_basepaths_2011.jpg. Cropped and resized.
+- **Coco Crisp**: photo by NickB149, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Coco_Crisp_Oakland_2015.jpg. Cropped and resized.
+- **So Taguchi**: photo by shgmom56 on Flickr (Original version) User UCinternational (Crop), CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:So_Taguchi_on_the_bases_in_June_2008.jpg. Cropped and resized.
+- **Tsuyoshi Shinjo**: photo by User BurmaShaver on en.wikipedia, Public domain. Source: https://commons.wikimedia.org/wiki/File:Pbpshinjo.jpg. Cropped and resized.
+- **Victor Robles**: photo by All-Pro Reels, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Victor_Robles_(cropped)-2.jpg. Cropped and resized.
+- **Mike Lum**: photo by Kansas City Royals, Public domain. Source: https://commons.wikimedia.org/wiki/File:Mike_Lum_Royals.jpg. Cropped and resized.
+- **Lenny Harris**: photo by Seidenstud, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0). Source: https://commons.wikimedia.org/wiki/File:Lenny_Harris.JPG. Cropped and resized.
+- **Mark Sweeney**: photo by oneidaprincess on Flickr, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0). Source: https://commons.wikimedia.org/wiki/File:Mark_Sweeney.jpg. Cropped and resized.
+- **Jack Cust**: photo by Keith Allison on Flickr, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Jack_Cust_on_May_10,_2011.jpg. Cropped and resized.
+- **Russell Branyan**: photo by Keith Allison on Flickr, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Russell_Branyan_on_July_23,_2011.jpg. Cropped and resized.
+- **Mike Morse**: photo by Keith Allison on Flickr, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Michael_Morse_on_August_4,_2013.jpg. Cropped and resized.
+- **Dan Vogelbach**: photo by D. Benjamin Miller, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en). Source: https://commons.wikimedia.org/wiki/File:Daniel_Vogelbach_in_the_dugout,_March_31,_2023_(cropped).jpg. Cropped and resized.
+- **Luke Voit**: photo by Johnmaxmena2, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Source: https://commons.wikimedia.org/wiki/File:Lukevoit2017.jpg. Cropped and resized.
+- **Kevin Millar**: photo by User Keith Allison on Flickr, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:AAAA7419_Kevin_Millar.jpg. Cropped and resized.
+- **Steve Balboni**: photo by M. Alan Loveless, Public domain. Source: https://commons.wikimedia.org/wiki/File:1980_Nashville_Steve_Balboni.jpg. Cropped and resized.
+- **Mark Trumbo**: photo by Keith Allison on Flickr, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Mark_Trumbo_on_July_22,_2011.jpg. Cropped and resized.
+- **Josh Willingham**: photo by Keith Allison on Flickr (Original version) UCinternational (Crop), CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Josh_Willingham_on_April_6,_2012.jpg. Cropped and resized.
+- **Pedro Alvarez**: photo by Keith Allison on Flickr, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:20120613-0360j_Pedro_Alvarez.jpg. Cropped and resized.
+- **Steve Pearce**: photo by Keith Allison from Hanover, MD, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0). Source: https://commons.wikimedia.org/wiki/File:Steve_Pearce_(36952880145)_(cropped1).jpg. Cropped and resized.
+
+## No acceptable free image
+
+- Karl Malone
+- Pau Gasol
+- Jack Sikma
+- Jalen Williams
+- Bronny James
+- Svi Mykhailiuk
+- Brandin Podziemski
+- Tony Allen
+- Brian Cardinal
+- Chuck Hayes
+- Tacko Fall
+- Bol Bol
+- Manute Bol
+- Zaza Pachulia
+- Mark Eaton
+- Derrick Henry
+- Jahmyr Gibbs
+- De'Von Achane
+- Walter Payton
+- LaDainian Tomlinson
+- CeeDee Lamb
+- A.J. Brown
+- Travis Kelce
+- Tyler Warren
+- Cortez Kennedy
+- Devon Witherspoon
+- Troy Polamalu
+- Charlie Whitehurst
+- Josh McCown
+- Timmy Chang
+- Mack Strong
+- Leon Washington
+- Robert Turbin
+- Jerick McKinnon
+- James White
+- Wes Welker
+- Cole Beasley
+- Hunter Renfrow
+- David Tyree
+- Jake Bobo
+- Kendrick Bourne
+- Ricky Proehl
+- Will Dissly
+- Heath Miller
+- Delanie Walker
+- Frank Wycheck
+- Mark Bavaro
+- James Harrison
+- William Perry
+- Brett Keisel
+- Yoshinobu Yamamoto
+- George Kirby
+- Bryan Woo
+- Nolan Ryan
+- Greg Maddux
+- Dan Wilson
+- Carlton Fisk
+- J.P. Crawford
+- Albert Pujols
+- Hideki Matsui
+- David Ortiz
+- Yordan Alvarez
+- Bartolo Colon
+- Tim Lincecum
+- Shintaro Fujinami
+- Jesse Chavez
+- David Ross
+- Bengie Molina
+- Austin Hedges
+- Erik Kratz
+- Tom Murphy
+- Luis Torrens
+- Brent Mayne
+- Brock Holt
+- Kevin Youkilis
+- John Kruk
+- Luis Arraez
+- Tony Kemp
+- Endy Chavez
+- Mike Cameron
+- Ben Gamel
+- Hunter Pence
+- Juan Pierre
+- Kosuke Fukudome
+- Matt Stairs
+- Adam Dunn
+- Kendrys Morales
+- Billy Butler
+- Cecil Fielder
+- Rowdy Tellez
+- Wily Mo Pena

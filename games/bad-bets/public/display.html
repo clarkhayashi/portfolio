@@ -120,7 +120,19 @@ h1.big{font-size:calc(var(--u)*7)}
 .restaurant-mark{display:inline-grid;place-items:center;width:1.4em;height:1.4em;flex:none;background:#fff;border-radius:.3em;overflow:hidden}
 .restaurant-mark img{width:100%;height:100%;object-fit:contain}
 .theme-badge{display:inline-flex;align-items:center;gap:.4em;font-weight:700;font-size:calc(var(--u)*1.8)}.theme-badge .restaurant-mark{width:1.4em;height:1.4em}
-.restaurant-mark.theme-mark{background:none;border-radius:0;overflow:visible}.restaurant-mark.theme-mark img{filter:drop-shadow(0 .06em .12em rgba(28,36,51,.25))}.theme-badge .restaurant-mark.theme-mark{width:1.8em;height:1.8em}
+.restaurant-mark.theme-mark{background:none;border-radius:0;overflow:visible}
+.card-art{display:inline-flex;flex:none;align-items:center;justify-content:center;width:1.6em;height:1.6em;vertical-align:middle}
+.card-art img,.card-art svg{display:block;width:100%;height:100%}
+.card-art.headshot{border-radius:50%;border:.12em solid #fff;box-shadow:0 0 0 .06em #1c2433,0 .08em .16em rgba(28,36,51,.3);overflow:hidden;background:#fdf6e8;box-sizing:border-box}
+.card-art.headshot img{object-fit:cover;object-position:50% 25%}
+.card-art.prop img{object-fit:contain;filter:drop-shadow(0 .04em .08em rgba(28,36,51,.25))}
+.restaurant-heading>.card-art{width:1.5em;height:1.5em}
+.restaurant-heading.lot-heading{overflow:visible;padding:0 .2em}
+.restaurant-heading .restaurant-mark.theme-mark img{object-fit:contain}
+.vetoed{font-size:calc(var(--u)*3);font-weight:800;text-align:center;margin:.3em 0}
+.vetoed span{display:inline-block;padding:.05em .4em;border-radius:.3em;background:#e05a47;color:#fff;transform:rotate(-4deg);animation:vetoed-in .5s cubic-bezier(.2,.9,.3,1.4)}
+@keyframes vetoed-in{from{transform:scale(1.6) rotate(-12deg);opacity:0}to{transform:rotate(-4deg);opacity:1}}
+@media (prefers-reduced-motion:reduce){.vetoed span{animation:none}}.restaurant-mark.theme-mark img{filter:drop-shadow(0 .06em .12em rgba(28,36,51,.25))}.theme-badge .restaurant-mark.theme-mark{width:1.8em;height:1.8em}
 .restaurant-heading{display:flex;align-items:center;justify-content:center;gap:.4em;font-size:calc(var(--u)*4.2);font-weight:900;line-height:1.1}
 .auction .restaurant-heading .restaurant-mark{width:1.3em;height:1.3em}
 em.up,.up{color:var(--up)!important;font-style:normal;font-weight:900}em.down,.down{color:var(--down)!important;font-style:normal;font-weight:900}
