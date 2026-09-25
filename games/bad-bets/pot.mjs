@@ -69,7 +69,7 @@ export function installPotRules(Game){
    if(total< b.target+5 && total!==stack && total!==b.target)throw Error('FUN_POLICE: Raise the total by at least 5 chips.');
    if(total===stack&&!b.opening&&a.confirmed!==true)throw Error('FUN_POLICE: Confirm All In before risking your last chip.');
    pay(r,p.id,total);b.target=Math.max(b.target,total);
-  }else throw Error('Choose match, raise or fold.');
+  }else throw Error('Choose Stay in, Raise or Fold.');
   b.revision++;if(remain(r).length===1)this.closePot(r);else this.nextPotTurn(r);
  };
  Game.prototype.advance=function(r){if(!modern(r))return old.advance.call(this,r);if(r.phase==='spin'){this.openPot(r);this.emit(r);return;}if(r.phase==='wager'){const p=player(r,r.pot.turn);this.potAction(r,p,{round:r.round,revision:r.pot.revision,move:(r.stakes[p.id]||0)>=r.pot.target?'match':'fold'});this.emit(r);return;}return old.advance.call(this,r);};
@@ -78,7 +78,7 @@ export function installPotRules(Game){
   if(a.type==='potBet'){if(r.deadline&&Date.now()>=r.deadline){this.advance(r);throw Error('Time is up. Use the current betting turn.');}r.last=Date.now();this.potAction(r,p,a);this.emit(r);return;}
   if(['stake','entry','bet'].includes(a.type))throw Error('Use the current pot controls. Side betting is off.');
   if(a.type==='vote'&&creative.includes(r.game)&&['draw','quips'].includes(r.game)&&!r.submissions[a.player])throw Error('That entry was not submitted and cannot receive votes.');
-  if(a.type==='skipPrompt'&&r.pot)throw Error('FUN_POLICE: A paid prompt cannot be rerolled. Finish the round or pause it.');
+  if(a.type==='skipPrompt'&&r.pot)throw Error('FUN_POLICE: Chips are already bet on this prompt, so it can’t be swapped. Finish the round or pause it.');
   if(a.type==='comebackComplete'){old.action.call(this,r,p,a);r.issuedChips=(r.issuedChips||0)+20;return;}
   if(a.type==='removeDisconnected'){if(p.id!==r.host)throw Error('Only the host can do that.');const q=player(r,a.player);if(!q||q.left||q.id===p.id||!q.lastSeen||Date.now()-q.lastSeen<30000)throw Error('Wait 30 seconds before removing a disconnected player.');return this.action(r,q,{type:'leave',round:r.round});}
   if(a.type==='leave'&&r.pot&&!['result','finished','lobby'].includes(r.phase)){
@@ -105,7 +105,7 @@ export function installPotRules(Game){
    else if(!sum(Object.values(totals))){refund=true;detail='No votes came in. Everyone gets their chips back.';}
    else{for(const id of submitted)scores[id]=totals[id]||0;detail='Secret judge votes rank the entries. If players tie for first, they split the chips.';}
   }else if(['shadow','rhythm'].includes(r.game)){for(const id of valid)scores[id]=(r.game==='rhythm'?-1:1)*(r.physical.scores[id]||0);detail='The confirmed score decides who wins the chips.';}
-  if(r.forceDraw)detail='Round cancelled. Contributions returned.';
+  if(r.forceDraw)detail='Round cancelled. Everyone gets their chips back.';
   const order=rotate(r.players.map(p=>p.id),(r.round-1)%r.players.length),{payouts,pots}=distribute(r.stakes,scores,order,{refund});
   const changes={};for(const [id,n] of Object.entries(payouts)){player(r,id).chips+=n;changes[id]=n-(r.stakes[id]||0);}
   r.potSettled=true;const winners=[...new Set(pots.filter(p=>!p.refund).flatMap(p=>p.winners))],tie=pots.every(p=>p.refund);

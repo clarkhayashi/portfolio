@@ -207,3 +207,9 @@ label{font-size:14px;font-weight:500}
 .invite-qr{display:flex;flex-direction:column;align-items:center;gap:4px;background:#fff;padding:8px;border-radius:14px;border:1px solid var(--border)}
 .invite-qr svg{width:132px;height:132px;display:block}
 .invite-qr span{font-size:12px;font-weight:700;color:var(--ink)}
+/* One-tap prompt feedback: small, optional, never in the way. */
+.prompt-rating{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-top:18px;min-height:44px;font-size:14px;color:var(--muted,#5b6b74)}
+.prompt-rating button{min-height:44px;padding:6px 14px;font-size:14px}
+.prompt-rating [role=status]{font-weight:700}
+.qr-toggle{margin-top:12px;min-height:44px;font-size:14px}
+#app[data-phase=lobby] .invite-panel .invite-qr{display:flex;width:max-content;margin-top:12px}
