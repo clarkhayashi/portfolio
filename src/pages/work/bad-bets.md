@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/CaseStudy.astro
 title: Oops, All In
-summary: "A browser party game for 2 to 12 people. Quick minigames and pretend-chip betting, played on everyone's own phone."
+summary: "A browser party game for 2 to 12 people. Quick minigames, pretend-chip betting, and a final round the room writes itself."
 tags: ["Product Design", "Game Design", "JavaScript", "Codex", "Claude Code"]
 statusLabel: "Beta · ready for group testing"
 statusType: "building"
@@ -26,6 +26,8 @@ Start a game and share the room code, a QR code, or an invite from your phone's 
 **Three ways to play.** Party mode is quick minigames where everyone starts with 100 pretend chips and bets on themselves each round (stay in, raise, fold, and from round 3, go all in). Minigames is the same games with no chips. Date Night is 36 questions for two people that get more personal level by level, and you only go deeper if you both say yes.
 
 **Nine games.** Same Brain (match answers), Ballpark (guess the number), Fantasy Draft, Bidding War, Bad Answers, Drawn Into Trouble, Imposter, Shadowbox (an in-person pointing duel) and Keep It Going (name things to a beat). Fantasy Draft and Bidding War roll a random theme each time, from Food Court and Heist Crew to NBA, NFL and MLB lineups mixing stars and cult heroes, and anyone can veto the theme once per game.
+
+**A finale the room writes.** In the last round, everyone writes a prompt, the room taps "this or that" to pick the best one, everyone plays it, and the votes pay out a double pot, a Best Prompt bonus, and a Toilet Bowl prize for the worst answer.
 
 ## How it took shape
 
