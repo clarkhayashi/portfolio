@@ -6,7 +6,7 @@ r.banEnabled=false;r.enabledGames=['brain','number','draft','draw','imposter'];f
 function mode(g,r,kind,spot=false){g.fresh(r);r.spot=spot;r.candidates=g.pool(r);g.choose(r);r.game=kind;r.active=r.players.map(p=>p.id);r.teams=[r.active.slice(0,2),r.active.slice(2)];g.phase(r,'play',30);}
 test('rooms enforce nickname uniqueness, capacity, host control and auth',()=>{const {g,r,p}=setup(12);assert.throws(()=>g.join(r.code,'extra'));assert.throws(()=>g.player(r,'bad'));assert.throws(()=>g.action(r,p[1],{type:'start'}));g.action(r,p[0],{type:'start'});assert.throws(()=>g.join(r.code,'new'));});
 test('all-in personal stakes and matching payouts settle only once',()=>{const {g,r,p}=setup();g.fresh(r);g.action(r,p[0],{type:'stake',amount:20});g.choose(r);r.game='brain';g.phase(r,'play',30);const answers=['A Hippo!','hippo','pizza','bird'];p.forEach((q,i)=>g.action(r,q,{type:'submit',value:answers[i]}));assert.equal(r.phase,'result');assert.equal(p[0].chips,120);assert.equal(p[1].chips,105);assert.equal(p[2].chips,95);g.settle(r);assert.equal(p[0].chips,120);});
-test('private answers, secret role and tokens never leak',()=>{const {g,r,p}=setup();mode(g,r,'imposter');r.imposter=p[0].id;r.secret='Airport';r.submissions[p[1].id]='plane';const v=g.view(r,p[2]);assert.deepEqual(v.answers,{});assert.equal(v.secret,'Airport');assert.equal(JSON.stringify(v).includes(p[0].token),false);assert.equal(g.view(r,p[0]).secret,'You’re the faker');assert.equal('imposter' in v,false);});
+test('private answers, secret role and tokens never leak',()=>{const {g,r,p}=setup();mode(g,r,'imposter');r.imposter=p[0].id;r.secret='Airport';r.submissions[p[1].id]='plane';const v=g.view(r,p[2]);assert.deepEqual(v.answers,{});assert.equal(v.secret,'Airport');assert.equal(JSON.stringify(v).includes(p[0].token),false);assert.equal(g.view(r,p[0]).secret,'You’re the imposter');assert.equal('imposter' in v,false);});
 test('entry ladder folds into audience without charges and fallback is free',()=>{const {g,r,p}=setup(8);g.fresh(r);r.spot=true;r.candidates=g.pool(r);g.phase(r,'entry',15);p.forEach(q=>g.action(r,q,{type:'entry',stay:true}));g.advance(r);assert.equal(r.ladder,10);g.action(r,p[0],{type:'entry',stay:false});assert.equal(p[0].chips,100);g.advance(r);assert.equal(r.phase,'spin');assert.equal(r.free,true);assert.ok(p.every(q=>q.chips===100));});
 test('capped ladder selects compatible teams and deducts only participants',()=>{const {g,r,p}=setup(8);g.fresh(r);r.spot=true;r.candidates=g.pool(r);g.phase(r,'entry',15);for(let i=0;i<3;i++){p.forEach(q=>g.action(r,q,{type:'entry',stay:true}));g.advance(r);}assert.equal(r.phase,'spin');assert.equal(r.ladder,20);assert.ok([2,4,6,8].includes(r.active.length));for(const q of p)assert.equal(q.chips,r.active.includes(q.id)?80:100);});
 test('judges cannot wager; contestants cannot vote; votes lock',()=>{const {g,r,p}=setup();g.fresh(r);r.spot=true;r.candidates=g.pool(r);g.choose(r);r.game='draw';r.active=[p[0].id,p[1].id];g.phase(r,'reveal',8);assert.throws(()=>g.action(r,p[2],{type:'bet',team:0}));g.phase(r,'vote',20);assert.throws(()=>g.action(r,p[0],{type:'vote',player:p[1].id}));g.action(r,p[2],{type:'vote',player:p[0].id});assert.throws(()=>g.action(r,p[2],{type:'vote',player:p[1].id}));g.action(r,p[3],{type:'vote',player:p[1].id});assert.equal(r.result.tie,true);});
@@ -31,7 +31,7 @@ test('full tournament supports enabled ban voting without stalling',()=>{const {
 test('faker gets only a category, clues follow a shuffled turn order, and others cannot submit early',()=>{
  const {g,r,p}=setup(4);g.fresh(r);r.candidates=['imposter'];g.choose(r);g.advance(r);
  assert.ok(g.view(r,p[0]).category);const faker=p.find(q=>q.id===r.imposter);
- assert.equal(g.view(r,faker).secret,'You’re the faker');assert.equal(JSON.stringify(g.view(r,faker)).includes(r.secret),false);
+ assert.equal(g.view(r,faker).secret,'You’re the imposter');assert.equal(JSON.stringify(g.view(r,faker)).includes(r.secret),false);
  g.begin(r);assert.equal(r.phase,'clue');assert.equal(new Set(r.clueOrder).size,4);
  assert.throws(()=>g.action(r,p.find(q=>q.id!==r.clueOrder[0]),{type:'clue',clueIndex:0,value:'clue'}),/turn/);
  const first=p.find(q=>q.id===r.clueOrder[0]);g.action(r,first,{type:'clue',clueIndex:0,value:'something'});
@@ -47,11 +47,11 @@ test('faker rotates through the group and silent rounds refund all stakes',()=>{
  for(let i=0;i<4;i++){g.fresh(r);r.spot=false;r.candidates=['imposter'];g.choose(r);roles.push(r.imposter);g.begin(r);for(let n=0;n<4;n++)g.advance(r);assert.equal(r.phase,'result');assert.equal(r.result.tie,true);assert.ok(p.every(q=>q.chips===100));}
  assert.equal(new Set(roles).size,4);
 });
-test('clue timeouts skip one turn and never reveal the word to the faker',()=>{
+test('clue timeouts skip one turn and never reveal the word to the imposter',()=>{
  const {g,r,p}=setup();g.fresh(r);r.candidates=['imposter'];g.choose(r);g.begin(r);
  const before=r.cluePlayer;g.advance(r);assert.equal(r.clueIndex,1);assert.equal(r.phase,'clue');
  const q=p.find(q=>q.id===r.clueOrder[1]);g.action(r,q,{type:'clue',clueIndex:1,value:'hint'});
- g.advance(r);g.advance(r);assert.equal(r.phase,'discuss');assert.equal(g.view(r,p.find(q=>q.id===r.imposter)).secret,'You’re the faker');
+ g.advance(r);g.advance(r);assert.equal(r.phase,'discuss');assert.equal(g.view(r,p.find(q=>q.id===r.imposter)).secret,'You’re the imposter');
  g.advance(r);g.advance(r);assert.equal(r.result.tie,true);
 });
 test('host takeover is shown only after a real disconnect grace period',()=>{

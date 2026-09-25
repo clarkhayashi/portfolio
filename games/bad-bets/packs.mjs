@@ -4,6 +4,9 @@ import {randomInt} from 'node:crypto';
 import {BALLPARK_CORE,CORE_EXTRA,PACKS} from './pack-content.mjs';
 import {quips} from './creative.mjs';
 import {categories} from './physical.mjs';
+import {itemWeight} from './ratings.mjs';
+import {drawFrom} from './bags.mjs';
+export {drawFrom};
 
 export const meals=['Build your dream fast-food meal.','Build the best meal after a concert.','Build a drive-through date-night dinner.','Build the ultimate road-trip meal.'];
 export const brain=['Worst animal to share an elevator with?','Best midnight snack?','Most suspicious thing to carry in a briefcase?','Worst place to fall asleep?','An animal that would be a terrible roommate?','What would a pigeon buy with $100?'];
@@ -13,7 +16,7 @@ export const drawings=['A pigeon applying for a mortgage','A potato on its first
 export const secrets=[['Airport','Places'],['Popcorn','Food'],['Dentist','Jobs'],['Camping','Activities'],['Karaoke','Activities'],['Aquarium','Places'],['Library','Places'],['Roller coaster','Things you ride'],['Pizza','Food'],['Firefighter','Jobs'],['Bicycle','Things you ride'],['Bowling','Activities']];
 
 export const KINDS=['brain','number','food','draw','faker','quips','rhythm'];
-export const CUSTOM_TYPES={brain:'Same Brain question',quips:'Bad Answers prompt',draw:'Drawing idea',rhythm:'Keep It Going category',faker:'Who’s Faking word'};
+export const CUSTOM_TYPES={brain:'Same Brain question',quips:'Bad Answers prompt',draw:'Drawing idea',rhythm:'Keep It Going category',faker:'Imposter word'};
 export const CUSTOM_LIMIT=2,CUSTOM_MAX=90,CATEGORY_MAX=40;
 export const PACK_IDS=Object.keys(PACKS);
 const BASE={brain,food:meals,draw:drawings,faker:secrets,quips,rhythm:categories};
@@ -52,14 +55,12 @@ export function pool(kind,packs=[],custom=[]){
  const seen=new Set(),out=[];for(const item of items){const k=key(kind,item);if(!k||seen.has(k))continue;seen.add(k);out.push(item);}
  return out.length?out:kind==='number'?nums:[...BASE[kind]];
 }
-function shuffled(n){const a=Array.from({length:n},(_,i)=>i);for(let i=n-1;i>0;i--){const j=randomInt(i+1);[a[i],a[j]]=[a[j],a[i]];}return a;}
-// Draw one item from the room's bag for this kind. Bags hold indices only (small Redis payload).
+// Weight for one pool item in this room: player-written prompts are always 1.0.
+export function roomWeigher(r,kind){const mine=new Set(customItems(kind,r.custom||[]).map(x=>key(kind,x)));return item=>mine.has(key(kind,item))?1:itemWeight(kind,item,r.mood);}
+// Draw one item from the room's bag for this kind.
 export function draw(r,kind){
- const items=pool(kind,r.packs||[],r.custom||[]);const n=items.length;
- r.bags||={};let bag=r.bags[kind];
- if(!bag||bag.n!==n||!Array.isArray(bag.q))bag=r.bags[kind]={n,q:shuffled(n),last:bag&&bag.n===n?bag.last:-1};
- if(!bag.q.length){bag.q=shuffled(n);if(n>1&&bag.q[bag.q.length-1]===bag.last){const t=bag.q[0];bag.q[0]=bag.q[bag.q.length-1];bag.q[bag.q.length-1]=t;}}
- const i=bag.q.pop();bag.last=i;return items[i];
+ const items=pool(kind,r.packs||[],r.custom||[]);
+ return drawFrom(r,kind,items,roomWeigher(r,kind));
 }
 export function resetBags(r,kinds){if(!r.bags)return;if(!kinds){r.bags={};return;}for(const k of kinds)delete r.bags[k];}
 // Validate and add a player-written prompt. Throws a short player-facing error.

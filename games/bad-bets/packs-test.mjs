@@ -46,7 +46,7 @@ test('view never leaks custom prompt text to other players or the TV',()=>{const
  for(const v of [g.view(r,p[0]),g.view(r,p[2]),g.publicView(r)]){const s=JSON.stringify(v);assert.ok(!s.includes('Secret')&&!s.includes('Hidden'));}
  assert.equal(g.view(r,p[0]).customCounts[p[1].id],2);assert.equal(g.view(r,p[0]).customTotal,2);assert.equal(g.view(r,p[1]).myCustom.length,2);});
 test('lobby panels escape text, label adult packs, and tile art falls back to the icon',async()=>{const ui=await import('./public/ui.js');
- const s={players:[{id:'a',name:'<i>Al</i>'}],packs:['spicy'],packOptions:[{id:'spicy',name:'Spicy',description:'<script>x</script>',count:3,adult:true}],customTypes:{brain:'Same Brain question',faker:'Who’s Faking word'},myCustom:[{type:'brain',text:'<img src=x onerror=alert(1)>'}],customCounts:{a:1},customTotal:1,customLimit:2};
+ const s={players:[{id:'a',name:'<i>Al</i>'}],packs:['spicy'],packOptions:[{id:'spicy',name:'Spicy',description:'<script>x</script>',count:3,adult:true}],customTypes:{brain:'Same Brain question',faker:'Imposter word'},myCustom:[{type:'brain',text:'<img src=x onerror=alert(1)>'}],customCounts:{a:1},customTotal:1,customLimit:2};
  const html=ui.packsPanel(s,true)+ui.customPanel(s);assert.ok(!html.includes('<script>')&&!html.includes('<img src=x')&&!html.includes('<i>Al'));assert.ok(html.includes('Spicy (adults)'));assert.ok(html.includes('1 custom prompt added'));
  assert.equal(ui.packsPanel({...s,packOptions:[]},true),'');assert.ok(ui.packsPanel(s,false).includes('Packs on: Spicy'));
  const art=ui.art('draw');assert.ok(art.includes('src="/art/draw.svg"')&&art.includes('tile-fallback')&&!art.includes('—'));assert.ok(ui.art('"><x').includes('/art/brain.svg'));});

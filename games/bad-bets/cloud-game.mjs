@@ -1,4 +1,7 @@
 import {Game} from './server.mjs';
+import {refreshCounts,countsStale} from './ratings.mjs';
+// Prompt weights read a cached copy of the anonymous counts. Refresh it before an action when stale; short wait, silent fallback.
+export async function warmCounts(store,wait=300){try{if(countsStale()&&typeof store.ratings==='function')await refreshCounts(()=>store.ratings(),wait);}catch{}}
 // Send anonymous prompt ratings after the room write lands. Bounded wait; errors are swallowed so the game never fails on them.
 export async function flushRatings(store,events,wait=800){if(!events.length||typeof store.incrementRating!=='function')return;let timer;const all=Promise.allSettled(events.map(([id,vote])=>Promise.resolve().then(()=>store.incrementRating(id,vote))));await Promise.race([all,new Promise(resolve=>{timer=setTimeout(resolve,wait);})]);clearTimeout(timer);}
 export class PublicError extends Error {constructor(message,status=400){super(message);this.status=status;}}
@@ -14,6 +17,7 @@ export async function cloudRequest(store,action,{state=false}={}){
  }
  const code=String(action.code||'').toUpperCase();
  if(!/^[A-Z]{4}$/.test(code))throw new PublicError('Enter a four-letter room code.');
+ if(!state)await warmCounts(store);
  for(let attempt=0;attempt<16;attempt++){
   const before=await store.get(code);
   if(!before)throw new PublicError('Room not found or expired. Join a new room.',404);

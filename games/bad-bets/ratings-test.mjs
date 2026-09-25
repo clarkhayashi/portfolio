@@ -69,7 +69,9 @@ test('cloud rating records one anonymous counter per vote',async()=>{
  await assert.rejects(cloudRequest(s,{...guest,type:'rate',vote:'fire'}));
  await cloudRequest(s,{...host,type:'rate',vote:'meh'});
  assert.equal(s.hits.length,2);assert.match(s.hits[0],/^brain-[0-9a-f]{8}:fire$/);assert.match(s.hits[1],/:meh$/);
- const room=JSON.parse(s.data.get(host.code));assert.equal(JSON.stringify(room).includes('fire'),false);
+ const {mood,...room}=JSON.parse(s.data.get(host.code));assert.equal(JSON.stringify(room).includes('fire'),false);
+ // Room mood keeps pack-level counts only, never who voted.
+ assert.deepEqual(Object.values(mood),[{fire:1,meh:1}]);assert.equal(JSON.stringify(mood).includes(host.token),false);
 });
 
 test('rating storage errors or hangs never break the game action',async()=>{

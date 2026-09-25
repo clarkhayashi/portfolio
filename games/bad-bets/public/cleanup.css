@@ -213,3 +213,8 @@ label{font-size:14px;font-weight:500}
 .prompt-rating [role=status]{font-weight:700}
 .qr-toggle{margin-top:12px;min-height:44px;font-size:14px}
 #app[data-phase=lobby] .invite-panel .invite-qr{display:flex;width:max-content;margin-top:12px}
+
+/* theme badge (Fantasy Draft, Bidding War) */
+.theme-badge{display:inline-flex;align-items:center;gap:.4em;margin:.3em 0;font-weight:700}
+.theme-badge .restaurant-mark{width:40px;height:40px;padding:4px;border-radius:8px}
+.theme-chip img{width:36px;height:36px;object-fit:contain}

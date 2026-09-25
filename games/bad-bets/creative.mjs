@@ -1,4 +1,6 @@
 import {randomInt} from 'node:crypto';
+import {roomTheme,slotName} from './themes.mjs';
+import {drawFrom} from './bags.mjs';
 export const creativeGames=['draft','draw','auction','quips'];
 export const restaurants=['McDonald’s','Taco Bell','Wendy’s','Burger King','Chick-fil-A','Popeyes','Sonic','Dairy Queen','Shake Shack','Five Guys','In-N-Out','Jack in the Box','Subway','Chipotle','Panda Express','KFC','Arby’s','Culver’s','Whataburger','Dunkin’'];
 export const slots=['main','side','drink','dessert'];
@@ -11,17 +13,20 @@ export const quips=[
 'A menu item at a restaurant run by toddlers.','The worst way to begin a toast.','A new button your elevator definitely doesn’t need.','The secret hobby of a traffic cone.','A terrible thing to print on a welcome mat.','What a dragon orders at a drive-through.','An unpopular upgrade to a shopping basket.','The worst sentence to put on a business card.','An apology from your alarm clock.','The name of a support group for lost Tupperware lids.'
 ];
 const shuffle=a=>{const b=[...a];for(let i=b.length-1;i;i--){const j=randomInt(i+1);[b[i],b[j]]=[b[j],b[i]];}return b;};
-export function setupAuction(r){r.auction={revision:0,slot:0,budgets:Object.fromEntries(r.active.map(p=>[p,20])),order:shuffle(r.active),cursor:0,rejected:0,pool:shuffle(restaurants),pending:[],bid:0,leader:null,passed:[]};r.active.forEach(p=>r.picks[p]=[]);nextLot(r);}
-function nextLot(r){const a=r.auction;const missing=r.active.filter(p=>r.picks[p].length===a.slot);if(!missing.length){a.slot++;a.rejected=0;a.pool=shuffle(restaurants);if(a.slot===4){a.done=true;return;}}
+export function setupAuction(r){const t=roomTheme(r,'auction');r.auction={theme:t.id,food:t.food,icon:t.icon,slotCount:t.slots.length,slotNames:t.slots.map(x=>slotName(x.label)),nameItem:t.food||t.nameItem,itemPrompt:t.itemPrompt,revision:0,slot:0,budgets:Object.fromEntries(r.active.map(p=>[p,20])),order:shuffle(r.active),cursor:0,rejected:0,pool:t.food?shuffle(restaurants):[],pending:[],bid:0,leader:null,passed:[]};r.active.forEach(p=>r.picks[p]=[]);nextLot(r);}
+function nextLot(r){const a=r.auction;const missing=r.active.filter(p=>r.picks[p].length===a.slot);if(!missing.length){a.slot++;a.rejected=0;a.pool=a.food===false?[]:shuffle(restaurants);if(a.slot===(a.slotCount||4)){a.done=true;return;}}
  const players=r.active.filter(p=>r.picks[p].length===a.slot);
  a.pending=[];a.bid=0;a.leader=null;a.passed=[];
- if(a.rejected>=2||players.length===1){a.pending=players.map(player=>({player,restaurant:take(a)}));a.turn=null;return;}
- a.restaurant=take(a);a.eligible=a.order.filter(p=>players.includes(p));a.cursor%=a.eligible.length;a.turn=a.eligible[a.cursor];
+ if(a.rejected>=2||players.length===1){a.pending=players.map(player=>({player,restaurant:take(r)}));a.turn=null;if(a.nameItem===false){for(const x of a.pending)fillSlot(r,x.player,x.restaurant);a.pending=[];nextLot(r);}return;}
+ a.restaurant=take(r);a.eligible=a.order.filter(p=>players.includes(p));a.cursor%=a.eligible.length;a.turn=a.eligible[a.cursor];
 }
-function take(a){if(!a.pool.length)a.pool=shuffle(restaurants);return a.pool.pop();}
+function take(r){const a=r.auction;if(a.food===false){const t=roomTheme(r,'auction');return drawFrom(r,`auction:${a.theme}:lots`,t.food?restaurants:t.lots);}if(!a.pool.length)a.pool=shuffle(restaurants);return a.pool.pop();}
+const slotLabel=a=>(a.slotNames||['Main','Side','Drink','Dessert'])[a.slot]||'Pick';
+// Themes without a naming step: the won lot fills the slot directly.
+function fillSlot(r,player,lot){r.picks[player].push(`${slotLabel(r.auction)}: ${lot}`);}
 export function auctionAction(g,r,p,action){const a=r.auction;if(r.phase!=='auction'||!a)throw Error('The auction has ended.');if(action.revision!==a.revision)throw Error('The bid changed. Check the current auction.');
- if(action.type==='auctionItem'){const pending=a.pending.find(x=>x.player===p.id);if(!pending)throw Error('Wait until you win a restaurant.');const item=String(action.value||'').trim();if(!item||item.length>80)throw Error('Name your item in 80 characters or fewer.');r.picks[p.id].push(`${slots[a.slot][0].toUpperCase()+slots[a.slot].slice(1)}: ${item} (${pending.restaurant})`);a.pending=a.pending.filter(x=>x!==pending);if(!a.pending.length)nextLot(r);
- }else{if(a.pending.length||a.turn!==p.id)throw Error('Wait for your turn.');if(action.type==='auctionRaise'){const cap=a.budgets[p.id]-(3-a.slot);if(a.bid+1>cap)throw Error('Keep $1 for each remaining meal slot.');a.bid++;a.leader=p.id;}else if(action.type==='auctionPass')a.passed.push(p.id);else throw Error('Unknown auction action.');
- const remaining=a.eligible.filter(p=>!a.passed.includes(p));if(!remaining.length){a.rejected++;a.cursor++;nextLot(r);}else if(remaining.length===1&&a.leader===remaining[0]){a.budgets[a.leader]-=a.bid;a.pending=[{player:a.leader,restaurant:a.restaurant}];a.turn=null;a.rejected=0;a.cursor++;}else{let index=a.eligible.indexOf(p.id);do{index=(index+1)%a.eligible.length;}while(a.passed.includes(a.eligible[index])||a.eligible[index]===a.leader);a.turn=a.eligible[index];}}
+ if(action.type==='auctionItem'){const pending=a.pending.find(x=>x.player===p.id);if(!pending)throw Error('Wait until you win a restaurant.');const item=String(action.value||'').trim();if(!item||item.length>80)throw Error('Name your item in 80 characters or fewer.');r.picks[p.id].push(`${a.slotNames?slotLabel(a):slots[a.slot][0].toUpperCase()+slots[a.slot].slice(1)}: ${item} (${pending.restaurant})`);a.pending=a.pending.filter(x=>x!==pending);if(!a.pending.length)nextLot(r);
+ }else{if(a.pending.length||a.turn!==p.id)throw Error('Wait for your turn.');if(action.type==='auctionRaise'){const cap=a.budgets[p.id]-((a.slotCount||4)-1-a.slot);if(a.bid+1>cap)throw Error(a.food===false?'Keep $1 for each slot you still need.':'Keep $1 for each remaining meal slot.');a.bid++;a.leader=p.id;}else if(action.type==='auctionPass')a.passed.push(p.id);else throw Error('Unknown auction action.');
+ const remaining=a.eligible.filter(p=>!a.passed.includes(p));if(!remaining.length){a.rejected++;a.cursor++;nextLot(r);}else if(remaining.length===1&&a.leader===remaining[0]){a.budgets[a.leader]-=a.bid;a.pending=[{player:a.leader,restaurant:a.restaurant}];a.turn=null;a.rejected=0;a.cursor++;if(a.nameItem===false){fillSlot(r,a.leader,a.restaurant);a.pending=[];nextLot(r);}}else{let index=a.eligible.indexOf(p.id);do{index=(index+1)%a.eligible.length;}while(a.passed.includes(a.eligible[index])||a.eligible[index]===a.leader);a.turn=a.eligible[index];}}
  a.revision++;if(a.done)g.phase(r,'pitch',30);
 }

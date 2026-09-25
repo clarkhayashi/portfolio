@@ -12,3 +12,12 @@ export function restaurantLogo(name){return Object.hasOwn(RESTAURANTS,name)?`<sp
 export function restaurantHeading(name){return `<h3 class="restaurant-heading">${restaurantLogo(name)}<span>${esc(name)}</span></h3>`;}
 const draftBrands={'Big Mac':'McDonald’s','Crunchwrap':'Taco Bell'};
 export function foodLabel(value){const brand=Object.keys(RESTAURANTS).find(name=>String(value).endsWith(' ('+name+')')||String(value).endsWith(' — '+name))||(Object.hasOwn(draftBrands,value)?draftBrands[value]:null);return `${brand?restaurantLogo(brand):''}<span>${esc(value)}</span>`;}
+
+// Theme art for non-food lots. The image removes itself if the file is missing.
+export function themeMark(icon){return icon?`<span class="restaurant-mark theme-mark"><img src="${esc(icon)}" alt="" width="80" height="80" decoding="async" onerror="this.parentNode.remove()"></span>`:'';}
+// Food lots show the restaurant logo; other themes show the theme icon.
+export function lotHeading(name,a){return a&&a.food===false?`<h3 class="restaurant-heading">${themeMark(a.icon)}<span>${esc(name)}</span></h3>`:restaurantHeading(name);}
+// Theme icon plus name, for intro, rounds and results.
+export function themeBadge(theme){return theme?`<div class="theme-badge">${themeMark(theme.icon)}<span>${esc(theme.name)} theme</span></div>`:'';}
+// "meal" in the food theme, neutral words otherwise.
+export function buildWord(s){return !s.theme||s.theme.food?'meal':s.game==='draft'?'team':'build';}

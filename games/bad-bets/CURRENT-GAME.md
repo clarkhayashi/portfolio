@@ -13,7 +13,7 @@ Home has Start a game and Join a game. Start asks for Party mode or Minigames, t
 
 ## Modes
 
-- **Party mode:** 100 starting pretend chips; host chooses 3/6/9/12/15 rounds. Game and roles are selected before betting; the prompt stays hidden. A 5-chip minimum goes into the shared pot. Competitive rounds allow one raise turn per contestant and one final match/fold response. Rounds 1–2 cap the total at 20. Round 3 onward unlocks 50, 100, custom totals and confirmed All In. A shorter stack can compete only for its matched portion; uncalled chips return. Same Brain and Who’s Faking use fixed equal 5-chip entries. Most chips at the end wins. One optional, consensual 20-chip dare comeback is available below 5; no debt. Old rooms finish under the old economy; create a fresh room for these rules.
+- **Party mode:** 100 starting pretend chips; host chooses 3/6/9/12/15 rounds. Game and roles are selected before betting; the prompt stays hidden. A 5-chip minimum goes into the shared pot. Competitive rounds allow one raise turn per contestant and one final match/fold response. Rounds 1–2 cap the total at 20. Round 3 onward unlocks 50, 100, custom totals and confirmed All In. A shorter stack can compete only for its matched portion; uncalled chips return. Same Brain and Imposter use fixed equal 5-chip entries. Most chips at the end wins. One optional, consensual 20-chip dare comeback is available below 5; no debt. Old rooms finish under the old economy; create a fresh room for these rules.
 - **Timing:** planning estimates, not measured promises: 3 rounds 10–15 min; 6 rounds 20–30; 9 rounds 30–45; 12 rounds 40–60; 15 rounds 50–75. More players, raising, draft and discussion can run longer.
 
 - **Minigames:** choose one compatible game; no betting, chip changes, or tournament standings. Play again or choose another game using the same room. Ineligible games show their minimum player count.
@@ -25,15 +25,23 @@ Home has Start a game and Join a game. Start asks for Party mode or Minigames, t
 |---|---|---|---|
 | Same Brain? | 2–8 | Everyone writes a short answer | Match another player; normalization ignores articles/case/punctuation |
 | Ballpark | 2–8 | Guess a number | Closest valid individual guess; each side pot ranks its eligible players |
-| Food Court Draft | 2–8 standalone; 4+ Party | Contestants snake-draft main/side/drink/wildcard, then pitch | Audience vote; tied/no votes refund |
+| Fantasy Draft | 2–8 standalone; 4+ Party | Contestants snake-draft one pick per theme slot (4 or 5 rounds), then pitch | Audience vote; tied/no votes refund |
 | Drawn Into Trouble | 2–8 standalone; 4+ Party | Contestants draw on their phones | Audience vote; tied/no votes refund |
-| Who’s Faking? | 4–8 | One faker sees only the category; everyone takes a clue turn, discusses, votes | Identify the faker; a tied accusation lets the faker escape |
+| Imposter | 4–8 | One imposter sees only the category; everyone takes a clue turn, discusses, votes | Identify the imposter; a tied accusation lets the imposter escape |
 | Shadowbox | 2–8 | Two players point/look in person on the beat | First to 3 total hits; 10-second score review |
 | Keep It Going | 2–8 | Everyone names an item on the beat, two laps | Fewest mistakes; whole-room tie refunds |
-| Food Auction | 2–8 standalone; 4+ Party | $20 meal budget, restaurant-first live bids, four slots | Independent audience vote in Party |
+| Bidding War | 2–8 standalone; 4+ Party | $20 budget, live bids on theme lots, one lot per slot | Independent audience vote in Party |
 | Bad Answers | 2–8 standalone; 4+ Party | 45-second original prompt, 140-character answer, 20-second private vote | Highest votes; incomplete matchups refund |
 
 Creative Party rounds reserve two judges; the host may enable larger matchups except Bad Answers, which remains a two-person face-off. Standalone creative games allow all players to create and vote for someone else with no chip payouts; two-player reveals are unscored.
+
+### Themes (Fantasy Draft, Bidding War)
+
+The host picks a theme per game in the lobby (under the game list when that game is on, or under Choose a game in Minigames). Default is Food, which plays exactly like the original food draft and restaurant auction. Other themes come from `theme-content.mjs` (Dream Vacation, Heist Crew, Zombie Survival, Starting Five, Perfect Date as of 2026-09-24); engine code is in `themes.mjs`. Non-food Bidding War lots fill the slot directly unless the theme sets `nameItem`. Theme art: `/art/theme-<id>.svg`, food uses `theme-food-draft.svg` / `theme-food-auction.svg`. Cards, lots and prompts use no-repeat bags per theme.
+
+### Room-tuned prompts (R9)
+
+Built-in prompts are drawn in a weighted order from the one-tap Fun/Meh counts: weight = 0.35 + 1.3 × (fire+1)/(fire+meh+2), so unrated = 1.0. Every prompt still shows once per bag cycle; good ones tend to come earlier. A room's own votes adjust that pack for the session (×0.6 when Meh leads by 2+, ×1.25 when Fun leads by 2+), stored as counts only in `r.mood`. Production refreshes the cached counts at most every 5 minutes with a 300 ms wait before an action; if Redis is slow or down, draws fall back silently.
 
 ## Shadowbox controls
 

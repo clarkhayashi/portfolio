@@ -1,4 +1,4 @@
-import {restaurantHeading,foodLabel} from './restaurants.js';
+import {restaurantHeading,foodLabel,lotHeading,themeBadge,buildWord} from './restaurants.js';
 import {gameById,MAX_PLAYERS} from './catalog.js';
 
 // ---------- pure rendering (importable in node for tests) ----------
@@ -20,10 +20,10 @@ const isDrawing=v=>typeof v==='string'&&/^data:image\/png;base64,[A-Za-z0-9+/=]+
 // Every phase gets friendly words. Nothing raw ever reaches the screen.
 export function statusText(s){
  const g=gameById(s.game)?.name;
- const map={lobby:'Waiting for players',ban:'Vote a game off the wheel',banResult:'The wheel is set',entry:'Stay in or sit out?',stake:'Placing bets',spin:'Spinning the wheel',wager:'Betting round',reveal:'Get ready',play:'Answer on your phones',clue:'Clue time',discuss:'Talk it out',vote:'Voting time',pitch:'Pitch time',auction:'Food auction',draft:'Food court draft',physicalSetup:'Get in position',physical:'Playing live',physicalConfirm:'Checking the score',physicalDispute:'Score check',result:'Round results',finished:'Final standings',comeback:'Comeback chance',paused:'Paused',mixer:s.deck==='date'?'Date Night':'Your turn to share',mixerReveal:s.deck==='date'?'Date Night':'Answers are in',dateCheck:'Date Night'};
+ const map={lobby:'Waiting for players',ban:'Vote a game off the wheel',banResult:'The wheel is set',entry:'Stay in or sit out?',stake:'Placing bets',spin:'Spinning the wheel',wager:'Betting round',reveal:'Get ready',play:'Answer on your phones',clue:'Clue time',discuss:'Talk it out',vote:'Voting time',pitch:'Pitch time',auction:'Bidding war',draft:'Fantasy draft',physicalSetup:'Get in position',physical:'Playing live',physicalConfirm:'Checking the score',physicalDispute:'Score check',result:'Round results',finished:'Final standings',comeback:'Comeback chance',paused:'Paused',mixer:s.deck==='date'?'Date Night':'Your turn to share',mixerReveal:s.deck==='date'?'Date Night':'Answers are in',dateCheck:'Date Night'};
  if(s.phase==='play'&&s.game==='draw')return 'Drawing on phones';
  if(s.phase==='play'&&s.game==='number')return 'Guess on your phones';
- if(s.phase==='vote'&&s.game==='imposter')return 'Who’s faking? Vote now';
+ if(s.phase==='vote'&&s.game==='imposter')return 'Who is the imposter? Vote now';
  return map[s.phase]||(g?`Playing ${g}`:'Game in progress');
 }
 
@@ -47,7 +47,7 @@ function gameVars(id){const g=gameById(id);return g?`--tile:${g.color};--tile-in
 
 function gameBanner(s,extra=''){
  const g=gameById(s.game);if(!g)return '';
- return `<div class="banner" style="${gameVars(s.game)}">${art(s.game)}<div><p class="banner-name">${esc(g.name)}</p><p class="banner-how">${esc(g.description)}</p></div>${extra}</div>`;
+ return `<div class="banner" style="${gameVars(s.game)}">${art(s.game)}<div><p class="banner-name">${esc(g.name)}</p><p class="banner-how">${esc(g.description)}</p>${themeBadge(s.theme)}</div>${extra}</div>`;
 }
 
 function scoreboard(s,{title='Chip count',big=false,highlight=[]}={}){
@@ -96,7 +96,7 @@ function hero(s,{eyebrow='Next game',sub=''}={}){
  const opts=(s.spinOptions||[]).filter(id=>gameById(id));
  return `<section class="hero" style="${gameVars(s.game)}">
  <div class="hero-art">${art(s.game)}</div>
- <div class="hero-copy"><p class="eyebrow">${esc(eyebrow)}</p><h1>${esc(g.name)}</h1><p class="how">${esc(g.description)}</p><p class="tag">${esc(g.label)}</p>${sub}</div>
+ <div class="hero-copy"><p class="eyebrow">${esc(eyebrow)}</p><h1>${esc(g.name)}</h1><p class="how">${esc(g.description)}</p><p class="tag">${esc(g.label)}</p>${themeBadge(s.theme)}${sub}</div>
  </section>${opts.length>1?`<ul class="wheel">${opts.map(id=>`<li class="${id===s.game?'pick':''}" style="${gameVars(id)}">${esc(gameById(id).short)}</li>`).join('')}</ul>`:''}`;
 }
 
@@ -145,7 +145,7 @@ function promptBlock(s,{lead='',foot=''}={}){
 function reveal(s){
  if(PHYSICAL.includes(s.game))return hero(s,{eyebrow:'Up next · in person',sub:`<p class="line">${esc(s.prompt||'')} ${timer(s)}</p>${players(s)}`});
  if(s.game==='auction'||s.game==='draft')return `${gameBanner(s,timer(s))}${promptBlock(s,{lead:'Get ready. It starts on your phones.'})}`;
- if(s.game==='imposter')return `${gameBanner(s,timer(s))}<section class="prompt-wrap">${s.category?`<p class="eyebrow">Category</p><p class="prompt">${esc(s.category)}</p>`:''}<p class="lead">Check your phone. Everyone sees the secret word except the faker.</p></section>`;
+ if(s.game==='imposter')return `${gameBanner(s,timer(s))}<section class="prompt-wrap">${s.category?`<p class="eyebrow">Category</p><p class="prompt">${esc(s.category)}</p>`:''}<p class="lead">Check your phone. Everyone sees the secret word except the imposter.</p></section>`;
  return `${gameBanner(s,timer(s))}${promptBlock(s,{lead:'Get ready. Answers open in a moment.'})}`;
 }
 
@@ -166,7 +166,7 @@ function clue(s){
 }
 
 function discuss(s){
- return `${gameBanner(s,timer(s))}<section class="split"><div><h1>${s.phase==='vote'?'Vote on your phones':'Who’s faking?'}</h1><p class="lead">${s.phase==='vote'?'Pick the player you think is the faker.':'Talk it out. Defend your clue.'}</p></div>${clueList(s)}</section>`;
+ return `${gameBanner(s,timer(s))}<section class="split"><div><h1>${s.phase==='vote'?'Vote on your phones':'Who is the imposter?'}</h1><p class="lead">${s.phase==='vote'?'Pick the player you think is the imposter.':'Talk it out. Defend your clue.'}</p></div>${clueList(s)}</section>`;
 }
 
 function entries(s,{named=false,winners=[],changes={},distances=null}={}){
@@ -187,7 +187,7 @@ function vote(s){
 
 function pitch(s){
  const ids=s.active||[];
- return `${gameBanner(s,timer(s))}<section class="center tight"><h1>Pitch your meal</h1><p class="lead">Tell everyone why it’s great. Judges vote next.</p></section><ul class="entries${ids.length>4?' many':''}">${ids.map(id=>`<li><p class="entry-head"><span>${nameOf(s,id)}</span></p><ul class="meal">${((s.picks||{})[id]||[]).map(item=>`<li>${foodLabel(item)}</li>`).join('')||'<li class="muted">No picks</li>'}</ul></li>`).join('')}</ul>`;
+ return `${gameBanner(s,timer(s))}<section class="center tight"><h1>Pitch your ${buildWord(s)}</h1><p class="lead">Tell everyone why it’s great. Judges vote next.</p></section><ul class="entries${ids.length>4?' many':''}">${ids.map(id=>`<li><p class="entry-head"><span>${nameOf(s,id)}</span></p><ul class="meal">${((s.picks||{})[id]||[]).map(item=>`<li>${foodLabel(item)}</li>`).join('')||'<li class="muted">No picks</li>'}</ul></li>`).join('')}</ul>`;
 }
 
 function draft(s){
@@ -199,8 +199,8 @@ function draft(s){
 function auction(s){
  const a=s.auction||{},ids=s.active||[];
  let head='';
- if((a.pending||[]).length)head=`<p class="turn"><strong>${nameOf(s,a.pending[0].player)}</strong> is choosing from</p>${restaurantHeading(a.pending[0].restaurant)}`;
- else if(a.restaurant)head=`<p class="eyebrow">Up for auction</p>${restaurantHeading(a.restaurant)}<p class="turn">${a.leader?`Top bid <strong>$${Number(a.bid)||0}</strong> by ${nameOf(s,a.leader)}`:'No bids yet'}</p>${a.turn?`<p class="line"><strong>${nameOf(s,a.turn)}</strong>’s turn to bid or pass</p>`:''}`;
+ if((a.pending||[]).length)head=`<p class="turn"><strong>${nameOf(s,a.pending[0].player)}</strong> is choosing from</p>${lotHeading(a.pending[0].restaurant,a)}`;
+ else if(a.restaurant)head=`<p class="eyebrow">Up for bids</p>${lotHeading(a.restaurant,a)}<p class="turn">${a.leader?`Top bid <strong>$${Number(a.bid)||0}</strong> by ${nameOf(s,a.leader)}`:'No bids yet'}</p>${a.turn?`<p class="line"><strong>${nameOf(s,a.turn)}</strong>’s turn to bid or pass</p>`:''}`;
  return `${gameBanner(s,timer(s))}<section class="center tight auction">${head}</section>
  <ul class="entries${ids.length>4?' many':''}">${ids.map(id=>`<li class="${id===a.turn?'now':''}"><p class="entry-head"><span>${nameOf(s,id)}</span>${a.budgets&&a.budgets[id]!==undefined?`<em>$${Number(a.budgets[id])} left</em>`:''}</p><ul class="meal">${((s.picks||{})[id]||[]).map(item=>`<li>${foodLabel(item)}</li>`).join('')||'<li class="muted">Nothing yet</li>'}</ul></li>`).join('')}</ul>`;
 }
@@ -226,7 +226,7 @@ function result(s){
  else if(s.game==='imposter'&&(s.clueOrder||[]).length){body=clueList({...s,answers:r.answers||s.answers,phase:'result'});}
  else body=entries(s,{named:true,winners,changes,distances:r.distances||null});
  const g=gameById(s.game);
- return `<section class="result"><div class="result-main">${g?`<p class="eyebrow result-game" style="${gameVars(s.game)}">${art(s.game)}${esc(g.name)}</p>`:''}<h1 class="headline">${head}</h1>${r.detail?`<p class="lead">${esc(r.detail)}</p>`:''}${body}</div>${s.mode==='mixer'?'':scoreboard(s,{highlight:winners})}</section>`;
+ return `<section class="result"><div class="result-main">${g?`<p class="eyebrow result-game" style="${gameVars(s.game)}">${art(s.game)}${esc(g.name)}</p>`:''}${themeBadge(s.theme)}<h1 class="headline">${head}</h1>${r.detail?`<p class="lead">${esc(r.detail)}</p>`:''}${body}</div>${s.mode==='mixer'?'':scoreboard(s,{highlight:winners})}</section>`;
 }
 
 function finished(s){
