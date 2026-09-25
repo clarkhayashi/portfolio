@@ -35,3 +35,15 @@ test('quick 1v1 auction ends with scout grades, and the room holds only two',()=
  assert.equal(r.phase,'result');
  for(const id of r.active){assert.equal(r.result.scout[id].players.length,4);assert.ok(/^[A-F]/.test(r.result.scout[id].grade));}
 });
+test('party rematch-now resets chips and starts round 1 with the same group',()=>{
+ const g=new Game();const h=g.create('Clark','tournament');const r=g.rooms.get(h.code);g.join(h.code,'Maya');g.join(h.code,'Kai');
+ const host=r.players.find(p=>p.token===h.token);
+ r.players.forEach((p,i)=>p.chips=50+i*40);g.phase(r,'finished');
+ g.action(r,host,{type:'rematch',now:true});
+ assert.equal(r.round,1);assert.notEqual(r.phase,'lobby');assert.ok(r.players.every(p=>p.chips===100||r.stakes[p.id]!==undefined));assert.equal(r.players.length,3);
+});
+test('quick 1v1 guest can call a rematch',()=>{
+ const g=new Game();const h=g.create('Clark','minigames','hoops');const r=g.rooms.get(h.code);const j=g.join(h.code,'Maya');
+ const guest=r.players.find(p=>p.token===j.token);r.game='draft';g.phase(r,'result');
+ g.action(r,guest,{type:'replay'});assert.notEqual(r.phase,'result');
+});

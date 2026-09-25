@@ -348,3 +348,5 @@ span.restaurant-mark.theme-mark img,.theme-chip img{filter:drop-shadow(0 1px 2px
 .more-options[open]>summary::after{content:'−'}
 .more-options>summary span{margin-left:auto;font-weight:500;font-size:13px;color:var(--muted)}
 .more-options .opt-head{margin:20px 0 6px;font-size:17px}
+.result-actions{display:grid;gap:10px;margin-top:6px}.result-actions>button.full{min-height:56px;font-size:19px}.result-actions .row{gap:8px}
+.tutorial-launch{position:relative;display:block;width:min(100%,320px);margin:0 auto;padding:0;border:0;border-radius:18px;overflow:hidden;background:#000;min-height:0}.tutorial-launch img{display:block;width:100%;height:auto}.tutorial-launch span{position:absolute;inset:50% auto auto 50%;transform:translate(-50%,-50%);width:76px;height:76px;border-radius:50%;background:#1c2433d9;color:#fff;font-size:30px;display:grid;place-items:center;padding-left:6px}.video-fallback{text-align:center;margin-top:8px}
