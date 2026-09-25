@@ -51,6 +51,20 @@ The first version put a promotional headline, instructions and a room form on th
 
 <style>.iteration-shot{margin:2rem 0}.iteration-shot img{display:block;width:100%;height:auto;border-radius:8px}.iteration-shot figcaption{margin-top:.65rem;font-size:.875rem;line-height:1.6;color:#56616d}</style>
 
+## The look
+
+I wanted the game to feel like a sticker sheet. The mascot is a poker chip that acts out each game, and the logo is the same chip tipping over mid "oops". I directed the art and picked every version; it was drawn with AI tools.
+
+<figure class="iteration-shot">
+  <a href="/images/bad-bets/mascot-tiles.png" target="_blank" rel="noopener"><img src="/images/bad-bets/mascot-tiles.png" width="1200" height="1200" loading="lazy" decoding="async" alt="Nine game tiles showing the poker chip mascot acting out each game: bidding with a paddle, telling a joke, pointing in a duel, drumming, sharing a thought, guessing under a cap, carrying a food tray, drawing with a crayon, and wearing a disguise. AI-generated illustration." /></a>
+  <figcaption>Game tiles: the chip mascot acts out each game. AI-generated illustration, art directed by me.</figcaption>
+</figure>
+
+<figure class="iteration-shot">
+  <a href="/images/bad-bets/brand-board.png" target="_blank" rel="noopener"><img src="/images/bad-bets/brand-board.png" width="1720" height="1380" loading="lazy" decoding="async" alt="Brand board for Oops, All In: the tipping chip logo with the wordmark, app icons at several sizes, fonts, a seven colour palette, the phone home screen and the link preview card. AI-assisted design." /></a>
+  <figcaption>Brand board: logo, icon sizes, fonts, palette and the link preview. AI-assisted, art directed by me.</figcaption>
+</figure>
+
 <section class="try-game" aria-labelledby="try-game-title">
   <h2 id="try-game-title">Try it with your friends</h2>
   <p>It’s still a work in progress. If you play, please let me know what you think: what was fun, what was confusing, and what you’d change.</p>

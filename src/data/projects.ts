@@ -17,6 +17,7 @@ import type { ImageMetadata } from "astro";
 
 import intramuralActivation from "../assets/work/intramural-activation.png";
 import zippysKoreanFriedChicken from "../assets/work/zippys-korean-fried-chicken.jpg";
+import oopsAllInCard from "../assets/work/oops-all-in-card.png";
 import hawaiiValueStaysDashboard from "../assets/work/hawaii-value-stays-dashboard.png";
 import readingNotesShelf from "../assets/work/reading-notes-shelf.png";
 import seattleBuildingPermits from "../assets/work/seattle-building-permits-dashboard.png";
@@ -81,6 +82,10 @@ export const projects: Project[] = [
     href: "/work/bad-bets",
     statusLabel: "Beta · ready for group testing",
     statusType: "building",
+    thumb: {
+      src: oopsAllInCard,
+      alt: "The Oops, All In logo: a poker chip tipping over with a surprised face, next to the words oops, all in. AI-assisted design.",
+    },
   },
   {
     title: "Growing Without Losing Home",

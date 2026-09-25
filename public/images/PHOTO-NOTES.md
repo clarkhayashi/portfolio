@@ -137,3 +137,8 @@ Respicio. The Selected Work thumbnail for this project lives separately at
 `src/assets/work/hawaii-value-stays-dashboard.png` and goes through
 astro:assets; these two are in `public/` because markdown body images are
 referenced by plain path.
+
+## Oops, All In (added 2026-09-25, approved by Clark 2026-09-25)
+- `bad-bets/mascot-tiles.png`: AI-generated SVG illustrations (Claude Code, art directed by Clark), made 2026-09-24. Illustration, not photographic, so no on-image label is needed; caption and alt say "AI-generated illustration".
+- `bad-bets/brand-board.png`: AI-assisted brand board (Claude Code; fonts Cherry Bomb One and Baloo 2 under the SIL OFL), made 2026-09-24. Caption and alt say AI-assisted.
+- `src/assets/work/oops-all-in-card.png`: the game's share image, using the same AI-assisted logo; alt says AI-assisted.
