@@ -320,3 +320,4 @@ span.restaurant-mark.theme-mark img,.theme-chip img{filter:drop-shadow(0 1px 2px
 .invite-code-row{display:flex;align-items:center;flex-wrap:wrap;gap:10px}
 .pack-setting.compact .pack-options{display:flex;flex-wrap:wrap;gap:8px}
 .pack-setting.compact .pack-chip{flex-direction:row;align-items:center;justify-content:center;text-align:center;min-height:42px;padding:8px 16px;border-radius:999px;font-size:15px;line-height:1.2}
+.quick-sports input,.grade-call input{accent-color:#087f98}
