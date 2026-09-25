@@ -56,6 +56,32 @@ body[data-game=mixer][data-date-level] .note{background:var(--dn-card);border-co
 @media (prefers-reduced-motion:reduce){body[data-game=mixer][data-date-level],body[data-game=mixer][data-date-level] :is(button){transition:none}}
 
 /* Date Night deepens card by card: --dn-depth (0 to 1) is set from round / total in app.js. */
-body[data-game=mixer][data-date-level]{background:color-mix(in oklab,var(--dn-bg),var(--dn-next) calc(var(--dn-depth,0) * 45%))}
 body[data-game=mixer][data-date-level] button.ghost{border-width:2px}
 body[data-game=mixer][data-date-level] .brand-word{color:var(--dn-ink);transition:color 1s ease}
+/* Date Night layout (all levels) */
+body[data-game=mixer][data-date-level] .room-top{align-items:center}
+body[data-game=mixer][data-date-level] .room-top .pill{padding:0;color:var(--dn-muted)}
+body[data-game=mixer][data-date-level] .room-top button.ghost{border:0;padding:8px 0;min-height:0}
+.dn{max-width:560px}
+.dn-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.dn-top .eyebrow{margin:0;letter-spacing:1.4px}
+.dn-count{font-size:12px;font-weight:700;color:var(--dn-muted);font-variant-numeric:tabular-nums}
+.dn-progress{height:6px;border-radius:3px;background:color-mix(in oklab,var(--dn-ink) 14%,transparent);margin:10px 0 18px;overflow:hidden}
+.dn-progress span{display:block;height:100%;border-radius:3px;background:var(--dn-accent);transition:width .6s ease}
+.dn-turn{font-size:13px;margin:0 0 10px}
+body[data-game=mixer][data-date-level] .dn-prompt{font-size:clamp(30px,8.4vw,46px);line-height:1.12;letter-spacing:-1px;margin:0 0 14px;text-wrap:balance}
+.dn-hint{font-size:15px;margin:0 0 22px}
+.dn-actions{display:grid;gap:10px}
+.dn-actions button{min-height:56px;font-size:18px}
+body[data-game=mixer][data-date-level] .dn-actions button.ghost{border:2px solid var(--dn-ghost)}
+.dn-wait{font-weight:700;color:var(--dn-ink)!important}
+.dn-quiet{display:flex;justify-content:space-between;gap:16px;margin:18px 2px 6px}
+body[data-game=mixer][data-date-level] .dn-quiet button.link{background:none;border:0;padding:6px 0;min-height:0;font-size:14px;font-weight:600;color:var(--dn-muted);text-decoration:underline;text-underline-offset:3px;white-space:nowrap;box-shadow:none;transform:none}
+.dn-hint,.dn-turn{text-wrap:pretty}
+/* One surface: palette vars live on <html>; the page root deepens card by card (--dn-depth set on <html> in app.js). */
+html:has(body[data-game=mixer][data-date-level]){--dn-bg:#FFE6DF;--dn-next:#F7A8A4;--dn-card:#FFF4F0;--dn-ink:#4D1F1A;--dn-muted:#85524A;--dn-line:#F3CFC6;--dn-accent:#E0404B;--dn-on-accent:#fff;--dn-ghost:#D9998F}
+html:has(body[data-game=mixer][data-date-level="2"]){--dn-bg:#E23B4D;--dn-next:#9E1F3A;--dn-card:#EC5565;--dn-ink:#fff;--dn-muted:#FFE3E5;--dn-line:#F07A86;--dn-accent:#FFD7DA;--dn-on-accent:#7A0E1C;--dn-ghost:#FFF}
+html:has(body[data-game=mixer][data-date-level="3"]){--dn-bg:#140A1E;--dn-next:#07030B;--dn-card:#221430;--dn-ink:#FDE8F1;--dn-muted:#CDB6CF;--dn-line:#3A2748;--dn-accent:#FF4F8B;--dn-on-accent:#1A0612;--dn-ghost:#9A78AE}
+html:has(body[data-game=mixer][data-date-level]){background:color-mix(in oklab,var(--dn-bg),var(--dn-next) calc(var(--dn-depth,0) * 45%));transition:background-color 1s ease}
+body[data-game=mixer][data-date-level]{background:transparent}
+@media (prefers-reduced-motion:reduce){html:has(body[data-game=mixer][data-date-level]){transition:none}}
