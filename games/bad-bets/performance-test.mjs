@@ -8,13 +8,13 @@ class Store{
  async get(k){return this.data.get(k)||null;}
  async compareAndSwap(k,b,a){if((this.data.get(k)||null)!==b)return false;this.data.set(k,a);this.writes++;return true;}
 }
-test('idle cloud polls write presence once per 2 seconds instead of every request',async()=>{
+test('idle lobby polls write presence once per 15 seconds instead of every request',async()=>{
  const real=Date.now;let now=real();Date.now=()=>now;
  try{const store=new Store();const host=await cloudRequest(store,{type:'create',name:'Host'});const seats=[host];for(let i=1;i<8;i++)seats.push(await cloudRequest(store,{type:'join',code:host.code,name:`P${i}`}));
  const before=store.writes;
- for(let i=0;i<30;i++){now+=700;await Promise.all(seats.map(a=>cloudRequest(store,a,{state:true})));}
- assert.equal(store.writes-before,80); // Previously 240 room writes for these same reads.
- const r=JSON.parse(await store.get(host.code));assert.ok(r.players.every(p=>now-p.lastSeen<2000));
+ for(let i=0;i<30;i++){now+=1000;await Promise.all(seats.map(a=>cloudRequest(store,a,{state:true})));}
+ assert.equal(store.writes-before,16); // 2 s throttle: 120 room writes for these same reads; unthrottled: 240.
+ const r=JSON.parse(await store.get(host.code));assert.ok(r.players.every(p=>now-p.lastSeen<15000));
  }finally{Date.now=real;}
 });
 test('presence-only polls do not change the gameplay version; actions do',async()=>{

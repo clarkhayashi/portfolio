@@ -1,6 +1,7 @@
 import {restaurantHeading,foodLabel,lotHeading,themeBadge,buildWord} from './restaurants.js';
 import {loadCardArt,cardLabel,lotArt} from './card-art.js';
 import {gameById,MAX_PLAYERS} from './catalog.js';
+import {pollDelay,POLL,QUOTA_TEXT,STORAGE_FAILS_FOR_BREAK,isQuota} from './state-flow.js';
 
 // ---------- pure rendering (importable in node for tests) ----------
 export const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -296,7 +297,7 @@ export function messageScreen(title,detail=''){
 function boot(){
  const root=document.querySelector('#display'),conn=document.querySelector('#connection'),fsBtn=document.querySelector('#fullscreen');
  const params=new URLSearchParams(location.search),code=(params.get('room')||'').toUpperCase(),token=location.hash.slice(1);
- let stopped=false,lastVersion=-1,lastHtml='',lastKey='',offset=0,failures=0,known=null,joinOrigin=location.hostname==='bad-bets.vercel.app'?'https://play.clarkhayashi.com':location.origin,wake=null;
+ let stopped=false,timer=null,inFlight=false,changedAt=Date.now(),lastState=null,storageFails=0,onBreak=false,lastVersion=-1,lastHtml='',lastKey='',offset=0,failures=0,known=null,joinOrigin=location.hostname==='bad-bets.vercel.app'?'https://play.clarkhayashi.com':location.origin,wake=null;
  const qrCache=new Map();
  const qr=url=>{if(!qrCache.has(url)){let svg='';try{if(window.qrcode){const q=window.qrcode(0,'M');q.addData(url);q.make();svg=q.createSvgTag({cellSize:6,margin:2,scalable:true});}}catch{}qrCache.set(url,svg);}return qrCache.get(url);};
  const ctx={qr,joinUrl:c=>`${joinOrigin}/?room=${encodeURIComponent(c||'')}`,get joinHost(){return joinOrigin.replace(/^https?:\/\//,'');}};
@@ -307,16 +308,21 @@ function boot(){
  const applyTheme=t=>{const st=document.documentElement.style;st.setProperty('--bg',t.bg);st.setProperty('--ink',t.ink);st.setProperty('--accent',t.accent);st.setProperty('--muted',t.muted);document.documentElement.dataset.theme=t.name;};
  const tick=()=>{const now=Date.now()+offset;for(const el of root.querySelectorAll('.timer[data-deadline]')){const left=Math.max(0,Math.ceil((Number(el.dataset.deadline)-now)/1000));el.textContent=`${Math.floor(left/60)}:${String(left%60).padStart(2,'0')}`;el.classList.toggle('low',left<=5);}};
  setInterval(tick,250);
+ // Adaptive polling (state-flow.js): 1.5 s in play, 4 s in lobby/results, 10 s after a quiet minute; none while hidden.
  async function poll(){
-  if(stopped)return;
+  if(stopped||inFlight)return;clearTimeout(timer);timer=null;
+  if(document.hidden)return;
+  inFlight=true;let delay=null;
   try{
    if(!code||!token){root.innerHTML=messageScreen('Open this from the host’s phone','In the lobby, tap “Open shared display”.');stopped=true;return;}
    const res=await fetch(`/state?code=${encodeURIComponent(code)}`,{headers:{Authorization:`Bearer ${token}`},signal:AbortSignal.timeout(6000)});
    const s=await res.json();
+   if(isQuota(s)){onBreak=true;lastHtml='';root.innerHTML=messageScreen(QUOTA_TEXT.title,QUOTA_TEXT.body);setConn('',false);delay=POLL.quotaRetry;return;}
+   if(res.status===503)storageFails++;else storageFails=0;
    if(!res.ok||s.error){const e=Error(s.error||'Reconnecting');e.fatal=/expired|not found/i.test(s.error||'');throw e;}
    const d=Date.parse(res.headers.get('Date')||'');if(Number.isFinite(d)){const o=d-Date.now();offset=Math.abs(o)>2000?o:0;}
-   failures=0;setConn('',false);
-   if(s.version<lastVersion)return;lastVersion=s.version;
+   failures=0;setConn('',false);if(onBreak){onBreak=false;lastHtml='';}
+   if(s.version<lastVersion)return;if(s.version!==lastVersion||s.phase!==lastState?.phase)changedAt=Date.now();lastVersion=s.version;lastState=s;
    const ids=live(s).map(p=>p.id);ctx.fresh=known?new Set(ids.filter(id=>!known.has(id))):new Set();known=new Set(ids);
    const out=render(s,ctx);applyTheme(out.theme);
    if(out.html!==lastHtml){root.innerHTML=out.html;lastHtml=out.html;
@@ -325,9 +331,10 @@ function boot(){
   }catch(e){
    failures++;
    if(e.fatal){root.innerHTML=messageScreen('This room has ended','Start a new room on a phone, then open the display again.');lastHtml='';stopped=true;return;}
+   if(storageFails>=STORAGE_FAILS_FOR_BREAK){onBreak=true;lastHtml='';root.innerHTML=messageScreen(QUOTA_TEXT.title,QUOTA_TEXT.body);setConn('',false);delay=POLL.quotaRetry;return;}
    setConn(failures>1?'Reconnecting…':'Checking connection…',true);
    if(!lastHtml)root.innerHTML=messageScreen('Connecting to the room…');
-  }finally{if(!stopped)setTimeout(poll,failures>3?3000:1000);}
+  }finally{inFlight=false;if(!stopped&&!document.hidden)timer=setTimeout(poll,delay??(failures?(failures>3?3000:1000):pollDelay(lastState,{idleMs:Date.now()-changedAt,display:true})));}
  }
  // Fullscreen + keep the screen awake.
  const canFs=!!(document.documentElement.requestFullscreen||document.documentElement.webkitRequestFullscreen);
@@ -335,7 +342,7 @@ function boot(){
  async function keepAwake(){try{if('wakeLock' in navigator&&document.visibilityState==='visible'&&!wake){wake=await navigator.wakeLock.request('screen');wake.addEventListener('release',()=>{wake=null;});}}catch{wake=null;}}
  fsBtn.addEventListener('click',async()=>{fsBtn.dataset.used='1';try{const el=document.documentElement;await (el.requestFullscreen?el.requestFullscreen({navigationUI:'hide'}):el.webkitRequestFullscreen());}catch{}syncFs();keepAwake();});
  document.addEventListener('fullscreenchange',syncFs);document.addEventListener('webkitfullscreenchange',syncFs);
- document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')keepAwake();});
+ document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){keepAwake();poll();}});
  let idle;const wakeBtn=()=>{fsBtn.classList.remove('idle');clearTimeout(idle);idle=setTimeout(()=>fsBtn.classList.add('idle'),12000);};document.addEventListener('pointermove',wakeBtn);document.addEventListener('keydown',wakeBtn);wakeBtn();
  syncFs();keepAwake();
  window.addEventListener('pagehide',()=>{stopped=true;});
