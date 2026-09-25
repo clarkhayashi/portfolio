@@ -135,8 +135,8 @@ label{font-size:14px;font-weight:500}
 .room-top .row>*{flex:initial}.room-top .pill{white-space:nowrap}
 
 /* In-game tutorial: native playback, no autoplay, readable on phones. */
-.channel-dialog:has(.tutorial-video){width:min(900px,96vw);max-width:96vw}
-.tutorial-video{display:block;width:100%;height:auto;aspect-ratio:16/9;background:#253344;border-radius:10px}
+.channel-dialog:has(.tutorial-video){width:min(640px,96vw);max-width:96vw}
+.tutorial-video{display:block;height:min(60vh,560px);width:auto;max-width:100%;aspect-ratio:9/16;margin:0 auto 18px;background:#253344;border-radius:14px}
 .tutorial-rules{margin:24px 0}.tutorial-rules summary{cursor:pointer;font-weight:600}
 
 /* Secondary navigation stays separate from the main play actions. */
