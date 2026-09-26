@@ -223,6 +223,7 @@ async function linkThoughtView(id){
 async function render(){
  const r=route(),m=r.match(/^\/(j|t|p)\/([\w-]+)/);
  const app=$('#app'),nav=$('#tabs');
+ if(r==='/im'){nav.hidden=true;app.innerHTML=imCompose();return;}
  if(m?.[1]==='t'&&(!token||IM)){nav.hidden=true;app.innerHTML=await linkThoughtView(m[2]);return;}
  if(!token&&m?.[1]==='p'){nav.hidden=true;let c=null;try{c=await api('/challenge/'+m[2]);}catch(e){}
   const G=c?.mode==='big3'?GAMES.big3:GAMES.pong;
@@ -231,7 +232,6 @@ async function render(){
   <p class="small muted" style="text-align:center">No app, no password. Loops keeps it light.</p>`;return;}
  if(!token){nav.hidden=true;let info=null;if(m?.[1]==='j'){try{info=await api('/invite/'+m[2]);}catch(e){toast(e.message);}}app.innerHTML=onboarding(m?.[1]==='j'?m[2]:null,info);return;}
  if(m?.[1]==='p'){nav.hidden=IM;await pongPage(m[2]);return;}
- if(r==='/im'){nav.hidden=true;app.innerHTML=imCompose();return;}
  if(m){ // Signed in and opened an invite or link: handle it, then go home.
   history.replaceState(null,'',BASE+'/');
   if(m[1]==='j')await act(()=>api('/join',{code:m[2]}),'You joined the loop.');else await act(()=>api(`/t/${m[2]}/reply`,{}),'You’re connected.');
@@ -268,16 +268,20 @@ async function pongPage(id,page=true){
 }
 
 // iMessage compose: the extension's own screen. Sending inserts a bubble into the current thread.
+// iMessage panel: as small as it gets. First time: your first name. After that: tap a game and it drops into the
+// chat as a bubble. Sending a thought is tucked underneath.
 function imCompose(){
- return `<h1>Send a thought</h1><p class="muted small">No reply needed. They tap 💛 if they want.</p>
+ const tiles=`<div class="games">${Object.entries(GAMES).map(([k,G])=>`<button class="card gametile" data-imgame="${k}" ${token?'':'disabled'}><span class="big-emoji">${G.emoji}</span><b>${G.name}</b></button>`).join('')}</div>`;
+ if(!token)return `<form id="imname" class="row imname"><input class="grow" name="name" autocomplete="given-name" maxlength="24" placeholder="Your first name" required><button class="accent" type="submit">Go</button></form>${tiles}`;
+ return `${tiles}
+ <details class="imthought"><summary>💭 Send a thought instead</summary>
  <form id="imsend" class="card">
-  <textarea name="text" maxlength="500" placeholder="Anything, or nothing. A link or photo works on its own."></textarea>
+  <textarea name="text" maxlength="500" placeholder="Anything. A link or photo works on its own."></textarea>
   <input name="url" inputmode="url" placeholder="Link: song, video, place">
   <input id="photo" name="photo" type="file" accept="image/*">
   ${draft.photo?`<img src="${draft.photo}" alt="Photo to send" style="width:100%;border-radius:12px">`:''}
-  <button class="accent" type="submit">Send thought</button>
- </form>
- <div class="card"><h3>🏓 Pong</h3><p class="small">Challenge the chat. First to tap it plays you.</p><div class="row"><button data-imgame="pong">Classic Pong</button><button class="accent" data-imgame="big3">🏀 Big 3 draft</button></div></div>`;
+  <button class="accent full" type="submit">Send thought</button>
+ </form></details>`;
 }
 
 async function pongAfter(res,page=false){
@@ -305,7 +309,7 @@ document.addEventListener('click',async e=>{
  if(d.down){await act(()=>api(`/trips/${d.down}/down`,{}),'They’ll see you’re down.');return;}
  if(d.rmtrip){await act(()=>api(`/trips/${d.rmtrip}/remove`,{}),'Trip removed.');return;}
  if(d.openloop!==undefined){openLoop=d.openloop||null;render();scrollTo(0,0);return;}
- if(d.imgame){const big=d.imgame==='big3',out=await act(()=>api('/pong',{mode:big?'big3':'classic'}));if(out)native({type:'send',kind:'pong',path:`/p/${out.id}`,caption:big?`🏀 ${data?.me?.name||'A friend'} wants a Big 3 Pong draft`:`🏓 ${data?.me?.name||'A friend'} challenged you to Pong`,sub:big?'Draft a guard, wing and big, then play':'Tap to take the open seat'});return;}
+ if(d.imgame){const big=d.imgame==='big3',out=await act(()=>api('/pong',{mode:big?'big3':'classic'}));if(out)native({type:'send',kind:'pong',path:`/p/${out.id}`,caption:big?`🏀 ${data?.me?.name||'A friend'} wants a Big 3 Pong draft`:`🏓 ${data?.me?.name||'A friend'} challenged you to Pong`,sub:big?'Tap to draft first, then play':'Tap to play. You go first.'});return;}
  if(d.sound!==undefined){setMuted(!muted);b.outerHTML=soundToggle();return;}
  if(d.textgame){const G=GAMES[d.textgame];const out=await act(()=>api('/pong',{mode:G.mode}));if(out){sentGame={id:out.id,key:d.textgame};render();}return;}
  if(d.allgifts!==undefined){showAllGifts=true;render();return;}
@@ -331,6 +335,7 @@ document.addEventListener('change',async e=>{
 document.addEventListener('submit',async e=>{
  e.preventDefault();const f=e.target,v=n=>f.elements[n]?.value;
  if(f.closest('#pong'))return; // handled by pong.js
+ if(f.id==='imname'){try{const out=await api('/signup',{name:v('name')});token=out.token;store.set('loops.token',token);await refresh();}catch(err){toast(err.message);}return;}
  if(f.id==='signup'){try{const m=route().match(/^\/j\/([\w-]+)/);const out=await api('/signup',{name:v('name'),invite:m?.[1]});token=out.token;store.set('loops.token',token);if(m)history.replaceState(null,'',BASE+'/');await refresh();if(m)toast('You’re in.');}catch(err){toast(err.message);}return;}
  if(f.id==='replyback'){try{const id=route().split('/')[2];store.set('loops.guestname',v('name'));const out=await api('/signup',{name:v('name'),city:v('city'),fromThought:id});token=out.token;store.set('loops.token',token);history.replaceState(null,'',BASE+'/');await refresh();toast('You’re connected.');}catch(err){toast(err.message);}return;}
  if(f.id==='imsend'){const out=await act(()=>api('/thoughts',{to:{type:'link',name:''},text:v('text'),url:v('url'),photo:draft.photo}));

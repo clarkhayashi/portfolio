@@ -99,3 +99,7 @@ a.btn.accent{background:var(--accent);color:#fff}
 .mtext{display:flex;flex-direction:column;min-width:0;flex:1 1 auto}
 .mtext b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .mrow button{flex:0 0 auto;padding:10px 14px}
+#tabs[hidden]{display:none!important}
+.imname{margin:4px 0 10px;flex-wrap:nowrap}.imname input{margin:0;width:auto;flex:1 1 auto}
+.imthought{margin-top:10px}.imthought summary{cursor:pointer;color:var(--focus);font-weight:700;padding:6px 0}
+.gametile:disabled{opacity:.45}
