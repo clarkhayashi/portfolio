@@ -62,7 +62,7 @@ const GAMES={
   }},
 
  auction:{d:12,label:'players take turns raising a dollar or passing, the last bidder wins the lot, each win fills a slot in their build, and judges pick the best build.',
-  beats:[0,28,52,74],caps:['💵 Raise $1 or pass','Last one bidding wins the lot','Each win fills a slot','Judges pick the best build'],
+  beats:[0,28,52,74],caps:['💵 Raise by $1, $2 or $5','Last one bidding wins the lot','Each win fills a slot','Judges pick the best build'],
   make({E}){
    let h=E(50,.7,'Lot: 🌮 Taco Bell',vis([0,52],'scale(.8)'),{cls:'ga-q'});
    h+=E(18,3.2,'🐱',vis([0,94]),{cls:'ga-big'})+E(82,3.2,'🐶',vis([0,94]),{cls:'ga-big'});
