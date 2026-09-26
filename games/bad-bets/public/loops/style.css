@@ -131,3 +131,13 @@ a.btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--line)
 .boxscore i.k{background:#fdeee9;color:#b44}
 .micon.art{width:36px;height:36px;flex:none}
 .micon.waiting{border-radius:50%;border:3px dashed #BAB4EA;box-sizing:border-box}
+/* Oops sticker art for games */
+.gameart{display:block;margin:0 auto 6px;width:56px;height:56px}
+.arthead{display:flex;align-items:center;gap:8px}
+.arthead .gameart{margin:0;width:32px;height:32px}
+/* Five games on a phone: two columns, the odd last tile runs full width with its art beside the text */
+.games{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.gametile .gameart{margin:0 0 6px}
+.gametile b{font-size:1.05rem;line-height:1.15}
+.games>.gametile:last-child:nth-child(odd){grid-column:1/-1;display:grid;grid-template-columns:56px 1fr;column-gap:12px;align-items:center}
+.games>.gametile:last-child:nth-child(odd) .gameart{grid-row:span 2;margin:0}

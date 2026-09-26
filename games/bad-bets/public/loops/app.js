@@ -108,6 +108,8 @@ function pongView(g,page=false){
 // Text a friend a game: tap a game, then "Text it" opens Messages with the link typed in. They open it, type
 // a first name, and play. No app or account on their side.
 let sentGame=null;
+// art: Oops sticker SVGs in /loops/art (same style as Oops' props). Emoji stay only in texted messages and reactions.
+const gameArt=(k,size=56)=>`<img class="gameart" src="${BASE}/art/${k}.svg" alt="" width="${size}" height="${size}">`;
 const GAMES={shootout:{kind:'shootout',name:'Penalty Shootout',emoji:'⚽',blurb:'Pick your shot and your dive.'},derby:{kind:'derby',name:'Home Run Derby',emoji:'⚾',blurb:'10 pitches. Most homers wins.'},pong:{mode:'classic',name:'Pong',emoji:'🏓',blurb:'Flick to sink their cups.'},big3:{mode:'big3',name:'Big 3 Pong',emoji:'🏀',blurb:'Draft a guard, wing and big first.'},duel:{kind:'duel',name:'Draft Duel',emoji:'🃏',blurb:'Draft 5 under the cap. Scout grades it.'}};
 let duelChoose=false,liveRoom=null;
 const aGrade=g=>`${/^[AF]/.test(g||'')?'an':'a'} ${g}`; // "an A−", "a B+"
@@ -116,15 +118,15 @@ function textAGame(){
  if(liveRoom)return `<div class="card invite"><h3>${liveRoom.duel?'🃏 Live draft room':'🎲 Game night room'} ${esc(liveRoom.code)} is open</h3><p class="small">${liveRoom.duel?'This one is live: you both draft at the same time, 30 seconds a pick. Text it, then jump in.':'Text the group, then jump in. The room stays open for 12 hours.'}</p>
    <a class="btn accent full" href="${smsLink(liveRoom.msg)}">💬 Text it</a>
    <div class="row" style="margin-top:8px"><a class="btn ghost" href="${liveRoom.enter}">Go to the room →</a>${liveRoom.loopId?`<button class="ghost" data-postnight>Post in the loop</button>`:''}<button class="link" data-newgame>Done</button></div></div>`;
- if(duelChoose)return `<div class="card invite"><h3>🃏 Draft Duel</h3><p class="small">Same players for both of you, $130 for five. Oops' Scout grades each team and the better team wins.</p>
+ if(duelChoose)return `<div class="card invite"><h3 class="arthead">${gameArt('duel',32)} Draft Duel</h3><p class="small">Same players for both of you, $130 for five. Oops' Scout grades each team and the better team wins.</p>
    <button class="accent full" data-duelmode="async">🕒 Anytime: you draft now, they draft later</button>
    <button class="ghost full" style="margin-top:8px" data-duelmode="live">⚡ Live now: a real-time Oops 1v1 room</button>
    <button class="link" data-newgame>Back</button></div>`;
  if(sentGame){const G=GAMES[sentGame.key],url=`${ORIGIN}/${G.kind==='derby'?'d':G.kind==='shootout'?'s':G.kind==='duel'?'r':'p'}/${sentGame.id}`,msg=G.kind==='duel'?`${data.me.name} drafted ${aGrade(sentGame.grade)} team 🃏 Beat it: ${url}`:G.kind==='shootout'?`${data.me.name} took a penalty ⚽ Save it, then take yours: ${url}`:G.kind==='derby'?`${data.me.name} hit ${sentGame.hr} ${sentGame.hr===1?'homer':'homers'} ⚾ Beat it: ${url}`:`${data.me.name} challenged you to ${G.name} ${G.emoji} ${url}`;
-  return `<div class="card invite"><h3>${G.emoji} ${G.kind==='duel'?`Scout gave you ${esc(aGrade(sentGame.grade))}. Send it.`:G.kind==='derby'?`You hit ${sentGame.hr}. Send it.`:G.kind==='shootout'?'Your penalty is in. Send it.':`${G.name} is ready`}</h3><p class="small">${G.kind==='duel'?'They draft the same board without seeing your picks. Better Scout grade wins.':G.kind==='shootout'?'They pick their dive and their shot. Then you both see what happened.':G.kind==='derby'?'They get the same 10 pitches. Most homers wins.':'Send it to a friend. They go first, and you get your turn after.'}</p>
+  return `<div class="card invite"><h3 class="arthead">${gameArt(sentGame.key,32)} ${G.kind==='duel'?`Scout gave you ${esc(aGrade(sentGame.grade))}. Send it.`:G.kind==='derby'?`You hit ${sentGame.hr}. Send it.`:G.kind==='shootout'?'Your penalty is in. Send it.':`${G.name} is ready`}</h3><p class="small">${G.kind==='duel'?'They draft the same board without seeing your picks. Better Scout grade wins.':G.kind==='shootout'?'They pick their dive and their shot. Then you both see what happened.':G.kind==='derby'?'They get the same 10 pitches. Most homers wins.':'Send it to a friend. They go first, and you get your turn after.'}</p>
    <a class="btn accent full" href="sms:?&body=${encodeURIComponent(msg)}">💬 Text it</a>
    <div class="row" style="margin-top:8px"><button class="ghost" data-copy="${esc(url)}" data-sharetext="${esc(`${data.me.name} challenged you to ${G.name} ${G.emoji}`)}">${navigator.share?'Share…':'Copy link'}</button><button class="link" data-newgame>Done</button></div></div>`;}
- return `<h2 style="margin-top:8px">Text a friend a game</h2><div class="games">${Object.entries(GAMES).map(([k,G])=>`<button class="card gametile" data-textgame="${k}"><span class="big-emoji">${G.emoji}</span><b>${G.name}</b><span class="small muted">${G.blurb}</span></button>`).join('')}</div>`;
+ return `<h2 style="margin-top:8px">Text a friend a game</h2><div class="games">${Object.entries(GAMES).map(([k,G])=>`<button class="card gametile" data-textgame="${k}">${gameArt(k)}<b>${G.name}</b><span class="small muted">${G.blurb}</span></button>`).join('')}</div>`;
 }
 
 // First run: nobody to talk to yet. Two one-tap paths straight to a first send; nothing else on screen.
@@ -142,16 +144,16 @@ function homeView(){
  const mine=data.pongs.filter(g=>g.myTurn),wait=data.pongs.filter(g=>!g.myTurn&&!g.done&&!g.open),done=data.pongs.filter(g=>g.done).slice(0,1);
  const moves=[
   ...data.shootouts.filter(g=>g.myTurn&&!(g.open&&g.rounds.length===0&&!g.theyPicked&&g.myPicked)).map(g=>row('⚽',g.open&&!g.rounds.length?'Your penalty challenge':`Round ${g.round} vs ${esc(g.vs)}${g.suddenDeath?' · sudden death':''}`,`${g.score.me}–${g.score.them}${g.theyPicked?' · they already picked':''}`,`<button class="accent" data-shoot="${g.id}">Pick</button>`)),
-  ...data.shootouts.filter(g=>g.done).slice(0,1).map(g=>row(g.won?'🏆':g.tie?'🤝':'⚽',g.won?`You beat ${esc(g.vs)}, ${g.score.me}–${g.score.them}`:g.tie?`Tied ${esc(g.vs)}`:`${esc(g.vs)} won, ${g.score.them}–${g.score.me}`,'Penalty Shootout',g.vsId?`<button class="ghost" data-reshoot="${g.vsId}">Rematch</button>`:'')),
+  ...data.shootouts.filter(g=>g.done).slice(0,1).map(g=>row('⚽',g.won?`You beat ${esc(g.vs)}, ${g.score.me}–${g.score.them}`:g.tie?`Tied ${esc(g.vs)}`:`${esc(g.vs)} won, ${g.score.them}–${g.score.me}`,'Penalty Shootout',g.vsId?`<button class="ghost" data-reshoot="${g.vsId}">Rematch</button>`:'')),
   ...(data.duels||[]).filter(g=>g.myTurn).map(g=>row('🃏',g.theirs?`Beat ${esc(g.vs)}’s ${esc(g.theirs.grade)} draft`:'Your draft','Draft Duel',`<button class="accent" data-duel="${g.id}">Draft</button>`)),
-  ...(data.duels||[]).filter(g=>g.done).slice(0,1).map(g=>row(g.won?'🏆':g.tie?'🤝':'🃏',g.won?`You beat ${esc(g.vs)}, ${esc(g.mine.grade)} to ${esc(g.theirs.grade)}`:g.tie?`Tied ${esc(g.vs)}`:`${esc(g.vs)} won, ${esc(g.theirs.grade)} to ${esc(g.mine.grade)}`,'Draft Duel',g.vsId?`<button class="ghost" data-reduel="${g.vsId}">Rematch</button>`:'')),
+  ...(data.duels||[]).filter(g=>g.done).slice(0,1).map(g=>row('🃏',g.won?`You beat ${esc(g.vs)}, ${esc(g.mine.grade)} to ${esc(g.theirs.grade)}`:g.tie?`Tied ${esc(g.vs)}`:`${esc(g.vs)} won, ${esc(g.theirs.grade)} to ${esc(g.mine.grade)}`,'Draft Duel',g.vsId?`<button class="ghost" data-reduel="${g.vsId}">Rematch</button>`:'')),
   ...data.derbies.filter(g=>g.myTurn).map(g=>row('⚾',g.theirs?`Beat ${esc(g.vs)}’s ${g.theirs.hr} ${g.theirs.hr===1?'homer':'homers'}`:'Your at-bat','Home Run Derby',`<button class="accent" data-derby="${g.id}">Bat</button>`)),
-  ...data.derbies.filter(g=>g.done).slice(0,1).map(g=>row(g.won?'🏆':g.tie?'🤝':'⚾',g.won?`You beat ${esc(g.vs)}, ${g.mine.hr}–${g.theirs.hr}`:g.tie?`Tied ${esc(g.vs)}, ${g.mine.hr}–${g.theirs.hr}`:`${esc(g.vs)} won, ${g.theirs.hr}–${g.mine.hr}`,'Home Run Derby',g.vsId?`<button class="ghost" data-rederby="${g.vsId}">Rematch</button>`:'')),
+  ...data.derbies.filter(g=>g.done).slice(0,1).map(g=>row('⚾',g.won?`You beat ${esc(g.vs)}, ${g.mine.hr}–${g.theirs.hr}`:g.tie?`Tied ${esc(g.vs)}, ${g.mine.hr}–${g.theirs.hr}`:`${esc(g.vs)} won, ${g.theirs.hr}–${g.mine.hr}`,'Home Run Derby',g.vsId?`<button class="ghost" data-rederby="${g.vsId}">Rematch</button>`:'')),
   ...mine.filter(g=>g.id!==sentGame?.id).map(g=>{const pick=g.mode==='big3'&&!g.draft.done,name=g.mode==='big3'?'Big 3 Pong':'Pong';
    if(g.open)return row(pick?'🏀':'🏓',`Your ${name} challenge`,'Go first while a friend joins',`<button class="accent" data-pong="${g.id}">${pick?'Pick':'Shoot'}</button>`);
    return row(pick?'🏀':'🏓',pick?`Your pick vs ${esc(g.vs)}`:`Your shot vs ${esc(g.vs)}`,g.lastNote?esc(g.lastNote):record(g),`<button class="accent" data-pong="${g.id}">${pick?'Pick':'Shoot'}</button>`);}),
   ...data.invites.filter(i=>!i.down).map(i=>row('📍',`${esc(i.who)} is in ${esc(i.city)}`,`${fmtDate(i.from)} to ${fmtDate(i.to)}${i.note?` · “${esc(i.note)}”`:''}`,`<button class="accent" data-down="${i.id}">I’m down</button>`)),
-  ...done.map(g=>row(g.won?'🏆':'🏓',g.won?`You beat ${esc(g.vs)}`:`${esc(g.vs)} won`,record(g),g.vsId?`<button class="ghost" data-challenge="${g.vsId}">Rematch</button>`:''))];
+  ...done.map(g=>row('🏓',g.won?`You beat ${esc(g.vs)}`:`${esc(g.vs)} won`,record(g),g.vsId?`<button class="ghost" data-challenge="${g.vsId}">Rematch</button>`:''))];
  const gifts=showAllGifts?data.gifts:data.gifts.slice(0,3);
  return `<h1>Hi, ${esc(data.me.name)}</h1>
  ${moves.length?`<section class="card rows"><h3>Your move</h3>${moves.join('')}</section>`:''}
@@ -161,7 +163,8 @@ function homeView(){
  ${gifts.length?gifts.map(giftCard).join(''):`<div class="empty">Thoughts from friends land here. No pressure to reply.</div>`}
  ${data.gifts.length>3&&!showAllGifts?`<button class="link" data-allgifts>See all ${data.gifts.length}</button>`:''}`;
 }
-const row=(icon,title,sub,action)=>`<div class="mrow"><span class="micon">${icon}</span><span class="mtext"><b>${title}</b><span class="small muted">${sub}</span></span>${action}</div>`;
+const ROW_ART={'⚽':'shootout','⚾':'derby','🏓':'pong','🏀':'big3','🃏':'duel'};
+const row=(icon,title,sub,action)=>`<div class="mrow">${ROW_ART[icon]?`<img class="micon art" src="${BASE}/art/${ROW_ART[icon]}.svg" alt="" width="36" height="36">`:`<span class="micon">${icon}</span>`}<span class="mtext"><b>${title}</b><span class="small muted">${sub}</span></span>${action}</div>`;
 
 function sendView(){
  const targets=[...data.people.map(p=>({key:'user:'+p.id,label:p.name+(p.openDoor?' ·':'')})),...data.loops.map(l=>({key:'loop:'+l.id,label:l.name+' (loop)'})),{key:'link:',label:'Someone not on Loops yet'}];
@@ -309,7 +312,7 @@ async function pongPage(id,page=true){
 // iMessage panel: as small as it gets. First time: your first name. After that: tap a game and it drops into the
 // chat as a bubble. Sending a thought is tucked underneath.
 function imCompose(){
- const tiles=`<div class="games">${Object.entries(GAMES).map(([k,G])=>`<button class="card gametile" data-imgame="${k}" ${token?'':'disabled'}><span class="big-emoji">${G.emoji}</span><b>${G.name}</b></button>`).join('')}</div>`;
+ const tiles=`<div class="games">${Object.entries(GAMES).map(([k,G])=>`<button class="card gametile" data-imgame="${k}" ${token?'':'disabled'}>${gameArt(k,48)}<b>${G.name}</b></button>`).join('')}</div>`;
  if(!token)return `<form id="imname" class="row imname"><input class="grow" name="name" autocomplete="given-name" maxlength="24" placeholder="Your first name" required><button class="accent" type="submit">Go</button></form>${tiles}`;
  return `${tiles}
  <details class="imthought"><summary>💭 Send a thought instead</summary>
@@ -337,13 +340,13 @@ async function shootPage(id,page=true){
    <div class="mrow">${miniGoal(r.mine.shoot,r.mine.theirDive)}<span class="mtext"><b>${r.mine.goal?'Your goal ⚽':'Saved 🧤'}</b><span class="small muted">You shot ${SPOT_TXT[r.mine.shoot]}, ${esc(g.vs)} dove ${SPOT_TXT[sideOf(r.mine.theirDive)]}</span></span></div>
    <div class="mrow">${miniGoal(r.theirs.shoot,r.theirs.myDive)}<span class="mtext"><b>${r.theirs.goal?`${esc(g.vs)} scores`:'You saved it 🧤'}</b><span class="small muted">${esc(g.vs)} shot ${SPOT_TXT[r.theirs.shoot]}, you dove ${SPOT_TXT[sideOf(r.theirs.myDive)]}</span></span></div></div>`).reverse().join('');
  let top;
- if(g.done)top=`<h1>⚽ ${g.won?'You win!':g.tie?'Tie game':`${esc(g.winnerName||g.vs)} wins`}</h1><p class="muted small">${record(g)}</p>${g.vsId&&!page?`<button class="accent full" data-reshoot="${g.vsId}">Rematch</button>`:''}`;
+ if(g.done)top=`<h1>${g.won?'You win!':g.tie?'Tie game':`${esc(g.winnerName||g.vs)} wins`}</h1><p class="muted small">${record(g)}</p>${g.vsId&&!page?`<button class="accent full" data-reshoot="${g.vsId}">Rematch</button>`:''}`;
  else if(g.myTurn){const step=soPick.shoot?'dive':'shoot';
-  top=`<h1>⚽ ${g.suddenDeath?'Sudden death':`Round ${g.round} of 5`}</h1><p class="muted small">${g.theyPicked?`${esc(g.vs)} already picked. `:''}${step==='shoot'?'Where do you shoot?':'Now, which way do you dive? You cover that whole side.'}</p>
+  top=`<h1>${g.suddenDeath?'Sudden death':`Round ${g.round} of 5`}</h1><p class="muted small">${g.theyPicked?`${esc(g.vs)} already picked. `:''}${step==='shoot'?'Where do you shoot?':'Now, which way do you dive? You cover that whole side.'}</p>
   <div class="goal ${step==='dive'?'diving':''}">${SPOT_ORDER.map(k=>{const dove=soPick.dive&&k[1]===soPick.dive;return `<button class="spot ${soPick.shoot===k?'ball':''} ${dove?'glove':''}" data-spot="${step==='dive'?k[1]:k}" aria-label="${step==='dive'?`dive ${SPOT_TXT[k[1]]}`:SPOT_TXT[k]}">${soPick.shoot===k?'⚽':''}${dove&&k[0]==='b'?'🧤':''}</button>`;}).join('')}</div>
   <p class="small">${soPick.shoot?`Shoot: <b>${SPOT_TXT[soPick.shoot]}</b>`:'Tap a spot to aim.'}${soPick.dive?` · Dive: <b>${SPOT_TXT[soPick.dive]}</b>`:''} ${soPick.shoot?'<button class="link" data-spotreset>Change</button>':''}</p>
   <button class="accent full" data-lockin ${soPick.shoot&&soPick.dive?'':'disabled'}>Lock in</button>`;}
- else top=`<h1>⚽ ${g.suddenDeath?'Sudden death':`Round ${g.round}`}</h1><div class="empty">Your picks are in. Waiting on ${esc(g.vs)}. ${page?'This updates by itself.':'No rush.'}</div>`;
+ else top=`<h1>${g.suddenDeath?'Sudden death':`Round ${g.round}`}</h1><div class="empty">Your picks are in. Waiting on ${esc(g.vs)}. ${page?'This updates by itself.':'No rush.'}</div>`;
  $('#app').innerHTML=`${back}${soundToggle()}${top}${g.rounds.length?board:''}${rounds}`;
  shootGame=g;
  clearInterval(pollTimer);
@@ -397,7 +400,7 @@ async function duelPage(id,page=true){
   const spent=duelCost(),left=g.budget-spent,open=g.board.filter(s=>!duelPick[s.slot]);
   // A card fits if, after buying it, the cheapest card at every other open position is still affordable.
   const fits=(s,c)=>{const rest=open.filter(o=>o.slot!==s.slot).reduce((t,o)=>t+Math.min(...o.cards.map(x=>x.price)),0),swap=duelPick[s.slot]?.price||0;return c.price-swap+rest<=left;};
-  app.innerHTML=`${back}${soundToggle()}<h1>🃏 Draft Duel</h1><p class="muted small">${g.theirs?`Beat ${esc(g.vs)}’s <b>${esc(g.theirs.grade)}</b>.`:'You draft first. Your friend gets the same board.'} One player per position, $${g.budget} cap.</p>
+  app.innerHTML=`${back}${soundToggle()}<h1>Draft Duel</h1><p class="muted small">${g.theirs?`Beat ${esc(g.vs)}’s <b>${esc(g.theirs.grade)}</b>.`:'You draft first. Your friend gets the same board.'} One player per position, $${g.budget} cap.</p>
    <div class="card budget"><b>$${left} left</b> <span class="small muted">of $${g.budget} · ${5-open.length} of 5 picked</span></div>
    ${g.board.map(s=>`<h2>${s.label}${duelPick[s.slot]?` <span class="small muted">· ${esc(duelPick[s.slot].name)}</span>`:''}</h2><div class="picks">${s.cards.map(c=>{const on=duelPick[s.slot]?.name===c.name,ok=on||fits(s,c);
     return `<button class="card pickcard ${on?'on':''}" data-dpick="${s.slot}|${esc(c.name)}" ${ok?'':'disabled'}>${headshot(c.name)}<span class="pickinfo"><b>${esc(c.name)}</b><span class="small muted">${esc(c.note)}</span><span class="pill">$${c.price} · ${c.ovr} ovr</span></span></button>`;}).join('')}</div>`).join('')}
@@ -405,7 +408,7 @@ async function duelPage(id,page=true){
    <p class="small muted" style="text-align:center"><a href="/credits.html" target="_blank" rel="noopener">Photo credits</a></p>`;
   return;
  }
- app.innerHTML=`${back}<h1>🃏 ${g.done?(g.won?'You win!':g.tie?'Tie game':`${esc(g.winnerName||g.vs)} wins`):'Draft Duel'}</h1>
+ app.innerHTML=`${back}<h1>${g.done?(g.won?'You win!':g.tie?'Tie game':`${esc(g.winnerName||g.vs)} wins`):'Draft Duel'}</h1>
   ${duelTeam('You',g.mine,g.won)}${duelTeam(g.vs,g.theirs,g.done&&!g.won&&!g.tie)}
   ${g.done?`<p class="muted small">${record(g)}</p>${g.vsId&&!page?`<button class="accent full" data-reduel="${g.vsId}">Rematch</button>`:''}`:`<p class="muted small">Waiting on ${esc(g.vs)}. No rush.</p>`}`;
  if(!g.done)pollTimer=setInterval(async()=>{if(document.visibilityState!=='visible')return;try{const n=await api('/duel/'+id);if(n.updatedAt!==g.updatedAt){clearInterval(pollTimer);fx('yourTurn');duelPage(id,page);}}catch{}},3000);
