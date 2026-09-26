@@ -22,6 +22,8 @@ export function createServer(store){
  return http.createServer(async(req,res)=>{
   const u=new URL(req.url,'http://localhost');
   if(u.pathname==='/'||u.pathname===BASE){res.writeHead(302,{Location:BASE+'/'+u.search});res.end();return;}
+  // Shared Oops files the Loops client uses (player headshots and their credits), same paths as production.
+  if(u.pathname.startsWith('/players/')||u.pathname==='/credits.html'){try{const f=u.pathname;if(f.includes('..'))throw Error();const body=await readFile(here('../public'+f));res.writeHead(200,{'Content-Type':TYPES[f.slice(f.lastIndexOf('.'))]||(f.endsWith('.jpg')?'image/jpeg':'application/octet-stream')});res.end(body);}catch{res.writeHead(404);res.end('Not found');}return;}
   if(!u.pathname.startsWith(BASE+'/')){res.writeHead(404);res.end('Not found');return;}
   const path=u.pathname.slice(BASE.length);
   try{

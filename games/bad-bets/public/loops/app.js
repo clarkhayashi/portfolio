@@ -68,16 +68,25 @@ function pongCards(){
 }
 
 const SLOT_NAME={guard:'Guard',wing:'Wing',big:'Big'};
+// Headshots: the same Wikimedia Commons photos Oops uses (credits at /credits.html). Missing or broken photos
+// fall back to an initials badge, so a card never shows an empty box.
+let PHOTOS={};fetch('/players/players.json').then(r=>r.ok?r.json():{}).then(j=>{PHOTOS=j||{};if(pageGame?.mode==='big3')render();}).catch(()=>{});
+const initials=n=>String(n).split(/\s+/).filter(w=>/^[A-Za-z]/.test(w)).map(w=>w[0].toUpperCase()).slice(0,2).join('')||'?';
+const badge=(n,size)=>`<span class="hs hs-${size} hs-initials" aria-hidden="true">${esc(initials(n))}</span>`;
+function headshot(name,size='lg'){const p=PHOTOS[name]?.file;
+ if(typeof p!=='string'||!/^\/players\/[a-z0-9-]+\.jpg$/.test(p))return badge(name,size);
+ return `<img class="hs hs-${size}" src="${p}" alt="" width="64" height="64" loading="eager" decoding="async" onerror="this.outerHTML=this.dataset.fb" data-fb="${esc(badge(name,size))}">`;}
 const pct=x=>`${x>=1?'+':'−'}${Math.round(Math.abs(x-1)*100)}%`;
-const lineup=(picks,who)=>`<div class="lineup"><b>${esc(who)}</b>${['guard','wing','big'].map(k=>picks[k]?`<span class="pill">${SLOT_NAME[k]}: ${esc(picks[k].name)}</span>`:`<span class="pill muted">${SLOT_NAME[k]}: …</span>`).join('')}</div>`;
+const lineup=(picks,who)=>`<div class="lineup"><b>${esc(who)}</b>${['guard','wing','big'].map(k=>picks[k]?`<span class="pill pill-hs">${headshot(picks[k].name,'sm')}${SLOT_NAME[k]}: ${esc(picks[k].name)}</span>`:`<span class="pill muted">${SLOT_NAME[k]}: …</span>`).join('')}</div>`;
 // Big 3 draft: pick a guard, a wing and a big. Each card says what that player will do to your game.
 function draftView(g,page=false){
  const d=g.draft,what={guard:c=>`Aim ${pct(1+0.35*(c.off-75)/50)}`,wing:c=>{const w=Math.max(c.off,c.def);return `🔥 Fireball after ${w>=92?2:w>=82?3:4}`;},big:c=>`Contest ${pct(1-0.2*(c.def-75)/50)} on them`};
  return `${page?'':'<button class="link" data-closepong>← Home</button>'}
  <h1>Big 3 draft</h1><p class="muted small">vs ${esc(g.vs)} · Guard sets your aim, wing sets your heat, big contests their shots.</p>
  ${lineup(d.mine,'You')}${lineup(d.theirs,g.vs)}
- ${d.myPick?`<h2>Pick your ${d.slot}</h2><div class="picks">${d.board.map(c=>`<button class="card pickcard" data-pick="${esc(c.name)}"><b>${esc(c.name)}</b><span class="small muted">${esc(c.note)}</span><span class="pill">${what[d.slot](c)}</span></button>`).join('')}</div>`
-  :`<div class="empty">${esc(d.picker)} is picking their ${d.slot}. ${page?'This updates by itself.':'No rush.'}</div>`}`;
+ ${d.myPick?`<h2>Pick your ${d.slot}</h2><div class="picks">${d.board.map(c=>`<button class="card pickcard" data-pick="${esc(c.name)}">${headshot(c.name)}<span class="pickinfo"><b>${esc(c.name)}</b><span class="small muted">${esc(c.note)}</span><span class="pill">${what[d.slot](c)}</span></span></button>`).join('')}</div>`
+  :`<div class="empty">${esc(d.picker)} is picking their ${d.slot}. ${page?'This updates by itself.':'No rush.'}</div>`}
+ <p class="small muted" style="text-align:center"><a href="/credits.html" target="_blank" rel="noopener">Photo credits</a></p>`;
 }
 function statsStrip(g){
  const d=g.draft;if(!d?.stats)return '';const m=d.stats.me,t=d.stats.them;
