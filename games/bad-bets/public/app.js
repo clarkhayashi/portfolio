@@ -154,7 +154,7 @@ async function drawMomentCard(){const s=state,W=1080,H=1920,cv=document.createEl
  const me=s.players.find(p=>p.id===s.you)||{},m=pickMoment(s,s.you),pl=placement(s,s.you)||{label:'',score:0,unit:'chips'},party=s.mode!=='minigames',cx=W/2;
  c.fillStyle=CARD.paper;c.fillRect(0,0,W,H);
  // Aqua floor with the chip mascot peeking over it.
- c.fillStyle=CARD.aqua;rr(c,-20,1600,W+40,400,60);c.fill();c.lineWidth=6;c.strokeStyle=CARD.ink;c.stroke();
+ c.fillStyle=CARD.aqua;rr(c,-20,1640,W+40,400,60);c.fill();c.lineWidth=6;c.strokeStyle=CARD.ink;c.stroke();
  try{const logo=await loadImg('/brand/logo-stacked.svg'),h=260,w=h*190/263;c.drawImage(logo,cx-w/2,90,w,h);}catch{}
  c.textAlign='center';c.textBaseline='alphabetic';
  c.font=B(36);c.fillStyle=CARD.muted;c.fillText(party?`PARTY · ${s.totalRounds||9} ROUNDS`:`MINIGAMES · ${s.history?.length||0} ROUNDS`,cx,440);
@@ -166,14 +166,23 @@ async function drawMomentCard(){const s=state,W=1080,H=1920,cv=document.createEl
  let y=770;if(me.joined){c.font=N(38);c.fillStyle=CARD.muted;c.fillText(`Joined in round ${me.joined}`,cx,y);y+=50;}
  // The moment itself.
  c.font=B(84);const tl=wrapLines(c,m.title,W-260).slice(0,2);c.font=N(42,600);const ll=wrapLines(c,m.line,W-280).slice(0,2);
- const top=y+40,bh=Math.min(1380-top,330+tl.length*86+ll.length*54);c.fillStyle=CARD.ink;rr(c,80,top+12,W-160,bh,40);c.fill();c.fillStyle='#fff';rr(c,70,top,W-160,bh,40);c.fill();c.lineWidth=6;c.strokeStyle=CARD.ink;c.stroke();
+ const top=y+40,bh=Math.min(1330-top,330+tl.length*86+ll.length*54);c.fillStyle=CARD.ink;rr(c,80,top+12,W-160,bh,40);c.fill();c.fillStyle='#fff';rr(c,70,top,W-160,bh,40);c.fill();c.lineWidth=6;c.strokeStyle=CARD.ink;c.stroke();
  c.save();c.translate(cx-5,top);c.rotate(-0.04);c.fillStyle=CARD.coral;rr(c,-150,-34,300,68,18);c.fill();c.lineWidth=5;c.stroke();c.fillStyle=CARD.ink;c.font=B(38);c.fillText('MY MOMENT',0,13);c.restore();
  c.font=EMOJI(150);c.fillText(m.icon,cx-5,top+230);
  c.font=B(84);c.fillStyle=CARD.ink;tl.forEach((l,i)=>c.fillText(l,cx-5,top+345+i*86));
  c.font=N(42,600);c.fillStyle=CARD.muted;ll.forEach((l,i)=>c.fillText(l,cx-5,top+345+tl.length*86+i*54));
- c.font=B(60);c.fillStyle=CARD.ink;c.fillText('Your turn to go all in.',cx,1480);
- c.font=B(56);c.fillStyle=CARD.teal;c.fillText('play.clarkhayashi.com',cx,1555);
- try{const mark=await loadImg('/brand/logo-mark.svg');c.drawImage(mark,cx-110,1640,220,220);}catch{}
+ // Tonight's top 3, with this player highlighted (or shown as a 4th row if they finished lower).
+ const live=s.players.filter(p=>!p.left),sc=p=>party?p.chips:(s.history||[]).filter(h=>(h.s?.w||[]).includes(p.id)).length,ranked=live.slice().sort((a,b)=>sc(b)-sc(a));
+ let rows=ranked.slice(0,3);if(!rows.includes(me)&&ranked.includes(me))rows=[...rows.slice(0,2),me];
+ c.font=B(34);c.fillStyle=CARD.muted;c.fillText('TONIGHT’S TOP 3',cx,1395);
+ rows.forEach((p,i)=>{const ry=1420+i*70,rank=1+ranked.filter(q=>sc(q)>sc(p)).length,mine=p===me;
+  if(mine){c.fillStyle=CARD.butter;rr(c,150,ry,W-300,60,30);c.fill();c.lineWidth=4;c.strokeStyle=CARD.ink;c.stroke();}
+  c.textAlign='left';c.font=B(40);c.fillStyle=CARD.ink;c.fillText(`${rank}`,190,ry+44);c.fillText(fit(c,p.name||'Player',500),250,ry+44);
+  c.textAlign='right';c.font=N(38,700);c.fillStyle=mine?CARD.ink:CARD.muted;c.fillText(party?`${sc(p)} chips`:`${sc(p)} won`,W-190,ry+44);c.textAlign='center';});
+ // Aqua floor: the chip mascot and the invite.
+ try{const mark=await loadImg('/brand/logo-mark.svg');c.drawImage(mark,80,1690,200,200);}catch{}
+ c.textAlign='left';c.font=B(58);c.fillStyle=CARD.ink;c.fillText('Your turn to go all in.',310,1775);
+ c.font=B(50);c.fillStyle=CARD.teal;c.fillText('play.clarkhayashi.com',310,1845);
  c.textAlign='left';return cv;}
 async function shareMoment(){const cv=await drawMomentCard(),blob=await new Promise(ok=>cv.toBlob(ok,'image/png')),file=new File([blob],'oops-my-moment.png',{type:'image/png'});
  const m=pickMoment(state,state.you),text=`My moment from Oops, All In: ${m.icon} ${m.title}. Your turn:`;
