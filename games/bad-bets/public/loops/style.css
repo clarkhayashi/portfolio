@@ -52,3 +52,6 @@ label{font-weight:800;font-size:.95rem}
 @media (prefers-reduced-motion:reduce){#toast{transition:none}}
 .pong canvas{width:100%;display:block;border-radius:18px;background:#2a3a2f;touch-action:none;margin:8px 0}
 details summary{cursor:pointer;color:var(--focus);margin:6px 0}
+.big-choice{display:flex;gap:14px;align-items:center;width:100%;text-align:left;background:#fff;color:var(--ink);font-weight:600;padding:18px}
+.big-choice b{font-size:1.1rem}
+.big-emoji{font-size:1.8rem}

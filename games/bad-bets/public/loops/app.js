@@ -13,6 +13,7 @@ const store={get(k){try{return localStorage.getItem(k);}catch{return null;}},set
 // Local demo links carry ?login=<token> so one person can try several accounts in separate tabs.
 {const q=new URLSearchParams(location.search).get('login');if(q){try{sessionStorage.setItem('loops.token',q);}catch{}history.replaceState(null,'',location.pathname+(location.search.includes('im=1')?'?im=1':''));}}
 const tabToken=(()=>{try{return sessionStorage.getItem('loops.token');}catch{return null;}})();
+let startGroup=false;
 let token=tabToken||store.get('loops.token'),data=null,tab='home',openLoop=null,draft={to:null,text:'',url:'',photo:null},lastLink=null,pongOpen=null;
 import {mountPong} from './pong.js';
 
@@ -40,9 +41,8 @@ function onboarding(invite,loopInfo){
  <p class="muted small">No streaks. No read receipts. No likes to count.</p></section>
  ${loopInfo?`<div class="card invite"><h3>You're invited to ${esc(loopInfo.publicName)}</h3><p class="small">${esc(loopInfo.members.join(', '))} ${loopInfo.members.length===1?'is':'are'} in it.</p></div>`:''}
  <form id="signup" class="card">
-  <label for="name">Your name</label><input id="name" name="name" autocomplete="given-name" maxlength="24" required>
-  <label for="city">Home city <span class="muted small">(optional, for "I'm in town" invites)</span></label><input id="city" name="city" maxlength="40" placeholder="Honolulu">
-  <button class="accent" type="submit">${invite?'Join the loop':'Start'}</button>
+  <label for="name">Your first name</label><input id="name" name="name" autocomplete="given-name" maxlength="24" required autofocus>
+  <button class="accent" type="submit" style="width:100%">${invite?'Join the loop':'Start'}</button>
  </form>`;
 }
 
@@ -78,7 +78,17 @@ function pongView(g,page=false){
  ${g.done&&g.vsId&&!page?`<button class="accent" data-challenge="${g.vsId}">Rematch</button>`:''}`;
 }
 
+// First run: nobody to talk to yet. Two one-tap paths straight to a first send; nothing else on screen.
+function firstRun(){
+ return `<h1>Hi, ${esc(data.me.name)}</h1><p class="muted">Who do you want to keep in touch with?</p>
+ <button class="card big-choice" data-start="thought"><span class="big-emoji">💭</span><span><b>Send someone a thought</b><br><span class="small muted">One friend. They open a link, no app needed.</span></span></button>
+ <button class="card big-choice" data-start="group"><span class="big-emoji">👥</span><span><b>Invite a group</b><br><span class="small muted">High school, college, the old team.</span></span></button>
+ ${startGroup?`<form id="quickloop" class="card"><label for="qpub">Group name</label><input id="qpub" name="publicName" maxlength="40" placeholder="Kalani Class of ’22" required autofocus><button class="accent" type="submit" style="width:100%">Make it and get the invite link</button></form>`:''}
+ <p class="muted small" style="text-align:center">Got an invite link from a friend? Just open it.</p>`;
+}
+
 function homeView(){
+ if(!data.loops.length&&!data.people.length&&!data.gifts.length&&!data.sent.length)return firstRun();
  const doors=data.people.filter(p=>p.openDoor).slice(0,8);
  return `<h1>Hi, ${esc(data.me.name)}</h1>
  ${pongCards()}
@@ -96,7 +106,7 @@ function sendView(){
  const targets=[...data.people.map(p=>({key:'user:'+p.id,label:p.name+(p.openDoor?' ·':'')})),...data.loops.map(l=>({key:'loop:'+l.id,label:l.name+' (loop)'})),{key:'link:',label:'Someone not on Loops yet'}];
  return `<h1>Send a thought</h1><p class="muted">It’s complete the moment you send it. No reply needed.</p>
  ${lastLink?`<div class="card invite"><h3>Send this link to ${esc(lastLink.name)}</h3><p class="small">They can open it and react without an app or an account.</p>
-  <div class="copy"><input readonly value="${esc(lastLink.url)}" aria-label="Link"><button data-copy="${esc(lastLink.url)}">${navigator.share?'Share':'Copy'}</button></div></div>`:''}
+  <button class="accent" style="width:100%" data-copy="${esc(lastLink.url)}" data-sharetext="A thought for you">${navigator.share?'Share the link':'Copy the link'}</button><p class="small muted" style="margin-top:8px;word-break:break-all">${esc(lastLink.url)}</p></div>`:''}
  <form id="send" class="card">
   <label>To</label><div>${targets.map(t=>`<button type="button" class="chip ${draft.to===t.key?'on':''}" data-to="${esc(t.key)}">${esc(t.label)}</button>`).join('')}</div>
   ${draft.to==='link:'?`<label for="toname">Their name</label><input id="toname" name="toname" maxlength="24" value="${esc(draft.toName||'')}">`:''}
@@ -112,23 +122,23 @@ function sendView(){
 function loopsView(){
  if(openLoop){const l=data.loops.find(l=>l.id===openLoop);if(l)return loopDetail(l);openLoop=null;}
  return `<h1>Your loops</h1>
- ${data.loops.map(l=>`<button class="card" style="width:100%;text-align:left;background:#fff;color:var(--ink)" data-openloop="${l.id}">
+ ${data.loops.length?'':'<p class="muted">A loop is a group of friends. Make one and share the link.</p>'}${data.loops.map(l=>`<button class="card" style="width:100%;text-align:left;background:#fff;color:var(--ink)" data-openloop="${l.id}">
   <h3>${esc(l.name)}</h3>${l.privateName?`<p class="small muted">The group calls it “${esc(l.publicName)}”</p>`:''}
-  <p class="small">${esc(l.members.map(m=>m.name).join(', '))}</p></button>`).join('')||'<div class="empty">No loops yet.</div>'}
+  <p class="small">${esc(l.members.map(m=>m.name).join(', '))}</p></button>`).join('')}
  <form id="newloop" class="card"><h3>New loop</h3>
-  <label for="pub">Name the group uses</label><input id="pub" name="publicName" maxlength="40" placeholder="Kalani Class of ’22" required>
-  <label for="priv">Your private name for it <span class="muted small">(only you see this)</span></label><input id="priv" name="privateName" maxlength="40" placeholder="The Day Ones">
-  <button class="accent" type="submit">Make loop</button></form>
- <form id="joinloop" class="card"><h3>Have an invite code?</h3><input name="code" maxlength="6" placeholder="ABC123" autocapitalize="characters"><button type="submit">Join</button></form>`;
+  <label for="pub">Group name</label><input id="pub" name="publicName" maxlength="40" placeholder="Kalani Class of ’22" required>
+  <details><summary class="small">Add a private name only you see</summary><input id="priv" name="privateName" maxlength="40" placeholder="The Day Ones"></details>
+  <button class="accent" type="submit" style="width:100%">Make it and get the invite link</button></form>
+ <details class="small"><summary>Have a code instead of a link?</summary><form id="joinloop" class="row"><input class="grow" name="code" maxlength="6" placeholder="ABC123" autocapitalize="characters" style="width:auto"><button type="submit">Join</button></form></details>`;
 }
 
 function loopDetail(l){
  const url=inviteUrl(l.code);
  return `<button class="link" data-openloop="">← All loops</button>
  <h1>${esc(l.name)}</h1>${l.privateName?`<p class="muted">The group calls it “${esc(l.publicName)}”</p>`:''}
- <div class="card"><h3>Invite friends</h3><p class="small">Anyone with this link can join. They just need a name.</p>
-  <div class="copy"><input readonly value="${esc(url)}" aria-label="Invite link"><button data-copy="${esc(url)}">${navigator.share?'Share':'Copy'}</button></div></div>
- <div class="row"><button class="accent" data-sendto="loop:${l.id}">Send the loop a thought</button></div>
+ <div class="card invite"><h3>Invite friends</h3><p class="small">Anyone with this link can join. They just need a first name.</p>
+  <button class="accent" style="width:100%" data-copy="${esc(url)}" data-sharetext="Join ${esc(l.publicName)} on Loops">${navigator.share?'Share invite link':'Copy invite link'}</button><p class="small muted" style="margin-top:8px;word-break:break-all">${esc(url)}</p></div>
+ ${l.members.length>1?`<div class="row"><button class="accent" data-sendto="loop:${l.id}">Send the loop a thought</button></div>`:'<p class="muted small">Once someone joins, you can send the whole loop a thought.</p>'}
  <h2>Who’s in it</h2><div class="card">${l.members.map(m=>`<div class="person"><span>${esc(m.name)}${m.city?` <span class="muted small">${esc(m.city)}</span>`:''}</span><span class="row">${m.openDoor?'<span class="door">Door open</span>':''}${m.id!==data.me.id?`<button class="ghost" style="padding:6px 10px" data-challenge="${m.id}">🏓</button>`:''}</span></div>`).join('')}</div>
  <form data-rename="${l.id}" class="card"><h3>Names</h3>
   <label>Name the group uses</label><input name="publicName" maxlength="40" value="${esc(l.publicName)}">
@@ -241,11 +251,12 @@ document.addEventListener('click',async e=>{
  if(d.rmtrip){await act(()=>api(`/trips/${d.rmtrip}/remove`,{}),'Trip removed.');return;}
  if(d.openloop!==undefined){openLoop=d.openloop||null;render();scrollTo(0,0);return;}
  if(d.imgame){const out=await act(()=>api('/pong',{}));if(out)native({type:'send',kind:'pong',path:`/p/${out.id}`,caption:`🏓 ${data?.me?.name||'A friend'} challenged you to Pong`,sub:'Tap to take the open seat'});return;}
+ if(d.start){if(d.start==='thought'){draft={to:'link:',text:'',url:'',photo:null};lastLink=null;tab='send';}else startGroup=true;render();if(startGroup)$('#qpub')?.focus();return;}
  if(d.pong){pongOpen=d.pong;tab='home';render();scrollTo(0,0);return;}
  if(d.closepong!==undefined){pongOpen=null;render();return;}
  if(d.challenge){const out=await act(()=>api('/pong',{opponentId:d.challenge}),'Challenge sent. Your shot first.');if(out){pongOpen=out.id;tab='home';openLoop=null;render();scrollTo(0,0);}return;}
  if(d.leave){if(confirm('Leave this loop? You can rejoin with the invite link.')){openLoop=null;await act(()=>api(`/loops/${d.leave}/leave`,{}),'You left the loop.');}return;}
- if(d.copy){if(navigator.share){try{await navigator.share({url:d.copy});}catch{}}else{try{await navigator.clipboard.writeText(d.copy);toast('Copied.');}catch{toast('Copy the link from the box.');}}return;}
+ if(d.copy){if(navigator.share){try{await navigator.share(d.sharetext?{text:d.sharetext,url:d.copy}:{url:d.copy});}catch{}}else{try{await navigator.clipboard.writeText(d.copy);toast('Copied.');}catch{toast('Copy the link from the box.');}}return;}
  if(d.deleteme!==undefined){if(confirm('Delete your account? Your thoughts, games and trips are removed for everyone. This can’t be undone.')){try{await api('/me/delete',{});token=null;data=null;store.set('loops.token',null);try{sessionStorage.removeItem('loops.token');}catch{}toast('Account deleted.');render();}catch(err){toast(err.message);}}return;}
  if(d.signout!==undefined){if(confirm('Sign out on this device? Save your invite links first; there is no password yet.')){token=null;data=null;store.set('loops.token',null);render();}}
 });
@@ -257,13 +268,14 @@ document.addEventListener('change',async e=>{
 document.addEventListener('submit',async e=>{
  e.preventDefault();const f=e.target,v=n=>f.elements[n]?.value;
  if(f.closest('#pong'))return; // handled by pong.js
- if(f.id==='signup'){try{const m=route().match(/^\/j\/([\w-]+)/);const out=await api('/signup',{name:v('name'),city:v('city'),invite:m?.[1]});token=out.token;store.set('loops.token',token);if(m)history.replaceState(null,'',BASE+'/');await refresh();if(m)toast('You’re in.');}catch(err){toast(err.message);}return;}
+ if(f.id==='signup'){try{const m=route().match(/^\/j\/([\w-]+)/);const out=await api('/signup',{name:v('name'),invite:m?.[1]});token=out.token;store.set('loops.token',token);if(m)history.replaceState(null,'',BASE+'/');await refresh();if(m)toast('You’re in.');}catch(err){toast(err.message);}return;}
  if(f.id==='replyback'){try{const id=route().split('/')[2];store.set('loops.guestname',v('name'));const out=await api('/signup',{name:v('name'),city:v('city'),fromThought:id});token=out.token;store.set('loops.token',token);history.replaceState(null,'',BASE+'/');await refresh();toast('You’re connected.');}catch(err){toast(err.message);}return;}
  if(f.id==='imsend'){const out=await act(()=>api('/thoughts',{to:{type:'link',name:''},text:v('text'),url:v('url'),photo:draft.photo}));
   if(out){native({type:'send',kind:'thought',path:`/t/${out.id}`,caption:`💭 ${data?.me?.name||'A friend'} sent a thought`,sub:(v('text')||v('url')||'📸 Photo').slice(0,80),photo:draft.photo||null});draft.photo=null;f.reset();render();}return;}
  if(f.id==='send'){saveDraft();const [type,id]=draft.to.split(':');const to=type==='link'?{type,name:draft.toName}:{type,id};
   const out=await act(()=>api('/thoughts',{to,text:draft.text,url:draft.url,photo:draft.photo}),type==='link'?null:'Sent. No reply needed.');
   if(out){if(type==='link')lastLink={name:draft.toName||'your friend',url:`${ORIGIN}/t/${out.id}`};draft={to:null,text:'',url:'',photo:null};render();}return;}
+ if(f.id==='quickloop'){const out=await act(()=>api('/loops',{publicName:v('publicName')}),'Made. Share the link with the group.');if(out){startGroup=false;tab='loops';openLoop=out.id;render();scrollTo(0,0);}return;}
  if(f.id==='newloop'){const out=await act(()=>api('/loops',{publicName:v('publicName'),privateName:v('privateName')}),'Loop made. Invite your friends.');if(out){openLoop=out.id;render();}return;}
  if(f.id==='joinloop'){await act(()=>api('/join',{code:v('code')}),'You joined the loop.');return;}
  if(f.id==='me'){await act(()=>api('/me',{name:v('name'),city:v('city'),openDoor:f.elements.openDoor.checked}),'Saved.');return;}
