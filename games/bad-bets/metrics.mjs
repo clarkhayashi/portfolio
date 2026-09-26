@@ -62,10 +62,12 @@ export function installMetrics(Game){
   this.metric({[`created:${r.quick?'quick':MODE_FIELD[r.mode]||'party'}`]:1,...(opts?.newHost===true?{newhost:1}:{})});
   return out;
  };
- // Late joins: someone tried to join after the game began. Counted, still refused.
+ // Late joins: someone tried to join after the game began. Counted whether they were let in to wait or refused.
  Game.prototype.join=function(code,name){
-  try{return prev.join.call(this,code,name);}
+  let out;try{out=prev.join.call(this,code,name);}
   catch(e){const r=this.rooms.get(String(code).toUpperCase());if(r&&r.phase!=='lobby'&&/has started/.test(e.message))this.metric({latejoin:1});throw e;}
+  if(out?.waiting)this.metric({latejoin:1}); // accepted into the late-join line (latejoin.mjs)
+  return out;
  };
  Game.prototype.metricRound=function(r){if(!r.mt||r.mode==='mixer')return;r.mt.q=(r.mt.q||0)+1;
   const last=r.mode==='tournament'&&!r.quick&&r.round>=(r.totalRounds||9);

@@ -4,6 +4,7 @@ import {restaurantHeading,foodLabel,lotHeading,themeBadge,buildWord} from './res
 import {loadCardArt,cardLabel,lotArt} from './card-art.js';
 import {gameById,MAX_PLAYERS} from './catalog.js';
 import {pollDelay,POLL,QUOTA_TEXT,STORAGE_FAILS_FOR_BREAK,isQuota} from './state-flow.js';
+import {cues,clockCue,play as playSound,playAll,unlockAudio,soundOn,setSoundOn,setSurface,audioReady} from './sounds.js';
 
 // ---------- pure rendering (importable in node for tests) ----------
 export const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -33,6 +34,8 @@ export function statusText(s){
  return map[s.phase]||(g?`Playing ${g}`:'Game in progress');
 }
 
+// Late joiners waiting for a seat (latejoin.mjs), shown quietly in the header.
+export function joiningText(s){const j=s.lateJoin||{},n=(j.round||0)+(j.later||0);return n&&s.phase!=='lobby'?`+${n} joining ${j.round?'next round':'next game'}`:'';}
 function roundText(s){
  if(s.phase==='lobby')return '';
  if(s.mode==='mixer')return s.round?`Card ${s.round} of ${s.mixerTotal||'?'}`:'';
@@ -60,7 +63,7 @@ function scoreboard(s,{title='Chip count',big=false,highlight=[]}={}){
  const ps=live(s).slice().sort((a,b)=>b.chips-a.chips||a.name.localeCompare(b.name));
  const max=Math.max(1,...ps.map(p=>p.chips));
  const changes=s.phase==='result'?s.result?.changes||{}:{};
- return `<section class="board${big?' board-big':''}${big&&ps.length>6?' two':''}"><h2 class="eyebrow">${esc(title)}</h2><ol${big&&ps.length>6?` style="grid-template-rows:repeat(${Math.ceil(ps.length/2)},auto)"`:''}>${ps.map((p,i)=>{const c=changes[p.id];return `<li class="${highlight.includes(p.id)?'win':''}"><span class="rank">${i+1}</span><span class="who">${esc(p.name)}</span><span class="bar"><i style="width:${Math.max(2,Math.round(p.chips/max*100))}%"></i></span><span class="amt">${p.chips}${typeof c==='number'&&c!==0?` <em class="${c>0?'up':'down'}">${signed(c)}</em>`:''}</span></li>`;}).join('')}</ol></section>`;
+ return `<section class="board${big?' board-big':''}${big&&ps.length>6?' two':''}"><h2 class="eyebrow">${esc(title)}</h2><ol${big&&ps.length>6?` style="grid-template-rows:repeat(${Math.ceil(ps.length/2)},auto)"`:''}>${ps.map((p,i)=>{const c=changes[p.id];return `<li class="${highlight.includes(p.id)?'win':''}"><span class="rank">${i+1}</span><span class="who">${esc(p.name)}${p.joined?` <small class="joined">joined round ${Number(p.joined)}</small>`:''}</span><span class="bar"><i style="width:${Math.max(2,Math.round(p.chips/max*100))}%"></i></span><span class="amt">${p.chips}${typeof c==='number'&&c!==0?` <em class="${c>0?'up':'down'}">${signed(c)}</em>`:''}</span></li>`;}).join('')}</ol></section>`;
 }
 
 function progress(done,total,word='answers in'){
@@ -315,7 +318,7 @@ export function render(s,ctx={}){
  ctx={qr:()=>'',joinUrl:c=>`/?room=${encodeURIComponent(c||'')}`,joinHost:'',...ctx};
  const scene=(s.finale&&(String(s.phase).startsWith('finale')||s.phase==='result'))?finaleScene:isHerd(s)?herdScene:SCENES[s.phase]||(()=>`${gameBanner(s)}<section class="center"><h1>${esc(statusText(s))}</h1><p class="lead">Follow along on your phones.</p></section>`);
  const theme=themeFor(s);
- const top=`<header class="top"><img class="brand" src="/brand/logo-horizontal.svg" alt="Oops, All In" width="422" height="158"><span class="status">${esc(statusText(s))}</span><span class="meta">${s.phase!=='lobby'&&s.code?`Room <b>${esc(s.code)}</b>`:''}${roundText(s)?` · ${esc(roundText(s))}`:''}</span></header>`;
+ const top=`<header class="top"><img class="brand" src="/brand/logo-horizontal.svg" alt="Oops, All In" width="422" height="158"><span class="status">${esc(statusText(s))}</span><span class="meta">${s.phase!=='lobby'&&s.code?`Room <b>${esc(s.code)}</b>`:''}${roundText(s)?` · ${esc(roundText(s))}`:''}${joiningText(s)?`<span class="joining"> · ${esc(joiningText(s))}</span>`:''}</span></header>`;
  return {key:`${s.phase}|${s.round}|${s.game||''}`,theme,html:`${top}<main class="stage phase-${esc(s.phase)}">${scene(s,ctx)}</main>`};
 }
 
@@ -325,7 +328,12 @@ export function messageScreen(title,detail=''){
 
 // ---------- browser runtime ----------
 function boot(){
- const root=document.querySelector('#display'),conn=document.querySelector('#connection'),fsBtn=document.querySelector('#fullscreen');
+ const root=document.querySelector('#display'),conn=document.querySelector('#connection'),fsBtn=document.querySelector('#fullscreen'),soundBtn=document.querySelector('#sound');
+ // Sound is on by default on the TV, but browsers only allow it after a tap or key press. The toggle says so.
+ setSurface('tv');let cueState=null;const clockMemo={};
+ const syncSound=()=>{if(!soundBtn)return;const on=soundOn(),ready=audioReady();soundBtn.textContent=!on?'Sound off':ready?'Sound on':'Tap for sound';soundBtn.setAttribute('aria-pressed',String(on&&ready));soundBtn.classList.toggle('muted',!on);};
+ soundBtn?.addEventListener('click',async e=>{e.stopPropagation();if(soundOn()&&!audioReady()){await unlockAudio();}else{setSoundOn(!soundOn());if(soundOn())await unlockAudio();}if(soundOn())playSound('lock');syncSound();});
+ const wakeSound=async()=>{if(soundOn()&&!audioReady()){await unlockAudio();syncSound();}};document.addEventListener('click',wakeSound);document.addEventListener('keydown',wakeSound);syncSound();
  const params=new URLSearchParams(location.search),code=(params.get('room')||'').toUpperCase(),token=location.hash.slice(1);
  let stopped=false,timer=null,inFlight=false,changedAt=Date.now(),lastState=null,storageFails=0,onBreak=false,lastVersion=-1,lastHtml='',lastKey='',offset=0,failures=0,known=null,joinOrigin=location.hostname==='bad-bets.vercel.app'?'https://play.clarkhayashi.com':location.origin,wake=null;
  const qrCache=new Map();
@@ -338,7 +346,7 @@ function boot(){
  // Funnel (metrics.mjs): count "TV mode opened" once per room in this browser session. No room code is sent.
  try{const k=`oops-tv-${code}`;if(code&&token&&!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');fetch('/api/stats',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({event:'tv'}),keepalive:true}).catch(()=>{});}}catch{}
  const applyTheme=t=>{const st=document.documentElement.style;st.setProperty('--bg',t.bg);st.setProperty('--ink',t.ink);st.setProperty('--accent',t.accent);st.setProperty('--muted',t.muted);document.documentElement.dataset.theme=t.name;};
- const tick=()=>{const now=Date.now()+offset;for(const el of root.querySelectorAll('.timer[data-deadline]')){const left=Math.max(0,Math.ceil((Number(el.dataset.deadline)-now)/1000));el.textContent=`${Math.floor(left/60)}:${String(left%60).padStart(2,'0')}`;el.classList.toggle('low',left<=5);}};
+ const tick=()=>{const now=Date.now()+offset;if(lastState){const c=clockCue(lastState,now,clockMemo);if(c)playSound(c);}for(const el of root.querySelectorAll('.timer[data-deadline]')){const left=Math.max(0,Math.ceil((Number(el.dataset.deadline)-now)/1000));el.textContent=`${Math.floor(left/60)}:${String(left%60).padStart(2,'0')}`;el.classList.toggle('low',left<=5);}};
  setInterval(tick,250);
  // Adaptive polling (state-flow.js): 1.5 s in play, 4 s in lobby/results, 10 s after a quiet minute; none while hidden.
  async function poll(){
@@ -356,6 +364,7 @@ function boot(){
    failures=0;setConn('',false);if(onBreak){onBreak=false;lastHtml='';}
    if(s.version<lastVersion)return;if(s.version!==lastVersion||s.phase!==lastState?.phase)changedAt=Date.now();lastVersion=s.version;lastState=s;
    const ids=live(s).map(p=>p.id);ctx.fresh=known?new Set(ids.filter(id=>!known.has(id))):new Set();known=new Set(ids);
+   {const list=cues(cueState,s,{tv:true});cueState=s;if(list.length)playAll(list);}
    const out=render(s,ctx);applyTheme(out.theme);
    if(out.html!==lastHtml){root.innerHTML=out.html;lastHtml=out.html;
     if(out.key!==lastKey){root.classList.remove('enter');void root.offsetWidth;root.classList.add('enter');lastKey=out.key;}

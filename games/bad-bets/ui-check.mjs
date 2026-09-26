@@ -80,6 +80,22 @@ function awardsNight(){const r=room({players:5});r.banEnabled=false;r.enabledGam
 function minigamesNight(){const r=room({mode:'minigames',players:4});act(r,host(r),{type:'selectGame',game:'number'});
  for(let i=0;i<3;i++){act(r,host(r),{type:i?'replay':'start'});act(r,host(r),{type:'beginGame'});r.active.forEach((id,k)=>act(r,r.players.find(p=>p.id===id),{type:'submit',value:String(r.answer+(k===1?0:(k+1)*9))}));}
  act(r,host(r),{type:'endNight'});return r;}
+// Feature batch B (2026-09-26): late-join waiting screens, the host's waiting list, a free first round,
+// "joined round N" standings, Share my moment, the TV "+1 joining" note, and the header sound toggle.
+const MORE=['Kai','Leilani','Mika','Noa','Keola','Ikaika','Malia','Kalani','Pua','Makoa','Nalu','Iolana'];
+function midParty(round=2,players=4,rounds=9){const r=partyStart(players);r.totalRounds=rounds;finishHouse(r);
+ for(let i=0;i<400&&!(r.round===round&&r.phase==='play');i++){const q=id=>r.players.find(p=>p.id===id);
+  if(r.phase==='wager'){act(r,q(r.pot.turn),{type:'potBet',move:'match',round:r.round,revision:r.pot.revision,confirmed:true});continue;}
+  if(r.phase==='play'){for(const [k,id] of [...r.active].entries())if(r.phase==='play'&&r.submissions[id]===undefined)act(r,q(id),{type:'submit',value:r.game==='number'?String(r.answer+k*11):'Spam musubi',promptVersion:r.promptVersion||0});continue;}
+  if(r.phase==='result'){act(r,host(r),{type:'next'});continue;}
+  game.advance(r);}
+ return r;}
+function lateJoin(r,name='Kaimana'){const a=game.join(r.code,name);r.lateToken=a.token;return r;}
+function waitingFull(){const r=room({players:6});r.banEnabled=false;r.enabledGames=['brain','number'];for(const n of MORE.slice(6,12))game.join(r.code,n);act(r,host(r),{type:'start'});game.advance(r);lateJoin(r,'Kaimana');return r;}
+function freeRound(){const r=midParty(3);lateJoin(r);for(let i=0;i<60&&r.phase!=='result';i++){if(r.phase==='play'){r.active.forEach((id,k)=>{if(r.phase==='play'&&r.submissions[id]===undefined)act(r,r.players.find(p=>p.id===id),{type:'submit',value:String(r.answer+k),promptVersion:r.promptVersion||0});});continue;}if(r.phase==='wager'){act(r,r.players.find(p=>p.id===r.pot.turn),{type:'potBet',move:'match',round:r.round,revision:r.pot.revision,confirmed:true});continue;}game.advance(r);}
+ act(r,host(r),{type:'next'});stepTo(r,['wager','reveal']);return r;}
+function lateFinal(){const r=awardsNight();r.players[3].joinedRound=3;return r;}
+const waiter=r=>({token:r.lateToken});
 function paused(){const r=partyStart(4);game.advance(r);act(r,host(r),{type:'pauseRound'});return r;}
 
 const GAMES=['auction','quips','shadow','rhythm','brain','number','draft','draw','imposter'];
@@ -133,6 +149,16 @@ add('tv-lobby',()=>room({players:4}),{tv:true});
 add('tv-reveal',()=>minigame('quips'),{tv:true});
 add('tv-result',()=>result('number'),{tv:true});
 add('tv-shadow-intro',()=>minigame('shadow'),{tv:true});
+add('waiting-next-round',()=>lateJoin(midParty(2)),{who:waiter});
+add('waiting-next-game',()=>lateJoin(midParty(8)),{who:waiter});
+add('waiting-room-full',()=>waitingFull(),{who:waiter});
+add('waiting-minigames',()=>lateJoin(minigame('quips')),{who:waiter});
+add('host-waiting-list',()=>lateJoin(midParty(2)));
+add('free-first-round',()=>freeRound(),{who:r=>r.players.find(p=>p.freeRound)});
+add('lobby-late-join-switch',()=>room({players:4}),{after:`document.querySelector('.more-options').open=true`});
+add('final-share-moment-guest',()=>lateFinal(),{as:3});
+add('tv-joining-next-round',()=>lateJoin(midParty(2)),{tv:true});
+add('header-sound-on',()=>room({players:4}),{init:`try{localStorage.setItem('oops-sound','on')}catch{}`});
 
 // ---------- Chrome over the DevTools protocol ----------
 async function launchChrome(){
@@ -179,7 +205,7 @@ try{
   const name=`${sc.name}@${vp.id}`;
   if(sc.error){results.push({name,screen:sc.name,viewport:vp.id,issues:[{type:'setup',severity:'warn',text:'',path:'',detail:sc.error}]});continue;}
   const r=sc.r;
-  if(r){r.players.forEach(p=>{p.lastSeen=Date.now();p.disconnectedAt=null;});if(r.deadline)r.deadline=Date.now()+(r.phase==='reveal'?6000:20000);if(r.revealAt)r.revealAt=Date.now()-60000;}
+  if(r){r.players.forEach(p=>{p.lastSeen=Date.now();p.disconnectedAt=null;});(r.waiting||[]).forEach(w=>{w.lastSeen=Date.now();});if(r.deadline)r.deadline=Date.now()+(r.phase==='reveal'?6000:20000);if(r.revealAt)r.revealAt=Date.now()-60000;}
   const page=await openPage(cdp);
   try{
    await page.s('Emulation.setDeviceMetricsOverride',{width:vp.width,height:vp.height,deviceScaleFactor:vp.scale,mobile:vp.mobile});
@@ -188,9 +214,9 @@ try{
    if(sc.tv)url=`/display.html?room=${r.code}#${r.displayToken}`;
    else if(sc.url)url=sc.url(r);
    else{
-    const who=sc.asHerd?r.players.find(p=>p.id===r.herd?.asker)||host(r):sc.as?r.players[sc.as]:host(r);
+    const who=sc.who?sc.who(r):sc.asHerd?r.players.find(p=>p.id===r.herd?.asker)||host(r):sc.as?r.players[sc.as]:host(r);
     const seat=JSON.stringify({code:r.code,token:who.token});
-    await page.s('Page.addScriptToEvaluateOnNewDocument',{source:`try{if(location.pathname==='/')sessionStorage.setItem('badbets',${JSON.stringify(seat)});}catch{}`});
+    await page.s('Page.addScriptToEvaluateOnNewDocument',{source:`try{if(location.pathname==='/')sessionStorage.setItem('badbets',${JSON.stringify(seat)});}catch{}${sc.init||''}`});
     url='/';
    }
    const done=page.loaded();await page.s('Page.navigate',{url:origin+url});await Promise.race([done,sleep(8000)]);

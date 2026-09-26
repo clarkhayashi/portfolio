@@ -43,9 +43,11 @@ test('counts carry no personal data: known fields and whole numbers only',()=>{
  assert.equal(sum('created:party'),1);assert.equal(sum('started'),1);assert.equal(sum('ttfr:lt30'),1);assert.equal(sum('rounds'),9);assert.equal(sum('finished'),1);assert.equal(sum('rematch'),1);
  assert.ok(events.length<=7,`${events.length} sends`); // create, start, rounds 3 and 6, finish, rematch
 });
-test('late joins are counted and still refused; minigames and 1v1 are counted by mode',()=>{
+test('late joins are counted whether they wait or are refused; minigames and 1v1 are counted by mode',()=>{
  const {g,r,p,events}=lobby(2,'minigames');g.action(r,p[0],{type:'selectGame',game:'number'});g.action(r,p[0],{type:'start'});
- assert.throws(()=>g.join(r.code,'Late'),/has started/);assert.equal(events.filter(e=>e.latejoin).length,1);assert.equal(events[0]['created:minigames'],1);
+ assert.equal(g.join(r.code,'Late').waiting,true);assert.equal(events.filter(e=>e.latejoin).length,1);assert.equal(events[0]['created:minigames'],1);
+ const d=lobby(2);d.g.action(d.r,d.p[0],{type:'configure',mode:'mixer',deck:'date'});d.g.action(d.r,d.p[0],{type:'start'});
+ assert.throws(()=>d.g.join(d.r.code,'Late'),/has started/);assert.equal(d.events.filter(e=>e.latejoin).length,1);
  const x=new Game(),ev=[];x.onMetrics=c=>ev.push(c);x.create('A','minigames','hoops','draft',{newHost:true});assert.deepEqual(ev[0],{'created:quick':1,newhost:1});
 });
 // A tiny Redis stand-in that counts commands by kind.
@@ -54,14 +56,14 @@ test('state polls never send metrics; a game costs a handful of metric commands'
  const s=new Store();const h=await cloudRequest(s,{type:'create',name:'Host',mode:'tournament',newHost:true});
  const guests=[];for(let i=0;i<3;i++)guests.push(await cloudRequest(s,{type:'join',code:h.code,name:'G'+i}));
  assert.deepEqual(s.metrics[0],{'created:party':1,newhost:1});
- await cloudRequest(s,{...h,type:'banSetting',enabled:false});await cloudRequest(s,{...h,type:'start'});
+ await cloudRequest(s,{...h,type:'banSetting',enabled:false});await cloudRequest(s,{...h,type:'lateJoin',enabled:false});await cloudRequest(s,{...h,type:'start'});
  const polls=async()=>{const before=s.log.filter(x=>x==='METRICS').length;for(const q of [h,...guests])await cloudRequest(s,q,{state:true});assert.equal(s.log.filter(x=>x==='METRICS').length,before,'a poll sent metrics');};
  await polls();
  // An overdue timer advanced on a poll: its counts wait in the room for the next action.
  let room=JSON.parse(s.data.get(h.code));room.deadline=Date.now()-1;s.data.set(h.code,JSON.stringify(room));await polls();
  room=JSON.parse(s.data.get(h.code));room.phase='result';room.mt.p={rounds:1};room.deadline=null;s.data.set(h.code,JSON.stringify(room));
  await polls();const n=s.metrics.length;await cloudRequest(s,{...h,type:'next'});assert.equal(s.metrics.length,n+1);assert.deepEqual(s.metrics.at(-1),{rounds:1});assert.equal(JSON.parse(s.data.get(h.code)).mt.p,undefined);
- // Refused late join: counted once, no room write.
+ // Refused late join (the host switched late joining off): counted once, no room write.
  const writes=s.log.filter(x=>x==='CAS').length;await assert.rejects(cloudRequest(s,{type:'join',code:h.code,name:'Late'}),/started/);
  assert.equal(s.log.filter(x=>x==='CAS').length,writes);assert.deepEqual(s.metrics.at(-1),{latejoin:1});
 });

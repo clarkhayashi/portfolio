@@ -176,6 +176,10 @@ em.up,.up{color:var(--up)!important;font-style:normal;font-weight:900}em.down,.d
 /* connection + fullscreen */
 #connection{position:fixed;top:calc(var(--u)*1.2);left:50%;transform:translateX(-50%);padding:.4em 1.2em;border-radius:999px;background:var(--down);color:#fff;font-weight:800;font-size:calc(var(--u)*1.8);z-index:5;box-shadow:0 .2em .8em rgb(0 0 0/.2)}
 #connection[hidden],#fullscreen[hidden]{display:none}
+#sound{position:fixed;left:calc(var(--u)*2);bottom:calc(var(--u)*2);min-height:44px;min-width:44px;padding:.5em 1.1em;border:calc(var(--u)*.18) solid var(--ink);border-radius:14px;background:var(--bg);color:var(--ink);font:inherit;font-weight:800;font-size:calc(var(--u)*1.3);cursor:pointer;z-index:5}
+#sound:focus-visible{outline:calc(var(--u)*.4) solid var(--accent);outline-offset:.2em}
+.top .joining{color:var(--muted)}
+.board .joined{font-size:.55em;font-weight:700;color:var(--muted)}
 #fullscreen{position:fixed;right:calc(var(--u)*2);bottom:calc(var(--u)*2);min-height:44px;padding:.6em 1.3em;border:0;border-radius:999px;background:var(--ink);color:var(--bg);font:inherit;font-weight:800;font-size:calc(var(--u)*1.8);cursor:pointer;z-index:5}
 #fullscreen.idle{opacity:0;pointer-events:none}#fullscreen{transition:opacity .4s}
 #fullscreen:focus-visible{outline:calc(var(--u)*.4) solid var(--accent);outline-offset:.2em}
@@ -214,6 +218,7 @@ em.up,.up{color:var(--up)!important;font-style:normal;font-weight:900}em.down,.d
 <div id="connection" role="status" hidden></div>
 <div id="display" aria-live="polite"></div>
 <button id="fullscreen" type="button" hidden>Tap to go fullscreen</button>
+<button id="sound" type="button" aria-pressed="false">Tap for sound</button>
 <script src="/qrcode.js"></script>
 <script type="module" src="/display.js"></script>
 </body>

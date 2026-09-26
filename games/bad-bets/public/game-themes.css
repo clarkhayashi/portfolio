@@ -202,3 +202,25 @@ body[data-game=imposter] .role-card{padding:18px 20px}
 .game-tile .tile-meta{color:var(--muted)}
 .tile-check:not(#_){background:#fff;color:#1c2433}
 .is-selected .tile-check:not(#_){background:#1c2433;color:#fff}
+
+/* Sound toggle, late join, and "Share my moment" (2026-09-26). */
+.header-end{display:flex;align-items:center;gap:12px;min-width:0}
+.sound-toggle{width:44px;height:44px;min-height:44px}
+.sound-toggle.on{border-color:#087f98;background:#e8f5f8;color:#087f98}
+.waiting-screen h2{margin:4px 0 10px}
+.waiting-screen>p{font-size:17px}
+.waiting-now{display:grid;gap:4px;margin:18px 0 12px;padding:14px 16px;border:3px solid #1c2433;border-radius:var(--btn-radius,14px);background:#fff;color:#1c2433}
+.waiting-now .eyebrow{margin:0;color:#4b5563}
+.waiting-now strong{font-family:'Baloo 2','Nunito',sans-serif;font-size:24px;line-height:1.1}
+.waiting-next{font-weight:800}
+.joined-tag{display:block;font-size:12px;font-weight:700;color:var(--muted);letter-spacing:0;text-transform:none}
+.joining-note{margin:10px 0 0;font-weight:800}
+.waiting-list{margin-top:16px;padding-top:12px;border-top:1px solid var(--quiet-line,#d8d3c8)}
+.waiting-list h3{margin:0 0 6px}
+.waiting-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:6px 0}
+.waiting-row span{display:grid;min-width:0}.waiting-row b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.waiting-row small{font-size:12px;color:var(--muted)}
+.result-actions .full+.full{margin-top:10px}
+/* 44px tap targets in More options: the switch keeps its 53x30 track inside a 44px-tall hit area. */
+.switch:not(#_){height:44px;min-height:44px;border:7px solid transparent;border-width:7px 0;background-clip:padding-box;border-radius:14px/21px}
+.pack-chip,.pack-setting.compact .pack-chip{min-height:44px}

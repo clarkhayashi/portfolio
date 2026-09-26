@@ -1,7 +1,10 @@
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const button=(label,action,disabled=false,cls='')=>`<button data-action="${action}"${cls?` class="${cls}"`:''} ${disabled?'disabled':''}>${label}</button>`;
+import {unlockAudio} from './sounds.js';
+// The beat shares one AudioContext with the sound effects (sounds.js). It plays on the host device whether or
+// not that phone turned sound effects on, because the host tapped Start to hear it.
 let audio,latest=null,lastBeat='',localMute=false;
-export async function unlockBeat(){audio ||= new (window.AudioContext||window.webkitAudioContext)();await audio.resume();localMute=false;}
+export async function unlockBeat(){audio=await unlockAudio();if(!audio)throw Error('No audio');localMute=false;}
 export function silenceBeat(){latest=null;lastBeat='';}
 export function syncBeat(s){latest=s;}
 export function physicalScreen(s){const p=s.physical,n=id=>esc(s.players.find(p=>p.id===id)?.name||'Player'),host=s.you===s.host,keeper=s.you===p.keeper||host,shadow=s.game==='shadow';let h=`<div class="eyebrow">${shadow?'IN-PERSON FACE-OFF':'AROUND THE ROOM'}</div><h2>${shadow?'Shadowbox':'Keep It Going'}</h2>`;
