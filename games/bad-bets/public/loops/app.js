@@ -1,3 +1,4 @@
+import './tune.js';
 // Loops web client. One file, template strings, re-render on every state change.
 // Talks only to /api with a bearer token, so an iOS shell can load this page or call the same API.
 const $=s=>document.querySelector(s);
@@ -152,18 +153,18 @@ function meView(){
  <form id="me" class="card">
   <label for="mename">Name</label><input id="mename" name="name" maxlength="24" value="${esc(data.me.name)}">
   <label for="mecity">Home city</label><input id="mecity" name="city" maxlength="40" value="${esc(data.me.city)}" placeholder="Honolulu">
-  <label class="row" style="margin:6px 0 14px"><input type="checkbox" name="openDoor" ${data.me.openDoor?'checked':''} style="width:auto;margin:0"> <span>My door is open <span class="muted small">(friends see you’re always happy to hear from them)</span></span></label>
-  <button type="submit">Save</button></form>
+  <label class="check"><input type="checkbox" name="openDoor" ${data.me.openDoor?'checked':''}><span>My door is open<br><span class="muted small">Friends see you’re always happy to hear from them.</span></span></label>
+  <button type="submit" class="full">Save</button></form>
  <h2>I’m in town</h2><p class="muted small">Heading somewhere? Friends whose home city matches get an open invite. We never track your location.</p>
  ${data.myTrips.map(t=>`<div class="card invite"><h3>${esc(t.city)}, ${fmtDate(t.from)} to ${fmtDate(t.to)}</h3>
   <p class="small">${t.friendsThere.length?`Invite goes to ${esc(t.friendsThere.join(', '))}.`:'None of your loop friends list this city yet.'}</p>
   ${t.downs.length?`<p>${t.downs.map(d=>`<span class="pill">${esc(d.name)}: ${esc(d.note)}</span>`).join(' ')}</p>`:''}
   <button class="link" data-rmtrip="${t.id}">Cancel trip</button></div>`).join('')}
  <form id="trip" class="card"><label for="tcity">City</label><input id="tcity" name="city" maxlength="40" placeholder="Seattle" required>
-  <div class="row"><div class="grow"><label for="tfrom">From</label><input id="tfrom" name="from" type="date" required></div><div class="grow"><label for="tto">To</label><input id="tto" name="to" type="date" required></div></div>
+  <div class="two"><div><label for="tfrom">From</label><input id="tfrom" name="from" type="date" required></div><div><label for="tto">To</label><input id="tto" name="to" type="date" required></div></div>
   <label for="tnote">Note <span class="muted small">(optional)</span></label><input id="tnote" name="note" maxlength="200" placeholder="Down for food or a game">
-  <button class="accent" type="submit">Post open invite</button></form>
- <button class="link" data-signout>Sign out on this device</button><br><button class="link" data-deleteme style="color:var(--accent)">Delete my account</button>`;
+  <button class="accent full" type="submit">Post open invite</button></form>
+ <div class="account"><button class="link" data-signout>Sign out on this device</button><button class="link danger" data-deleteme>Delete my account</button></div>`;
 }
 
 async function linkThoughtView(id){
