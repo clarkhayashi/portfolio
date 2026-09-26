@@ -1,4 +1,5 @@
 import {herdAnim} from './herd-anim.js';
+import {gameAnim} from './game-anims.js';
 import {restaurantHeading,foodLabel,lotHeading,themeBadge,buildWord} from './restaurants.js';
 import {loadCardArt,cardLabel,lotArt} from './card-art.js';
 import {gameById,MAX_PLAYERS} from './catalog.js';
@@ -95,12 +96,12 @@ function lobby(s,ctx){
  <p class="hint">${ps.length<2?'Need at least 2 players to start.':'The host starts the game from their phone.'}</p></section>`;
 }
 
-function hero(s,{eyebrow='Next game',sub=''}={}){
+function hero(s,{eyebrow='Next game',sub='',media=''}={}){
  const g=gameById(s.game);
  if(!g)return `<section class="center"><p class="eyebrow">${esc(eyebrow)}</p><h1 class="big">Spinning…</h1></section>`;
  const opts=(s.spinOptions||[]).filter(id=>gameById(id));
  return `<section class="hero" style="${gameVars(s.game)}">
- <div class="hero-art">${art(s.game)}</div>
+ ${media||`<div class="hero-art">${art(s.game)}</div>`}
  <div class="hero-copy"><p class="eyebrow">${esc(eyebrow)}</p><h1>${esc(g.name)}</h1><p class="how">${esc(g.description)}</p><p class="tag">${esc(g.label)}</p>${themeBadge(s.theme)}${sub}</div>
  </section>${opts.length>1?`<ul class="wheel">${opts.map(id=>`<li class="${id===s.game?'pick':''}" style="${gameVars(id)}">${esc(gameById(id).short)}</li>`).join('')}</ul>`:''}`;
 }
@@ -147,11 +148,14 @@ function promptBlock(s,{lead='',foot=''}={}){
  return `<section class="prompt-wrap"><p class="prompt">${esc(s.prompt||'')}</p>${lead?`<p class="lead">${lead}</p>`:''}${foot}</section>`;
 }
 
+// Intro loop for the game (TV), beside the prompt so both fit a 16:9 frame. Herd rounds use their own scene.
+const tvAnim=id=>{const a=gameAnim(id);return a?`<div class="tv-game-anim">${a}</div>`:'';};
+const withAnim=(id,inner)=>{const a=tvAnim(id);return a?`<div class="tv-reveal">${inner}${a}</div>`:inner;};
 function reveal(s){
- if(PHYSICAL.includes(s.game))return hero(s,{eyebrow:'Up next · in person',sub:`<p class="line">${esc(s.prompt||'')} ${timer(s)}</p>${players(s)}`});
- if(s.game==='auction'||s.game==='draft')return `${gameBanner(s,timer(s))}${s.veto?.done?`<p class="vetoed" role="status"><span>Vetoed!</span> ${esc(s.veto.from)} is out.</p>`:''}${promptBlock(s,{lead:'Get ready. It starts on your phones.'})}`;
- if(s.game==='imposter')return `${gameBanner(s,timer(s))}<section class="prompt-wrap">${s.category?`<p class="eyebrow">Category</p><p class="prompt">${esc(s.category)}</p>`:''}<p class="lead">Check your phone. Everyone sees the secret word except the imposter.</p></section>`;
- return `${gameBanner(s,timer(s))}${promptBlock(s,{lead:'Get ready. Answers open in a moment.'})}`;
+ if(PHYSICAL.includes(s.game))return hero(s,{eyebrow:'Up next · in person',sub:`<p class="line">${esc(s.prompt||'')} ${timer(s)}</p>${players(s)}`,media:tvAnim(s.game)});
+ if(s.game==='auction'||s.game==='draft')return `${gameBanner(s,timer(s))}${s.veto?.done?`<p class="vetoed" role="status"><span>Vetoed!</span> ${esc(s.veto.from)} is out.</p>`:''}${withAnim(s.game,promptBlock(s,{lead:'Get ready. It starts on your phones.'}))}`;
+ if(s.game==='imposter')return `${gameBanner(s,timer(s))}${withAnim(s.game,`<section class="prompt-wrap">${s.category?`<p class="eyebrow">Category</p><p class="prompt">${esc(s.category)}</p>`:''}<p class="lead">Check your phone. Everyone sees the secret word except the imposter.</p></section>`)}`;
+ return `${gameBanner(s,timer(s))}${withAnim(s.game,promptBlock(s,{lead:'Get ready. Answers open in a moment.'}))}`;
 }
 
 function play(s){
@@ -274,7 +278,7 @@ function finaleEntry(e){return isDrawing(e.value)?`<img class="drawing" src="${e
 function finaleBanner(s){return `<div class="banner" style="${gameVars('finale')}"><img class="art" src="/art/finale.svg" alt="" onerror="this.onerror=null;this.src='/brand/logo-mark.svg'"><div><p class="banner-name">Oops, I guess one more round?</p><p class="banner-how">Everyone writes a prompt. The room plays the best one.</p></div>${timer(s)}</div>`;}
 export function finaleScene(s){
  const f=s.finale||{},two=(f.played||[]).length>1;
- if(s.phase==='finaleWrite')return `${finaleBanner(s)}<section class="center"><h1 class="big">${Number(f.promptsIn)||0} of ${Number(f.total)||0} prompts in</h1><p class="lead">Write one short prompt on your phone. Pick ✍️ Answer it or 🎨 Draw it.</p>${progress(f.promptsIn,f.total,'prompts in')}</section>`;
+ if(s.phase==='finaleWrite')return `${finaleBanner(s)}<div class="tv-reveal"><section class="center"><h1 class="big">${Number(f.promptsIn)||0} of ${Number(f.total)||0} prompts in</h1><p class="lead">Write one short prompt on your phone. Pick ✍️ Answer it or 🎨 Draw it.</p>${progress(f.promptsIn,f.total,'prompts in')}</section>${tvAnim('finale')}</div>`;
  if(s.phase==='finalePick')return `${finaleBanner(s)}<section class="center"><h1 class="big">Picking the best prompt</h1><p class="lead">This or that? Tap the funnier prompt on your phone.</p>${progress(f.picked,f.total,'players done')}</section>`;
  if(s.phase==='finalePlay')return `${finaleBanner(s)}${(f.played||[]).map((x,i)=>`<section class="prompt-wrap${two?' small':''}"><p class="eyebrow">${two?`Group ${i+1} · `:''}${FINALE_MODE[x.mode]||''}</p><p class="prompt">${esc(x.text)}</p></section>`).join('')}<section class="center tight">${progress(f.sent,f.playing,'sent')}</section>`;
  if(s.phase==='finaleVote'){const list=f.entries||[];return `${finaleBanner(s)}${(f.played||[]).map((x,i)=>`<section class="prompt-wrap small"><p class="prompt">${esc(x.text)}</p></section><ul class="entries${list.length>4?' many':''}">${list.filter(e=>e.group===i).map((e,n)=>`<li><p class="entry-head"><span>Entry ${n+1}</span></p>${finaleEntry(e)}</li>`).join('')}</ul>`).join('')}<p class="line center-text">Vote on your phones · ${Number(f.voted)||0} of ${Number(f.total)||0} done</p>`;}
