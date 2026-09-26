@@ -17,6 +17,7 @@ const tabToken=(()=>{try{return sessionStorage.getItem('loops.token');}catch{ret
 let startGroup=false,pongMode='classic',pollTimer=null;
 let token=tabToken||store.get('loops.token'),data=null,tab='home',openLoop=null,draft={to:null,text:'',url:'',photo:null},lastLink=null,pongOpen=null;
 import {mountPong} from './pong.js';
+import {fx,muted,setMuted} from './sfx.js';
 
 async function api(path,body){
  const r=await fetch(BASE+'/api'+path,{method:body?'POST':'GET',headers:{'Content-Type':'application/json',...(token?{Authorization:'Bearer '+token}:{})},body:body?JSON.stringify(body):undefined});
@@ -82,7 +83,7 @@ const lineup=(picks,who)=>`<div class="lineup"><b>${esc(who)}</b>${['guard','win
 function draftView(g,page=false){
  const d=g.draft,what={guard:c=>`Aim ${pct(1+0.35*(c.off-75)/50)}`,wing:c=>{const w=Math.max(c.off,c.def);return `🔥 Fireball after ${w>=92?2:w>=82?3:4}`;},big:c=>`Contest ${pct(1-0.2*(c.def-75)/50)} on them`};
  return `${page?'':'<button class="link" data-closepong>← Home</button>'}
- <h1>Big 3 draft</h1><p class="muted small">vs ${esc(g.vs)} · Guard sets your aim, wing sets your heat, big contests their shots.</p>
+ ${soundToggle()}<h1>Big 3 draft</h1><p class="muted small">vs ${esc(g.vs)} · Guard sets your aim, wing sets your heat, big contests their shots.</p>
  ${lineup(d.mine,'You')}${lineup(d.theirs,g.vs)}
  ${d.myPick?`<h2>Pick your ${d.slot}</h2><div class="picks">${d.board.map(c=>`<button class="card pickcard" data-pick="${esc(c.name)}">${headshot(c.name)}<span class="pickinfo"><b>${esc(c.name)}</b><span class="small muted">${esc(c.note)}</span><span class="pill">${what[d.slot](c)}</span></span></button>`).join('')}</div>`
   :`<div class="empty">${esc(d.picker)} is picking their ${d.slot}. ${page?'This updates by itself.':'No rush.'}</div>`}
@@ -93,11 +94,12 @@ function statsStrip(g){
  return `<div class="card statstrip">${lineup(d.mine,'You')}<p class="small">Aim ${pct(m.aim*t.contest)} after their contest · 🔥 Fireball after ${m.heat} in a row${d.streak?` (on ${d.streak})`:''}</p>${lineup(d.theirs,g.vs)}</div>`;
 }
 
+const soundToggle=()=>`<button class="ghost sound" data-sound aria-label="${muted?'Turn sound on':'Turn sound off'}">${muted?'🔇':'🔊'}</button>`;
 function pongView(g,page=false){
  if(g.mode==='big3'&&!g.draft.done)return draftView(g,page);
  const status=g.done?(g.won?'You won. 🏆':`${esc(g.winnerName||g.vs)} won.`):g.open&&!g.seated?'Take the open seat: shoot first to join.':g.myTurn?`${g.left} ${g.left===1?'ball':'balls'} left. Sink both and you get them back.`:`Nice. ${esc(g.vs)} is up.`;
  return `${page?'':'<button class="link" data-closepong>← Home</button>'}
- <h1>${g.open&&!g.seated?'Pong challenge':`${g.mode==='big3'?'Big 3 Pong':'Pong'} vs ${esc(g.vs)}`}</h1><p class="muted small">${record(g)}</p>
+ ${soundToggle()}<h1>${g.open&&!g.seated?'Pong challenge':`${g.mode==='big3'?'Big 3 Pong':'Pong'} vs ${esc(g.vs)}`}</h1><p class="muted small">${record(g)}</p>
  ${statsStrip(g)}
  <p><b>${status}</b></p>
  <div id="pong" class="pong">${'<canvas aria-label="Pong table. Flick up from the bottom to throw."></canvas>'}
@@ -246,7 +248,7 @@ async function pongPage(id,page=true){
  clearInterval(pollTimer);
  if(!g.myTurn&&!g.done)pollTimer=setInterval(async()=>{
   if(document.visibilityState!=='visible')return;
-  try{const next=await api('/pong/'+id);if(next.updatedAt!==g.updatedAt){clearInterval(pollTimer);pongPage(id,page);}}catch{}
+  try{const next=await api('/pong/'+id);if(next.updatedAt!==g.updatedAt){clearInterval(pollTimer);if(next.myTurn)fx('yourTurn');pongPage(id,page);}}catch{}
  },2500);
 }
 
@@ -265,8 +267,8 @@ function imCompose(){
 
 async function pongAfter(res,page=false){
  if(res.error)toast(res.error);
- else if(res.event==='win')toast('Cleared the table. You win!');
- else if(res.event==='ballsBack')toast(res.fireball!=null?'🔥 Fireball! Both in, balls back!':'Both in. Balls back!');
+ else if(res.event==='win'){fx('win');toast('Cleared the table. You win!');}
+ else if(res.event==='ballsBack'){fx('ballsBack');toast(res.fireball!=null?'🔥 Fireball! Both in, balls back!':'Both in. Balls back!');}
  else if(res.fireball!=null)toast('🔥 Fireball! Two cups gone.');
  else if(res.event==='turnOver')toast(res.hit!==null?'Sunk one. Their turn.':'Their turn now.');
  else toast(res.hit!==null?'Sunk it!':res.rim!==null?'Rimmed out.':'Missed.');
@@ -289,8 +291,9 @@ document.addEventListener('click',async e=>{
  if(d.rmtrip){await act(()=>api(`/trips/${d.rmtrip}/remove`,{}),'Trip removed.');return;}
  if(d.openloop!==undefined){openLoop=d.openloop||null;render();scrollTo(0,0);return;}
  if(d.imgame){const big=d.imgame==='big3',out=await act(()=>api('/pong',{mode:big?'big3':'classic'}));if(out)native({type:'send',kind:'pong',path:`/p/${out.id}`,caption:big?`🏀 ${data?.me?.name||'A friend'} wants a Big 3 Pong draft`:`🏓 ${data?.me?.name||'A friend'} challenged you to Pong`,sub:big?'Draft a guard, wing and big, then play':'Tap to take the open seat'});return;}
+ if(d.sound!==undefined){setMuted(!muted);b.outerHTML=soundToggle();return;}
  if(d.pongmode){pongMode=d.pongmode;render();return;}
- if(d.pick){const id=pageGame?.id;if(!id)return;try{const v=await api(`/pong/${id}/pick`,{name:d.pick});
+ if(d.pick){const id=pageGame?.id;if(!id)return;fx('pick');try{const v=await api(`/pong/${id}/pick`,{name:d.pick});
   if(IM)native({type:'update',kind:'pong',path:`/p/${id}`,caption:v.draft.done?`🏀 Draft done. ${v.vs==='Open seat'?'':v.vs+' vs '}${data?.me?.name||''}: tip-off!`:`🏀 ${data?.me?.name||'Someone'} drafted ${d.pick}`,sub:v.draft.done?'Tap to shoot':`${v.draft.picker}’s pick`});
   const page=!pongOpen;if(!page)await refresh(true);pongPage(id,page);}catch(err){toast(err.message);}return;}
  if(d.start){if(d.start==='thought'){draft={to:'link:',text:'',url:'',photo:null};lastLink=null;tab='send';}else startGroup=true;render();if(startGroup)$('#qpub')?.focus();return;}

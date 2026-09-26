@@ -2,6 +2,7 @@
 // then animates it. The server's answer is the truth; the local sim only shapes the animation.
 import {rack,CUP_R,TABLE_END} from './pong-sim.js';
 import {TUNE} from './tune.js';
+import {fx} from './sfx.js';
 const T=TUNE.pong;
 
 const clamp=(n,a,b)=>Math.min(b,Math.max(a,n));
@@ -71,6 +72,7 @@ export function mountPong(wrap,game,{throwShot,after}){
    ball={x:from.x+(to.x-from.x)*e,y:from.y+(to.y-from.y)*e,z:T.arc*Math.sin(Math.PI*t)};
    draw(now);if(t<1){requestAnimationFrame(step);return;}
    const end=performance.now(),dur2=reduced?1:480,c=res.hit!==null?cups[res.hit]:res.rim!==null?cups[res.rim]:null;
+   fx(res.fireball!=null?'fireball':res.hit!==null?'plunk':res.rim!==null?'rim':'miss');
    if(res.hit!==null)alive[res.hit]=false;
    if(res.fireball!=null)alive[res.fireball]=false; // Fireball: a second cup goes with it
    const settle=now=>{const u=clamp((now-end)/dur2,0,1);
@@ -85,6 +87,7 @@ export function mountPong(wrap,game,{throwShot,after}){
 
  async function shoot(shot){
   if(busy||!game.myTurn)return;busy=true;
+  fx('throw');
   try{const res=await throwShot(shot);await animate(res);after(res);}catch(e){after({error:e.message});}
   busy=false;
  }
