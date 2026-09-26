@@ -52,14 +52,16 @@ export const HAPTICS={lock:[14],win:[30,40,30,40,70],bigwin:[30,40,30,40,70],los
 
 // ---------- browser: shared context, synth voices, toggles ----------
 const hasWindow=typeof window!=='undefined';
-let ctx=null,master=null;
+let ctx=null,master=null,volume=1;
 export function audioContext(){return ctx;}
+// Master volume 0..1 (the hidden ?tune panel sets it). 1 is the stock level.
+export function setVolume(v){volume=Math.min(1,Math.max(0,Number(v)||0));if(master)master.gain.value=.9*volume;}
 // Create or resume the shared context. Call only from a tap or click handler.
 export async function unlockAudio(){
  if(!hasWindow)return null;
  const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return null;
  ctx ||= new AC();
- if(!master){master=ctx.createGain();master.gain.value=.9;master.connect(ctx.destination);}
+ if(!master){master=ctx.createGain();master.gain.value=.9*volume;master.connect(ctx.destination);}
  if(ctx.state!=='running')await ctx.resume().catch(()=>{});
  return ctx;
 }
@@ -109,4 +111,6 @@ export function play(name,{buzz=true}={}){
  if(!soundOn()||!audioReady()||!VOICES[name])return false;
  try{VOICES[name]();return true;}catch{return false;}
 }
+// Audition one sound whatever the sound toggle says (the hidden tune panel). Needs an unlocked context.
+export function preview(name){if(!audioReady()||!VOICES[name])return false;try{VOICES[name]();return true;}catch{return false;}}
 export function playAll(list){list.forEach((n,i)=>setTimeout(()=>play(n),i*260));}

@@ -1,6 +1,7 @@
 // Phone screens for the Herd round (Same Brain at 4+ players, every other Same Brain round).
 import {gameById} from './catalog.js';
 import {herdAnim} from './herd-anim.js';
+import {swipeCard} from './swipe.js';
 export const HERD_RULE=gameById('brain').herd;
 // Carried chips: leftovers from an even split wait for the next pot that has winners.
 export const carryLine=r=>[r?.bonus?`+${r.bonus} bonus each`:'',r?.carry?`${r.carry} left over → next pot`:''].filter(Boolean).join(' ');
@@ -24,7 +25,7 @@ export function herdScreen(s,{esc,name,btn,heading,host}){
   if(h.youAsk)return top+`<div class="note">Your question. Watch them pick.</div>${count}`;
   if(!h.youVote)return top+count;
   if(h.mine)return top+`<div class="note">Locked: ${esc(h.mine==='a'?h.a:h.b)}</div>${count}`;
-  return top+`<div class="herd-pick">${btn(`<span class="tag">A</span> ${esc(h.a)}`,'herdVote:a','herd-side full')}${btn(`<span class="tag">B</span> ${esc(h.b)}`,'herdVote:b','herd-side full')}</div>${count}`;
+  return top+swipeCard({a:{text:h.a},b:{text:h.b},actionA:'herdVote:a',actionB:'herdVote:b',key:`herd:${s.code}:${s.round}`},esc)+`<div class="herd-pick">${btn(`<span class="tag">A</span> ${esc(h.a)}`,'herdVote:a','herd-side full')}${btn(`<span class="tag">B</span> ${esc(h.b)}`,'herdVote:b','herd-side full')}</div>${count}`;
  }
  // Result: A vs B, the callout, then chips (Party) and host controls.
  const r=s.result||{},o=h.reveal;

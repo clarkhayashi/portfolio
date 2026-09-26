@@ -27,7 +27,7 @@ export async function cloudRequest(store,action,{state=false}={}){
  if(!state&&typeof action.type!=='string')throw new PublicError('Choose an action.');
  if(action.type==='create'&&!state){
   for(let attempt=0;attempt<8;attempt++){
-   const game=new Game(),metrics=[];game.onMetrics=c=>metrics.push(c);const result=game.create(action.name,action.mode,typeof action.quick==='string'?action.quick:null,action.quickGame,{newHost:action.newHost===true});const room=game.rooms.get(result.code);
+   const game=new Game(),metrics=[];game.onMetrics=c=>metrics.push(c);const result=game.create(action.name,action.mode,typeof action.quick==='string'?action.quick:null,action.quickGame,{newHost:action.newHost===true,timerScale:action.timerScale});const room=game.rooms.get(result.code);
    if(await store.compareAndSwap(result.code,null,JSON.stringify(room))){await flushMetrics(store,metrics);return result;}
   }
   throw new PublicError('Could not open a room. Try again.',503);

@@ -182,9 +182,11 @@ export function pageAudit(h,opts){
  for(const [el,rects] of byEl)for(const r of rects){const pad=r.height*0.2;boxes.push({el,r:{left:r.left,right:r.right,top:r.top+pad,bottom:r.bottom-pad}});}
  const controls=[...document.querySelectorAll('button,input,select,textarea,img')].filter(el=>inScope(el)&&isVis(el)).map(el=>({el,r:el.getBoundingClientRect()}));
  const olap=new Set();
+ // The hidden tune panel and its badge float above the page on purpose: only overlaps inside the same layer count.
+ const layer=el=>el.closest('#tune-panel,#tune-badge')?1:0;
  for(let i=0;i<boxes.length;i++){const a=boxes[i];
-  for(let j=i+1;j<boxes.length;j++){const b=boxes[j];if(a.el===b.el||a.el.contains(b.el)||b.el.contains(a.el))continue;if(a.el.textContent.trim()===b.el.textContent.trim())continue;/* crossfade frames */if(h.rectsOverlap(a.r,b.r,3)){const k=pathOf(a.el)+'|'+pathOf(b.el);if(olap.has(k))continue;olap.add(k);issues.push({type:'overlap',severity:'warn',text:snip(a.el.textContent)+' / '+snip(b.el.textContent),path:pathOf(a.el),detail:`overlaps text in ${pathOf(b.el)}`});}}
-  for(const c of controls){if(c.el.contains(a.el)||a.el.contains(c.el)||c.el.closest('label')?.contains(a.el))continue;if(h.rectsOverlap(a.r,c.r,3)){const k=pathOf(a.el)+'|c|'+pathOf(c.el);if(olap.has(k))continue;olap.add(k);issues.push({type:'overlap',severity:'warn',text:snip(a.el.textContent),path:pathOf(a.el),detail:`text sits on top of ${pathOf(c.el)}`});}}
+  for(let j=i+1;j<boxes.length;j++){const b=boxes[j];if(a.el===b.el||a.el.contains(b.el)||b.el.contains(a.el)||layer(a.el)!==layer(b.el))continue;if(a.el.textContent.trim()===b.el.textContent.trim())continue;/* crossfade frames */if(h.rectsOverlap(a.r,b.r,3)){const k=pathOf(a.el)+'|'+pathOf(b.el);if(olap.has(k))continue;olap.add(k);issues.push({type:'overlap',severity:'warn',text:snip(a.el.textContent)+' / '+snip(b.el.textContent),path:pathOf(a.el),detail:`overlaps text in ${pathOf(b.el)}`});}}
+  for(const c of controls){if(layer(a.el)!==layer(c.el)||c.el.contains(a.el)||a.el.contains(c.el)||c.el.closest('label')?.contains(a.el))continue;if(h.rectsOverlap(a.r,c.r,3)){const k=pathOf(a.el)+'|c|'+pathOf(c.el);if(olap.has(k))continue;olap.add(k);issues.push({type:'overlap',severity:'warn',text:snip(a.el.textContent),path:pathOf(a.el),detail:`text sits on top of ${pathOf(c.el)}`});}}
  }
  // (e) dashes in visible copy (text, placeholders, button values)
  const dashSeen=new Set();

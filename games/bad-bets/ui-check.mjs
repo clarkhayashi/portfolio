@@ -63,7 +63,7 @@ function standings(){
  r.players.forEach((p,i)=>p.chips=[145,120,85,50][i]);r.round=9;r.history=[{round:1,game:'number',prompt:'How many islands in Hawaii?',detail:'Kai was closest.',changes:{}}];game.phase(r,'finished');return r;
 }
 function quickResult(){const r=room({mode:'minigames',players:2,quick:'hoops',quickGame:'number'});act(r,host(r),{type:'start'});stepTo(r,['play']);r.active.forEach((pid,i)=>r.submissions[pid]=String(Number(r.answer)+(i+1)*3));game.settle(r);return r;}
-function herd(){const r=room({players:5});r.enabledGames=['brain'];r.banEnabled=false;r.brainRounds=1;game.fresh(r);stepTo(r,['herdWrite','play'],12);return r;}
+function herd(){const r=room({players:5});r.enabledGames=['brain'];r.banEnabled=false;r.opener=false;r.brainRounds=1;game.fresh(r);stepTo(r,['herdWrite','play'],12);return r;}
 
 // New screens (2026-09-26): Family/Adults lobby, house round, round-2 teach card, awards, host controls, stats page.
 function partyStart(players=4,games=['brain','number']){const r=room({players});r.banEnabled=false;r.enabledGames=games;act(r,host(r),{type:'start'});return r;}
@@ -158,6 +158,16 @@ add('free-first-round',()=>freeRound(),{who:r=>r.players.find(p=>p.freeRound)});
 add('lobby-late-join-switch',()=>room({players:4}),{after:`document.querySelector('.more-options').open=true`});
 add('final-share-moment-guest',()=>lateFinal(),{as:3});
 add('tv-joining-next-round',()=>lateJoin(midParty(2)),{tv:true});
+// Swipe to pick and the hidden tune panel (2026-09-26).
+function herdVote(){const r=herd();if(r.phase!=='herdWrite')return r;act(r,r.players.find(p=>p.id===r.herd.asker),{type:'herdAsk',question:'Beach or mountains?',a:'Beach',b:'Mountains'});return r;}
+const herdVoter=r=>r.players.find(p=>r.herd?.voters?.includes(p.id))||host(r);
+function finalePick(){const r=minigame('finale');stepTo(r,['finaleWrite']);const ideas=['A terrible name for a boat','Draw a cat who owns a bakery','The worst superhero power','A text you should never send'];r.players.forEach((p,i)=>act(r,p,{type:'finalePrompt',value:ideas[i%ideas.length],mode:i===1?'draw':'answer',round:r.round}));return r;}
+const TUNE_ON=`try{localStorage.setItem('oops-tune',JSON.stringify({anim:1.5,bounce:.4,write:1,vote:1,volume:.8}))}catch{}`;
+add('herd-vote-swipe',()=>herdVote(),{who:herdVoter});
+add('finale-pick-swipe',()=>finalePick());
+add('tune-panel-intro',()=>minigame('brain'),{query:'?tune'});
+add('tune-badge',()=>minigame('number'),{init:TUNE_ON});
+add('tv-tune-panel',()=>minigame('quips'),{tv:true,query:'&tune'});
 add('header-sound-on',()=>room({players:4}),{init:`try{localStorage.setItem('oops-sound','on')}catch{}`});
 
 // ---------- Chrome over the DevTools protocol ----------
@@ -211,13 +221,13 @@ try{
    await page.s('Emulation.setDeviceMetricsOverride',{width:vp.width,height:vp.height,deviceScaleFactor:vp.scale,mobile:vp.mobile});
    await page.s('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'},{name:'prefers-color-scheme',value:'light'}]});
    let url;
-   if(sc.tv)url=`/display.html?room=${r.code}#${r.displayToken}`;
+   if(sc.tv)url=`/display.html?room=${r.code}${sc.query||''}#${r.displayToken}`;
    else if(sc.url)url=sc.url(r);
    else{
     const who=sc.who?sc.who(r):sc.asHerd?r.players.find(p=>p.id===r.herd?.asker)||host(r):sc.as?r.players[sc.as]:host(r);
     const seat=JSON.stringify({code:r.code,token:who.token});
     await page.s('Page.addScriptToEvaluateOnNewDocument',{source:`try{if(location.pathname==='/')sessionStorage.setItem('badbets',${JSON.stringify(seat)});}catch{}${sc.init||''}`});
-    url='/';
+    url='/'+(sc.query||'');
    }
    const done=page.loaded();await page.s('Page.navigate',{url:origin+url});await Promise.race([done,sleep(8000)]);
    await page.evaluate(`document.fonts.ready.then(()=>true)`);

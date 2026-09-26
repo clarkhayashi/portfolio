@@ -1,4 +1,5 @@
 // Phone screens for "Oops, I guess one more round?" (One More Round).
+import {swipeCard} from './swipe.js';
 export const finaleUi={mode:'answer',autoSent:''};
 export const MODE_LABEL={answer:'✍️ Answer it',draw:'🎨 Draw it'};
 const plural=(n,one,many)=>`${n} ${n===1?one:many}`;
@@ -19,7 +20,7 @@ export function finaleScreen(s,{esc,name,btn,heading,host}){
  if(s.phase==='finalePick'){
   const k=f.pick;
   if(!k||!k.pair)return heading('THIS OR THAT?','Nice picks')+`<p>Waiting for the others. ${f.picked} of ${f.total} done.</p>`;
-  return heading('THIS OR THAT?','Which would be funnier to play?')+`<p class="micro">Pair ${k.index+1} of ${k.count} · tap one</p><div class="finale-pair">${k.pair.map(x=>`<button type="button" class="finale-choice" data-action="finalePick:${esc(x.key)}"><span class="tag">${MODE_LABEL[x.mode]}</span><span class="finale-choice-text">${esc(x.text)}</span></button>`).join('')}</div><p class="micro">${f.picked} of ${f.total} done</p>`;
+  return heading('THIS OR THAT?','Which would be funnier to play?')+`<p class="micro">Pair ${k.index+1} of ${k.count}</p>${swipeCard({a:{text:k.pair[0].text,tag:MODE_LABEL[k.pair[0].mode]},b:{text:k.pair[1].text,tag:MODE_LABEL[k.pair[1].mode]},actionA:'finalePick:'+k.pair[0].key,actionB:'finalePick:'+k.pair[1].key,key:`finale:${s.code}:${s.round}:${k.index}`},esc)}<div class="finale-pair">${k.pair.map(x=>`<button type="button" class="finale-choice" data-action="finalePick:${esc(x.key)}"><span class="tag">${MODE_LABEL[x.mode]}</span><span class="finale-choice-text">${esc(x.text)}</span></button>`).join('')}</div><p class="micro">${f.picked} of ${f.total} done</p>`;
  }
  if(s.phase==='finalePlay'){
   const two=f.played.length>1,m=f.mine;

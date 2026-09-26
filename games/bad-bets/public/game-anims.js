@@ -3,7 +3,7 @@
 // Every element's resting style is its final frame, so reduced motion (animation:none) shows the ending.
 const BASE=`.ga{position:relative;height:13em;border-radius:1.1em;background:#eef6f7;overflow:hidden;margin:.9em 0;font-family:'Nunito',ui-rounded,sans-serif;color:#253345;line-height:1.2;text-align:left}
 .ga>*{position:absolute;margin:0;white-space:nowrap}
-.ga-e{animation-duration:var(--d,12s);animation-iteration-count:infinite;animation-timing-function:ease-in-out}
+.ga-e{animation-duration:calc(var(--d,12s) / var(--anim-speed,1));animation-iteration-count:infinite;animation-timing-function:var(--spring,ease-in-out)}
 .ga-cx{translate:-50% 0}
 .ga-card{background:#fff;border:.12em solid #8acbd2;border-radius:.7em;padding:.25em .6em;font-weight:800}
 .ga-q{background:#fff;border:.12em solid #cfe3e6;border-radius:.8em;padding:.3em .8em;font:800 1.05em/1.2 'Baloo 2','Nunito',sans-serif}

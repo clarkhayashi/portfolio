@@ -421,3 +421,29 @@ body[data-quick="1"] .stage h2{color:#1c2433!important;font-family:'Baloo 2','Nu
 button,input,textarea,select{font-family:inherit}
 /* Auction: raise by $1, $2 or $5. Buttons over your spendable budget are disabled. */
 .raise-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}.raise-row button{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 4px;font-size:20px;font-weight:800}.raise-row small{font-size:12px;font-weight:600;opacity:.8}
+/* Press feedback. The hidden tune panel can swap the curve for a spring (--ease-press). */
+button:active:not(:disabled){transform:scale(.97);transition-timing-function:var(--ease-press,ease)}
+@media(prefers-reduced-motion:reduce){button:active:not(:disabled){transform:none}}
+/* Swipe to pick (swipe.js): drag left for A, right for B. The tap buttons below stay the main path.
+   The stamp names the pick and sits on the trailing edge (A on the right, B on the left) so it stays on screen mid-drag. */
+.swipe-wrap{margin:16px 0 6px;overflow-x:clip;overflow-y:visible;padding:4px 0 8px}
+.swipe-label{margin:0 0 14px;text-align:center;font-weight:700}
+.swipe-arrow{font-weight:800}
+.swipe-card{position:relative;display:grid;grid-template-columns:1fr 1fr;min-height:128px;background:#fff;color:#1c2433;border:2px solid #253345;border-radius:18px;box-shadow:4px 4px 0 #253345;touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:grab;will-change:transform;transition:border-color .15s,background-color .15s}
+.swipe-card.dragging{cursor:grabbing}
+.swipe-side{display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-width:0;padding:14px 14px 48px;border-radius:16px 0 0 16px;transition:background-color .15s}
+.swipe-b{align-items:flex-end;text-align:right;border-radius:0 16px 16px 0;border-left:2px dashed #cfe3e6}
+.swipe-tag{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 8px;border-radius:10px;font:800 17px/1 'Baloo 2','Nunito',sans-serif;background:#cdeef2;color:#0b4a57}
+.swipe-b .swipe-tag{background:#fde2dc;color:#7a2530}
+.swipe-mode{font-size:12px;font-weight:800;color:#4b5563}
+.swipe-text{font-size:18px;font-weight:750;line-height:1.3;overflow-wrap:anywhere;color:#1c2433}
+.swipe-stamp{position:absolute;bottom:10px;padding:2px 12px;border:3px solid;border-radius:10px;background:#fff;font:800 22px/1.1 'Baloo 2','Nunito',sans-serif;max-width:calc(55% - 14px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:0;pointer-events:none;transition:opacity .12s}
+.swipe-stamp-a{right:14px;color:#065d70;border-color:#087f98;transform:rotate(8deg)}
+.swipe-stamp-b{left:14px;color:#9b2c38;border-color:#b8323f;transform:rotate(-8deg)}
+.swipe-card.hint-a{border-color:#087f98;background:#e6f5f7}.swipe-card.hint-a .swipe-stamp-a{opacity:1}
+.swipe-card.hint-b{border-color:#b8323f;background:#fdeeea}.swipe-card.hint-b .swipe-stamp-b{opacity:1}
+/* backwards, not both: a held end frame would override the drag transform */
+.swipe-card.enter{animation:swipe-in .45s var(--spring,cubic-bezier(.2,.8,.2,1)) backwards}
+@keyframes swipe-in{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.swipe-card.enter{animation:none}.swipe-card,.swipe-side,.swipe-stamp{transition:none}}
+@media(max-width:420px){.swipe-card{min-height:112px}.swipe-side{padding:12px 12px 46px}.swipe-text{font-size:16px}}

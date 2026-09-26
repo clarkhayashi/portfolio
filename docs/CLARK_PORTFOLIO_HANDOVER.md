@@ -76,6 +76,14 @@ Italy); honest statuses; no invented metrics; no em dashes; content only via
 `src/data/*.ts`; no WebGL; prototypes never override `src/`; never delete
 files (permission denied twice; overwrite instead).
 
+**DialKit (Clark, 2026-09-26):** when the site gets its first React island
+(`@astrojs/react`), add DialKit (`npm install dialkit motion`, `<DialRoot />`
+beside the island, `dialkit/styles.css`) as a dev-only tuning layer for that
+island's springs, spacing and easing. Keep `productionEnabled` false, and
+bake tuned values into the code. The site has no React today, so don't add
+React just for DialKit. The Oops game uses a homemade vanilla version
+(`?tune`).
+
 # Verified facts and chronology
 
 Chronology verified in `src/data/journey.ts`, `prototypes/journey.html`, and

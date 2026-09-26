@@ -4,6 +4,7 @@ import {restaurantHeading,foodLabel,lotHeading,themeBadge,buildWord} from './res
 import {loadCardArt,cardLabel,lotArt} from './card-art.js';
 import {gameById,MAX_PLAYERS} from './catalog.js';
 import {pollDelay,POLL,QUOTA_TEXT,STORAGE_FAILS_FOR_BREAK,isQuota} from './state-flow.js';
+import {tuneWanted,loadTune,watchLogoTaps} from './tune-boot.js';
 import {cues,clockCue,play as playSound,playAll,unlockAudio,soundOn,setSoundOn,setSurface,audioReady} from './sounds.js';
 
 // ---------- pure rendering (importable in node for tests) ----------
@@ -390,4 +391,6 @@ function boot(){
  window.addEventListener('pageshow',e=>{if(e.persisted){stopped=false;poll();}});
  poll();
 }
-if(typeof document!=='undefined'&&document.querySelector('#display'))boot();
+if(typeof document!=='undefined'&&document.querySelector('#display')){boot();
+ // Hidden tune panel (tune-boot.js): ?tune, five quick taps on the logo, or saved tuned values.
+ if(tuneWanted())loadTune({surface:'tv',open:new URLSearchParams(location.search).has('tune')});watchLogoTaps('#display .brand',{surface:'tv'});}

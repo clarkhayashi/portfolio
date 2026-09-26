@@ -186,8 +186,8 @@ em.up,.up{color:var(--up)!important;font-style:normal;font-weight:900}em.down,.d
 /* motion */
 @keyframes rise{from{opacity:0;transform:translateY(calc(var(--u)*1.5))}to{opacity:1;transform:none}}
 @keyframes pop{0%{opacity:0;transform:scale(.6)}70%{transform:scale(1.06)}100%{opacity:1;transform:none}}
-#display.enter .stage{animation:rise .45s cubic-bezier(.2,.8,.2,1) both}
-.chips li.new{animation:pop .45s cubic-bezier(.2,.8,.2,1) both}
+#display.enter .stage{animation:rise .45s var(--spring,cubic-bezier(.2,.8,.2,1)) both}
+.chips li.new{animation:pop .45s var(--spring,cubic-bezier(.2,.8,.2,1)) both}
 .phase-spin .hero-art{animation:pop .6s cubic-bezier(.2,.8,.2,1) both}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 /* portrait / small screens: stack instead of overflow */
