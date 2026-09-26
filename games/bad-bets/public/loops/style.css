@@ -87,7 +87,7 @@ h2{margin-top:30px}
 .hs-sm.hs-initials{font-size:.6rem}
 .pill-hs{display:inline-flex;align-items:center;padding-left:4px}
 .sound{float:right;padding:6px 10px;font-size:1.1rem;line-height:1}
-.games{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.games{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:10px}
 .gametile{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;background:#fff;color:var(--ink);margin:0;min-width:0}
 .gametile b{font-size:1.1rem}
 a.btn{display:block;text-align:center;text-decoration:none;border-radius:calc(var(--radius) - 4px);padding:14px 16px;font-weight:800;margin-top:8px}
@@ -103,3 +103,4 @@ a.btn.accent{background:var(--accent);color:#fff}
 .imname{margin:4px 0 10px;flex-wrap:nowrap}.imname input{margin:0;width:auto;flex:1 1 auto}
 .imthought{margin-top:10px}.imthought summary{cursor:pointer;color:var(--focus);font-weight:700;padding:6px 0}
 .gametile:disabled{opacity:.45}
+#derby canvas{background:#2f6b3e;touch-action:none;user-select:none;-webkit-user-select:none}

@@ -4,6 +4,7 @@
 import {randomBytes} from 'node:crypto';
 import {cleanText} from '../wordfilter.mjs';
 import {resolve as pongShot,rack} from '../public/loops/pong-sim.js';
+import {pitchList,score as derbyScore,PITCHES_PER_TURN} from '../public/loops/derby-sim.js';
 import {dealBig3,pickBig3,draftDone,draftTurn,statsFor,card,ORDER} from './big3.mjs';
 
 export const REACTIONS=['💛','😂','same','🤙'];
@@ -12,7 +13,7 @@ const code=()=>Array.from({length:6},()=> 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'[rand
 const now=()=>Date.now();
 const need=(ok,msg)=>{if(!ok)throw Error(msg);};
 
-export const emptyDb=()=>({users:{},loops:{},thoughts:[],pongs:{},h2h:{},trips:[]});
+export const emptyDb=()=>({users:{},loops:{},thoughts:[],pongs:{},derbies:{},h2h:{},trips:[]});
 
 // ---------- people ----------
 export function signUp(db,{name,city}){
@@ -214,6 +215,42 @@ export function pongView(db,u,g){
 }
 export function pongFor(db,u,gameId){const g=db.pongs?.[gameId];need(g,'That game is gone.');return pongView(db,u,g);}
 
+// ---------- Home Run Derby (async, beat my score) ----------
+// The challenger bats first and texts it; whoever opens the link bats the same 10 pitches. Most homers wins,
+// total home-run distance breaks a tie. The server scores every swing from the tap timings.
+export function startDerby(db,u,opponentId=null){
+ db.derbies||={};
+ if(opponentId)need(opponentId!==u.id&&circle(db,u).some(p=>p.id===opponentId),'You can only challenge people in your loops.');
+ const g={id:newId(),a:u.id,b:opponentId||null,seed:randomBytes(4).readUInt32LE(0),swings:{a:null,b:null},winner:null,createdAt:now(),updatedAt:now()};
+ db.derbies[g.id]=g;return g;
+}
+export function derbySwings(db,u,gameId,swings){
+ const g=db.derbies?.[gameId];need(g,'That game is gone.');
+ let seat=g.a===u.id?'a':g.b===u.id?'b':null;
+ if(!seat){need(!g.b,'This game already has two players. Start your own!');need(g.swings.a,'Wait for the first batter.');g.b=u.id;seat='b';
+  const host=db.users[g.a];if(host&&!Object.values(db.loops).some(l=>l.members.includes(host.id)&&l.members.includes(u.id))){const l=createLoop(db,host,{publicName:`${host.name} + ${u.name}`});l.members.push(u.id);}}
+ need(!g.swings[seat],'You already batted.');
+ need(seat==='a'||g.swings.a,'Wait for the first batter.');
+ need(Array.isArray(swings)&&swings.length===PITCHES_PER_TURN,'Swing at all 10 pitches.');
+ g.swings[seat]=swings.map(x=>x==null?null:Math.max(0,Math.min(5000,Number(x))));g.updatedAt=now();
+ if(g.swings.a&&g.swings.b){
+  const pitches=pitchList(g.seed),A=derbyScore(pitches,g.swings.a),B=derbyScore(pitches,g.swings.b);
+  g.winner=A.hr!==B.hr?(A.hr>B.hr?'a':'b'):A.feet!==B.feet?(A.feet>B.feet?'a':'b'):'tie';
+  if(g.winner!=='tie'){const k='derby|'+[g.a,g.b].sort().join('|'),h=(db.h2h||={})[k]||={};h[g[g.winner]]=(h[g[g.winner]]||0)+1;}
+ }
+ return derbyView(db,u,g);
+}
+export function derbyView(db,u,g){
+ const me=g.a===u.id?'a':g.b===u.id?'b':null,opp=me==='b'?'a':'b',pitches=pitchList(g.seed);
+ const res=seat=>g.swings[seat]?(({hr,feet,longest,results})=>({hr,feet,longest,results}))(derbyScore(pitches,g.swings[seat])):null;
+ const canBat=me?!g.swings[me]&&(me==='a'||!!g.swings.a):!g.b&&!!g.swings.a;
+ const oppId=me?g[opp]:g.a,h=g.a&&g.b?db.h2h?.['derby|'+[g.a,g.b].sort().join('|')]||{}:{};
+ return {id:g.id,kind:'derby',vs:oppId?db.users[oppId]?.name||'Someone':'Open seat',vsId:oppId,open:!g.b,myTurn:canBat,
+  pitches:canBat?pitches:null,mine:me?res(me):null,theirs:me?res(opp):res('a'),done:!!g.winner,tie:g.winner==='tie',won:!!me&&g.winner===me,
+  winnerName:g.winner&&g.winner!=='tie'?db.users[g[g.winner]]?.name:null,record:{me:h[u.id]||0,them:oppId?h[oppId]||0:0},updatedAt:g.updatedAt};
+}
+export function derbyFor(db,u,id){const g=db.derbies?.[id];need(g,'That game is gone.');return derbyView(db,u,g);}
+
 // ---------- what one person sees ----------
 export function home(db,u){
  const loops=myLoops(db,u);
@@ -231,6 +268,7 @@ export function home(db,u){
   sent:see.filter(t=>t.from===u.id).sort((a,b)=>b.createdAt-a.createdAt).slice(0,30).map(shape),
   loops:loops.map(l=>({id:l.id,code:l.code,publicName:l.publicName,privateName:l.nick[u.id]||'',name:loopName(l),
    members:l.members.map(m=>pub(db.users[m])).filter(Boolean)})),
+  derbies:Object.values(db.derbies||{}).filter(g=>g.a===u.id||g.b===u.id).filter(g=>!g.winner||now()-g.updatedAt<3*864e5).sort((a,b)=>b.updatedAt-a.updatedAt).map(g=>{const v=derbyView(db,u,g);delete v.pitches;return v;}),
   pongs:Object.values(db.pongs||{}).filter(g=>g.a===u.id||g.b===u.id).filter(g=>!g.winner||now()-g.updatedAt<3*864e5).sort((a,b)=>b.updatedAt-a.updatedAt).map(g=>pongView(db,u,g)),
   people:people.map(pub).sort((a,b)=>(b.openDoor-a.openDoor)||a.name.localeCompare(b.name)),
   // Open invites from friends visiting my city, plus my own trips.

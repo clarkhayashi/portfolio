@@ -161,3 +161,24 @@ test('Big 3 Pong: snake draft, ratings become stats, stats change the make windo
  assert.notEqual(second.fireball,null);
  assert.equal(game.cups.b.filter(Boolean).length,3);
 });
+
+test('Home Run Derby: timing sets distance, same pitches for both, beat-my-score, open seat connects',async()=>{
+ const {pitchList,outcome,PITCHES_PER_TURN}=await import('../public/loops/derby-sim.js');
+ const p={ms:700};
+ assert.equal(outcome(p,700).hr,true);assert.ok(outcome(p,700).feet>=440);
+ assert.equal(outcome(p,700+300).kind,'whiff');assert.equal(outcome(p,null).kind,'take');
+ assert.ok(outcome(p,760).feet<outcome(p,720).feet);
+ assert.deepEqual(pitchList(42),pitchList(42));
+ const {db,clark}=setup();const leilani=L.signUp(db,{name:'Leilani'});
+ const g=L.startDerby(db,clark);
+ assert.equal(L.derbyFor(db,leilani,g.id).myTurn,false); // wait for the first batter
+ const pitches=L.derbyFor(db,clark,g.id).pitches;assert.equal(pitches.length,PITCHES_PER_TURN);
+ const perfect=pitches.map(x=>x.ms),late=pitches.map(x=>x.ms+120);
+ const v1=L.derbySwings(db,clark,g.id,late);assert.equal(v1.done,false);
+ assert.throws(()=>L.derbySwings(db,clark,g.id,late),/already batted/);
+ const seen=L.derbyFor(db,leilani,g.id);assert.equal(seen.myTurn,true);assert.deepEqual(seen.pitches,pitches); // same pitches
+ const v2=L.derbySwings(db,leilani,g.id,perfect);
+ assert.equal(v2.done,true);assert.equal(v2.won,true);assert.equal(v2.mine.hr,10);
+ assert.ok(L.home(db,clark).people.some(p=>p.name==='Leilani'));
+ assert.equal(L.home(db,clark).derbies[0].won,false);
+});
