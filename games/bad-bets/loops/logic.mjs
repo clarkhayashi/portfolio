@@ -28,6 +28,20 @@ export function updateMe(db,u,{name,city,openDoor}){
 }
 const pub=u=>u&&{id:u.id,name:u.name,city:u.city,openDoor:u.openDoor};
 
+// Delete an account and everything it made (Apple requires in-app deletion for apps with sign-up).
+export function deleteUser(db,u){
+ const id=u.id;
+ delete db.users[id];
+ for(const l of Object.values(db.loops)){l.members=l.members.filter(m=>m!==id);delete l.nick[id];if(!l.members.length)delete db.loops[l.id];}
+ const gone=new Set(db.thoughts.filter(t=>t.from===id||(t.to.type==='user'&&t.to.id===id)).map(t=>t.id));
+ db.thoughts=db.thoughts.filter(t=>!gone.has(t.id));
+ for(const t of db.thoughts)delete t.reactions[id];
+ db.trips=db.trips.filter(t=>t.uid!==id);for(const t of db.trips)delete t.downs[id];
+ for(const g of Object.values(db.pongs||{}))if(g.a===id||g.b===id)delete db.pongs[g.id];
+ for(const k of Object.keys(db.h2h||{}))if(k.split('|').includes(id))delete db.h2h[k];
+ return [...gone]; // thought ids, so the store can drop their photos
+}
+
 // ---------- loops (groups) ----------
 // Every loop has one public name the group shares, and each member can keep a private name only they see.
 export function createLoop(db,u,{publicName,privateName}){

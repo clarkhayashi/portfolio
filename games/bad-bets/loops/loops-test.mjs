@@ -125,3 +125,14 @@ test('photos are stored apart from the thought and served by id',async()=>{
  const out=await handle(store,{method:'GET',path:`/photo/${t.id}`});
  assert.equal(out.photo,photo);
 });
+
+test('delete my account removes the person and everything they made',()=>{
+ const {db,clark,kai,loop}=setup();
+ L.sendThought(db,clark,{to:{type:'user',id:kai.id},text:'hi'});L.startPong(db,clark,kai.id);
+ L.addTrip(db,clark,{city:'Seattle',from:'2099-01-01',to:'2099-01-02'});
+ L.deleteUser(db,clark);
+ assert.equal(db.users[clark.id],undefined);
+ assert.ok(!db.loops[loop.id].members.includes(clark.id));
+ assert.equal(db.thoughts.length,0);assert.equal(Object.keys(db.pongs).length,0);assert.equal(db.trips.length,0);
+ assert.equal(L.home(db,kai).people.some(p=>p.name==='Clark'),false);
+});

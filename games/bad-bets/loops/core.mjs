@@ -12,6 +12,7 @@ const routes=[
  ['POST',/^\/t\/([\w-]+)\/reply$/,true,(db,u,_,m)=>({id:L.replyBack(db,u,m[1]).id})],
  ['GET',/^\/home$/,true,(db,u)=>L.home(db,u)],
  ['POST',/^\/me$/,true,(db,u,b)=>{L.updateMe(db,u,b);return {ok:true};}],
+ ['POST',/^\/me\/delete$/,true,(db,u)=>{L.deleteUser(db,u);return {ok:true};}],
  ['POST',/^\/loops$/,true,(db,u,b)=>({id:L.createLoop(db,u,b).id})],
  ['POST',/^\/join$/,true,(db,u,b)=>({id:L.joinLoop(db,u,b.code).id})],
  ['GET',/^\/invite\/([A-Z0-9]+)$/,false,(db,_,__,m)=>{const l=Object.values(db.loops).find(l=>l.code===m[1]);if(!l)throw Error('That invite link is not valid anymore.');return {publicName:l.publicName,members:l.members.map(id=>db.users[id]?.name).filter(Boolean)};}],
@@ -69,6 +70,7 @@ export function redisStore(env=process.env,key='loops:db'){
    for(let attempt=0;attempt<4;attempt++){
     const before=await cmd(['GET',key]);const db=before?JSON.parse(before):L.emptyDb();db.photos={};
     const out=fn(db);if(!write)return out;
+    if(!db.cleaned1){for(const u of Object.values(db.users))if(['Deploy Check','Test A','Test B'].includes(u.name))L.deleteUser(db,u);db.cleaned1=true;} // launch-check accounts, 2026-09-26
     for(const [id,data] of Object.entries(db.photos))await cmd(['SET',`loops:photo:${id}`,data,'EX',90*86400]);
     delete db.photos;const after=JSON.stringify(db);
     if(after===before)return out;

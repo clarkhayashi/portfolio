@@ -153,7 +153,7 @@ function meView(){
   <div class="row"><div class="grow"><label for="tfrom">From</label><input id="tfrom" name="from" type="date" required></div><div class="grow"><label for="tto">To</label><input id="tto" name="to" type="date" required></div></div>
   <label for="tnote">Note <span class="muted small">(optional)</span></label><input id="tnote" name="note" maxlength="200" placeholder="Down for food or a game">
   <button class="accent" type="submit">Post open invite</button></form>
- <button class="link" data-signout>Sign out on this device</button>`;
+ <button class="link" data-signout>Sign out on this device</button><br><button class="link" data-deleteme style="color:var(--accent)">Delete my account</button>`;
 }
 
 async function linkThoughtView(id){
@@ -246,6 +246,7 @@ document.addEventListener('click',async e=>{
  if(d.challenge){const out=await act(()=>api('/pong',{opponentId:d.challenge}),'Challenge sent. Your shot first.');if(out){pongOpen=out.id;tab='home';openLoop=null;render();scrollTo(0,0);}return;}
  if(d.leave){if(confirm('Leave this loop? You can rejoin with the invite link.')){openLoop=null;await act(()=>api(`/loops/${d.leave}/leave`,{}),'You left the loop.');}return;}
  if(d.copy){if(navigator.share){try{await navigator.share({url:d.copy});}catch{}}else{try{await navigator.clipboard.writeText(d.copy);toast('Copied.');}catch{toast('Copy the link from the box.');}}return;}
+ if(d.deleteme!==undefined){if(confirm('Delete your account? Your thoughts, games and trips are removed for everyone. This can’t be undone.')){try{await api('/me/delete',{});token=null;data=null;store.set('loops.token',null);try{sessionStorage.removeItem('loops.token');}catch{}toast('Account deleted.');render();}catch(err){toast(err.message);}}return;}
  if(d.signout!==undefined){if(confirm('Sign out on this device? Save your invite links first; there is no password yet.')){token=null;data=null;store.set('loops.token',null);render();}}
 });
 
