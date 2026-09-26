@@ -24,7 +24,7 @@ const isDrawing=v=>typeof v==='string'&&/^data:image\/png;base64,[A-Za-z0-9+/=]+
 // Every phase gets friendly words. Nothing raw ever reaches the screen.
 export function statusText(s){
  const g=gameById(s.game)?.name;
- const map={lobby:'Waiting for players',ban:'Vote a game off the wheel',banResult:'The wheel is set',entry:'Stay in or sit out?',stake:'Placing bets',spin:'Spinning the wheel',wager:'Betting round',reveal:'Get ready',play:'Answer on your phones',clue:'Clue time',discuss:'Talk it out',vote:'Voting time',pitch:'Pitch time',auction:'Bidding war',draft:'Fantasy draft',physicalSetup:'Get in position',physical:'Playing live',physicalConfirm:'Checking the score',physicalDispute:'Score check',result:'Round results',finished:'Final standings',comeback:'Comeback chance',paused:'Paused',mixer:s.deck==='date'?'Date Night':'Your turn to share',mixerReveal:s.deck==='date'?'Date Night':'Answers are in',dateCheck:'Date Night'};
+ const map={lobby:'Waiting for players',ban:'Vote a game off the wheel',banResult:'The wheel is set',entry:'Stay in or sit out?',stake:'Placing bets',spin:'Spinning the wheel',wager:'Betting round',reveal:'Get ready',play:'Answer on your phones',clue:'Clue time',discuss:'Talk it out',vote:'Voting time',pitch:'Pitch time',auction:'Bidding war',draft:'Fantasy draft',physicalSetup:'Get in position',physical:'Playing live',physicalConfirm:'Checking the score',physicalDispute:'Score check',result:'Round results',finished:s.mode==='minigames'?'That’s a wrap':'Final standings',comeback:'Comeback chance',paused:'Paused',mixer:s.deck==='date'?'Date Night':'Your turn to share',mixerReveal:s.deck==='date'?'Date Night':'Answers are in',dateCheck:'Date Night'};
  if(s.game==='finale'&&s.finale){const m={finaleWrite:'Writing prompts',finalePick:'Picking the best prompt',finalePlay:'Playing the winning prompt',finaleVote:'Voting time',result:'One More Round results'};if(m[s.phase])return m[s.phase];}
  if(s.herd&&s.game==='brain'){const m={herdWrite:'Writing a this-or-that',herdVote:'Pick a side on your phones',result:'Herd round results'};if(m[s.phase])return m[s.phase];}
  if(s.phase==='play'&&s.game==='draw')return 'Drawing on phones';
@@ -115,7 +115,9 @@ function players(s){
  return out;
 }
 
-function spin(s){return hero(s,{eyebrow:'The wheel picked',sub:`${players(s)}<p class="line muted">Betting opens in a moment.</p>`});}
+// Round 2 after a house round: one line teaches betting before the first bet (house.mjs).
+const teach=s=>s.teach?`<p class="teach"><span aria-hidden="true">🎲</span>${esc(s.teach)}</p>`:'';
+function spin(s){return hero(s,{eyebrow:'The wheel picked',sub:`${teach(s)}${players(s)}<p class="line muted">Betting opens in a moment.</p>`});}
 
 function ban(s){
  const ids=[...(s.candidates||[]),...(s.banned&&!(s.candidates||[]).includes(s.banned)?[s.banned]:[])].filter(id=>gameById(id));
@@ -138,7 +140,7 @@ function wager(s){
  const c=pot.contestants||s.active||[],folded=pot.folded||[],contrib=pot.contributions||s.stakes||{};
  return `<section class="bet">
  <div class="bet-game" style="${gameVars(s.game)}">${g?`${art(s.game)}<p class="banner-name">${esc(g.name)}</p><p class="banner-how">${esc(g.description)}</p>`:''}</div>
- <div class="bet-pot"><p class="eyebrow">In the pot</p><p class="pot">${Number(pot.total)||0}</p><p class="pot-unit">chips</p>${turn}${timer(s)}${pot.fixed?'<p class="line muted">Same bet for everyone this game.</p>':''}</div>
+ <div class="bet-pot">${teach(s)}<p class="eyebrow">In the pot</p><p class="pot">${Number(pot.total)||0}</p><p class="pot-unit">chips</p>${turn}${timer(s)}${pot.fixed?'<p class="line muted">Same bet for everyone this game.</p>':''}</div>
  </section>
  <ul class="seats">${c.map(id=>`<li class="${id===pot.turn?'now':''}${folded.includes(id)?' folded':''}"><span>${nameOf(s,id)}</span><b>${folded.includes(id)?'Folded':chips(Number(contrib[id])||0)}</b></li>`).join('')}</ul>
  ${(pot.judges||[]).length?`<p class="line muted center-text">Judging: ${names(s,pot.judges)}</p>`:''}`;
@@ -155,6 +157,7 @@ function reveal(s){
  if(PHYSICAL.includes(s.game))return hero(s,{eyebrow:'Up next · in person',sub:`<p class="line">${esc(s.prompt||'')} ${timer(s)}</p>${players(s)}`,media:tvAnim(s.game)});
  if(s.game==='auction'||s.game==='draft')return `${gameBanner(s,timer(s))}${s.veto?.done?`<p class="vetoed" role="status"><span>Vetoed!</span> ${esc(s.veto.from)} is out.</p>`:''}${withAnim(s.game,promptBlock(s,{lead:'Get ready. It starts on your phones.'}))}`;
  if(s.game==='imposter')return `${gameBanner(s,timer(s))}${withAnim(s.game,`<section class="prompt-wrap">${s.category?`<p class="eyebrow">Category</p><p class="prompt">${esc(s.category)}</p>`:''}<p class="lead">Check your phone. Everyone sees the secret word except the imposter.</p></section>`)}`;
+ if(s.house)return `${gameBanner(s,timer(s))}<p class="house-tag">House round · no chips at risk</p>${withAnim(s.game,promptBlock(s,{lead:'Everyone plays. Betting starts next round.'}))}`;
  return `${gameBanner(s,timer(s))}${withAnim(s.game,promptBlock(s,{lead:'Get ready. Answers open in a moment.'}))}`;
 }
 
@@ -240,10 +243,13 @@ function result(s){
  return `<section class="result"><div class="result-main">${g?`<p class="eyebrow result-game" style="${gameVars(s.game)}">${art(s.game)}${esc(g.name)}</p>`:''}${themeBadge(s.theme)}<h1 class="headline">${head}</h1>${r.detail?`<p class="lead">${esc(r.detail)}</p>`:''}${carryText(r)?`<p class="lead">${carryText(r)}</p>`:''}${body}</div>${s.mode==='mixer'?'':scoreboard(s,{highlight:winners})}</section>`;
 }
 
+// End-of-night awards (awards.mjs), beside the standings.
+function awards(s){const list=s.awards||[];if(!list.length)return '';return `<section class="awards"><h2 class="eyebrow">Tonight’s awards</h2><ul>${list.map(a=>`<li><span class="award-icon" aria-hidden="true">${a.icon}</span><div><p class="award-title">${esc(a.title)}</p><p class="award-who">${names(s,a.players)}</p><p class="award-line">${esc(a.line)}</p></div></li>`).join('')}</ul></section>`;}
 function finished(s){
+ if(s.mode==='minigames')return `<section class="finale"><div class="center tight"><p class="eyebrow">Game night</p><h1 class="big">Good game, everyone!</h1></div>${awards(s)||'<p class="lead center-text">Thanks for playing.</p>'}</section>`;
  if(s.mode==='mixer')return `<section class="center"><p class="eyebrow">${esc(s.deckName||'Conversation deck')}</p><h1 class="big">Thanks for playing</h1><p class="lead">That’s the whole deck.</p></section>`;
  const top=live(s).slice().sort((a,b)=>b.chips-a.chips)[0];
- return `<section class="finale"><div class="center tight"><p class="eyebrow">Game over</p><h1 class="big">${top?`${esc(top.name)} wins!`:'Game over'}</h1></div>${scoreboard(s,{title:'Final standings',big:true,highlight:top?[top.id]:[]})}</section>`;
+ return `<section class="finale"><div class="center tight"><p class="eyebrow">Game over</p><h1 class="big">${top?`${esc(top.name)} wins!`:'Game over'}</h1></div>${s.awards?.length?`<div class="final-split">${scoreboard(s,{title:'Final standings',big:true,highlight:top?[top.id]:[]})}${awards(s)}</div>`:scoreboard(s,{title:'Final standings',big:true,highlight:top?[top.id]:[]})}</section>`;
 }
 
 function comeback(s){
@@ -329,6 +335,8 @@ function boot(){
  if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)){fetch('/info').then(r=>r.json()).then(d=>{if(d.addresses?.[0]){joinOrigin=`http://${d.addresses[0]}${location.port?':'+location.port:''}`;lastHtml='';}}).catch(()=>{});}
  const setConn=(text,bad)=>{conn.textContent=text;conn.hidden=!text;conn.classList.toggle('bad',!!bad);};
  loadCardArt(()=>{lastHtml='';});
+ // Funnel (metrics.mjs): count "TV mode opened" once per room in this browser session. No room code is sent.
+ try{const k=`oops-tv-${code}`;if(code&&token&&!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');fetch('/api/stats',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({event:'tv'}),keepalive:true}).catch(()=>{});}}catch{}
  const applyTheme=t=>{const st=document.documentElement.style;st.setProperty('--bg',t.bg);st.setProperty('--ink',t.ink);st.setProperty('--accent',t.accent);st.setProperty('--muted',t.muted);document.documentElement.dataset.theme=t.name;};
  const tick=()=>{const now=Date.now()+offset;for(const el of root.querySelectorAll('.timer[data-deadline]')){const left=Math.max(0,Math.ceil((Number(el.dataset.deadline)-now)/1000));el.textContent=`${Math.floor(left/60)}:${String(left%60).padStart(2,'0')}`;el.classList.toggle('low',left<=5);}};
  setInterval(tick,250);

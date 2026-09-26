@@ -1,0 +1,24 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Party stats | Oops, All In</title><link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" href="/brand/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/cleanup.css"><link rel="stylesheet" href="/game-themes.css">
+<style>
+main.stats{max-width:880px;margin:0 auto;padding:28px 16px 48px}
+.stats h1{font-size:34px;margin:4px 0 6px}
+.stats .lede{margin:0 0 22px;color:#3a4654;font-size:15px}
+.stats a.back{display:inline-flex;align-items:center;min-height:44px;color:#066a7f;font-weight:700;text-decoration:none}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:0 0 26px}
+.tile{border:2px solid #1c2433;border-radius:14px;background:#fff;padding:14px 16px;color:#1c2433}
+.tile b{display:block;font-family:'Baloo 2','Nunito',sans-serif;font-size:40px;line-height:1.05}
+.tile span{display:block;font-weight:800;font-size:15px}
+.tile small{display:block;color:#3a4654;font-size:13px;margin-top:4px}
+.stats h2{font-size:22px;margin:26px 0 10px}
+.table-wrap{overflow-x:auto;border:2px solid #1c2433;border-radius:14px;background:#fff}
+table{width:100%;border-collapse:collapse;font-size:14px;color:#1c2433;font-variant-numeric:tabular-nums}
+th,td{padding:9px 8px;text-align:right;border-bottom:1px solid #e2e6e8;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+thead th{font-size:12px;font-weight:800;color:#3a4654;background:#f3f5f5}
+tbody tr:last-child td{border-bottom:0}
+tfoot td{font-weight:800;border-top:2px solid #1c2433;border-bottom:0}
+td.zero{color:#6b7580}
+.note{font-size:13px;color:#3a4654;margin:10px 0 0}
+@media(max-width:480px){table{font-size:13px}th,td{padding:8px 5px}thead th{font-size:11px}}
+#status{font-weight:700;color:#1c2433}
+</style></head><body><main class="stats"><a class="back" href="/">Back to the game</a><h1>Party stats</h1><p class="lede">Anonymous daily counts for the last 14 days (UTC). No names, room codes or answers are stored.</p><p id="status" role="status">Loading…</p><div id="out"></div></main><script type="module" src="/stats.js"></script></body></html>

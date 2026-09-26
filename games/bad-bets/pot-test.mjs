@@ -2,7 +2,8 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {Game} from './server.mjs';
 import {distribute} from './pot.mjs';
-const setup=(n=4,game='number',round=3)=>{const g=new Game(),{code}=g.create('Host'),r=g.rooms.get(code);for(let i=1;i<n;i++)g.join(code,'Player '+i);r.banEnabled=false;r.enabledGames=[game];r.round=round-1;g.fresh(r);return {g,r,p:r.players};};
+const setup=(n=4,game='number',round=3)=>{const g=new Game(),{code}=g.create('Host'),r=g.rooms.get(code);for(let i=1;i<n;i++)g.join(code,'Player '+i);r.banEnabled=false;r.opener=false;r.enabledGames=[game];r.round=round-1; // opener off: these tests cover pot rules from round 1 (house.mjs has its own tests)
+g.fresh(r);return {g,r,p:r.players};};
 const move=(g,r,move,total)=>g.action(r,r.players.find(p=>p.id===r.pot.turn),{type:'potBet',move,total,confirmed:move==='allin'||move==='match',round:r.round,revision:r.pot.revision});
 const matchAll=(g,r)=>{let n=0;while(r.phase==='wager'){assert.ok(n++<20);move(g,r,'match');}};
 // House grants (comeback dares and One More Round awards) are counted in r.issuedChips; finale grants are also in r.finale.granted.

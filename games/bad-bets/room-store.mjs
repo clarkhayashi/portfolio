@@ -1,5 +1,6 @@
 // Shared state uses compare-and-swap so concurrent devices cannot overwrite votes or chips.
 import {RATINGS_KEY} from './ratings.mjs';
+import {METRICS_SCRIPT,READ_SCRIPT,METRICS_TTL,metricsKey} from './metrics.mjs';
 const CAS = `local current = redis.call('GET', KEYS[1])
 if (current or '') ~= ARGV[1] then return 0 end
 redis.call('SET', KEYS[1], ARGV[2], 'EX', ARGV[3])
@@ -22,5 +23,8 @@ export class RedisRoomStore {
  // Anonymous prompt feedback: one hash, fields "<promptId>:fire" or ":meh". Nothing else is written.
  incrementRating(id,vote){return this.command(['HINCRBY',RATINGS_KEY,`${id}:${vote}`,1],1500);}
  ratings(){return this.command(['HGETALL',RATINGS_KEY],2500);}
+ // Anonymous daily funnel counts (metrics.mjs): one EVAL per batch of events, one EVAL to read many days.
+ incrementMetrics(day,counts){const flat=Object.entries(counts).flat();if(!flat.length)return Promise.resolve(null);return this.command(['EVAL',METRICS_SCRIPT,1,metricsKey(day),METRICS_TTL,...flat],1500);}
+ metrics(days){return this.command(['EVAL',READ_SCRIPT,days.length,...days.map(metricsKey)],2500);}
  async allow(key,limit,seconds){return await this.command(['EVAL',RATE,1,`bad-bets:rate:${key}`,seconds])<=limit;}
 }

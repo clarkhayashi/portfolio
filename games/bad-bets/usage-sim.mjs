@@ -26,7 +26,8 @@ export async function simulate(name,model){
   else if(cmd==='HGETALL'){bump('HGETALL');result=Object.entries(hashes.get(args[1])||{}).flat();}
   else if(cmd==='EVAL'){
    const script=args[1],key=args[3];
-   if(script.includes('INCR')){bump('EVAL rate');const n=(Number(data.get(key))||0)+1;data.set(key,n);result=n;}
+   if(script.includes('HINCRBY')){bump('EVAL metrics');result=1;} // anonymous funnel counts (metrics.mjs)
+   else if(script.includes('INCR')){bump('EVAL rate');const n=(Number(data.get(key))||0)+1;data.set(key,n);result=n;}
    else{bump('EVAL cas');if((data.get(key)||'')!==args[4]){result=0;}else{data.set(key,args[5]);result=1;}}
   } else throw Error(`sim: unexpected ${cmd}`);
   return new Response(JSON.stringify({result}),{status:200});

@@ -28,6 +28,7 @@ test('Bad Answers skip and Keep It Going random pick never repeat within a bag',
  const cats=[];for(let i=0;i<categories.length;i++){x.g.action(x.r,x.p[0],{type:'physicalCategory',random:true,revision:x.r.physical.revision});cats.push(x.r.physical.category);}assert.equal(new Set(cats).size,categories.length);});
 test('host picks packs; ids are validated server side and bags rebuild',()=>{const {g,r,p}=lobby();draw(r,'brain');assert.ok(r.bags.brain);
  assert.throws(()=>g.action(r,p[1],{type:'setPacks',packs:['sports']}),/host/);assert.throws(()=>g.action(r,p[0],{type:'setPacks',packs:['nope']}),/Unknown/);assert.throws(()=>g.action(r,p[0],{type:'setPacks',packs:'sports'}));assert.throws(()=>g.action(r,p[0],{type:'setPacks',packs:['__proto__']}));
+ assert.throws(()=>g.action(r,p[0],{type:'setPacks',packs:['spicy']}),/Adults/);g.action(r,p[0],{type:'setAudience',audience:'adults'});
  g.action(r,p[0],{type:'setPacks',packs:['spicy','sports','sports']});assert.deepEqual(r.packs,['sports','spicy']);assert.deepEqual(r.bags,{});assert.deepEqual(g.view(r,p[1]).packs,['sports','spicy']);
  assert.deepEqual(validatePacks([]),[]);});
 test('custom prompts: limits, validation, removal by author only',()=>{const {g,r,p}=lobby();const add=(q,kind,value,category)=>g.action(r,q,{type:'addCustom',kind,value,category});

@@ -5,7 +5,7 @@ import {HERD,validateHerd} from './herd.mjs';
 import {HERD_PROMPTS} from './pack-content.mjs';
 import {cloudRequest} from './cloud-game.mjs';
 // Party (pot rules). herd:true makes this round the second Same Brain of the night.
-const party=(n,{herd=true,chips={}}={})=>{const g=new Game(),{code}=g.create('Host'),r=g.rooms.get(code);for(let i=1;i<n;i++)g.join(code,'Player '+i);r.banEnabled=false;r.enabledGames=['brain'];r.brainRounds=herd?1:0;for(const [i,c] of Object.entries(chips))r.players[i].chips=c;g.fresh(r);let guard=0;while(!['herdWrite','play'].includes(r.phase)){assert.ok(guard++<10,r.phase);g.advance(r);}return {g,r,p:r.players};};
+const party=(n,{herd=true,chips={}}={})=>{const g=new Game(),{code}=g.create('Host'),r=g.rooms.get(code);for(let i=1;i<n;i++)g.join(code,'Player '+i);r.banEnabled=false;r.opener=false;r.enabledGames=['brain'];r.brainRounds=herd?1:0;for(const [i,c] of Object.entries(chips))r.players[i].chips=c;g.fresh(r);let guard=0;while(!['herdWrite','play'].includes(r.phase)){assert.ok(guard++<10,r.phase);g.advance(r);}return {g,r,p:r.players};};
 const minigame=n=>{const g=new Game(),{code}=g.create('Host','minigames'),r=g.rooms.get(code);for(let i=1;i<n;i++)g.join(code,'Player '+i);g.action(r,r.players[0],{type:'selectGame',game:'brain'});g.action(r,r.players[0],{type:'start'});g.begin(r);return {g,r,p:r.players};};
 const by=(r,id)=>r.players.find(p=>p.id===id);
 const ask=(g,r,q={question:'Beach or mountains?',a:'Beach',b:'Mountains'})=>g.action(r,by(r,r.herd.asker),{type:'herdAsk',...q});

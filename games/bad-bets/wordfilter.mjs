@@ -16,3 +16,21 @@ export function cleanText(text,max=100){
  if(hasSlur(t))throw Error('That name has a slur in it. Try another.');
  return t;
 }
+
+// Family mode (the default) adds a strict layer on top: swearing and sexual words, not just slurs.
+// Word-level matching keeps ordinary words safe ("class", "pass", "Scunthorpe" style clashes stay rare);
+// a few strong words are also caught inside glued words ("bullshit", "motherfucker").
+const STRICT=['fuck','fucks','fucked','fucker','fuckers','fucking','fuckin','fk','fck','fuk','shit','shits','shitty','shitting','bullshit','bitch','bitches','bitchy','ass','asses','asshole','assholes','arse','dick','dicks','dickhead','cock','cocks','pussy','pussies','cunt','cunts','bastard','bastards','damn','goddamn','dammit','piss','pissed','slut','sluts','whore','whores','sex','sexy','sexting','porn','porno','nude','nudes','naked','boob','boobs','tits','titties','penis','vagina','dildo','horny','orgasm','milf','thot','wtf','stfu','omfg','blowjob','handjob','boner','jerkoff','cocaine','meth'];
+const STRICT_GLUED=['fuck','shit','cunt','bitch','dildo','blowjob','handjob','asshole','porno'];
+export function hasProfanity(text){
+ const words=norm(text).split(/[^a-z]+/).filter(Boolean),joined=words.join('');
+ if(words.some(w=>STRICT.includes(w)||STRICT.includes(w.replace(/(.)\1+/g,'$1'))))return true;
+ return STRICT_GLUED.some(t=>joined.includes(t));
+}
+export const FAMILY_TEXT='Keep it family friendly. Try different words.';
+// Throws a short player-facing error. Slurs are always blocked; strict adds the Family layer.
+export function checkText(text,{strict=false}={}){
+ if(hasSlur(text))throw Error('That has a slur in it. Try something else.');
+ if(strict&&hasProfanity(text))throw Error(FAMILY_TEXT);
+ return text;
+}

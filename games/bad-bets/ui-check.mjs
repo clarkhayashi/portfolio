@@ -65,6 +65,23 @@ function standings(){
 function quickResult(){const r=room({mode:'minigames',players:2,quick:'hoops',quickGame:'number'});act(r,host(r),{type:'start'});stepTo(r,['play']);r.active.forEach((pid,i)=>r.submissions[pid]=String(Number(r.answer)+(i+1)*3));game.settle(r);return r;}
 function herd(){const r=room({players:5});r.enabledGames=['brain'];r.banEnabled=false;r.brainRounds=1;game.fresh(r);stepTo(r,['herdWrite','play'],12);return r;}
 
+// New screens (2026-09-26): Family/Adults lobby, house round, round-2 teach card, awards, host controls, stats page.
+function partyStart(players=4,games=['brain','number']){const r=room({players});r.banEnabled=false;r.enabledGames=games;act(r,host(r),{type:'start'});return r;}
+function finishHouse(r){game.advance(r);r.active.forEach((id,i)=>act(r,r.players.find(p=>p.id===id),{type:'submit',value:r.game==='number'?String(i):'Spam musubi'}));}
+function teach(phase){const r=partyStart(4,['number']);finishHouse(r);act(r,host(r),{type:'next'});if(phase==='wager'){game.advance(r);r.pot.turn=r.host;}return r;}
+function playOut(r,answer){for(let i=0;i<600&&r.phase!=='finished';i++){const q=id=>r.players.find(p=>p.id===id);
+ if(r.phase==='wager'){act(r,q(r.pot.turn),{type:'potBet',move:'match',round:r.round,revision:r.pot.revision,confirmed:true});continue;}
+ if(r.phase==='play'){for(const [k,id] of [...r.active].entries()){if(r.phase!=='play')break;if(r.submissions[id]===undefined)act(r,q(id),{type:'submit',value:answer(r,id,k),promptVersion:r.promptVersion||0});}continue;}
+ if(r.phase==='herdVote'){for(const [k,id] of [...r.herd.voters].entries()){if(r.phase!=='herdVote')break;if(!r.herd.votes[id]&&r.active.includes(id))act(r,q(id),{type:'herdVote',side:k===r.herd.voters.length-1?'b':'a'});}continue;}
+ if(r.phase==='result'){act(r,host(r),{type:'next'});continue;}
+ game.advance(r);}return r;}
+function awardsNight(){const r=room({players:5});r.banEnabled=false;r.enabledGames=['brain','number'];r.totalRounds=6;r.brainRounds=1;act(r,host(r),{type:'start'});
+ const [a,b,c]=r.players.map(p=>p.id);return playOut(r,(r,id,k)=>r.game==='number'?String(r.answer+(id===c?0:(k+1)*40)):[a,b].includes(id)?'Spam musubi':`Poke ${k}`);}
+function minigamesNight(){const r=room({mode:'minigames',players:4});act(r,host(r),{type:'selectGame',game:'number'});
+ for(let i=0;i<3;i++){act(r,host(r),{type:i?'replay':'start'});act(r,host(r),{type:'beginGame'});r.active.forEach((id,k)=>act(r,r.players.find(p=>p.id===id),{type:'submit',value:String(r.answer+(k===1?0:(k+1)*9))}));}
+ act(r,host(r),{type:'endNight'});return r;}
+function paused(){const r=partyStart(4);game.advance(r);act(r,host(r),{type:'pauseRound'});return r;}
+
 const GAMES=['auction','quips','shadow','rhythm','brain','number','draft','draw','imposter'];
 const screens=[];
 const add=(name,build,opts={})=>screens.push({name,build,...opts});
@@ -94,6 +111,24 @@ add('datenight-check',()=>dateNight(2,'dateCheck'));
 add('datenight-finished',()=>dateNight(3,'finished'));
 add('final-standings',()=>standings());
 add('leave-dialog',()=>room({players:4}),{after:`document.querySelector('[data-action=leave]')?.click()`});
+add('lobby-party-adults',()=>{const r=room({players:4});act(r,host(r),{type:'setAudience',audience:'adults'});return r;});
+add('lobby-minigames-family',()=>room({mode:'minigames',players:3}));
+add('lobby-minigames-guest',()=>room({mode:'minigames',players:3}),{as:1});
+add('house-round-reveal',()=>partyStart(4));
+add('house-round-play',()=>{const r=partyStart(4);game.advance(r);return r;});
+add('house-round-result',()=>{const r=partyStart(4);finishHouse(r);return r;});
+add('teach-spin',()=>teach('spin'));
+add('teach-wager',()=>teach('wager'));
+add('paused-host',()=>paused());
+add('final-awards',()=>awardsNight());
+add('final-awards-guest',()=>awardsNight(),{as:2});
+add('final-awards-minigames',()=>minigamesNight());
+add('minigames-result-end-night',()=>result('number'));
+add('stats-page',()=>null,{url:()=>'/stats.html'});
+add('tv-house-round',()=>partyStart(4),{tv:true});
+add('tv-teach-spin',()=>teach('spin'),{tv:true});
+add('tv-final-awards',()=>awardsNight(),{tv:true});
+add('tv-final-awards-minigames',()=>minigamesNight(),{tv:true});
 add('tv-lobby',()=>room({players:4}),{tv:true});
 add('tv-reveal',()=>minigame('quips'),{tv:true});
 add('tv-result',()=>result('number'),{tv:true});

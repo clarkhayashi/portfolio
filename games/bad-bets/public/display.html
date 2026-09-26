@@ -191,7 +191,24 @@ em.up,.up{color:var(--up)!important;font-style:normal;font-weight:900}em.down,.d
 .prompt.herd-long{font-size:calc(var(--u)*3.8);max-width:34ch;line-height:1.15}.herd-cols{grid-template-columns:1fr 1fr!important}.herd-names{list-style:none;margin:0;padding:0;font-size:calc(var(--u)*2.2);line-height:1.4;overflow-wrap:anywhere}.herd-names .black-sheep{font-weight:800;color:var(--accent)}
 .tv-herd-anim{font-size:calc(var(--u)*2.4);width:min(100%,calc(var(--u)*70));margin:calc(var(--u)*2) auto 0}
 .tv-reveal{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:calc(var(--u)*4);align-items:center;min-height:0}.tv-game-anim{font-size:calc(var(--u)*1.9);width:calc(var(--u)*44);max-width:100%}.tv-game-anim .ga{margin:0}
-@media (max-aspect-ratio:1/1){.tv-reveal{grid-template-columns:1fr}.tv-game-anim{justify-self:center}}</style>
+@media (max-aspect-ratio:1/1){.tv-reveal{grid-template-columns:1fr}.tv-game-anim{justify-self:center}}
+/* House round, round-2 teach line, end-of-night awards */
+.house-tag{align-self:center;font-size:calc(var(--u)*2.2);font-weight:800;color:var(--ink);background:#FFF1C7;border:calc(var(--u)*.25) solid #1c2433;border-radius:999px;padding:.25em .9em}
+.teach{display:flex;align-items:center;gap:.5em;font-size:calc(var(--u)*2.4);font-weight:800;color:#1c2433;background:#FFF1C7;border:calc(var(--u)*.25) solid #1c2433;border-radius:calc(var(--u)*1.4);padding:.45em .8em;margin:.3em 0;text-align:left}
+.final-split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:calc(var(--u)*3);width:100%;align-items:start}
+.final-split .board-big{width:100%}
+.awards{background:var(--card);border-radius:calc(var(--u)*2);padding:calc(var(--u)*1.6);border:calc(var(--u)*.25) solid var(--line);width:min(100%,calc(var(--u)*80))}
+.final-split .awards{width:100%}
+.awards h2{margin-bottom:calc(var(--u)*.8)}
+.final-split .board-big li{font-size:calc(var(--u)*2.4)}
+.awards ul{display:flex;flex-direction:column;gap:calc(var(--u)*.7)}
+.awards li{display:grid;grid-template-columns:calc(var(--u)*5) minmax(0,1fr);align-items:center;gap:calc(var(--u)*1.2)}
+.award-icon{font-size:calc(var(--u)*3.2);line-height:1;text-align:center}
+.award-title{font-size:calc(var(--u)*1.4);font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.award-who{font-size:calc(var(--u)*2.5);font-weight:800;line-height:1.1;font-family:'Baloo 2','Nunito',sans-serif;overflow-wrap:anywhere}
+.award-line{font-size:calc(var(--u)*1.6);color:var(--muted);font-weight:600}
+@media (max-aspect-ratio:1/1){.final-split{grid-template-columns:minmax(0,1fr)}}
+</style>
 </head>
 <body>
 <div id="connection" role="status" hidden></div>

@@ -37,7 +37,9 @@ function corePool(kind){
  return [...BASE[kind],...clean(kind,CORE_EXTRA[kind],{packFormat:true})];
 }
 export function packCount(id){const p=PACKS[id];if(!p)return 0;return KINDS.reduce((n,k)=>n+clean(k,p[k==='food'?'food':k],{packFormat:true}).length,0);}
-export function packOptions(){return PACK_IDS.map(id=>({id,name:PACKS[id].name||id,description:PACKS[id].description||'',count:packCount(id),adult:id==='spicy'})).filter(p=>p.count>0);}
+// Adult packs only appear once the host switches the room to Adults (family.mjs).
+export const ADULT_PACKS=['spicy'];
+export function packOptions(){return PACK_IDS.map(id=>({id,name:PACKS[id].name||id,description:PACKS[id].description||'',count:packCount(id),adult:ADULT_PACKS.includes(id)})).filter(p=>p.count>0);}
 export function validatePacks(ids){
  if(!Array.isArray(ids)||ids.length>PACK_IDS.length)throw Error('Choose valid question packs.');
  const out=[];for(const id of ids){if(typeof id!=='string'||!Object.hasOwn(PACKS,id))throw Error('Unknown question pack.');if(!out.includes(id))out.push(id);}
