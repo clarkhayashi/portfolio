@@ -1,3 +1,4 @@
+import {herdAnim} from './herd-anim.js';
 import {restaurantHeading,foodLabel,lotHeading,themeBadge,buildWord} from './restaurants.js';
 import {loadCardArt,cardLabel,lotArt} from './card-art.js';
 import {gameById,MAX_PLAYERS} from './catalog.js';
@@ -287,7 +288,7 @@ const isHerd=s=>!!s.herd&&s.game==='brain'&&['reveal','herdWrite','herdVote','re
 const herdNames=(s,ids,sheep)=>`<ul class="herd-names">${ids.map(id=>`<li class="${id===sheep?'black-sheep':''}">🐑 ${nameOf(s,id)}</li>`).join('')||'<li>Nobody</li>'}</ul>`;
 export function herdScene(s){
  const h=s.herd||{},writer=nameOf(s,h.asker);
- if(s.phase==='reveal')return `${gameBanner(s,timer(s))}<section class="center"><h1 class="big">🐑 Herd round</h1><p class="lead">${writer} writes · everyone picks · smaller side loses</p></section>`;
+ if(s.phase==='reveal')return `${gameBanner(s,timer(s))}<section class="center"><h1 class="big">🐑 Herd round</h1><p class="lead">${writer} writes · everyone picks · smaller side loses</p><div class="tv-herd-anim">${herdAnim()}</div></section>`;
  if(s.phase==='herdWrite')return `${gameBanner(s,timer(s))}<section class="center"><h1 class="big">${writer} is writing…</h1><p class="lead">Get ready to pick a side.</p></section>`;
  if(s.phase==='herdVote')return `${gameBanner(s,timer(s))}<section class="prompt-wrap"><p class="prompt${String(h.question||'').length>40?' herd-long':''}">${esc(h.question)}</p><p class="lead">A: <strong>${esc(h.a)}</strong> · B: <strong>${esc(h.b)}</strong></p>${progress(h.locked,h.total,'picked')}</section>`;
  const r=s.result||{},o=h.reveal;if(!o||o.cancelled)return result(s);

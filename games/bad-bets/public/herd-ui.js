@@ -1,5 +1,6 @@
 // Phone screens for the Herd round (Same Brain at 4+ players, every other Same Brain round).
 import {gameById} from './catalog.js';
+import {herdAnim} from './herd-anim.js';
 export const HERD_RULE=gameById('brain').herd;
 // Carried chips: leftovers from an even split wait for the next pot that has winners.
 export const carryLine=r=>[r?.bonus?`+${r.bonus} bonus each`:'',r?.carry?`${r.carry} left over → next pot`:''].filter(Boolean).join(' ');
@@ -10,7 +11,7 @@ const sheepList=(ids,name,sheep)=>ids.map(id=>`<li class="${id===sheep?'black-sh
 export function herdScreen(s,{esc,name,btn,heading,host}){
  const h=s.herd,writer=name(h.asker),count=`<p class="micro herd-count-line">${h.locked}/${h.total} picked</p>`;
  // Short copy on purpose: three steps, one line each.
- if(s.phase==='reveal')return heading('SAME BRAIN?','<span class="herd-title">🐑 Herd round</span>')+`<ol class="herd-steps"><li><span>✍️</span>${h.youAsk?'You write a this-or-that':`${writer} writes a this-or-that`}</li><li><span>👆</span>${h.youAsk?'Everyone else picks a side':'Everyone picks a side'}</li><li><span>🐑</span>Smaller side loses</li></ol>${h.youAsk?`<p class="micro">Everyone agrees? You pay.</p>`:''}`;
+ if(s.phase==='reveal')return heading('SAME BRAIN?','<span class="herd-title">🐑 Herd round</span>')+herdAnim()+`<ol class="herd-steps"><li><span>✍️</span>${h.youAsk?'You write a this-or-that':`${writer} writes a this-or-that`}</li><li><span>👆</span>${h.youAsk?'Everyone else picks a side':'Everyone picks a side'}</li><li><span>🐑</span>Smaller side loses</li></ol>${h.youAsk?`<p class="micro">Everyone agrees? You pay.</p>`:''}`;
  if(s.phase==='herdWrite'){
   if(!h.youAsk)return heading('HERD ROUND',`${writer} is writing…`)+`<p>Get ready to pick a side.</p>`;
   return heading('HERD ROUND','Write a this-or-that')+`<p>Split the room. Everyone agrees? You pay.</p>
