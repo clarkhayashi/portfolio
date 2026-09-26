@@ -35,14 +35,14 @@
 @media(prefers-reduced-motion:reduce){.chip-track span{transition:none}}
 
 /* Open play space: typography and color carry the hierarchy. */
-:root{font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;color:#253345;background:#f8f7f2;--ink:#253345;--muted:#657080;--focus:#087f98;--paper:#f8f7f2}
+:root{font-family:'Nunito',ui-rounded,system-ui,sans-serif;color:#253345;background:#f8f7f2;--ink:#253345;--muted:#657080;--focus:#087f98;--paper:#f8f7f2}
 body{background:#f8f7f2}
 header{max-width:1320px;padding:26px 40px}
 .brand{color:#253345;font-size:22px;font-weight:800;letter-spacing:-1px}
 .brand span{color:#078ba3;font-size:28px}
 #connection{font-weight:500;letter-spacing:.6px}
 main{max-width:1240px;padding:22px 40px 32px}
-h1,h2,h3{font-family:inherit;font-weight:700;letter-spacing:-1.1px;color:#253345}
+h1,h2,h3{font-family:'Baloo 2','Nunito',ui-rounded,sans-serif;font-weight:800;letter-spacing:0;line-height:1.05;color:#253345}
 .stage-heading h2{font-size:clamp(30px,4vw,46px);line-height:1.1}
 h3,.section-label h3{font-weight:650;letter-spacing:-.5px}
 p{line-height:1.55}
@@ -220,6 +220,7 @@ label{font-size:14px;font-weight:500}
 .theme-chip img{width:36px;height:36px;object-fit:contain}
 
 /* Brand kit 2026-09-24: self-hosted OFL fonts, header lockup, home hero */
+@font-face{font-family:'Nunito';font-style:normal;font-weight:200 1000;font-display:swap;src:url(/fonts/nunito-latin-wght-normal.woff2) format('woff2')}
 @font-face{font-family:'Baloo 2';font-style:normal;font-weight:800;font-display:swap;src:url(/fonts/baloo-2-latin-800-normal.woff2) format('woff2')}
 @font-face{font-family:'Cherry Bomb One';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/cherry-bomb-one-latin-400-normal.woff2) format('woff2')}
 .brand{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:#1c2433;font-family:'Baloo 2',ui-rounded,system-ui,sans-serif;font-weight:800;font-size:23px;letter-spacing:-.3px;line-height:1}
@@ -293,6 +294,8 @@ span.restaurant-mark.theme-mark img,.theme-chip img{filter:drop-shadow(0 1px 2px
 .herd-pick{display:grid;grid-template-columns:1fr;gap:12px;margin:16px 0}
 .herd-side{display:flex;align-items:center;gap:12px;min-height:84px;text-align:left;font-size:20px;font-weight:750;overflow-wrap:anywhere;background:#eef9fb;color:#163c46;border:2px solid #8acbd2}.herd-side .tag{margin:0;background:#8acbd2;color:#163c46;flex:none}
 .herd-callout{font-weight:750;font-size:17px}
+.stage-heading h2 .herd-title{display:block;white-space:nowrap;font-size:clamp(30px,9vw,42px)}
+.stage-heading h2 .herd-q.long{display:block;font-size:clamp(22px,6.6vw,28px);line-height:1.15;letter-spacing:-.3px;overflow-wrap:anywhere}
 .herd-cols{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
 .herd-col{border:2px solid #d6e4e8;border-radius:14px;padding:12px;min-width:0}.herd-col.herd-win{border-color:#079bb8;background:#eef9fb}.herd-col h3{margin:6px 0;font-size:17px;overflow-wrap:anywhere}.herd-col .tag{margin:0}
 .herd-count{font-size:32px;font-weight:800;margin:0}.herd-names{list-style:none;margin:6px 0 0;padding:0;font-size:15px;line-height:1.5;overflow-wrap:anywhere}.herd-names .black-sheep{font-weight:800;color:#8a1538}
@@ -385,4 +388,7 @@ body[data-quick="1"] .q-cards button.q-card,.q-cards .q-card{display:flex;align-
 .q-name{margin:14px 0}.q-name label{margin:0 0 6px}.q-name>div{display:grid;grid-template-columns:1fr auto;gap:8px}
 .q-ready{min-height:58px;font-size:19px;margin-top:14px}
 body[data-quick="1"],html:has(body[data-quick="1"]){background:#F8F7F3!important}
-body[data-quick="1"] .stage h2{color:#1c2433!important;font-family:inherit!important;text-transform:none!important;letter-spacing:-.5px}
+body[data-quick="1"] .stage h2{color:#1c2433!important;font-family:'Baloo 2','Nunito',sans-serif!important;text-transform:none!important;letter-spacing:0}
+
+/* Type: Baloo 2 headings (the logo font), Nunito for everything else. One family pair on every screen and phone. */
+button,input,textarea,select{font-family:inherit}

@@ -8,12 +8,14 @@
 <title>Oops, All In · TV display</title>
 <link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" href="/brand/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <style>
+@font-face{font-family:'Nunito';font-style:normal;font-weight:200 1000;font-display:swap;src:url(/fonts/nunito-latin-wght-normal.woff2) format('woff2')}@font-face{font-family:'Baloo 2';font-style:normal;font-weight:800;font-display:swap;src:url(/fonts/baloo-2-latin-800-normal.woff2) format('woff2')}
+
 :root{--bg:#F7F6F2;--ink:#293C48;--accent:#087F98;--muted:#5D6C75;--card:#FFFFFF;--line:#DDE3E5;--tile:#DCEBEE;--tile-ink:#293C48;--up:#0B7A4B;--down:#B23A48;
  /* 1 unit = 1% of a 16:9 frame that fits the screen */
  --u:min(1vw,1.7778vh);color-scheme:light}
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);transition:background-color .6s ease,color .6s ease}
-body{font-family:ui-rounded,'Avenir Next',Avenir,system-ui,-apple-system,'Segoe UI',sans-serif;font-size:calc(var(--u)*2.2);line-height:1.25;overflow:hidden;-webkit-font-smoothing:antialiased}
+body{font-family:'Nunito',ui-rounded,system-ui,sans-serif;font-size:calc(var(--u)*2.2);line-height:1.25;overflow:hidden;-webkit-font-smoothing:antialiased}
 h1,h2,h3,p,ul,ol{margin:0;padding:0}ul,ol{list-style:none}
 strong{font-weight:800;color:var(--accent)}
 #display{height:100%;display:flex;flex-direction:column;padding:calc(var(--u)*2) calc(var(--u)*3)}
@@ -23,7 +25,7 @@ strong{font-weight:800;color:var(--accent)}
 .meta{color:var(--muted);white-space:nowrap}.meta b{color:var(--ink);letter-spacing:.12em}
 .stage{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:safe center;overflow:hidden;gap:calc(var(--u)*2);padding-top:calc(var(--u)*2)}
 .eyebrow{font-size:calc(var(--u)*1.6);font-weight:800;text-transform:uppercase;letter-spacing:.14em;color:var(--muted)}
-h1{font-size:calc(var(--u)*4.6);line-height:1.08;font-weight:900;letter-spacing:-.01em}
+h1{font-size:calc(var(--u)*4.6);line-height:1.08;font-weight:800;letter-spacing:0;font-family:'Baloo 2','Nunito',sans-serif}
 h1.big{font-size:calc(var(--u)*7)}
 .lead{font-size:calc(var(--u)*2.6);color:var(--muted);font-weight:600}
 .line{font-size:calc(var(--u)*2.2);font-weight:600}
@@ -186,7 +188,7 @@ em.up,.up{color:var(--up)!important;font-style:normal;font-weight:900}em.down,.d
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 /* portrait / small screens: stack instead of overflow */
 @media (max-aspect-ratio:1/1){:root{--u:1.6vw}.lobby,.hero,.bet,.split,.result{grid-template-columns:1fr}.hero-art{width:calc(var(--u)*40);justify-self:center}body{overflow:auto}#display{height:auto;min-height:100%}}
-.herd-cols{grid-template-columns:1fr 1fr!important}.herd-names{list-style:none;margin:0;padding:0;font-size:calc(var(--u)*2.2);line-height:1.4;overflow-wrap:anywhere}.herd-names .black-sheep{font-weight:800;color:var(--accent)}
+.prompt.herd-long{font-size:calc(var(--u)*3.8);max-width:34ch;line-height:1.15}.herd-cols{grid-template-columns:1fr 1fr!important}.herd-names{list-style:none;margin:0;padding:0;font-size:calc(var(--u)*2.2);line-height:1.4;overflow-wrap:anywhere}.herd-names .black-sheep{font-weight:800;color:var(--accent)}
 </style>
 </head>
 <body>

@@ -217,6 +217,8 @@ function physical(s){
  <ul class="scores">${ids.map(id=>`<li><span>${nameOf(s,id)}</span><b>${Number(scores[id])||0}</b></li>`).join('')}</ul>`;
 }
 
+// Leftover chips from an even Herd split wait for the next pot that has winners.
+const carryText=r=>[r?.bonus?`+${r.bonus} carried chip${r.bonus===1?'':'s'} each to the winners.`:'',r?.carry?`${chips(r.carry)} carry to the next pot.`:''].filter(Boolean).join(' ');
 function result(s){
  const r=s.result||{},winners=r.winners||[],changes=r.changes||{};
  const won=winners.map(id=>Number(changes[id])||0);
@@ -230,7 +232,7 @@ function result(s){
  else if(s.game==='imposter'&&(s.clueOrder||[]).length){body=clueList({...s,answers:r.answers||s.answers,phase:'result'});}
  else body=entries(s,{named:true,winners,changes,distances:r.distances||null});
  const g=gameById(s.game);
- return `<section class="result"><div class="result-main">${g?`<p class="eyebrow result-game" style="${gameVars(s.game)}">${art(s.game)}${esc(g.name)}</p>`:''}${themeBadge(s.theme)}<h1 class="headline">${head}</h1>${r.detail?`<p class="lead">${esc(r.detail)}</p>`:''}${body}</div>${s.mode==='mixer'?'':scoreboard(s,{highlight:winners})}</section>`;
+ return `<section class="result"><div class="result-main">${g?`<p class="eyebrow result-game" style="${gameVars(s.game)}">${art(s.game)}${esc(g.name)}</p>`:''}${themeBadge(s.theme)}<h1 class="headline">${head}</h1>${r.detail?`<p class="lead">${esc(r.detail)}</p>`:''}${carryText(r)?`<p class="lead">${carryText(r)}</p>`:''}${body}</div>${s.mode==='mixer'?'':scoreboard(s,{highlight:winners})}</section>`;
 }
 
 function finished(s){
@@ -287,13 +289,13 @@ export function herdScene(s){
  const h=s.herd||{},writer=nameOf(s,h.asker);
  if(s.phase==='reveal')return `${gameBanner(s,timer(s))}<section class="center"><h1 class="big">Herd round</h1><p class="lead">${writer} writes a this-or-that. Everyone else picks a side. The smaller side loses.</p></section>`;
  if(s.phase==='herdWrite')return `${gameBanner(s,timer(s))}<section class="center"><h1 class="big">${writer} is writing a this-or-that…</h1><p class="lead">Get ready to pick a side. The smaller side loses.</p></section>`;
- if(s.phase==='herdVote')return `${gameBanner(s,timer(s))}<section class="prompt-wrap"><p class="prompt">${esc(h.question)}</p><p class="lead">A: <strong>${esc(h.a)}</strong> · B: <strong>${esc(h.b)}</strong></p>${progress(h.locked,h.total,'locked')}</section>`;
+ if(s.phase==='herdVote')return `${gameBanner(s,timer(s))}<section class="prompt-wrap"><p class="prompt${String(h.question||'').length>40?' herd-long':''}">${esc(h.question)}</p><p class="lead">A: <strong>${esc(h.a)}</strong> · B: <strong>${esc(h.b)}</strong></p>${progress(h.locked,h.total,'locked')}</section>`;
  const r=s.result||{},o=h.reveal;if(!o||o.cancelled)return result(s);
  const opt=k=>esc(k==='a'?h.a:h.b),paid=h.chips&&o.penalty?` · pays ${chips(o.penalty)}`:'';
  const head=o.tie?'Even split':o.easy?'Too easy!':`The Herd picked ${opt(o.side)}`;
  const call=o.easy?`<p class="vetoed herd-call"><span>Too easy!</span> ${writer} wrote a no-brainer${paid}</p>`:o.sheep?`<p class="vetoed herd-call"><span>🐑 Black Sheep</span> ${nameOf(s,o.sheep)}${paid}</p>`:'';
  const col=k=>{const ids=k==='a'?o.A:o.B;return `<li class="${o.side===k?'win':''}"><p class="entry-head"><span>${k.toUpperCase()} · ${opt(k)}</span><em>${ids.length}</em></p>${herdNames(s,ids,o.sheep)}</li>`;};
- return `<section class="result"><div class="result-main"><p class="eyebrow result-game" style="${gameVars('brain')}">${art('brain')}Same Brain? · Herd round</p><h1 class="headline">${head}</h1><p class="lead">${esc(h.question)}</p>${call}<ul class="entries herd-cols">${col('a')}${col('b')}</ul>${o.missed.length?`<p class="lead">No pick: ${names(s,o.missed)}</p>`:''}</div>${s.mode==='minigames'?'':scoreboard(s,{highlight:r.winners||[]})}</section>`;
+ return `<section class="result"><div class="result-main"><p class="eyebrow result-game" style="${gameVars('brain')}">${art('brain')}Same Brain? · Herd round</p><h1 class="headline">${head}</h1><p class="lead">${esc(h.question)}</p>${call}<ul class="entries herd-cols">${col('a')}${col('b')}</ul>${o.missed.length?`<p class="lead">No pick: ${names(s,o.missed)}</p>`:''}${carryText(r)?`<p class="lead">${carryText(r)}</p>`:''}</div>${s.mode==='minigames'?'':scoreboard(s,{highlight:r.winners||[]})}</section>`;
 }
 
 const SCENES={lobby,ban,banResult:ban,entry,stake,spin,wager,reveal,play,clue,discuss,vote,pitch,draft,auction,physicalSetup:physical,physical,physicalConfirm:physical,physicalDispute:physical,result,finished,comeback,paused,mixer,mixerReveal:mixer,dateCheck:dateNight};

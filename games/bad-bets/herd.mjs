@@ -24,7 +24,7 @@ export function herdOutcome(h,voters){const A=voters.filter(id=>h.votes[id]==='a
  const easy=!tie&&!small.length&&!missed.length,sheep=!tie&&small.length===1&&voters.length>=3?small[0]:null;
  return {A,B,missed,side,tie,winners:herd,easy,sheep};}
 export function installHerd(Game){
- const prev=Object.fromEntries(['fresh','choose','begin','advance','action','view','settle'].map(k=>[k,Game.prototype[k]]));
+ const prev=Object.fromEntries(['fresh','choose','begin','advance','action','view','settle','phase'].map(k=>[k,Game.prototype[k]]));
  const player=(r,id)=>r.players.find(p=>p.id===id);
  const on=r=>r.game==='brain'&&!!r.herd;
  // Voters still in the round. In Party a voter who leaves is dropped from r.active by the pot rules.
@@ -56,20 +56,30 @@ export function installHerd(Game){
   const out=prev.action.call(this,r,p,a);
   if(a?.type==='leave'&&on(r)&&isHerdPhase(r.phase)){this.herdProgress(r);this.emit(r);}
   return out;};
- // Chips: the pot rules (pot.mjs) pay the Herd from the entries. The penalty is a straight transfer on top:
- // min(10, their chips) from the Black Sheep (or the writer on a unanimous vote), split across the winners in seat order.
- // Minigames has no chips, so there the callout is the whole penalty.
- Game.prototype.settle=function(r){if(!on(r)||['result','finished'].includes(r.phase))return prev.settle.call(this,r);prev.settle.call(this,r);if(r.phase!=='result'||r.herd.outcome)return;
+ // Chips (Party only; Minigames has no chips, so there the callout is the whole penalty). Herd payouts are always even:
+ // the winners' share of the pot, the penalty and any carried chips are pooled and split equally; leftover chips (fewer
+ // than the number of winners) sit in r.carry and join the next pot that has winners. The penalty is the largest multiple
+ // of the winner count that is at most min(10, the payer's chips), so 10 with 3 winners charges 9.
+ // Carry is Herd-only in origin but pays out on the next contested round of any game (evenly, leftovers roll on).
+ // If the game ends with carry left, the chip leader gets it, so chips are always conserved.
+ const alive=(r,id)=>!!player(r,id)&&!player(r,id).left;
+ Game.prototype.payCarry=function(r){const res=r.result;if(!r.pot||!res||res.carryDone)return;res.carryDone=true;
+  const w=res.tie||r.forceDraw?[]:(res.winners||[]).filter(id=>alive(r,id)),each=w.length?Math.floor((r.carry||0)/w.length):0;
+  if(each){for(const id of w){player(r,id).chips+=each;res.changes[id]=(res.changes[id]||0)+each;}res.bonus=each;r.carry-=each*w.length;}res.carry=r.carry||0;};
+ Game.prototype.phase=function(r,phase,seconds){if(phase==='finished'&&r.carry>0){const live=this.live(r),top=live.find(p=>p.chips===Math.max(...live.map(q=>q.chips)));if(top){top.chips+=r.carry;r.carryAwarded={player:top.id,amount:r.carry};r.carry=0;}}return prev.phase.call(this,r,phase,seconds);};
+ Game.prototype.settle=function(r){const herd=on(r)&&!['result','finished'].includes(r.phase);const out=prev.settle.call(this,r);if(r.phase!=='result')return out;if(!herd){this.payCarry(r);return out;}if(r.herd.outcome)return out;
   const h=r.herd,res=r.result,o=this.herdOutcome(r),nm=id=>player(r,id)?.name||'Someone',opt=s=>s==='a'?h.a:h.b;
-  if(r.forceDraw||r.uncontested||r.interruptedForfeit){h.outcome={...o,cancelled:true,payer:null,penalty:0};return;} // cancelled or everyone else left: the round's own detail stands
-  const payer=o.easy?h.asker:o.sheep;let paid=0;
-  if(payer&&r.pot&&o.winners.length){const p=player(r,payer);paid=Math.min(HERD.penalty,Math.max(0,p.chips));p.chips-=paid;res.changes[payer]=(res.changes[payer]||0)-paid;
-   const seats=rotate(r.players.map(q=>q.id),(r.round-1)%r.players.length).filter(id=>o.winners.includes(id)),each=Math.floor(paid/seats.length);let rem=paid%seats.length;
-   for(const id of seats){const n=each+(rem-->0?1:0);player(r,id).chips+=n;res.changes[id]=(res.changes[id]||0)+n;}}
+  if(r.forceDraw||r.uncontested||r.interruptedForfeit){h.outcome={...o,cancelled:true,payer:null,penalty:0};res.carryDone=true;res.carry=r.carry||0;return out;} // cancelled or everyone else left: the round's own detail stands
+  const payer=o.easy?h.asker:o.sheep,w=o.tie?[]:o.winners.filter(id=>alive(r,id));let paid=0;res.carryDone=true;
+  if(r.pot&&w.length){const n=w.length;if(payer){const p=player(r,payer);paid=Math.floor(Math.min(HERD.penalty,Math.max(0,p.chips))/n)*n;p.chips-=paid;res.changes[payer]=(res.changes[payer]||0)-paid;}
+   const got=id=>res.payouts?.[id]||0,pool=w.reduce((t,id)=>t+got(id),0)+paid+(r.carry||0),each=Math.floor(pool/n);
+   for(const id of w){const d=each-got(id);player(r,id).chips+=d;res.changes[id]=(res.changes[id]||0)+d;if(res.payouts)res.payouts[id]=each;}
+   r.carry=pool-each*n;}
+  res.carry=r.carry||0;
   const refund=r.pot?' Everyone gets their chips back.':'';
   const detail=o.tie?`${o.A.length?'Even split.':'Nobody picked a side.'} Nobody wins this one.${refund}`:o.easy?`Everyone picked ${opt(o.side)}. Too easy! ${nm(h.asker)} wrote a no-brainer.`:`The Herd picked ${opt(o.side)}. The smaller side loses.${o.sheep?` 🐑 Black Sheep: ${nm(o.sheep)}.`:''}${o.missed.length?' No pick counts as the losing side.':''}`;
   h.outcome={...o,payer,penalty:paid,cancelled:false};res.winners=o.tie?[]:o.winners;res.tie=o.tie;res.detail=detail;res.answers={};
-  const last=r.history.at(-1);if(last&&last.round===r.round&&last.game==='brain')last.detail=detail;};
+  const last=r.history.at(-1);if(last&&last.round===r.round&&last.game==='brain')last.detail=detail;return out;};
  // Views: nobody sees anyone else's pick before the reveal; the question shows once voting opens.
  Game.prototype.view=function(r,p){const v=prev.view.call(this,r,p);if(!on(r))return v;v.herd=herdView(r,p.id);v.answers={};if(r.phase!=='herdVote'&&r.phase!=='result')v.prompt='';return v;};
  function herdView(r,me){const h=r.herd,live=voters(r),shown=['herdVote','result','finished'].includes(r.phase)&&!!h.question;
