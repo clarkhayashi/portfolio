@@ -4,6 +4,18 @@
   "outputDirectory": "dist",
   "rewrites": [
     {
+      "source": "/loops/api/:path*",
+      "destination": "/api/loops?path=:path*"
+    },
+    {
+      "source": "/loops/(j|t|p)/:id",
+      "destination": "/loops/index.html"
+    },
+    {
+      "source": "/loops/im",
+      "destination": "/loops/index.html"
+    },
+    {
       "source": "/api",
       "destination": "/api/room?route=action"
     },
@@ -19,6 +31,9 @@
   "functions": {
     "api/room.mjs": {
       "maxDuration": 15
+    },
+    "api/loops.mjs": {
+      "maxDuration": 10
     }
   },
   "headers": [

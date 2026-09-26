@@ -1,0 +1,54 @@
+@font-face{font-family:'Nunito';font-weight:200 1000;font-display:swap;src:url(/loops/fonts/nunito-latin-wght-normal.woff2) format('woff2')}
+@font-face{font-family:'Baloo 2';font-weight:800;font-display:swap;src:url(/loops/fonts/baloo-2-latin-800-normal.woff2) format('woff2')}
+:root{--ink:#253345;--muted:#657080;--paper:#f8f7f2;--card:#fff;--line:#e4e1d8;--accent:#e2574c;--accent-ink:#fff;--soft:#fdeee9;--door:#2f8f6b;--focus:#087f98;
+ font-family:'Nunito',ui-rounded,system-ui,sans-serif;color:var(--ink);background:var(--paper)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);min-height:100dvh}
+main{max-width:520px;margin:0 auto;padding:20px 16px 110px}
+h1,h2,h3{font-family:'Baloo 2','Nunito',sans-serif;font-weight:800;line-height:1.05;margin:0 0 8px}
+h1{font-size:2.1rem}h2{font-size:1.45rem;margin-top:26px}h3{font-size:1.1rem}
+p{margin:0 0 10px;line-height:1.4}
+.muted{color:var(--muted)}.small{font-size:.9rem}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer;border:0;border-radius:14px;padding:12px 16px;font-weight:800;background:var(--ink);color:#fff}
+button.ghost{background:transparent;color:var(--ink);border:2px solid var(--line)}
+button.link{background:none;color:var(--focus);padding:4px 0;font-weight:700}
+button.accent{background:var(--accent);color:var(--accent-ink)}
+button:disabled{opacity:.45;cursor:default}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+input,textarea,select{width:100%;padding:12px 14px;border:2px solid var(--line);border-radius:14px;background:#fff;margin:4px 0 12px}
+textarea{min-height:90px;resize:vertical}
+label{font-weight:800;font-size:.95rem}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.row>*{flex:0 0 auto}
+.grow{flex:1 1 auto}
+.card{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:14px;margin:10px 0}
+.gift{border-color:#f3c9c2;background:#fff}
+.gift .from{font-weight:800}
+.gift img,.sent img{width:100%;border-radius:12px;margin:8px 0;display:block}
+.gift a,.sent a{color:var(--focus);word-break:break-all}
+.react{display:flex;gap:8px;margin-top:10px}
+.react button{background:var(--soft);color:var(--ink);padding:8px 14px;font-size:1.05rem}
+.react button.on{background:var(--accent);color:#fff}
+.chip{display:inline-block;padding:6px 12px;border-radius:999px;background:#fff;border:2px solid var(--line);font-weight:700;margin:3px 4px 3px 0;cursor:pointer;color:var(--ink)}
+.chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.door{color:var(--door);font-weight:800;font-size:.85rem}
+.pill{display:inline-block;background:var(--soft);border-radius:999px;padding:3px 10px;font-size:.85rem;font-weight:800}
+.empty{border:2px dashed var(--line);border-radius:18px;padding:18px;text-align:center;color:var(--muted)}
+.invite{background:#eef7f2;border-color:#bfe0cf}
+.turn{background:#fff6e0;border-color:#f1d68c}
+.story p{border-left:4px solid var(--line);padding-left:10px}
+.hero{margin:18px 0 22px}
+.hero p{font-size:1.1rem}
+#tabs{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;gap:4px;padding:10px 10px calc(10px + env(safe-area-inset-bottom));background:rgba(248,247,242,.96);border-top:2px solid var(--line)}
+#tabs button{background:none;color:var(--muted);padding:10px 12px;font-size:.95rem}
+#tabs button.on{color:var(--ink)}
+#tabs .send-tab{background:var(--accent);color:#fff}
+#toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:12px;opacity:0;transition:opacity .2s;pointer-events:none;max-width:90vw}
+#toast.show{opacity:1}
+.person{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.person:last-child{border-bottom:0}
+.copy{display:flex;gap:6px}.copy input{margin:0}
+@media (prefers-reduced-motion:reduce){#toast{transition:none}}
+.pong canvas{width:100%;display:block;border-radius:18px;background:#2a3a2f;touch-action:none;margin:8px 0}
+details summary{cursor:pointer;color:var(--focus);margin:6px 0}
