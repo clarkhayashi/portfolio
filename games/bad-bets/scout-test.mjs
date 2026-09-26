@@ -20,20 +20,29 @@ test('quick 1v1 draft ends with a scout-grade winner, not a forced tie',()=>{
  const [s1,s2]=[host.id,guest.id].map(id=>r.result.scout[id].score);
  if(s1!==s2){assert.equal(r.result.winners.length,1);assert.equal(r.result.tie,false);}
 });
-test('quick 1v1 auction ends with scout grades, and the room holds only two',()=>{
+test('quick 1v1 auction: positions match, a clash re-picks, nobody is handed a player, results come when both are ready',()=>{
  const g=new Game();const h=g.create('Clark','minigames','nfl','auction');const r=g.rooms.get(h.code);g.join(h.code,'Maya');
  assert.throws(()=>g.join(h.code,'Kai'),/full/);
- assert.equal(r.selectedGame,'auction');assert.equal(r.themes.auction,'nfl');
- const host=r.players.find(p=>p.token===h.token);
- g.action(r,host,{type:'quickSetup',sport:'mlb'});assert.equal(r.themes.auction,'mlb');assert.equal(r.themes.draft,'mlb');
+ const host=r.players.find(p=>p.token===h.token),guest=r.players.find(p=>p.id!==host.id);
+ g.action(r,host,{type:'quickSetup',sport:'hoops'});
  g.action(r,host,{type:'start'});
- for(let i=0;i<40&&r.phase!=='auction';i++)g.advance(r);
- assert.equal(r.phase,'auction');
- for(let i=0;i<400&&r.phase==='auction';i++){const a=r.auction;const who=r.players.find(p=>r.active.includes(p.id)&&(()=>{try{g.action(r,p,{type:'auctionPass',revision:a.revision});return true;}catch{return false;}})());if(!who)g.advance(r);}
+ assert.equal(r.phase,'qauction');assert.deepEqual(r.qa.slots,['PG','SG','SF','PF','C']);
+ // Round 1: both want the same player. Higher bid wins; the other picks again from the same position.
+ const star=r.qa.boards[0][0];
+ g.action(r,host,{type:'qbid',item:star,amount:30});g.action(r,guest,{type:'qbid',item:star,amount:12});
+ assert.equal(r.picks[host.id][0],`PG: ${star}`);assert.equal(r.picks[guest.id].length,0);assert.equal(r.qa.step,0);
+ assert.equal(r.qa.budgets[host.id],70);assert.equal(r.qa.budgets[guest.id],100);
+ assert.throws(()=>g.action(r,guest,{type:'qbid',item:star,amount:1}),/gone/);
+ g.action(r,guest,{type:'qbid',item:r.qa.boards[0][0],amount:5});
+ assert.equal(r.qa.step,1);
+ // Rounds 2-5: different players, both pay.
+ while(r.phase==='qauction'){const b=r.qa.boards[r.qa.step];g.action(r,host,{type:'qbid',item:b[0],amount:1});g.action(r,guest,{type:'qbid',item:b[1],amount:1});}
  assert.equal(r.phase,'pitch');
- g.openVote(r);
- assert.equal(r.phase,'result');
- for(const id of r.active){assert.equal(r.result.scout[id].players.length,4);assert.ok(/^[A-F]/.test(r.result.scout[id].grade));}
+ for(const id of [host.id,guest.id]){assert.equal(r.picks[id].length,5);assert.deepEqual(r.picks[id].map(x=>x.split(':')[0]),['PG','SG','SF','PF','C']);}
+ assert.throws(()=>g.action(r,host,{type:'pitch',value:'all chink team'}),/slur/);
+ g.action(r,host,{type:'quickReady'});assert.equal(r.phase,'pitch');
+ g.action(r,guest,{type:'quickReady'});assert.equal(r.phase,'result');
+ for(const id of [host.id,guest.id])assert.equal(r.result.scout[id].players.length,5);
 });
 test('party rematch-now resets chips and starts round 1 with the same group',()=>{
  const g=new Game();const h=g.create('Clark','tournament');const r=g.rooms.get(h.code);g.join(h.code,'Maya');g.join(h.code,'Kai');

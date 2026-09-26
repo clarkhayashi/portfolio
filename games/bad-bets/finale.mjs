@@ -2,6 +2,7 @@
 // in quick "this or that" pairs, everyone plays it, then votes. House-funded in Party mode, awards only in Minigames.
 // Written prompts and answers live only in the room object. Nothing here is sent to ratings or Redis counters.
 import {randomBytes,randomInt} from 'node:crypto';
+import {cleanText} from './wordfilter.mjs';
 export const FINALE={writeSeconds:45,pickSeconds:25,answerSeconds:60,drawSeconds:75,promptMax:90,answerMax:140,drawMax:100000,maxPairs:5,bestPrompt:20,toilet:10,perPlayer:20};
 export const FINALE_EXAMPLES=['The worst thing to say at a job interview','A new school rule nobody asked for','Draw a dog running a lemonade stand'];
 const PHASES=['finaleWrite','finalePick','finalePlay','finaleVote'];
@@ -115,7 +116,7 @@ export function installFinale(Game){
   r.last=Date.now();const need=phase=>{if(r.phase!==phase)throw Error('That part of the round has ended.');};
   if(!f.players.includes(p.id))throw Error('You joined after this round started. Watch this one.');
   if(a.type==='finalePrompt'){need('finaleWrite');if(f.prompts[p.id])throw Error('Your prompt is already in.');
-   const text=String(a.value||'').trim().replace(/\s+/g,' ');if(!text)throw Error('Write a prompt first.');if(text.length>FINALE.promptMax)throw Error(`Keep it to ${FINALE.promptMax} characters.`);
+   const text=cleanText(String(a.value||'').trim().replace(/\s+/g,' '),200);if(!text)throw Error('Write a prompt first.');if(text.length>FINALE.promptMax)throw Error(`Keep it to ${FINALE.promptMax} characters.`);
    if(!['answer','draw'].includes(a.mode))throw Error('Pick Answer it or Draw it.');
    f.prompts[p.id]={text,mode:a.mode,builtin:false,key:key(),seq:f.seq++};}
   else if(a.type==='finalePick'){need('finalePick');const i=f.picks[p.id].length,pair=f.pairs[p.id][i];
@@ -124,7 +125,7 @@ export function installFinale(Game){
   else if(a.type==='finaleEntry'){need('finalePlay');const g=groupOf(f,p.id);if(g<0)throw Error('You are watching this one.');if(f.entries[p.id])throw Error('Already sent.');
    const mode=f.prompts[f.played[g].writer].mode;let value;
    if(mode==='draw'){if(typeof a.value!=='string'||a.value.length>FINALE.drawMax||!a.value.startsWith('data:image/png;base64,'))throw Error('Submit a drawing.');value=a.value;}
-   else{value=String(a.value||'').trim();if(!value)throw Error('Write an answer first.');if(value.length>FINALE.answerMax)throw Error(`Keep it to ${FINALE.answerMax} characters.`);}
+   else{value=cleanText(String(a.value||'').trim(),1000);if(!value)throw Error('Write an answer first.');if(value.length>FINALE.answerMax)throw Error(`Keep it to ${FINALE.answerMax} characters.`);}
    f.entries[p.id]={value,group:g,key:key(),seq:f.seq++};}
   else if(a.type==='finaleVote'){need('finaleVote');const id=Object.keys(f.entries).find(e=>f.entries[e].key===a.entry);
    if(!id||!alive(r,id))throw Error('Pick one of the entries.');if(id===p.id)throw Error('You can’t vote for your own entry.');

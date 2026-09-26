@@ -38,17 +38,19 @@ export function scout(theme,raw){
  const t=DRAFT_THEMES[theme],score=teamScore(theme,names),pct=percentile(theme,score);
  const grade=GRADES.find(([,min])=>pct>=min)[0];
  const players=names.map((n,i)=>{const r=rating(theme,n);return {name:n,slot:(parts[i][0]||t.slots[i]?.id||'').toUpperCase(),ovr:Math.round(Math.max(r.off,r.def)*0.65+Math.min(r.off,r.def)*0.35),note:r.note};});
- return {score,pct,top:Math.max(1,100-pct),grade,band:bandOf(grade),report:report(theme,names),players};
+ const rank=pct>=50?`top ${Math.max(1,100-pct)}%`:`bottom ${Math.max(1,pct)}%`;
+ return {score,pct,top:Math.max(1,100-pct),rank,grade,band:bandOf(grade),report:report(theme,names),players};
 }
 
-// One plain line from the lineup's shape: strongest trait, then the weak spot.
+// One plain line: who carries the team, then the weak spot. Uses each player's best side, so a defensive
+// star never makes a lineup read as "all offense".
 function report(theme,names){
- const rs=names.map(n=>rating(theme,n)),off=avg(rs.map(r=>r.off)),def=avg(rs.map(r=>r.def));
- const lo=Math.min(...rs.map(r=>Math.max(r.off,r.def))),hi=Math.max(...rs.map(r=>Math.max(r.off,r.def)));
- const words={hoops:['scoring','defense','the paint'],nfl:['offense','toughness','the trenches'],mlb:['hitting','run prevention','the rotation']}[theme]||['offense','defense','depth'];
- const strong=off>=85&&def>=78?'Elite on both ends.':off-def>8?`All ${words[0]}.`:def-off>8?`Built on ${words[1]}.`:'Balanced on both ends.';
- const weak=hi-lo>25?`${names[rs.findIndex(r=>Math.max(r.off,r.def)===lo)]} is the weak link.`:def<68?`Nobody holds down ${words[2]}.`:off<68?'Points will be hard to find.':hi>=95?'A true star leads it.':'No real weak spot.';
- return `${strong} ${weak}`;
+ const rs=names.map(n=>rating(theme,n)),best=rs.map(r=>Math.max(r.off,r.def)),avgBest=avg(best);
+ const top=best.indexOf(Math.max(...best)),low=best.indexOf(Math.min(...best));
+ const lead=best[top]>=93?`${names[top]} carries it.`:avgBest>=85?'Deep and dangerous.':avgBest>=74?'Solid starters.':'A thin roster.';
+ const hoopsDef=theme==='hoops'&&avg(rs.map(r=>r.def))<66;
+ const weak=best[low]<62?`${names[low]} is the weak link.`:hoopsDef?'Nobody guards the paint.':best[low]>=80?'No weak spot.':`${names[low]} is the swing piece.`;
+ return `${lead} ${weak}`;
 }
 
 const avg=a=>a.reduce((s,x)=>s+x,0)/a.length;

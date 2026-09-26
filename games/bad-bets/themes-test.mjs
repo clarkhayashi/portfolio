@@ -94,7 +94,7 @@ const PLAYERS=JSON.parse(readFileSync(new URL('./public/players/players.json',im
 const PROPS=JSON.parse(readFileSync(new URL('./public/art/props/props-map.json',import.meta.url)));
 test('card art: headshots, jersey fallback, props, and food logos kept',async()=>{const m=await import('./public/card-art.js');m.setCardArtData(PLAYERS,PROPS);
  const hoops={game:'draft',theme:{id:'hoops',players:true,slotIds:['guard']}};const named=Object.keys(PLAYERS).find(k=>!k.startsWith('_'));
- assert.match(m.cardLabel(hoops,named,0),/class="card-art headshot".*src="\/players\/[a-z0-9-]+\.jpg".*loading="lazy" decoding="async"/);
+ assert.match(m.cardLabel(hoops,named,0),/class="card-art headshot".*src="\/players\/[a-z0-9-]+\.jpg".*loading="eager" fetchpriority="high" decoding="async"/);
  const missing=PLAYERS._missing[0];const j=m.cardLabel(hoops,missing,0);assert.match(j,/jersey/);assert.ok(j.includes(`>${m.initials(missing)}<`));assert.ok(['#087F98','#e05a47','#3b6fd6','#F4CD72','#BAB4EA'].includes(m.jerseyColor(missing)));assert.equal(m.jerseyColor(missing),m.jerseyColor(missing));
  assert.match(m.cardLabel({game:'auction',theme:{id:'nfl',players:true},auction:{nameItem:false}},'Guard: Nobody Real',0),/jersey/);
  const key=Object.keys(PROPS).find(k=>k.startsWith('heist/lots/'));const lot=key.split('/').slice(2).join('/');
