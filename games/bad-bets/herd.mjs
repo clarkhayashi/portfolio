@@ -76,8 +76,8 @@ export function installHerd(Game){
    for(const id of w){const d=each-got(id);player(r,id).chips+=d;res.changes[id]=(res.changes[id]||0)+d;if(res.payouts)res.payouts[id]=each;}
    r.carry=pool-each*n;}
   res.carry=r.carry||0;
-  const refund=r.pot?' Everyone gets their chips back.':'';
-  const detail=o.tie?`${o.A.length?'Even split.':'Nobody picked a side.'} Nobody wins this one.${refund}`:o.easy?`Everyone picked ${opt(o.side)}. Too easy! ${nm(h.asker)} wrote a no-brainer.`:`The Herd picked ${opt(o.side)}. The smaller side loses.${o.sheep?` 🐑 Black Sheep: ${nm(o.sheep)}.`:''}${o.missed.length?' No pick counts as the losing side.':''}`;
+  const refund=r.pot?' Chips back.':'';
+  const detail=o.tie?`${o.A.length?'Tie.':'Nobody picked.'}${refund}`:o.easy?`Everyone picked ${opt(o.side)}. Too easy: ${nm(h.asker)} pays.`:`${opt(o.side)} wins.${o.sheep?` 🐑 Black Sheep: ${nm(o.sheep)}.`:''}`;
   h.outcome={...o,payer,penalty:paid,cancelled:false};res.winners=o.tie?[]:o.winners;res.tie=o.tie;res.detail=detail;res.answers={};
   const last=r.history.at(-1);if(last&&last.round===r.round&&last.game==='brain')last.detail=detail;return out;};
  // Views: nobody sees anyone else's pick before the reveal; the question shows once voting opens.

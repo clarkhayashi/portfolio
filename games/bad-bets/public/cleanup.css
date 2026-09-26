@@ -293,6 +293,7 @@ span.restaurant-mark.theme-mark img,.theme-chip img{filter:drop-shadow(0 1px 2px
 .herd-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.herd-options label{margin-top:0}.herd-form input{max-width:none;width:100%;box-sizing:border-box}
 .herd-pick{display:grid;grid-template-columns:1fr;gap:12px;margin:16px 0}
 .herd-side{display:flex;align-items:center;gap:12px;min-height:84px;text-align:left;font-size:20px;font-weight:750;overflow-wrap:anywhere;background:#eef9fb;color:#163c46;border:2px solid #8acbd2}.herd-side .tag{margin:0;background:#8acbd2;color:#163c46;flex:none}
+.herd-steps{list-style:none;margin:18px 0;padding:0;display:grid;gap:12px}.herd-steps li{display:flex;align-items:center;gap:12px;font-size:20px;font-weight:700;color:#253345}.herd-steps span{font-size:26px;width:34px;text-align:center}
 .herd-callout{font-weight:750;font-size:17px}
 .stage-heading h2 .herd-title{display:block;white-space:nowrap;font-size:clamp(30px,9vw,42px)}
 .stage-heading h2 .herd-q.long{display:block;font-size:clamp(22px,6.6vw,28px);line-height:1.15;letter-spacing:-.3px;overflow-wrap:anywhere}

@@ -218,7 +218,7 @@ function physical(s){
 }
 
 // Leftover chips from an even Herd split wait for the next pot that has winners.
-const carryText=r=>[r?.bonus?`+${r.bonus} carried chip${r.bonus===1?'':'s'} each to the winners.`:'',r?.carry?`${chips(r.carry)} carry to the next pot.`:''].filter(Boolean).join(' ');
+const carryText=r=>[r?.bonus?`+${r.bonus} bonus each`:'',r?.carry?`${r.carry} left over → next pot`:''].filter(Boolean).join(' ');
 function result(s){
  const r=s.result||{},winners=r.winners||[],changes=r.changes||{};
  const won=winners.map(id=>Number(changes[id])||0);
@@ -287,15 +287,15 @@ const isHerd=s=>!!s.herd&&s.game==='brain'&&['reveal','herdWrite','herdVote','re
 const herdNames=(s,ids,sheep)=>`<ul class="herd-names">${ids.map(id=>`<li class="${id===sheep?'black-sheep':''}">🐑 ${nameOf(s,id)}</li>`).join('')||'<li>Nobody</li>'}</ul>`;
 export function herdScene(s){
  const h=s.herd||{},writer=nameOf(s,h.asker);
- if(s.phase==='reveal')return `${gameBanner(s,timer(s))}<section class="center"><h1 class="big">Herd round</h1><p class="lead">${writer} writes a this-or-that. Everyone else picks a side. The smaller side loses.</p></section>`;
- if(s.phase==='herdWrite')return `${gameBanner(s,timer(s))}<section class="center"><h1 class="big">${writer} is writing a this-or-that…</h1><p class="lead">Get ready to pick a side. The smaller side loses.</p></section>`;
- if(s.phase==='herdVote')return `${gameBanner(s,timer(s))}<section class="prompt-wrap"><p class="prompt${String(h.question||'').length>40?' herd-long':''}">${esc(h.question)}</p><p class="lead">A: <strong>${esc(h.a)}</strong> · B: <strong>${esc(h.b)}</strong></p>${progress(h.locked,h.total,'locked')}</section>`;
+ if(s.phase==='reveal')return `${gameBanner(s,timer(s))}<section class="center"><h1 class="big">🐑 Herd round</h1><p class="lead">${writer} writes · everyone picks · smaller side loses</p></section>`;
+ if(s.phase==='herdWrite')return `${gameBanner(s,timer(s))}<section class="center"><h1 class="big">${writer} is writing…</h1><p class="lead">Get ready to pick a side.</p></section>`;
+ if(s.phase==='herdVote')return `${gameBanner(s,timer(s))}<section class="prompt-wrap"><p class="prompt${String(h.question||'').length>40?' herd-long':''}">${esc(h.question)}</p><p class="lead">A: <strong>${esc(h.a)}</strong> · B: <strong>${esc(h.b)}</strong></p>${progress(h.locked,h.total,'picked')}</section>`;
  const r=s.result||{},o=h.reveal;if(!o||o.cancelled)return result(s);
  const opt=k=>esc(k==='a'?h.a:h.b),paid=h.chips&&o.penalty?` · pays ${chips(o.penalty)}`:'';
- const head=o.tie?'Even split':o.easy?'Too easy!':`The Herd picked ${opt(o.side)}`;
- const call=o.easy?`<p class="vetoed herd-call"><span>Too easy!</span> ${writer} wrote a no-brainer${paid}</p>`:o.sheep?`<p class="vetoed herd-call"><span>🐑 Black Sheep</span> ${nameOf(s,o.sheep)}${paid}</p>`:'';
+ const head=o.tie?'Tie · chips back':o.easy?'Everyone agreed':`${opt(o.side)} wins`;
+ const call=o.easy?`<p class="vetoed herd-call"><span>Too easy</span> ${writer}${paid}</p>`:o.sheep?`<p class="vetoed herd-call"><span>🐑 Black Sheep</span> ${nameOf(s,o.sheep)}${paid}</p>`:'';
  const col=k=>{const ids=k==='a'?o.A:o.B;return `<li class="${o.side===k?'win':''}"><p class="entry-head"><span>${k.toUpperCase()} · ${opt(k)}</span><em>${ids.length}</em></p>${herdNames(s,ids,o.sheep)}</li>`;};
- return `<section class="result"><div class="result-main"><p class="eyebrow result-game" style="${gameVars('brain')}">${art('brain')}Same Brain? · Herd round</p><h1 class="headline">${head}</h1><p class="lead">${esc(h.question)}</p>${call}<ul class="entries herd-cols">${col('a')}${col('b')}</ul>${o.missed.length?`<p class="lead">No pick: ${names(s,o.missed)}</p>`:''}${carryText(r)?`<p class="lead">${carryText(r)}</p>`:''}</div>${s.mode==='minigames'?'':scoreboard(s,{highlight:r.winners||[]})}</section>`;
+ return `<section class="result"><div class="result-main"><p class="eyebrow result-game" style="${gameVars('brain')}">${art('brain')}🐑 Herd round</p><h1 class="headline">${head}</h1><p class="lead">${esc(h.question)}</p>${call}<ul class="entries herd-cols">${col('a')}${col('b')}</ul>${o.missed.length?`<p class="lead">No pick: ${names(s,o.missed)}</p>`:''}${carryText(r)?`<p class="lead">${carryText(r)}</p>`:''}</div>${s.mode==='minigames'?'':scoreboard(s,{highlight:r.winners||[]})}</section>`;
 }
 
 const SCENES={lobby,ban,banResult:ban,entry,stake,spin,wager,reveal,play,clue,discuss,vote,pitch,draft,auction,physicalSetup:physical,physical,physicalConfirm:physical,physicalDispute:physical,result,finished,comeback,paused,mixer,mixerReveal:mixer,dateCheck:dateNight};
