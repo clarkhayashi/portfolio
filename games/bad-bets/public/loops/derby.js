@@ -21,17 +21,23 @@ const wallR=th=>330+70*Math.cos(2*clamp(th,-Math.PI/4,Math.PI/4)); // 330 down t
 
 export function mountDerby(wrap,pitches,{onDone,target=null}){
  const canvas=wrap.querySelector('canvas'),ctx=canvas.getContext('2d'),label=wrap.querySelector('[data-derby-label]');
- let W,H,F,HZ,DPR,bg=null,stale=false;
+ let W,H,F,HZ,DPR,CX=0,SAFE=0,bg=null,stale=false,pendingSize=false;
  // ?fps=1 shows frame rate and the slowest frame time, to check smoothness on a real phone.
  const showFps=/[?&]fps=1/.test(location.search);let fpsN=0,fpsT=0,fpsShown='',worst=0;
  const CAM={y:16,z:-26};
  // World (x = right, y = up, z = toward center field, in feet) to screen. s = pixels per foot at that depth.
- const P=(x,y,z)=>{const d=Math.max(1,z-CAM.z);return {x:W/2+x*F/d,y:HZ+(CAM.y-y)*F/d,s:F/d};};
+ const P=(x,y,z)=>{const d=Math.max(1,z-CAM.z);return {x:W/2+(x-CX)*F/d,y:HZ+(CAM.y-y)*F/d,s:F/d};};
  function size(){
-  const w=wrap.clientWidth,h=Math.round(w*1.4);DPR=Math.min(2,devicePixelRatio||1); // cap: battery and iMessage memory
-  canvas.width=Math.round(w*DPR);canvas.height=Math.round(h*DPR);canvas.style.height=h+'px';
-  W=w;H=h;HZ=H*0.26;F=H*0.9425;bg=null; // plate lands at 84% of the height, mound at 43%
+  // Full screen fills the phone; the card view keeps a 1:1.4 field. The lens (F) never gets narrower than
+  // 1.9 x width, so on a tall phone the batter stays in frame; the camera shifts 1.2 ft left for room.
+  const full=wrap.classList.contains('derby-full'),w=wrap.clientWidth,h=full?wrap.clientHeight:Math.round(w*1.4);
+  DPR=Math.min(2,devicePixelRatio||1); // cap: battery and iMessage memory
+  canvas.width=Math.round(w*DPR);canvas.height=Math.round(h*DPR);canvas.style.height=full?'100%':h+'px';
+  W=w;H=h;HZ=H*0.26;F=Math.min(H*0.9425,W*1.9);CX=full?-1.2:0;bg=null;
+  SAFE=full?probe.offsetHeight:0; // notch / Dynamic Island
  }
+ // env(safe-area-inset-top) can only be read by measuring an element that uses it
+ const probe=document.createElement('i');probe.style.cssText='position:absolute;top:0;left:0;width:0;height:env(safe-area-inset-top,0px);visibility:hidden;pointer-events:none';wrap.append(probe);
  size();
 
  // ---------- the ballpark, drawn once ----------
@@ -57,10 +63,10 @@ export function mountDerby(wrap,pitches,{onDone,target=null}){
     const r=Math.max(1.1,p.s*3.1);k=(k*1103515245+12345)&0x7fffffff;g.fillStyle=crowd[k%crowd.length];g.beginPath();g.arc(p.x,p.y-r,r,0,Math.PI*2);g.fill();
     if(r>1.8){g.fillStyle='#f3d2b8';g.beginPath();g.arc(p.x,p.y-r*2.3,r*0.62,0,Math.PI*2);g.fill();}}}
   // scoreboard over center field
-  const sb=P(0,62,wallR(0)+132),sw=W*0.34,sh=H*0.07;
+  const sb=P(0,62,wallR(0)+132),sw=W*0.34,sh=Math.min(H*0.07,W*0.1);
   g.fillStyle=C.ink;g.fillRect(sb.x-2,sb.y,4,H*0.02);
   g.fillStyle=C.teal;g.strokeStyle=C.ink;g.lineWidth=3;g.beginPath();g.roundRect(sb.x-sw/2,sb.y-sh,sw,sh,8);g.fill();g.stroke();
-  g.fillStyle=C.paper;g.font=`800 ${Math.round(sh*0.42)}px "Baloo 2",sans-serif`;g.textAlign='center';g.textBaseline='middle';g.fillText('LOOPS PARK',sb.x,sb.y-sh/2+1);
+  g.fillStyle=C.paper;g.font=`800 ${Math.round(Math.min(sh*0.42,sw*0.12))}px "Baloo 2",sans-serif`;g.textAlign='center';g.textBaseline='middle';g.fillText('LOOPS PARK',sb.x,sb.y-sh/2+1);
   // outfield wall with the yellow home-run line
   const wallBase=arc(wallR,0,-1.25,1.25);
   poly(g,[...wallTop,...wallBase.slice().reverse()],C.teal,C.ink,2.5);
@@ -122,7 +128,7 @@ export function mountDerby(wrap,pitches,{onDone,target=null}){
  }
 
  function batter(now){
-  const base=P(-4.6,0,0),r=H*0.07,cx=base.x,cy=base.y-r*2.1,lw=Math.max(3,r*0.2);
+  const base=P(-4.6,0,0),r=F*0.0743,cx=base.x,cy=base.y-r*2.1,lw=Math.max(3,r*0.2);
   limb(cx-r*0.45,cy+r*0.8,cx-r*0.8,base.y-r*0.2,lw);limb(cx+r*0.45,cy+r*0.8,cx+r*0.85,base.y-r*0.2,lw);
   shoe(cx-r*0.85,base.y-r*0.12,r*0.55);shoe(cx+r*0.9,base.y-r*0.12,r*0.55);
   chip(cx,cy,r,{face:false});
@@ -179,10 +185,11 @@ export function mountDerby(wrap,pitches,{onDone,target=null}){
   ctx.fillStyle=fg;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(text,X+w/2,y+h/2+1);
  }
  function hud(now){
-  pill(10,10,`HR ${hrs}  ·  ${Math.min(i+1,pitches.length)}/${pitches.length}`,C.ink,C.paper);
-  if(target)pill(W-10,10,`Beat ${target.name}: ${target.hr}`,C.butter,C.ink,'right');
+  const top=10+SAFE;
+  pill(10,top,`HR ${hrs}  ·  ${Math.min(i+1,pitches.length)}/${pitches.length}`,C.ink,C.paper);
+  if(target)pill(10,top+32,`Beat ${target.name}: ${target.hr}`,C.butter,C.ink);
   // box score dots: one per pitch
-  for(let k=0;k<pitches.length;k++){const x=16+k*13,y=46,h=hist[k];ctx.beginPath();ctx.arc(x,y,4.5,0,Math.PI*2);
+  for(let k=0;k<pitches.length;k++){const x=16+k*13,y=top+(target?72:40),h=hist[k];ctx.beginPath();ctx.arc(x,y,4.5,0,Math.PI*2);
    ctx.fillStyle=h==null?'rgba(255,255,255,.7)':h.hr?C.butter:h.feet>0?C.paper:C.coral;ctx.fill();ctx.strokeStyle=C.ink;ctx.lineWidth=1.5;ctx.stroke();}
   if(phase==='pitch'||phase==='result'){const p=pitches[i];if(p)pill(W/2,H-36,`${p.label} · ${p.mph} mph`,'rgba(28,36,51,.85)',C.paper,'center');}
  }
@@ -218,9 +225,10 @@ export function mountDerby(wrap,pitches,{onDone,target=null}){
  // ---------- the loop ----------
  let last=0,padDown=false;
  function draw(now){
-  if(!alive||!canvas.isConnected)return;
+  if(!alive||!canvas.isConnected){ro.disconnect();removeEventListener('keydown',key);return;}
   const dt=Math.min(50,now-(last||now));last=now;
   pollPad(now);
+  if(pendingSize&&phase!=='pitch'){pendingSize=false;size();}
   if(phase==='windup'&&now>=t0){phase='pitch';if(label)label.textContent=`${pitches[i].label} · ${pitches[i].mph} mph`;}
   if(!bg||(stale&&phase!=='pitch')){const b0=performance.now();buildPark();stale=false;if(showFps)console.log('park built in',(performance.now()-b0).toFixed(1),'ms');}
   ctx.setTransform(DPR,0,0,DPR,0,0);ctx.clearRect(0,0,W,H);
@@ -230,7 +238,7 @@ export function mountDerby(wrap,pitches,{onDone,target=null}){
   // batted ball flies behind everything in the foreground
   if(phase==='result'&&result&&result.feet>0){const f=flight(now);shadow(f.x,f.z,f.y);
    if(!reduced&&f.u>0&&f.u<1)for(let k=3;k>=1;k--){const g=flight(now-k*45),q=P(g.x,g.y,g.z);ctx.globalAlpha=0.18*(4-k);ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(q.x,q.y,Math.max(4,q.s*0.9),0,Math.PI*2);ctx.fill();}
-   ctx.globalAlpha=1;ballAt(P(f.x,f.y,f.z),2.4,5);
+   ctx.globalAlpha=1;ballAt(P(f.x,f.y,f.z),1+1.4*Math.min(1,f.u*4),5); // true size at the bat, larger as it flies off
    if(result.hr&&f.u>=1&&!result.burst){result.burst=true;const l=P(f.x,f.y,f.z);burst(l.x,l.y,34);burst(W*0.25,H*0.12,22);burst(W*0.75,H*0.1,22);}}
   pitcher(now);
   if(phase==='pitch'&&p)ring(now);
@@ -244,12 +252,13 @@ export function mountDerby(wrap,pitches,{onDone,target=null}){
   if(now-flashAt<140&&!reduced){ctx.fillStyle=`rgba(255,255,255,${0.45*(1-(now-flashAt)/140)})`;ctx.fillRect(0,0,W,H);}
   ctx.setTransform(DPR,0,0,DPR,0,0);hud(now);
   if(showFps){fpsN++;worst=Math.max(worst,dt);if(now-fpsT>=1000){fpsShown=`${Math.round(fpsN*1000/(now-fpsT))} fps · worst ${worst.toFixed(0)} ms`;fpsN=0;fpsT=now;worst=0;}
-   ctx.font='800 12px "Nunito",sans-serif';ctx.textAlign='right';ctx.textBaseline='top';ctx.fillStyle=C.ink;ctx.fillText(fpsShown,W-10,40);}
-  if(phase==='ready'){ctx.fillStyle='rgba(28,36,51,.35)';ctx.fillRect(0,H*0.42,W,56);ctx.fillStyle='#fff';ctx.font='800 20px "Baloo 2",sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('Tap Play ball',W/2,H*0.42+28);}
+   ctx.font='800 12px "Nunito",sans-serif';ctx.textAlign='left';ctx.textBaseline='bottom';ctx.fillStyle=C.ink;ctx.fillText(fpsShown,10,H-50);}
+  if(phase==='ready'){const y=H*0.5;ctx.fillStyle='rgba(28,36,51,.42)';ctx.fillRect(0,y-38,W,76);ctx.fillStyle='#fff';ctx.textAlign='center';ctx.textBaseline='middle';
+   ctx.font='800 24px "Baloo 2",sans-serif';ctx.fillText('Tap anywhere to start',W/2,y-8);ctx.font='700 14px "Nunito",sans-serif';ctx.fillText('Then tap to swing as the ball meets the ring',W/2,y+18);}
   requestAnimationFrame(draw);
  }
 
- function nextPitch(now){i++;if(i>=pitches.length){phase='done';alive=false;onDone(swings);return;}startPitch(now);}
+ function nextPitch(now){i++;if(i>=pitches.length){phase='done';alive=false;ro.disconnect();removeEventListener('keydown',key);onDone(swings);return;}startPitch(now);}
  function startPitch(now){phase='windup';swingAt=null;result=null;contact=null;t0=now+WINDUP;if(label)label.textContent='Get ready…';}
  function finishPitch(swing,now){
   swings[i]=swing;result=outcome(pitches[i],swing);hist[i]=result;resultAt=now;phase='result';
@@ -271,17 +280,15 @@ export function mountDerby(wrap,pitches,{onDone,target=null}){
   padDown=down;
  }
 
- canvas.addEventListener('pointerdown',e=>{e.preventDefault();swing(e.timeStamp||performance.now());});
- const key=e=>{if(e.code==='Space'&&document.contains(canvas)){e.preventDefault();if(!e.repeat)swing(e.timeStamp||performance.now());}};
+ canvas.addEventListener('pointerdown',e=>{e.preventDefault();if(phase==='ready'){go();return;}swing(e.timeStamp||performance.now());});
+ const key=e=>{if((e.code==='Space'||e.code==='Enter')&&document.contains(canvas)&&alive){e.preventDefault();if(e.repeat)return;if(phase==='ready')go();else swing(e.timeStamp||performance.now());}};
  addEventListener('keydown',key);
- addEventListener('resize',()=>{if(Math.round(wrap.clientWidth)!==Math.round(W))size();});
+ const ro=new ResizeObserver(()=>{const full=wrap.classList.contains('derby-full');if(Math.round(wrap.clientWidth)===Math.round(W)&&(!full||Math.round(wrap.clientHeight)===Math.round(H))&&canvas.style.height===(full?'100%':H+'px'))return;if(phase==='pitch')pendingSize=true;else size();});ro.observe(wrap);
  // Life cycle: leaving mid-pitch replays that pitch when you come back; sound is resumed on return.
  const vis=()=>{if(!alive)return;if(document.hidden){if(phase==='windup'||(phase==='pitch'&&swingAt==null))phase='paused';}
   else{unlock();if(phase==='paused')startPitch(performance.now()+400);}};
  document.addEventListener('visibilitychange',vis);
  document.fonts?.ready.then(()=>{stale=true;}); // redraw the park with real fonts, but never mid-pitch
- const start=wrap.querySelector('[data-derby-start]');
- function go(){if(phase!=='ready')return;start?.remove();startPitch(performance.now());}
- if(start)start.addEventListener('click',go);else go();
+ function go(){if(phase!=='ready')return;unlock();startPitch(performance.now());}
  requestAnimationFrame(draw);
 }

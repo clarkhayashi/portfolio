@@ -90,7 +90,14 @@ function statsStrip(g){
  return `<div class="card statstrip">${lineup(d.mine,withGrade('You',gr.me))}<p class="small">Aim ${pct(m.aim*t.contest)} after their contest · 🔥 Fireball after ${m.heat} in a row${d.streak?` (on ${d.streak})`:''}</p>${lineup(d.theirs,withGrade(g.vs,gr.them))}${gr.me?`<p class="small muted">Scout on your squad: ${esc(gr.me.report)}</p>`:''}</div>`;
 }
 
-const soundToggle=()=>`<button class="ghost sound" data-sound aria-label="${muted?'Turn sound on':'Turn sound off'}">${muted?'🔇':'🔊'}</button>`;
+// Drawn icons (not emoji) for the Liquid Glass buttons: sound on/off, enter/exit full screen.
+const ICON={
+ sound:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>',
+ muted:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path d="M17 9.5l5 5M22 9.5l-5 5"/></svg>',
+ shrink:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>',
+ expand:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>'};
+const soundToggle=()=>`<button class="glass sound" data-sound aria-label="${muted?'Turn sound on':'Turn sound off'}">${muted?ICON.muted:ICON.sound}</button>`;
+const fullToggle=full=>`<button class="glass" data-derbyfull aria-label="${full?'Exit full screen':'Full screen'}">${full?ICON.shrink:ICON.expand}</button>`;
 function pongView(g,page=false){
  if(g.mode==='big3'&&!g.draft.done)return draftView(g,page);
  const status=g.done?(g.won?'You won. 🏆':`${esc(g.winnerName||g.vs)} won.`):g.open&&!g.seated?'Take the open seat: shoot first to join.':g.myTurn?`${g.left} ${g.left===1?'ball':'balls'} left. Sink both and you get them back.`:g.open?'Waiting for a friend to open it. You go next.':`Nice. ${esc(g.vs)} is up.`;
@@ -245,7 +252,7 @@ async function linkThoughtView(id){
 // ---------- render + routing ----------
 async function render(){
  const r=route(),m=r.match(/^\/(j|t|p|d|s|r)\/([\w-]+)/);
- const app=$('#app'),nav=$('#tabs');
+ const app=$('#app'),nav=$('#tabs');document.body.classList.remove('derby-open');
  if(r==='/im'){nav.hidden=true;app.innerHTML=imCompose();return;}
  if(m?.[1]==='t'&&(!token||IM)){nav.hidden=true;app.innerHTML=await linkThoughtView(m[2]);return;}
  if(!token&&m?.[1]==='s'){nav.hidden=true;let c=null;try{c=await api('/schallenge/'+m[2]);}catch(e){}
@@ -360,9 +367,12 @@ let derbyOpen=null,derbyGame=null;
 async function derbyPage(id,page=true){
  try{derbyGame=await api('/derby/'+id);}catch(e){$('#app').innerHTML=`<h1>Home Run Derby</h1><div class="empty">${esc(e.message)}</div>`;return;}
  const g=derbyGame,app=$('#app'),back=page?'':'<button class="link" data-closederby>← Home</button>';
+ document.body.classList.remove('derby-open');
  if(g.myTurn){
-  app.innerHTML=`${back}${soundToggle()}<h1>Home Run Derby</h1><p class="muted small">${g.theirs?`Beat ${esc(g.vs)}’s <b>${g.theirs.hr}</b> ${g.theirs.hr===1?'homer':'homers'}.`:'You bat first. Your friend gets the same 10 pitches.'} Tap anywhere on the field to swing.</p>
-   <div id="derby" class="pong"><canvas aria-label="Baseball field. Tap to swing when the pitch reaches the plate."></canvas><button class="accent full" data-derby-start>Play ball</button><p class="small muted" data-derby-label>Tap the field to swing. Space bar or a controller's A button works too.</p></div>`;
+  app.innerHTML=`${back}<h1>Home Run Derby</h1><p class="muted small">${g.theirs?`Beat ${esc(g.vs)}’s <b>${g.theirs.hr}</b> ${g.theirs.hr===1?'homer':'homers'}.`:'You bat first. Your friend gets the same 10 pitches.'}</p>
+   <div id="derby" class="pong derby-full"><canvas aria-label="Baseball field. Tap anywhere to start, then tap to swing when the pitch reaches the plate."></canvas>
+   <div class="glassbar">${soundToggle()}${fullToggle(true)}</div></div>`;
+  document.body.classList.add('derby-open');
   mountDerby($('#derby'),g.pitches,{target:g.theirs?{name:g.vs,hr:g.theirs.hr}:null,onDone:async swings=>{
    try{const v=await api(`/derby/${id}/swings`,{swings});derbyGame=v;
     if(v.done){fx(v.won?'win':'miss');}
@@ -444,6 +454,7 @@ document.addEventListener('click',async e=>{
  if(d.imgame==='derby'){const out=await act(()=>api('/derby',{}));if(out){history.replaceState(null,'',`${BASE}/d/${out.id}?im=1`);native({type:'expand'});render();}return;}
  if(d.imgame){const big=d.imgame==='big3',out=await act(()=>api('/pong',{mode:big?'big3':'classic'}));if(out)native({type:'send',kind:'pong',path:`/p/${out.id}`,caption:big?`🏀 ${data?.me?.name||'A friend'} wants a Big 3 Pong draft`:`🏓 ${data?.me?.name||'A friend'} challenged you to Pong`,sub:big?'Tap to draft first, then play':'Tap to play. You go first.'});return;}
  if(d.sound!==undefined){setMuted(!muted);b.outerHTML=soundToggle();return;}
+ if(d.derbyfull!==undefined){const w=$('#derby');if(!w)return;const f=!w.classList.contains('derby-full');w.classList.toggle('derby-full',f);document.body.classList.toggle('derby-open',f);b.outerHTML=fullToggle(f);if(!f)w.scrollIntoView({block:'center'});return;}
  if(d.textgame==='shootout'){const out=await act(()=>api('/shootout',{}));if(out){shootOpen=out.id;soPick={};render();scrollTo(0,0);}return;}
  if(d.textgame==='duel'){duelChoose=true;sentGame=null;liveRoom=null;render();return;}
  if(d.duelmode==='async'){duelChoose=false;const out=await act(()=>api('/duel',{}));if(out){duelOpen=out.id;duelPick={};render();scrollTo(0,0);}return;}
