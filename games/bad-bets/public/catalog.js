@@ -15,3 +15,7 @@ export const GAMES = [
 export const gameById=id=>GAMES.find(g=>g.id===id);
 export const fitsAll=(g,n)=>g.min<=n&&n<=(g.maxAll||MAX_PLAYERS)
 export const compatible=(ids,count,spot)=>GAMES.filter(g=>ids.includes(g.id)&&g.min<=count&&g.formats.includes(spot?'spot':'all')).map(g=>g.id);
+// Quick 1v1: games that work with exactly two players and no judge. Draft and Auction are scout-graded sports lineups.
+// Out: Bad Answers and Drawn Into Trouble (need a judge), Imposter (4+), One More Round (3+).
+export const SCOUT_GAMES=['draft','auction'];
+export const QUICK_GAMES=['draft','auction','number','shadow','rhythm','brain'];
