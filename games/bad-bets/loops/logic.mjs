@@ -5,6 +5,7 @@ import {randomBytes} from 'node:crypto';
 import {cleanText} from '../wordfilter.mjs';
 import {resolve as pongShot,rack} from '../public/loops/pong-sim.js';
 import {pitchList,score as derbyScore,PITCHES_PER_TURN} from '../public/loops/derby-sim.js';
+import * as SO from './shootout.mjs';
 import {dealBig3,pickBig3,draftDone,draftTurn,statsFor,card,ORDER} from './big3.mjs';
 
 export const REACTIONS=['💛','😂','same','🤙'];
@@ -13,7 +14,7 @@ const code=()=>Array.from({length:6},()=> 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'[rand
 const now=()=>Date.now();
 const need=(ok,msg)=>{if(!ok)throw Error(msg);};
 
-export const emptyDb=()=>({users:{},loops:{},thoughts:[],pongs:{},derbies:{},h2h:{},trips:[]});
+export const emptyDb=()=>({users:{},loops:{},thoughts:[],pongs:{},derbies:{},shootouts:{},h2h:{},trips:[]});
 
 // ---------- people ----------
 export function signUp(db,{name,city}){
@@ -251,6 +252,32 @@ export function derbyView(db,u,g){
 }
 export function derbyFor(db,u,id){const g=db.derbies?.[id];need(g,'That game is gone.');return derbyView(db,u,g);}
 
+// ---------- Penalty Shootout (simultaneous secret picks) ----------
+export function startShootout(db,u,opponentId=null){
+ db.shootouts||={};
+ if(opponentId)need(opponentId!==u.id&&circle(db,u).some(p=>p.id===opponentId),'You can only challenge people in your loops.');
+ const g={id:newId(),a:u.id,b:opponentId||null,...SO.newShootout(),createdAt:now(),updatedAt:now()};
+ SO.openRound(g);db.shootouts[g.id]=g;return g;
+}
+export function shootoutPick(db,u,gameId,{shoot,dive}){
+ const g=db.shootouts?.[gameId];need(g,'That game is gone.');
+ let seat=g.a===u.id?'a':g.b===u.id?'b':null;
+ if(!seat){need(!g.b,'This game already has two players. Start your own!');g.b=u.id;seat='b';
+  const host=db.users[g.a];if(host&&!Object.values(db.loops).some(l=>l.members.includes(host.id)&&l.members.includes(u.id))){const l=createLoop(db,host,{publicName:`${host.name} + ${u.name}`});l.members.push(u.id);}}
+ const before=g.rounds.filter(r=>r.a&&r.b).length;
+ SO.pick(g,seat,shoot,dive);g.updatedAt=now();
+ if(g.winner&&g.winner!=='tie'&&g.a&&g.b){const k='shootout|'+[g.a,g.b].sort().join('|'),h=(db.h2h||={})[k]||={};h[g[g.winner]]=(h[g[g.winner]]||0)+1;}
+ const v=shootoutView(db,u,g);v.justRevealed=g.rounds.filter(r=>r.a&&r.b).length>before;return v;
+}
+export function shootoutView(db,u,g){
+ const me=g.a===u.id?'a':g.b===u.id?'b':null,seat=me||'b',oppId=me?g[me==='a'?'b':'a']:g.a;
+ const v=SO.view(g,seat),h=g.a&&g.b?db.h2h?.['shootout|'+[g.a,g.b].sort().join('|')]||{}:{};
+ return {id:g.id,kind:'shootout',...v,vs:oppId?db.users[oppId]?.name||'Someone':'Open seat',vsId:oppId,open:!g.b,
+  myTurn:!g.winner&&(me?!v.myPicked:!g.b),done:!!g.winner,won:!!me&&g.winner===me,tie:g.winner==='tie',
+  winnerName:g.winner&&g.winner!=='tie'?db.users[g[g.winner]]?.name:null,record:{me:h[u.id]||0,them:oppId?h[oppId]||0:0},updatedAt:g.updatedAt};
+}
+export function shootoutFor(db,u,id){const g=db.shootouts?.[id];need(g,'That game is gone.');return shootoutView(db,u,g);}
+
 // ---------- what one person sees ----------
 export function home(db,u){
  const loops=myLoops(db,u);
@@ -268,6 +295,7 @@ export function home(db,u){
   sent:see.filter(t=>t.from===u.id).sort((a,b)=>b.createdAt-a.createdAt).slice(0,30).map(shape),
   loops:loops.map(l=>({id:l.id,code:l.code,publicName:l.publicName,privateName:l.nick[u.id]||'',name:loopName(l),
    members:l.members.map(m=>pub(db.users[m])).filter(Boolean)})),
+  shootouts:Object.values(db.shootouts||{}).filter(g=>g.a===u.id||g.b===u.id).filter(g=>!g.winner||now()-g.updatedAt<3*864e5).sort((a,b)=>b.updatedAt-a.updatedAt).map(g=>shootoutView(db,u,g)),
   derbies:Object.values(db.derbies||{}).filter(g=>g.a===u.id||g.b===u.id).filter(g=>!g.winner||now()-g.updatedAt<3*864e5).sort((a,b)=>b.updatedAt-a.updatedAt).map(g=>{const v=derbyView(db,u,g);delete v.pitches;return v;}),
   pongs:Object.values(db.pongs||{}).filter(g=>g.a===u.id||g.b===u.id).filter(g=>!g.winner||now()-g.updatedAt<3*864e5).sort((a,b)=>b.updatedAt-a.updatedAt).map(g=>pongView(db,u,g)),
   people:people.map(pub).sort((a,b)=>(b.openDoor-a.openDoor)||a.name.localeCompare(b.name)),

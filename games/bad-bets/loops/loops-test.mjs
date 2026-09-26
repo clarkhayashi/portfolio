@@ -182,3 +182,22 @@ test('Home Run Derby: timing sets distance, same pitches for both, beat-my-score
  assert.ok(L.home(db,clark).people.some(p=>p.name==='Leilani'));
  assert.equal(L.home(db,clark).derbies[0].won,false);
 });
+
+test('Penalty Shootout: secret picks, reveal only when both are in, exact dive saves, sudden death',async()=>{
+ const {db,clark}=setup();const cody=L.signUp(db,{name:'Cody'});
+ const g=L.startShootout(db,clark);
+ L.shootoutPick(db,clark,g.id,{shoot:'tl',dive:'bc'});
+ const cv=L.shootoutFor(db,cody,g.id);assert.equal(cv.myTurn,true);assert.equal(cv.rounds.length,0); // Clark's picks stay hidden
+ assert.throws(()=>L.shootoutPick(db,clark,g.id,{shoot:'tl',dive:'bc'}),/already picked/);
+ const r1=L.shootoutPick(db,cody,g.id,{shoot:'bc',dive:'tr'}); // Cody's shot saved, Clark's goes in
+ assert.equal(r1.justRevealed,true);assert.deepEqual(r1.score,{me:0,them:1});
+ assert.equal(r1.rounds[0].theirs.goal,true);assert.equal(r1.rounds[0].mine.goal,false);
+ // Clark scores every round and saves every one: done after round 3 (3-0 with 2 left can't be caught)
+ for(let i=0;i<2;i++){L.shootoutPick(db,clark,g.id,{shoot:'tr',dive:'bl'});L.shootoutPick(db,cody,g.id,{shoot:'bl',dive:'tl'});}
+ const end=L.shootoutFor(db,clark,g.id);assert.equal(end.done,true);assert.equal(end.won,true);assert.deepEqual(end.score,{me:3,them:0});
+ // sudden death: level after 5 keeps going
+ const g2=L.startShootout(db,clark,cody.id);
+ for(let i=0;i<5;i++){L.shootoutPick(db,clark,g2.id,{shoot:'tl',dive:'br'});L.shootoutPick(db,cody,g2.id,{shoot:'tl',dive:'br'});}
+ const sd=L.shootoutFor(db,cody,g2.id);assert.equal(sd.done,false);assert.equal(sd.suddenDeath,true);
+ assert.throws(()=>L.shootoutPick(db,clark,g2.id,{shoot:'zz',dive:'tl'}),/Pick a spot/);
+});

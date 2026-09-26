@@ -44,10 +44,13 @@ const SOUNDS={
  contact(){noise({dur:0.06,vol:0.35,filter:'bandpass',f:1200,f2:800,q:1});tone({f:220,f2:120,dur:0.08,vol:0.25});},
  cheer(){noise({dur:1.4,vol:0.22,filter:'bandpass',f:900,f2:1400,q:0.6});noise({dur:1.2,vol:0.12,filter:'bandpass',f:2400,f2:1800,q:1,at:0.1});},
  whiff(){noise({dur:0.18,vol:0.1,filter:'highpass',f:1500,f2:3000,q:0.5});},
+ kick(){tone({f:120,f2:60,dur:0.1,vol:0.5});noise({dur:0.05,vol:0.3,filter:'lowpass',f:1200,f2:500});},
+ goal(){noise({dur:0.35,vol:0.25,filter:'bandpass',f:400,f2:200,q:1});noise({dur:1.4,vol:0.22,filter:'bandpass',f:900,f2:1500,q:0.6,at:0.15});},
+ save(){tone({f:160,f2:90,dur:0.12,vol:0.5});noise({dur:0.08,vol:0.3,filter:'lowpass',f:1400,f2:600});},
  mitt(){tone({f:140,f2:80,dur:0.09,vol:0.45});noise({dur:0.05,vol:0.25,filter:'lowpass',f:900,f2:400});}
 };
 // Haptic style per moment: iOS generator names; the number is the Android vibrate length.
-const HAPTIC={throw:['light',10],plunk:['medium',25],rim:['rigid',12],miss:['soft',8],fireball:['heavy',[30,40,30]],ballsBack:['success',[15,30,15]],win:['success',[20,40,20,40,60]],pick:['selection',8],yourTurn:['light',15],crack:['heavy',[40]],contact:['medium',20],whiff:['soft',8],mitt:['light',12]};
+const HAPTIC={throw:['light',10],plunk:['medium',25],rim:['rigid',12],miss:['soft',8],fireball:['heavy',[30,40,30]],ballsBack:['success',[15,30,15]],win:['success',[20,40,20,40,60]],pick:['selection',8],yourTurn:['light',15],crack:['heavy',[40]],contact:['medium',20],whiff:['soft',8],mitt:['light',12],kick:['medium',15],goal:['success',[20,40,20]],save:['heavy',[35]]};
 
 export function fx(name){
  if(!muted&&ac&&SOUNDS[name]){try{SOUNDS[name]();}catch{}}
