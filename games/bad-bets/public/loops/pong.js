@@ -72,7 +72,9 @@ export function mountPong(wrap,game,{throwShot,after}){
    draw(now);if(t<1){requestAnimationFrame(step);return;}
    const end=performance.now(),dur2=reduced?1:480,c=res.hit!==null?cups[res.hit]:res.rim!==null?cups[res.rim]:null;
    if(res.hit!==null)alive[res.hit]=false;
+   if(res.fireball!=null)alive[res.fireball]=false; // Fireball: a second cup goes with it
    const settle=now=>{const u=clamp((now-end)/dur2,0,1);
+    if(res.fireball!=null)sink[res.fireball]=easeOut(u);
     if(res.hit!==null){sink[res.hit]=easeOut(u);splash={x:c.x,y:c.y,k:u};ball=u<0.35?{x:c.x,y:c.y,z:-0.02*u}:null;}
     else if(c){const dx=(to.x-c.x)||0.01,dy=(to.y-c.y)||0.01,m=Math.hypot(dx,dy);ball={x:to.x+dx/m*0.22*u,y:to.y+dy/m*0.12*u,z:0.14*Math.sin(Math.PI*u)};}
     else ball={x:to.x,y:to.y+0.3*u,z:0.09*Math.abs(Math.sin(Math.PI*1.6*u))*(1-u)};

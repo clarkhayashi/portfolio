@@ -68,3 +68,12 @@ button.full{width:100%}
 .danger{color:var(--accent)!important}
 h2{margin-top:30px}
 .card h3{margin-bottom:10px}
+.lineup{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:6px 0}
+.lineup b{margin-right:4px}
+.pill.muted{opacity:.55}
+.picks{display:grid;gap:8px}
+.pickcard{display:flex;flex-direction:column;gap:4px;width:100%;text-align:left;background:#fff;color:var(--ink);margin:0}
+.pickcard b{font-size:1.05rem}
+.pickcard .pill{align-self:flex-start}
+.statstrip{padding:10px var(--pad)}
+.statstrip p{margin:4px 0}

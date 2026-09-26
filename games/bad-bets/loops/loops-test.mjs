@@ -136,3 +136,26 @@ test('delete my account removes the person and everything they made',()=>{
  assert.equal(db.thoughts.length,0);assert.equal(Object.keys(db.pongs).length,0);assert.equal(db.trips.length,0);
  assert.equal(L.home(db,kai).people.some(p=>p.name==='Clark'),false);
 });
+
+test('Big 3 Pong: snake draft, ratings become stats, stats change the make window, fireball clears 2',async()=>{
+ const {statsFor,ORDER}=await import('./big3.mjs');
+ const {db,clark,kai}=setup();
+ const g=L.startPong(db,clark,kai.id,'big3');
+ assert.throws(()=>L.pongThrow(db,clark,g.id,{aim:0,power:0}),/Finish the draft/);
+ assert.throws(()=>L.pongPick(db,kai,g.id,db.pongs[g.id].draft.boards.guard[0]),/not your pick/);
+ const who={a:clark,b:kai};
+ for(const [seat,slot] of ORDER){const v=L.pongFor(db,who[seat],g.id);assert.equal(v.draft.myPick,true);assert.equal(v.draft.slot,slot);L.pongPick(db,who[seat],g.id,v.draft.board[0].name);}
+ const v=L.pongFor(db,clark,g.id);
+ assert.equal(v.draft.done,true);assert.ok(v.draft.mine.guard&&v.draft.mine.wing&&v.draft.mine.big);
+ assert.ok(v.draft.stats.me.aim>0&&[2,3,4].includes(v.draft.stats.me.heat));
+ // Curry-level guard vs a weak big widens the window; a lockdown big shrinks it.
+ assert.ok(statsFor({guard:'Stephen Curry',wing:'LeBron James',big:'Bill Russell'}).aim>1.1);
+ assert.equal(statsFor({guard:'Stephen Curry',wing:'LeBron James',big:'Bill Russell'}).heat,2);
+ assert.ok(statsFor({guard:'Stephen Curry',wing:'LeBron James',big:'Bill Russell'}).contest<0.95);
+ // Force a hot streak: heat 2, two makes -> the second make also clears a neighbour (3 cups gone).
+ const game=db.pongs[g.id];game.stats.a.heat=2;game.stats.a.aim=1;game.stats.b.contest=1;
+ const cups=rack(),aimAt=i=>({aim:cups[i].x/(0.45*cups[i].y),power:(cups[i].y-0.25)/0.85});
+ L.pongThrow(db,clark,g.id,aimAt(0));const second=L.pongThrow(db,clark,g.id,aimAt(3));
+ assert.notEqual(second.fireball,null);
+ assert.equal(game.cups.b.filter(Boolean).length,3);
+});

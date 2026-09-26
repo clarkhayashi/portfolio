@@ -23,7 +23,8 @@ const routes=[
  ['POST',/^\/trips$/,true,(db,u,b)=>({id:L.addTrip(db,u,b).id})],
  ['POST',/^\/trips\/([\w-]+)\/remove$/,true,(db,u,_,m)=>{L.removeTrip(db,u,m[1]);return {ok:true};}],
  ['POST',/^\/trips\/([\w-]+)\/down$/,true,(db,u,b,m)=>{L.imDown(db,u,m[1],b.note);return {ok:true};}],
- ['POST',/^\/pong$/,true,(db,u,b)=>({id:L.startPong(db,u,b.opponentId||null).id})],
+ ['POST',/^\/pong$/,true,(db,u,b)=>({id:L.startPong(db,u,b.opponentId||null,b.mode==='big3'?'big3':'classic').id})],
+ ['POST',/^\/pong\/([\w-]+)\/pick$/,true,(db,u,b,m)=>L.pongPick(db,u,m[1],b.name)],
  ['GET',/^\/pong\/([\w-]+)$/,true,(db,u,_,m)=>L.pongFor(db,u,m[1])],
  ['POST',/^\/pong\/([\w-]+)\/throw$/,true,(db,u,b,m)=>L.pongThrow(db,u,m[1],b)]
 ];

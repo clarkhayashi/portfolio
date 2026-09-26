@@ -19,11 +19,12 @@ export function landing(shot){
 }
 
 // alive: six booleans for the cups still standing. Returns where the ball landed and what happened.
-export function resolve(alive,shot){
+// window scales the make radius (Big 3 stats: your Aim times their Contest). 1 = classic.
+export function resolve(alive,shot,window=1){
  const p=landing(shot),cups=rack();
  let best=-1,bd=Infinity;
  cups.forEach((c,i)=>{if(!alive[i])return;const d=Math.hypot(p.x-c.x,p.y-c.y);if(d<bd){bd=d;best=i;}});
- if(best>=0&&bd<=CUP_R*0.8)return {land:p,hit:best,rim:null};
- if(best>=0&&bd<=CUP_R*1.2)return {land:p,hit:null,rim:best};
+ if(best>=0&&bd<=CUP_R*0.8*window)return {land:p,hit:best,rim:null};
+ if(best>=0&&bd<=CUP_R*Math.max(1.2,0.8*window+0.1))return {land:p,hit:null,rim:best};
  return {land:p,hit:null,rim:null};
 }

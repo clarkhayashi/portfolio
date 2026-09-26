@@ -14,7 +14,7 @@ const store={get(k){try{return localStorage.getItem(k);}catch{return null;}},set
 // Local demo links carry ?login=<token> so one person can try several accounts in separate tabs.
 {const q=new URLSearchParams(location.search).get('login');if(q){try{sessionStorage.setItem('loops.token',q);}catch{}history.replaceState(null,'',location.pathname+(location.search.includes('im=1')?'?im=1':''));}}
 const tabToken=(()=>{try{return sessionStorage.getItem('loops.token');}catch{return null;}})();
-let startGroup=false;
+let startGroup=false,pongMode='classic',pollTimer=null;
 let token=tabToken||store.get('loops.token'),data=null,tab='home',openLoop=null,draft={to:null,text:'',url:'',photo:null},lastLink=null,pongOpen=null;
 import {mountPong} from './pong.js';
 
@@ -60,17 +60,36 @@ function giftCard(t){
 const record=g=>`You ${g.record.me}–${g.record.them} ${esc(g.vs)} all time`;
 function pongCards(){
  const mine=data.pongs.filter(g=>g.myTurn),wait=data.pongs.filter(g=>!g.myTurn&&!g.done),done=data.pongs.filter(g=>g.done);
- return mine.map(g=>`<div class="card turn"><h3>🏓 Your shot vs ${esc(g.vs)}</h3>${g.lastNote?`<p>${esc(g.lastNote)}</p>`:''}
+ return mine.map(g=>`<div class="card turn"><h3>${g.mode==='big3'&&!g.draft.done?`🏀 Your pick vs ${esc(g.vs)}`:`🏓 Your shot vs ${esc(g.vs)}`}</h3>${g.lastNote?`<p>${esc(g.lastNote)}</p>`:''}
    <p class="small muted">${record(g)} · You have ${g.mine.filter(Boolean).length} cups left, they have ${g.targets.filter(Boolean).length}.</p>
-   <button class="accent" data-pong="${g.id}">Take your shot</button></div>`).join('')
+   <button class="accent" data-pong="${g.id}">${g.mode==='big3'&&!g.draft.done?`Pick your ${g.draft.slot}`:'Take your shot'}</button></div>`).join('')
   +done.map(g=>`<div class="card"><h3>${g.won?`You beat ${esc(g.vs)}`:`${esc(g.vs)} won this one`}</h3><p class="small muted">${record(g)}</p><button data-challenge="${g.vsId}">Rematch</button></div>`).join('')
   +(wait.length?`<p class="muted small">Waiting on ${wait.map(g=>esc(g.vs)).join(', ')} to shoot. No rush.</p>`:'');
 }
 
+const SLOT_NAME={guard:'Guard',wing:'Wing',big:'Big'};
+const pct=x=>`${x>=1?'+':'−'}${Math.round(Math.abs(x-1)*100)}%`;
+const lineup=(picks,who)=>`<div class="lineup"><b>${esc(who)}</b>${['guard','wing','big'].map(k=>picks[k]?`<span class="pill">${SLOT_NAME[k]}: ${esc(picks[k].name)}</span>`:`<span class="pill muted">${SLOT_NAME[k]}: …</span>`).join('')}</div>`;
+// Big 3 draft: pick a guard, a wing and a big. Each card says what that player will do to your game.
+function draftView(g,page=false){
+ const d=g.draft,what={guard:c=>`Aim ${pct(1+0.35*(c.off-75)/50)}`,wing:c=>{const w=Math.max(c.off,c.def);return `🔥 Fireball after ${w>=92?2:w>=82?3:4}`;},big:c=>`Contest ${pct(1-0.2*(c.def-75)/50)} on them`};
+ return `${page?'':'<button class="link" data-closepong>← Home</button>'}
+ <h1>Big 3 draft</h1><p class="muted small">vs ${esc(g.vs)} · Guard sets your aim, wing sets your heat, big contests their shots.</p>
+ ${lineup(d.mine,'You')}${lineup(d.theirs,g.vs)}
+ ${d.myPick?`<h2>Pick your ${d.slot}</h2><div class="picks">${d.board.map(c=>`<button class="card pickcard" data-pick="${esc(c.name)}"><b>${esc(c.name)}</b><span class="small muted">${esc(c.note)}</span><span class="pill">${what[d.slot](c)}</span></button>`).join('')}</div>`
+  :`<div class="empty">${esc(d.picker)} is picking their ${d.slot}. ${page?'This updates by itself.':'No rush.'}</div>`}`;
+}
+function statsStrip(g){
+ const d=g.draft;if(!d?.stats)return '';const m=d.stats.me,t=d.stats.them;
+ return `<div class="card statstrip">${lineup(d.mine,'You')}<p class="small">Aim ${pct(m.aim*t.contest)} after their contest · 🔥 Fireball after ${m.heat} in a row${d.streak?` (on ${d.streak})`:''}</p>${lineup(d.theirs,g.vs)}</div>`;
+}
+
 function pongView(g,page=false){
+ if(g.mode==='big3'&&!g.draft.done)return draftView(g,page);
  const status=g.done?(g.won?'You won. 🏆':`${esc(g.winnerName||g.vs)} won.`):g.open&&!g.seated?'Take the open seat: shoot first to join.':g.myTurn?`${g.left} ${g.left===1?'ball':'balls'} left. Sink both and you get them back.`:`Nice. ${esc(g.vs)} is up.`;
  return `${page?'':'<button class="link" data-closepong>← Home</button>'}
- <h1>${g.open&&!g.seated?'Pong challenge':`Pong vs ${esc(g.vs)}`}</h1><p class="muted small">${record(g)}</p>
+ <h1>${g.open&&!g.seated?'Pong challenge':`${g.mode==='big3'?'Big 3 Pong':'Pong'} vs ${esc(g.vs)}`}</h1><p class="muted small">${record(g)}</p>
+ ${statsStrip(g)}
  <p><b>${status}</b></p>
  <div id="pong" class="pong">${'<canvas aria-label="Pong table. Flick up from the bottom to throw."></canvas>'}
   ${g.myTurn?`<p class="small muted">Flick up from the bottom: longer = farther, sideways = aim.</p>
@@ -97,7 +116,7 @@ function homeView(){
   ${i.down?'<p class="door">You said you’re down.</p>':`<button class="accent" data-down="${i.id}">I’m down</button>`}</div>`).join('')}
  ${doors.length?`<h2>Thinking of someone?</h2><p class="muted small">Their door is open: they’re always happy to hear from you.</p>
   <div>${doors.map(p=>`<button class="chip" data-sendto="user:${p.id}">${esc(p.name)}</button>`).join('')}</div>`:''}
- ${data.people.length?`<h2>Pong, anyone?</h2><p class="muted small">Send a challenge. They shoot whenever.</p><div>${data.people.map(p=>`<button class="chip" data-challenge="${p.id}">🏓 ${esc(p.name)}</button>`).join('')}</div>`:''}
+ ${data.people.length?`<h2>Pong, anyone?</h2><p class="muted small">Send a challenge. They play whenever, or live if you're both on.</p><div class="row" style="margin-bottom:6px"><button class="chip ${pongMode==='classic'?'on':''}" data-pongmode="classic">Classic</button><button class="chip ${pongMode==='big3'?'on':''}" data-pongmode="big3">🏀 Big 3 draft</button></div><div>${data.people.map(p=>`<button class="chip" data-challenge="${p.id}">🏓 ${esc(p.name)}</button>`).join('')}</div>`:''}
  <h2>Thoughts for you</h2>
  ${data.gifts.length?data.gifts.map(giftCard).join(''):`<div class="empty">Nothing yet. Thoughts from your loops land here.<br>No pressure to open, react or reply.</div>`}
  ${!data.loops.length?`<div class="card"><h3>Start your first loop</h3><p class="small">A loop is a group of friends: high school, college, the old team.</p><button class="accent" data-tab="loops">Make a loop</button></div>`:''}`;
@@ -194,24 +213,32 @@ async function render(){
  }
  if(!data){app.innerHTML='<p class="muted">Loading…</p>';return;}
  nav.hidden=false;nav.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));
- if(pongOpen&&tab==='home'){const g=data.pongs.find(g=>g.id===pongOpen);if(g){app.innerHTML=pongView(g);mountPong($('#pong'),g,{throwShot:shot=>api(`/pong/${g.id}/throw`,shot),after:pongAfter});return;}pongOpen=null;}
+ clearInterval(pollTimer);
+ if(pongOpen&&tab==='home'){await pongPage(pongOpen,false);return;}
  app.innerHTML={home:homeView,send:sendView,loops:loopsView,me:meView}[tab]();
 }
 
 // A pong game opened from a link or an iMessage bubble. Anyone signed in can take an open seat.
 let pageGame=null;
-async function pongPage(id){
+// One screen for a game: the draft until it's done, then the table. While it's the other person's move, it checks
+// every 2.5 s, so two people on the page at once play live; otherwise it just works turn by turn.
+async function pongPage(id,page=true){
  try{pageGame=await api('/pong/'+id);}catch(e){$('#app').innerHTML=`<h1>Pong</h1><div class="empty">${esc(e.message)}</div>`;return;}
- $('#app').innerHTML=pongView(pageGame,true);
- mountPong($('#pong'),pageGame,{throwShot:shot=>api(`/pong/${id}/throw`,shot),after:async res=>{
+ const g=pageGame;$('#app').innerHTML=pongView(g,page);
+ if(!(g.mode==='big3'&&!g.draft.done))mountPong($('#pong'),g,{throwShot:shot=>api(`/pong/${id}/throw`,shot),after:async res=>{
   await pongAfter(res,true);
-  const v=res.view;if(!v)return;
-  // Update the iMessage bubble: the thread shows the latest state without a new chat message to read.
-  if(IM&&(res.event==='turnOver'||res.event==='win'))native({type:'update',kind:'pong',path:`/p/${id}`,
-   caption:res.event==='win'?`🏓 ${esc(v.winnerName||'Someone')} won Pong`:`🏓 ${v.lastNote||''} ${v.vs}’s shot`.trim(),
+  const v=res.view;
+  if(v&&IM&&(res.event==='turnOver'||res.event==='win'))native({type:'update',kind:'pong',path:`/p/${id}`,
+   caption:res.event==='win'?`🏓 ${v.winnerName||'Someone'} won ${v.mode==='big3'?'Big 3 ':''}Pong`:`🏓 ${v.lastNote||''} ${v.vs}’s shot`.trim(),
    sub:`${v.mine.filter(Boolean).length}–${v.targets.filter(Boolean).length} cups`});
-  pongPage(id);
+  if(!page)await refresh(true);
+  pongPage(id,page);
  }});
+ clearInterval(pollTimer);
+ if(!g.myTurn&&!g.done)pollTimer=setInterval(async()=>{
+  if(document.visibilityState!=='visible')return;
+  try{const next=await api('/pong/'+id);if(next.updatedAt!==g.updatedAt){clearInterval(pollTimer);pongPage(id,page);}}catch{}
+ },2500);
 }
 
 // iMessage compose: the extension's own screen. Sending inserts a bubble into the current thread.
@@ -224,13 +251,14 @@ function imCompose(){
   ${draft.photo?`<img src="${draft.photo}" alt="Photo to send" style="width:100%;border-radius:12px">`:''}
   <button class="accent" type="submit">Send thought</button>
  </form>
- <div class="card"><h3>🏓 Pong</h3><p class="small">Challenge the chat. First to tap it plays you.</p><button data-imgame="pong">Send a Pong challenge</button></div>`;
+ <div class="card"><h3>🏓 Pong</h3><p class="small">Challenge the chat. First to tap it plays you.</p><div class="row"><button data-imgame="pong">Classic Pong</button><button class="accent" data-imgame="big3">🏀 Big 3 draft</button></div></div>`;
 }
 
 async function pongAfter(res,page=false){
  if(res.error)toast(res.error);
  else if(res.event==='win')toast('Cleared the table. You win!');
- else if(res.event==='ballsBack')toast('Both in. Balls back!');
+ else if(res.event==='ballsBack')toast(res.fireball!=null?'🔥 Fireball! Both in, balls back!':'Both in. Balls back!');
+ else if(res.fireball!=null)toast('🔥 Fireball! Two cups gone.');
  else if(res.event==='turnOver')toast(res.hit!==null?'Sunk one. Their turn.':'Their turn now.');
  else toast(res.hit!==null?'Sunk it!':res.rim!==null?'Rimmed out.':'Missed.');
  if(!page)await refresh();
@@ -251,11 +279,15 @@ document.addEventListener('click',async e=>{
  if(d.down){await act(()=>api(`/trips/${d.down}/down`,{}),'They’ll see you’re down.');return;}
  if(d.rmtrip){await act(()=>api(`/trips/${d.rmtrip}/remove`,{}),'Trip removed.');return;}
  if(d.openloop!==undefined){openLoop=d.openloop||null;render();scrollTo(0,0);return;}
- if(d.imgame){const out=await act(()=>api('/pong',{}));if(out)native({type:'send',kind:'pong',path:`/p/${out.id}`,caption:`🏓 ${data?.me?.name||'A friend'} challenged you to Pong`,sub:'Tap to take the open seat'});return;}
+ if(d.imgame){const big=d.imgame==='big3',out=await act(()=>api('/pong',{mode:big?'big3':'classic'}));if(out)native({type:'send',kind:'pong',path:`/p/${out.id}`,caption:big?`🏀 ${data?.me?.name||'A friend'} wants a Big 3 Pong draft`:`🏓 ${data?.me?.name||'A friend'} challenged you to Pong`,sub:big?'Draft a guard, wing and big, then play':'Tap to take the open seat'});return;}
+ if(d.pongmode){pongMode=d.pongmode;render();return;}
+ if(d.pick){const id=pageGame?.id;if(!id)return;try{const v=await api(`/pong/${id}/pick`,{name:d.pick});
+  if(IM)native({type:'update',kind:'pong',path:`/p/${id}`,caption:v.draft.done?`🏀 Draft done. ${v.vs==='Open seat'?'':v.vs+' vs '}${data?.me?.name||''}: tip-off!`:`🏀 ${data?.me?.name||'Someone'} drafted ${d.pick}`,sub:v.draft.done?'Tap to shoot':`${v.draft.picker}’s pick`});
+  const page=!pongOpen;if(!page)await refresh(true);pongPage(id,page);}catch(err){toast(err.message);}return;}
  if(d.start){if(d.start==='thought'){draft={to:'link:',text:'',url:'',photo:null};lastLink=null;tab='send';}else startGroup=true;render();if(startGroup)$('#qpub')?.focus();return;}
  if(d.pong){pongOpen=d.pong;tab='home';render();scrollTo(0,0);return;}
- if(d.closepong!==undefined){pongOpen=null;render();return;}
- if(d.challenge){const out=await act(()=>api('/pong',{opponentId:d.challenge}),'Challenge sent. Your shot first.');if(out){pongOpen=out.id;tab='home';openLoop=null;render();scrollTo(0,0);}return;}
+ if(d.closepong!==undefined){pongOpen=null;clearInterval(pollTimer);render();return;}
+ if(d.challenge){const out=await act(()=>api('/pong',{opponentId:d.challenge,mode:pongMode}),pongMode==='big3'?'Draft started. You pick first.':'Challenge sent. Your shot first.');if(out){pongOpen=out.id;tab='home';openLoop=null;render();scrollTo(0,0);}return;}
  if(d.leave){if(confirm('Leave this loop? You can rejoin with the invite link.')){openLoop=null;await act(()=>api(`/loops/${d.leave}/leave`,{}),'You left the loop.');}return;}
  if(d.copy){if(navigator.share){try{await navigator.share(d.sharetext?{text:d.sharetext,url:d.copy}:{url:d.copy});}catch{}}else{try{await navigator.clipboard.writeText(d.copy);toast('Copied.');}catch{toast('Copy the link from the box.');}}return;}
  if(d.deleteme!==undefined){if(confirm('Delete your account? Your thoughts, games and trips are removed for everyone. This can’t be undone.')){try{await api('/me/delete',{});token=null;data=null;store.set('loops.token',null);try{sessionStorage.removeItem('loops.token');}catch{}toast('Account deleted.');render();}catch(err){toast(err.message);}}return;}

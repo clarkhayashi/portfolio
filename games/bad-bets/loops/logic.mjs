@@ -3,7 +3,8 @@
 // Design contract: replies are a gift. Nothing here tracks "seen", streaks, counts or reply timers.
 import {randomBytes} from 'node:crypto';
 import {cleanText} from '../wordfilter.mjs';
-import {resolve as pongShot} from '../public/loops/pong-sim.js';
+import {resolve as pongShot,rack} from '../public/loops/pong-sim.js';
+import {dealBig3,pickBig3,draftDone,draftTurn,statsFor,card,ORDER} from './big3.mjs';
 
 export const REACTIONS=['💛','😂','same','🤙'];
 const newId=(n=9)=>randomBytes(n).toString('base64url');
@@ -139,7 +140,7 @@ function connect(db,x,y){ // make sure two people share a loop, so they can send
  if(Object.values(db.loops).some(l=>l.members.includes(x.id)&&l.members.includes(y.id)))return;
  const l=createLoop(db,x,{publicName:`${x.name} + ${y.name}`});l.members.push(y.id);
 }
-export function startPong(db,u,opponentId=null){
+export function startPong(db,u,opponentId=null,mode='classic'){
  db.pongs||={};db.h2h||={};
  if(opponentId){
   need(opponentId!==u.id&&circle(db,u).some(p=>p.id===opponentId),'You can only challenge people in your loops.');
@@ -148,6 +149,7 @@ export function startPong(db,u,opponentId=null){
  }
  const g={id:newId(),a:u.id,b:opponentId||null,cups:{a:Array(6).fill(true),b:Array(6).fill(true)},
   turn:'a',left:2,pairHits:0,current:[],last:null,winner:null,createdAt:now(),updatedAt:now()};
+ if(mode==='big3'){g.mode='big3';g.draft=dealBig3();g.streak={a:0,b:0};}
  db.pongs[g.id]=g;return g;
 }
 export function joinPong(db,u,gameId){
@@ -156,12 +158,27 @@ export function joinPong(db,u,gameId){
  need(!g.b,'This game already has two players. Start your own!');
  g.b=u.id;connect(db,db.users[g.a],u);g.updatedAt=now();return g;
 }
+export function pongPick(db,u,gameId,name){
+ const g=db.pongs?.[gameId];need(g&&g.mode==='big3','That game has no draft.');
+ if(!seatOf(g,u.id)&&!g.b&&draftTurn(g.draft)==='b')joinPong(db,u,gameId);
+ const me=seatOf(g,u.id);need(me,'This game already has two players. Start your own!');
+ pickBig3(g.draft,me,name);
+ if(draftDone(g.draft))g.stats={a:statsFor(g.draft.picks.a),b:statsFor(g.draft.picks.b)};
+ g.updatedAt=now();return pongView(db,u,g);
+}
 export function pongThrow(db,u,gameId,shot){
  const g=db.pongs?.[gameId];need(g&&!g.winner,'That game is over.');
  if(!seatOf(g,u.id)&&!g.b&&g.turn==='b')joinPong(db,u,gameId);
  const me=seatOf(g,u.id);need(me&&g.turn===me,'It is not your turn yet.');
- const opp=otherSeat(me),res=pongShot(g.cups[opp],shot);
- if(res.hit!==null){g.cups[opp][res.hit]=false;g.pairHits++;}
+ need(g.mode!=='big3'||draftDone(g.draft),'Finish the draft first.');
+ const opp=otherSeat(me),window=g.stats?g.stats[me].aim*g.stats[opp].contest:1,res=pongShot(g.cups[opp],shot,window);
+ res.fireball=null;
+ if(res.hit!==null){g.cups[opp][res.hit]=false;g.pairHits++;
+  // Fireball: enough makes in a row (set by your wing) and this make also clears the nearest standing cup.
+  if(g.stats){g.streak[me]++;if(g.streak[me]>=g.stats[me].heat){const cups=rack(),h=cups[res.hit];let best=-1,bd=Infinity;
+   cups.forEach((c,i)=>{if(!g.cups[opp][i])return;const d=Math.hypot(c.x-h.x,c.y-h.y);if(d<bd){bd=d;best=i;}});
+   if(best>=0){g.cups[opp][best]=false;res.fireball=best;}g.streak[me]=0;}}
+ }else if(g.streak)g.streak[me]=0;
  g.current.push({aim:Number(shot.aim)||0,power:Number(shot.power)||0,hit:res.hit,rim:res.rim});
  g.left--;g.updatedAt=now();
  let event='';
@@ -179,7 +196,14 @@ export function pongView(db,u,g){
  const h=g.a&&g.b?db.h2h?.[pairKey(g.a,g.b)]||{}:{};
  const lastHits=g.last?g.last.throws.filter(t=>t.hit!==null).length:0;
  const vs=oppId?db.users[oppId]?.name||'Someone':'Open seat';
- return {id:g.id,vs,vsId:oppId,seated:!!seatOf(g,u.id),open:!g.b,myTurn:!g.winner&&g.turn===me&&(!!seatOf(g,u.id)||!g.b),left:g.left,
+ const drafting=g.mode==='big3'&&!draftDone(g.draft),canSit=!!seatOf(g,u.id)||!g.b;
+ const draft=g.mode==='big3'?{done:!drafting,myPick:drafting&&draftTurn(g.draft)===me&&canSit,slot:drafting?ORDER[g.draft.step][1]:null,
+  picker:drafting?(db.users[g[draftTurn(g.draft)]]?.name||'Open seat'):null,
+  board:drafting?g.draft.boards[ORDER[g.draft.step][1]].map(card):[],
+  mine:Object.fromEntries(Object.entries(g.draft.picks[me]).map(([k,n])=>[k,card(n)])),
+  theirs:Object.fromEntries(Object.entries(g.draft.picks[opp]).map(([k,n])=>[k,card(n)])),
+  stats:g.stats?{me:g.stats[me],them:g.stats[opp]}:null,streak:g.streak?g.streak[me]:0}:null;
+ return {id:g.id,mode:g.mode||'classic',draft,vs,vsId:oppId,seated:!!seatOf(g,u.id),open:!g.b,myTurn:!g.winner&&(drafting?draft.myPick:g.turn===me&&canSit),left:g.left,
   targets:g.cups[opp],mine:g.cups[me],done:!!g.winner,won:!!g.winner&&g.winner===me&&!!seatOf(g,u.id),
   winnerName:g.winner?db.users[g[g.winner]]?.name:null,
   lastNote:g.last&&g.last.by!==me&&!g.winner?`${db.users[g[g.last.by]]?.name} sank ${lastHits} ${lastHits===1?'cup':'cups'}.`:'',
