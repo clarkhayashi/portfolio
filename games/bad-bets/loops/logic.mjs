@@ -7,6 +7,8 @@ import {resolve as pongShot,rack} from '../public/loops/pong-sim.js';
 import {pitchList,score as derbyScore,PITCHES_PER_TURN} from '../public/loops/derby-sim.js';
 import * as SO from './shootout.mjs';
 import {dealBig3,pickBig3,draftDone,draftTurn,statsFor,card,ORDER} from './big3.mjs';
+import * as DU from './duel.mjs';
+import {scout} from '../scout.mjs';
 
 export const REACTIONS=['💛','😂','same','🤙'];
 const newId=(n=9)=>randomBytes(n).toString('base64url');
@@ -14,7 +16,7 @@ const code=()=>Array.from({length:6},()=> 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'[rand
 const now=()=>Date.now();
 const need=(ok,msg)=>{if(!ok)throw Error(msg);};
 
-export const emptyDb=()=>({users:{},loops:{},thoughts:[],pongs:{},derbies:{},shootouts:{},h2h:{},trips:[]});
+export const emptyDb=()=>({users:{},loops:{},thoughts:[],pongs:{},derbies:{},shootouts:{},duels:{},h2h:{},trips:[]});
 
 // ---------- people ----------
 export function signUp(db,{name,city}){
@@ -41,6 +43,7 @@ export function deleteUser(db,u){
  for(const t of db.thoughts)delete t.reactions[id];
  db.trips=db.trips.filter(t=>t.uid!==id);for(const t of db.trips)delete t.downs[id];
  for(const g of Object.values(db.pongs||{}))if(g.a===id||g.b===id)delete db.pongs[g.id];
+ for(const g of Object.values(db.duels||{}))if(g.a===id||g.b===id)delete db.duels[g.id];
  for(const k of Object.keys(db.h2h||{}))if(k.split('|').includes(id))delete db.h2h[k];
  return [...gone]; // thought ids, so the store can drop their photos
 }
@@ -196,6 +199,8 @@ export function pongThrow(db,u,gameId,shot){
  }
  return {...res,event,view:pongView(db,u,g)};
 }
+// Oops' Scout grades a finished Big 3 lineup for fun. It never decides the game; the cups do.
+const big3Grade=p=>{const names=['guard','wing','big'].map(k=>p[k]).filter(Boolean);if(names.length<3)return null;const r=scout('hoops',names);return {grade:r.grade,rank:r.rank,report:r.report};};
 export function pongView(db,u,g){
  const me=seatOf(g,u.id)||(g.a?'b':'a'),opp=otherSeat(me),oppId=g[opp];
  const h=g.a&&g.b?db.h2h?.[pairKey(g.a,g.b)]||{}:{};
@@ -207,7 +212,8 @@ export function pongView(db,u,g){
   board:drafting?g.draft.boards[ORDER[g.draft.step][1]].map(card):[],
   mine:Object.fromEntries(Object.entries(g.draft.picks[me]).map(([k,n])=>[k,card(n)])),
   theirs:Object.fromEntries(Object.entries(g.draft.picks[opp]).map(([k,n])=>[k,card(n)])),
-  stats:g.stats?{me:g.stats[me],them:g.stats[opp]}:null,streak:g.streak?g.streak[me]:0}:null;
+  stats:g.stats?{me:g.stats[me],them:g.stats[opp]}:null,streak:g.streak?g.streak[me]:0,
+  grades:drafting?null:{me:big3Grade(g.draft.picks[me]),them:big3Grade(g.draft.picks[opp])}}:null;
  return {id:g.id,mode:g.mode||'classic',draft,vs,vsId:oppId,seated:!!seatOf(g,u.id),open:!g.a||!g.b,myTurn:!g.winner&&(drafting?draft.myPick:g.turn===me&&canSit),left:g.left,
   targets:g.cups[opp],mine:g.cups[me],done:!!g.winner,won:!!g.winner&&g.winner===me&&!!seatOf(g,u.id),
   winnerName:g.winner?db.users[g[g.winner]]?.name:null,
@@ -278,6 +284,44 @@ export function shootoutView(db,u,g){
 }
 export function shootoutFor(db,u,id){const g=db.shootouts?.[id];need(g,'That game is gone.');return shootoutView(db,u,g);}
 
+// ---------- Draft Duel (async salary-cap draft, graded by Oops' Scout) ----------
+// Same shape as the Derby: the challenger drafts first and texts it; whoever opens the link drafts the same board.
+export function startDuel(db,u,opponentId=null){
+ db.duels||={};
+ if(opponentId)need(opponentId!==u.id&&circle(db,u).some(p=>p.id===opponentId),'You can only challenge people in your loops.');
+ const g={id:newId(),a:u.id,b:opponentId||null,boards:DU.dealDuel(),picks:{a:null,b:null},winner:null,createdAt:now(),updatedAt:now()};
+ db.duels[g.id]=g;return g;
+}
+export function duelLineup(db,u,gameId,picks){
+ const g=db.duels?.[gameId];need(g,'That game is gone.');
+ let seat=g.a===u.id?'a':g.b===u.id?'b':null;
+ if(!seat){need(!g.b,'This game already has two players. Start your own!');need(g.picks.a,'Wait for the first draft.');g.b=u.id;seat='b';
+  const host=db.users[g.a];if(host)connect(db,host,u);}
+ need(!g.picks[seat],'You already drafted.');
+ need(seat==='a'||g.picks.a,'Wait for the first draft.');
+ g.picks[seat]=DU.checkLineup(g.boards,picks).picks;g.updatedAt=now();
+ if(g.picks.a&&g.picks.b){
+  const A=DU.grade(g.boards,g.picks.a).score,B=DU.grade(g.boards,g.picks.b).score;
+  g.winner=A===B?'tie':A>B?'a':'b';
+  if(g.winner!=='tie'){const k='duel|'+[g.a,g.b].sort().join('|'),h=(db.h2h||={})[k]||={};h[g[g.winner]]=(h[g[g.winner]]||0)+1;}
+ }
+ return duelView(db,u,g);
+}
+export function duelView(db,u,g){
+ const me=g.a===u.id?'a':g.b===u.id?'b':null,opp=me==='b'?'a':'b';
+ const canDraft=me?!g.picks[me]&&(me==='a'||!!g.picks.a):!g.b&&!!g.picks.a;
+ const oppId=me?g[opp]:g.a,h=g.a&&g.b?db.h2h?.['duel|'+[g.a,g.b].sort().join('|')]||{}:{};
+ const team=seat=>{const p=g.picks[seat];if(!p)return null;const r=DU.grade(g.boards,p);return {...r,total:Object.values(p).reduce((s,n)=>s+DU.price(n),0),picks:DU.slots().map(s=>({slot:s.label,...DU.card(p[s.id])}))};};
+ // Before the reveal you only see their grade (the number to beat), never their picks.
+ const theirs=me?team(opp):team('a'),hide=!g.winner&&theirs;
+ return {id:g.id,kind:'duel',vs:oppId?db.users[oppId]?.name||'Someone':'Open seat',vsId:oppId,open:!g.b,myTurn:canDraft,budget:DU.BUDGET,
+  board:canDraft?DU.slots().map(s=>({slot:s.id,label:s.label,cards:g.boards[s.id].map(DU.card)})):null,
+  mine:me?team(me):null,theirs:hide?{grade:theirs.grade,rank:theirs.rank,hidden:true}:theirs,
+  done:!!g.winner,tie:g.winner==='tie',won:!!me&&g.winner===me,
+  winnerName:g.winner&&g.winner!=='tie'?db.users[g[g.winner]]?.name:null,record:{me:h[u.id]||0,them:oppId?h[oppId]||0:0},updatedAt:g.updatedAt};
+}
+export function duelFor(db,u,id){const g=db.duels?.[id];need(g,'That game is gone.');return duelView(db,u,g);}
+
 // ---------- what one person sees ----------
 export function home(db,u){
  const loops=myLoops(db,u);
@@ -297,6 +341,7 @@ export function home(db,u){
    members:l.members.map(m=>pub(db.users[m])).filter(Boolean)})),
   shootouts:Object.values(db.shootouts||{}).filter(g=>g.a===u.id||g.b===u.id).filter(g=>!g.winner||now()-g.updatedAt<3*864e5).sort((a,b)=>b.updatedAt-a.updatedAt).map(g=>shootoutView(db,u,g)),
   derbies:Object.values(db.derbies||{}).filter(g=>g.a===u.id||g.b===u.id).filter(g=>!g.winner||now()-g.updatedAt<3*864e5).sort((a,b)=>b.updatedAt-a.updatedAt).map(g=>{const v=derbyView(db,u,g);delete v.pitches;return v;}),
+  duels:Object.values(db.duels||{}).filter(g=>g.a===u.id||g.b===u.id).filter(g=>!g.winner||now()-g.updatedAt<3*864e5).sort((a,b)=>b.updatedAt-a.updatedAt).map(g=>{const v=duelView(db,u,g);delete v.board;return v;}),
   pongs:Object.values(db.pongs||{}).filter(g=>g.a===u.id||g.b===u.id).filter(g=>!g.winner||now()-g.updatedAt<3*864e5).sort((a,b)=>b.updatedAt-a.updatedAt).map(g=>pongView(db,u,g)),
   people:people.map(pub).sort((a,b)=>(b.openDoor-a.openDoor)||a.name.localeCompare(b.name)),
   // Open invites from friends visiting my city, plus my own trips.

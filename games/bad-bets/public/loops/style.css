@@ -115,3 +115,8 @@ a.btn.accent{background:var(--accent);color:#fff}
 .goal.diving .spot:hover{background:rgba(47,143,107,.12)}
 .spot.glove{background:rgba(47,143,107,.18)!important}
 .minigoal i.dove{background:rgba(47,143,107,.35)}
+/* Draft Duel */
+.pickcard.on{outline:3px solid var(--ink);outline-offset:-3px}
+.pickcard:disabled{opacity:.4}
+.budget{display:flex;gap:8px;align-items:baseline;position:sticky;top:8px;z-index:2}
+.card.winner{outline:2px solid var(--ink);outline-offset:-2px}

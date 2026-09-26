@@ -19,6 +19,7 @@ let token=tabToken||store.get('loops.token'),data=null,tab='home',openLoop=null,
 import {mountPong} from './pong.js';
 import {mountDerby} from './derby.js';
 import {fx,muted,setMuted} from './sfx.js';
+import {openOopsRoom} from './oops.js';
 
 async function api(path,body){
  const r=await fetch(BASE+'/api'+path,{method:body?'POST':'GET',headers:{'Content-Type':'application/json',...(token?{Authorization:'Bearer '+token}:{})},body:body?JSON.stringify(body):undefined});
@@ -29,7 +30,7 @@ function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show'
 // quiet=true is the background refresh: it never re-draws while someone is typing, or when nothing changed.
 let lastJson='';
 async function refresh(quiet=false){if(!token)return;try{const next=await api('/home'),json=JSON.stringify(next);
- if(quiet&&(json===lastJson||document.activeElement?.matches('input,textarea,select')||(tab==='send'&&draft.to)||pongOpen||derbyOpen||shootOpen))return;
+ if(quiet&&(json===lastJson||document.activeElement?.matches('input,textarea,select')||(tab==='send'&&draft.to)||pongOpen||derbyOpen||shootOpen||duelOpen))return;
  data=next;lastJson=json;}catch(e){if(/Sign in/.test(e.message)){token=null;store.set('loops.token',null);}if(!quiet)toast(e.message);}render();}
 async function act(fn,ok){try{const out=await fn();if(ok)toast(ok);await refresh();return out;}catch(e){toast(e.message);return null;}}
 
@@ -82,9 +83,11 @@ function draftView(g,page=false){
   :`<div class="empty">${esc(d.picker)} is picking their ${d.slot}. ${page?'This updates by itself.':'No rush.'}</div>`}
  <p class="small muted" style="text-align:center"><a href="/credits.html" target="_blank" rel="noopener">Photo credits</a></p>`;
 }
+// Scout (from Oops) grades each finished lineup. Just for bragging: the cups still decide the game.
+const withGrade=(who,x)=>x?`${who} · Scout ${x.grade}`:who;
 function statsStrip(g){
- const d=g.draft;if(!d?.stats)return '';const m=d.stats.me,t=d.stats.them;
- return `<div class="card statstrip">${lineup(d.mine,'You')}<p class="small">Aim ${pct(m.aim*t.contest)} after their contest · 🔥 Fireball after ${m.heat} in a row${d.streak?` (on ${d.streak})`:''}</p>${lineup(d.theirs,g.vs)}</div>`;
+ const d=g.draft;if(!d?.stats)return '';const m=d.stats.me,t=d.stats.them,gr=d.grades||{};
+ return `<div class="card statstrip">${lineup(d.mine,withGrade('You',gr.me))}<p class="small">Aim ${pct(m.aim*t.contest)} after their contest · 🔥 Fireball after ${m.heat} in a row${d.streak?` (on ${d.streak})`:''}</p>${lineup(d.theirs,withGrade(g.vs,gr.them))}${gr.me?`<p class="small muted">Scout on your squad: ${esc(gr.me.report)}</p>`:''}</div>`;
 }
 
 const soundToggle=()=>`<button class="ghost sound" data-sound aria-label="${muted?'Turn sound on':'Turn sound off'}">${muted?'🔇':'🔊'}</button>`;
@@ -105,10 +108,20 @@ function pongView(g,page=false){
 // Text a friend a game: tap a game, then "Text it" opens Messages with the link typed in. They open it, type
 // a first name, and play. No app or account on their side.
 let sentGame=null;
-const GAMES={shootout:{kind:'shootout',name:'Penalty Shootout',emoji:'⚽',blurb:'Pick your shot and your dive.'},derby:{kind:'derby',name:'Home Run Derby',emoji:'⚾',blurb:'10 pitches. Most homers wins.'},pong:{mode:'classic',name:'Pong',emoji:'🏓',blurb:'Flick to sink their cups.'},big3:{mode:'big3',name:'Big 3 Pong',emoji:'🏀',blurb:'Draft a guard, wing and big first.'}};
+const GAMES={shootout:{kind:'shootout',name:'Penalty Shootout',emoji:'⚽',blurb:'Pick your shot and your dive.'},derby:{kind:'derby',name:'Home Run Derby',emoji:'⚾',blurb:'10 pitches. Most homers wins.'},pong:{mode:'classic',name:'Pong',emoji:'🏓',blurb:'Flick to sink their cups.'},big3:{mode:'big3',name:'Big 3 Pong',emoji:'🏀',blurb:'Draft a guard, wing and big first.'},duel:{kind:'duel',name:'Draft Duel',emoji:'🃏',blurb:'Draft 5 under the cap. Scout grades it.'}};
+let duelChoose=false,liveRoom=null;
+const aGrade=g=>`${/^[AF]/.test(g||'')?'an':'a'} ${g}`; // "an A−", "a B+"
+const smsLink=msg=>`sms:?&body=${encodeURIComponent(msg)}`;
 function textAGame(){
- if(sentGame){const G=GAMES[sentGame.key],url=`${ORIGIN}/${G.kind==='derby'?'d':G.kind==='shootout'?'s':'p'}/${sentGame.id}`,msg=G.kind==='shootout'?`${data.me.name} took a penalty ⚽ Save it, then take yours: ${url}`:G.kind==='derby'?`${data.me.name} hit ${sentGame.hr} ${sentGame.hr===1?'homer':'homers'} ⚾ Beat it: ${url}`:`${data.me.name} challenged you to ${G.name} ${G.emoji} ${url}`;
-  return `<div class="card invite"><h3>${G.emoji} ${G.kind==='derby'?`You hit ${sentGame.hr}. Send it.`:G.kind==='shootout'?'Your penalty is in. Send it.':`${G.name} is ready`}</h3><p class="small">${G.kind==='shootout'?'They pick their dive and their shot. Then you both see what happened.':G.kind==='derby'?'They get the same 10 pitches. Most homers wins.':'Send it to a friend. They go first, and you get your turn after.'}</p>
+ if(liveRoom)return `<div class="card invite"><h3>${liveRoom.duel?'🃏 Live draft room':'🎲 Game night room'} ${esc(liveRoom.code)} is open</h3><p class="small">${liveRoom.duel?'This one is live: you both draft at the same time, 30 seconds a pick. Text it, then jump in.':'Text the group, then jump in. The room stays open for 12 hours.'}</p>
+   <a class="btn accent full" href="${smsLink(liveRoom.msg)}">💬 Text it</a>
+   <div class="row" style="margin-top:8px"><a class="btn ghost" href="${liveRoom.enter}">Go to the room →</a>${liveRoom.loopId?`<button class="ghost" data-postnight>Post in the loop</button>`:''}<button class="link" data-newgame>Done</button></div></div>`;
+ if(duelChoose)return `<div class="card invite"><h3>🃏 Draft Duel</h3><p class="small">Same players for both of you, $130 for five. Oops' Scout grades each team and the better team wins.</p>
+   <button class="accent full" data-duelmode="async">🕒 Anytime: you draft now, they draft later</button>
+   <button class="ghost full" style="margin-top:8px" data-duelmode="live">⚡ Live now: a real-time Oops 1v1 room</button>
+   <button class="link" data-newgame>Back</button></div>`;
+ if(sentGame){const G=GAMES[sentGame.key],url=`${ORIGIN}/${G.kind==='derby'?'d':G.kind==='shootout'?'s':G.kind==='duel'?'r':'p'}/${sentGame.id}`,msg=G.kind==='duel'?`${data.me.name} drafted ${aGrade(sentGame.grade)} team 🃏 Beat it: ${url}`:G.kind==='shootout'?`${data.me.name} took a penalty ⚽ Save it, then take yours: ${url}`:G.kind==='derby'?`${data.me.name} hit ${sentGame.hr} ${sentGame.hr===1?'homer':'homers'} ⚾ Beat it: ${url}`:`${data.me.name} challenged you to ${G.name} ${G.emoji} ${url}`;
+  return `<div class="card invite"><h3>${G.emoji} ${G.kind==='duel'?`Scout gave you ${esc(aGrade(sentGame.grade))}. Send it.`:G.kind==='derby'?`You hit ${sentGame.hr}. Send it.`:G.kind==='shootout'?'Your penalty is in. Send it.':`${G.name} is ready`}</h3><p class="small">${G.kind==='duel'?'They draft the same board without seeing your picks. Better Scout grade wins.':G.kind==='shootout'?'They pick their dive and their shot. Then you both see what happened.':G.kind==='derby'?'They get the same 10 pitches. Most homers wins.':'Send it to a friend. They go first, and you get your turn after.'}</p>
    <a class="btn accent full" href="sms:?&body=${encodeURIComponent(msg)}">💬 Text it</a>
    <div class="row" style="margin-top:8px"><button class="ghost" data-copy="${esc(url)}" data-sharetext="${esc(`${data.me.name} challenged you to ${G.name} ${G.emoji}`)}">${navigator.share?'Share…':'Copy link'}</button><button class="link" data-newgame>Done</button></div></div>`;}
  return `<h2 style="margin-top:8px">Text a friend a game</h2><div class="games">${Object.entries(GAMES).map(([k,G])=>`<button class="card gametile" data-textgame="${k}"><span class="big-emoji">${G.emoji}</span><b>${G.name}</b><span class="small muted">${G.blurb}</span></button>`).join('')}</div>`;
@@ -130,6 +143,8 @@ function homeView(){
  const moves=[
   ...data.shootouts.filter(g=>g.myTurn&&!(g.open&&g.rounds.length===0&&!g.theyPicked&&g.myPicked)).map(g=>row('⚽',g.open&&!g.rounds.length?'Your penalty challenge':`Round ${g.round} vs ${esc(g.vs)}${g.suddenDeath?' · sudden death':''}`,`${g.score.me}–${g.score.them}${g.theyPicked?' · they already picked':''}`,`<button class="accent" data-shoot="${g.id}">Pick</button>`)),
   ...data.shootouts.filter(g=>g.done).slice(0,1).map(g=>row(g.won?'🏆':g.tie?'🤝':'⚽',g.won?`You beat ${esc(g.vs)}, ${g.score.me}–${g.score.them}`:g.tie?`Tied ${esc(g.vs)}`:`${esc(g.vs)} won, ${g.score.them}–${g.score.me}`,'Penalty Shootout',g.vsId?`<button class="ghost" data-reshoot="${g.vsId}">Rematch</button>`:'')),
+  ...(data.duels||[]).filter(g=>g.myTurn).map(g=>row('🃏',g.theirs?`Beat ${esc(g.vs)}’s ${esc(g.theirs.grade)} draft`:'Your draft','Draft Duel',`<button class="accent" data-duel="${g.id}">Draft</button>`)),
+  ...(data.duels||[]).filter(g=>g.done).slice(0,1).map(g=>row(g.won?'🏆':g.tie?'🤝':'🃏',g.won?`You beat ${esc(g.vs)}, ${esc(g.mine.grade)} to ${esc(g.theirs.grade)}`:g.tie?`Tied ${esc(g.vs)}`:`${esc(g.vs)} won, ${esc(g.theirs.grade)} to ${esc(g.mine.grade)}`,'Draft Duel',g.vsId?`<button class="ghost" data-reduel="${g.vsId}">Rematch</button>`:'')),
   ...data.derbies.filter(g=>g.myTurn).map(g=>row('⚾',g.theirs?`Beat ${esc(g.vs)}’s ${g.theirs.hr} ${g.theirs.hr===1?'homer':'homers'}`:'Your at-bat','Home Run Derby',`<button class="accent" data-derby="${g.id}">Bat</button>`)),
   ...data.derbies.filter(g=>g.done).slice(0,1).map(g=>row(g.won?'🏆':g.tie?'🤝':'⚾',g.won?`You beat ${esc(g.vs)}, ${g.mine.hr}–${g.theirs.hr}`:g.tie?`Tied ${esc(g.vs)}, ${g.mine.hr}–${g.theirs.hr}`:`${esc(g.vs)} won, ${g.theirs.hr}–${g.mine.hr}`,'Home Run Derby',g.vsId?`<button class="ghost" data-rederby="${g.vsId}">Rematch</button>`:'')),
   ...mine.filter(g=>g.id!==sentGame?.id).map(g=>{const pick=g.mode==='big3'&&!g.draft.done,name=g.mode==='big3'?'Big 3 Pong':'Pong';
@@ -184,7 +199,7 @@ function loopDetail(l){
  <h1>${esc(l.name)}</h1>${l.privateName?`<p class="muted">The group calls it “${esc(l.publicName)}”</p>`:''}
  <div class="card invite"><h3>Invite friends</h3><p class="small">Anyone with this link can join. They just need a first name.</p>
   <button class="accent" style="width:100%" data-copy="${esc(url)}" data-sharetext="Join ${esc(l.publicName)} on Loops">${navigator.share?'Share invite link':'Copy invite link'}</button><p class="small muted" style="margin-top:8px;word-break:break-all">${esc(url)}</p></div>
- ${l.members.length>1?`<div class="row"><button class="accent" data-sendto="loop:${l.id}">Send the loop a thought</button></div>`:'<p class="muted small">Once someone joins, you can send the whole loop a thought.</p>'}
+ ${l.members.length>1?`<div class="row"><button class="accent" data-sendto="loop:${l.id}">Send the loop a thought</button><button class="ghost" data-gamenight="${l.id}">🎲 Game night tonight</button></div>`:'<p class="muted small">Once someone joins, you can send the whole loop a thought.</p>'}
  <h2>Who’s in it</h2><div class="card">${l.members.map(m=>`<div class="person"><span>${esc(m.name)}${m.city?` <span class="muted small">${esc(m.city)}</span>`:''}</span><span class="row">${m.openDoor?'<span class="door">Door open</span>':''}${m.id!==data.me.id?`<button class="ghost" style="padding:6px 10px" data-challenge="${m.id}">🏓</button>`:''}</span></div>`).join('')}</div>
  <form data-rename="${l.id}" class="card"><h3>Names</h3>
   <label>Name the group uses</label><input name="publicName" maxlength="40" value="${esc(l.publicName)}">
@@ -226,7 +241,7 @@ async function linkThoughtView(id){
 
 // ---------- render + routing ----------
 async function render(){
- const r=route(),m=r.match(/^\/(j|t|p|d|s)\/([\w-]+)/);
+ const r=route(),m=r.match(/^\/(j|t|p|d|s|r)\/([\w-]+)/);
  const app=$('#app'),nav=$('#tabs');
  if(r==='/im'){nav.hidden=true;app.innerHTML=imCompose();return;}
  if(m?.[1]==='t'&&(!token||IM)){nav.hidden=true;app.innerHTML=await linkThoughtView(m[2]);return;}
@@ -238,6 +253,10 @@ async function render(){
   app.innerHTML=`<section class="hero"><h1>${c?`${esc(c.from)} hit ${c.hr??'?'} ${c.hr===1?'homer':'homers'} ⚾`:'Home Run Derby'}</h1><p class="muted">${c&&!c.open?'Someone already took this at-bat, but you can start your own.':'Same 10 pitches. Beat it.'}</p></section>
   <form id="signup" class="card"><label for="name">Your first name</label><input id="name" name="name" autocomplete="given-name" maxlength="24" required autofocus><button class="accent full" type="submit">Bat</button></form>
   <p class="small muted" style="text-align:center">No app, no password. Loops keeps it light.</p>`;return;}
+ if(!token&&m?.[1]==='r'){nav.hidden=true;let c=null;try{c=await api('/uchallenge/'+m[2]);}catch(e){}
+  app.innerHTML=`<section class="hero"><h1>${c?`${esc(c.from)} drafted ${esc(aGrade(c.grade||'?'))} team 🃏`:'Draft Duel'}</h1><p class="muted">${c&&!c.open?'Someone already took this draft, but you can start your own.':'Same players, same $130 cap. Beat their Scout grade.'}</p></section>
+  <form id="signup" class="card"><label for="name">Your first name</label><input id="name" name="name" autocomplete="given-name" maxlength="24" required autofocus><button class="accent full" type="submit">Draft</button></form>
+  <p class="small muted" style="text-align:center">No app, no password. Loops keeps it light.</p>`;return;}
  if(!token&&m?.[1]==='p'){nav.hidden=true;let c=null;try{c=await api('/challenge/'+m[2]);}catch(e){}
   const G=c?.mode==='big3'?GAMES.big3:GAMES.pong;
   app.innerHTML=`<section class="hero"><h1>${c?`${esc(c.from)} challenged you to ${G.name} ${G.emoji}`:'Pong'}</h1><p class="muted">${c&&!c.open?'Someone already took this seat, but you can still join Loops and start your own.':G.blurb}</p></section>
@@ -247,6 +266,7 @@ async function render(){
  if(m?.[1]==='p'){nav.hidden=IM;await pongPage(m[2]);return;}
  if(m?.[1]==='d'){nav.hidden=IM;await derbyPage(m[2]);return;}
  if(m?.[1]==='s'){nav.hidden=IM;await shootPage(m[2]);return;}
+ if(m?.[1]==='r'){nav.hidden=IM;await duelPage(m[2]);return;}
  if(m){ // Signed in and opened an invite or link: handle it, then go home.
   history.replaceState(null,'',BASE+'/');
   if(m[1]==='j')await act(()=>api('/join',{code:m[2]}),'You joined the loop.');else await act(()=>api(`/t/${m[2]}/reply`,{}),'You’re connected.');
@@ -256,6 +276,7 @@ async function render(){
  nav.hidden=false;nav.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));
  clearInterval(pollTimer);
  if(shootOpen&&tab==='home'){await shootPage(shootOpen,false);return;}
+ if(duelOpen&&tab==='home'){await duelPage(duelOpen,false);return;}
  if(derbyOpen&&tab==='home'){await derbyPage(derbyOpen,false);return;}
  if(pongOpen&&tab==='home'){await pongPage(pongOpen,false);return;}
  app.innerHTML={home:homeView,send:sendView,loops:loopsView,me:meView}[tab]();
@@ -357,6 +378,38 @@ async function derbyPage(id,page=true){
  if(!g.done)pollTimer=setInterval(async()=>{if(document.visibilityState!=='visible')return;try{const n=await api('/derby/'+id);if(n.updatedAt!==g.updatedAt){clearInterval(pollTimer);fx('yourTurn');derbyPage(id,page);}}catch{}},3000);
 }
 
+// Draft Duel screen: pick one player per position under the cap, then lock in. Afterwards, both teams with
+// Scout's grade and one-line report. Before the reveal you only see the grade you have to beat.
+let duelOpen=null,duelGame=null,duelPick={};
+const duelCost=()=>Object.values(duelPick).reduce((s,c)=>s+c.price,0);
+function duelTeam(who,t,won){
+ if(!t)return `<div class="card"><b>${esc(who)}</b><p class="small muted">Hasn’t drafted yet</p></div>`;
+ if(t.hidden)return `<div class="card"><b>${esc(who)}: Scout grade ${esc(t.grade)}</b><p class="small muted">Their picks stay hidden until you draft.</p></div>`;
+ return `<div class="card ${won?'winner':''}"><b>${esc(who)}: ${esc(t.grade)}</b> <span class="small muted">${esc(t.rank)} · $${t.total}</span>
+  <div class="lineup">${t.picks.map(p=>`<span class="pill pill-hs">${headshot(p.name,'sm')}${p.slot}: ${esc(p.name)}</span>`).join('')}</div><p class="small">${esc(t.report)}</p></div>`;
+}
+async function duelPage(id,page=true){
+ try{duelGame=await api('/duel/'+id);}catch(e){$('#app').innerHTML=`<h1>Draft Duel</h1><div class="empty">${esc(e.message)}</div>`;return;}
+ const g=duelGame,app=$('#app'),back=page?'':'<button class="link" data-closeduel>← Home</button>';
+ clearInterval(pollTimer);
+ if(g.myTurn){
+  const spent=duelCost(),left=g.budget-spent,open=g.board.filter(s=>!duelPick[s.slot]);
+  // A card fits if, after buying it, the cheapest card at every other open position is still affordable.
+  const fits=(s,c)=>{const rest=open.filter(o=>o.slot!==s.slot).reduce((t,o)=>t+Math.min(...o.cards.map(x=>x.price)),0),swap=duelPick[s.slot]?.price||0;return c.price-swap+rest<=left;};
+  app.innerHTML=`${back}${soundToggle()}<h1>🃏 Draft Duel</h1><p class="muted small">${g.theirs?`Beat ${esc(g.vs)}’s <b>${esc(g.theirs.grade)}</b>.`:'You draft first. Your friend gets the same board.'} One player per position, $${g.budget} cap.</p>
+   <div class="card budget"><b>$${left} left</b> <span class="small muted">of $${g.budget} · ${5-open.length} of 5 picked</span></div>
+   ${g.board.map(s=>`<h2>${s.label}${duelPick[s.slot]?` <span class="small muted">· ${esc(duelPick[s.slot].name)}</span>`:''}</h2><div class="picks">${s.cards.map(c=>{const on=duelPick[s.slot]?.name===c.name,ok=on||fits(s,c);
+    return `<button class="card pickcard ${on?'on':''}" data-dpick="${s.slot}|${esc(c.name)}" ${ok?'':'disabled'}>${headshot(c.name)}<span class="pickinfo"><b>${esc(c.name)}</b><span class="small muted">${esc(c.note)}</span><span class="pill">$${c.price} · ${c.ovr} ovr</span></span></button>`;}).join('')}</div>`).join('')}
+   <button class="accent full" data-dlock ${open.length?'disabled':''}>${open.length?`Pick ${open.length} more`:'Lock in my five'}</button>
+   <p class="small muted" style="text-align:center"><a href="/credits.html" target="_blank" rel="noopener">Photo credits</a></p>`;
+  return;
+ }
+ app.innerHTML=`${back}<h1>🃏 ${g.done?(g.won?'You win!':g.tie?'Tie game':`${esc(g.winnerName||g.vs)} wins`):'Draft Duel'}</h1>
+  ${duelTeam('You',g.mine,g.won)}${duelTeam(g.vs,g.theirs,g.done&&!g.won&&!g.tie)}
+  ${g.done?`<p class="muted small">${record(g)}</p>${g.vsId&&!page?`<button class="accent full" data-reduel="${g.vsId}">Rematch</button>`:''}`:`<p class="muted small">Waiting on ${esc(g.vs)}. No rush.</p>`}`;
+ if(!g.done)pollTimer=setInterval(async()=>{if(document.visibilityState!=='visible')return;try{const n=await api('/duel/'+id);if(n.updatedAt!==g.updatedAt){clearInterval(pollTimer);fx('yourTurn');duelPage(id,page);}}catch{}},3000);
+}
+
 async function pongAfter(res,page=false){
  if(res.error)toast(res.error);
  else if(res.event==='win'){fx('win');toast('Cleared the table. You win!');}
@@ -373,7 +426,7 @@ const saveDraft=()=>{const f=$('#send');if(!f)return;draft.text=f.text.value;dra
 
 document.addEventListener('click',async e=>{
  const b=e.target.closest('button');if(!b)return;const d=b.dataset;
- if(d.tab){saveDraft();tab=d.tab;openLoop=null;pongOpen=null;derbyOpen=null;shootOpen=null;if(tab!=='send')lastLink=null;render();scrollTo(0,0);return;}
+ if(d.tab){saveDraft();tab=d.tab;openLoop=null;pongOpen=null;derbyOpen=null;shootOpen=null;duelOpen=null;if(tab!=='send')lastLink=null;render();scrollTo(0,0);return;}
  if(d.sendto){const [type,id]=d.sendto.split(':');draft={to:`${type}:${id}`,text:'',url:'',photo:null};lastLink=null;tab='send';render();scrollTo(0,0);return;}
  if(d.to!==undefined){saveDraft();draft.to=d.to;lastLink=null;render();return;}
  if(d.nophoto!==undefined){saveDraft();draft.photo=null;render();return;}
@@ -383,14 +436,20 @@ document.addEventListener('click',async e=>{
  if(d.rmtrip){await act(()=>api(`/trips/${d.rmtrip}/remove`,{}),'Trip removed.');return;}
  if(d.openloop!==undefined){openLoop=d.openloop||null;render();scrollTo(0,0);return;}
  if(d.imgame==='shootout'){const out=await act(()=>api('/shootout',{}));if(out){history.replaceState(null,'',`${BASE}/s/${out.id}?im=1`);native({type:'expand'});soPick={};render();}return;}
+ if(d.imgame==='duel'){const out=await act(()=>api('/duel',{}));if(out){history.replaceState(null,'',`${BASE}/r/${out.id}?im=1`);native({type:'expand'});duelPick={};render();}return;}
  if(d.imgame==='derby'){const out=await act(()=>api('/derby',{}));if(out){history.replaceState(null,'',`${BASE}/d/${out.id}?im=1`);native({type:'expand'});render();}return;}
  if(d.imgame){const big=d.imgame==='big3',out=await act(()=>api('/pong',{mode:big?'big3':'classic'}));if(out)native({type:'send',kind:'pong',path:`/p/${out.id}`,caption:big?`🏀 ${data?.me?.name||'A friend'} wants a Big 3 Pong draft`:`🏓 ${data?.me?.name||'A friend'} challenged you to Pong`,sub:big?'Tap to draft first, then play':'Tap to play. You go first.'});return;}
  if(d.sound!==undefined){setMuted(!muted);b.outerHTML=soundToggle();return;}
  if(d.textgame==='shootout'){const out=await act(()=>api('/shootout',{}));if(out){shootOpen=out.id;soPick={};render();scrollTo(0,0);}return;}
+ if(d.textgame==='duel'){duelChoose=true;sentGame=null;liveRoom=null;render();return;}
+ if(d.duelmode==='async'){duelChoose=false;const out=await act(()=>api('/duel',{}));if(out){duelOpen=out.id;duelPick={};render();scrollTo(0,0);}return;}
+ if(d.duelmode==='live'){b.disabled=true;try{const room=await openOopsRoom('duel',data.me.name);duelChoose=false;liveRoom={...room,duel:true,msg:`${data.me.name} wants a live Draft Duel 🃏 Join now: ${room.url}`};render();}catch(err){toast(err.message);b.disabled=false;}return;}
+ if(d.gamenight){b.disabled=true;try{const room=await openOopsRoom('party',data.me.name);liveRoom={...room,loopId:d.gamenight,msg:`Game night tonight 🎲 Room ${room.code}: ${room.url}`};openLoop=null;tab='home';render();scrollTo(0,0);}catch(err){toast(err.message);b.disabled=false;}return;}
+ if(d.postnight!==undefined){if(!liveRoom?.loopId)return;const out=await act(()=>api('/thoughts',{to:{type:'loop',id:liveRoom.loopId},text:`Game night tonight 🎲 Room ${liveRoom.code}`,url:liveRoom.url}),'Posted in the loop.');if(out)b.remove();return;}
  if(d.textgame==='derby'){const out=await act(()=>api('/derby',{}));if(out){derbyOpen=out.id;render();scrollTo(0,0);}return;}
  if(d.textgame){const G=GAMES[d.textgame];const out=await act(()=>api('/pong',{mode:G.mode}));if(out){sentGame={id:out.id,key:d.textgame};render();}return;}
  if(d.allgifts!==undefined){showAllGifts=true;render();return;}
- if(d.newgame!==undefined){sentGame=null;render();return;}
+ if(d.newgame!==undefined){sentGame=null;duelChoose=false;liveRoom=null;render();return;}
  if(d.pongmode){pongMode=d.pongmode;render();return;}
  if(d.pick){const id=pageGame?.id;if(!id)return;fx('pick');try{const v=await api(`/pong/${id}/pick`,{name:d.pick});
   if(IM)native({type:'update',kind:'pong',path:`/p/${id}`,caption:v.draft.done?`🏀 Draft done. ${v.vs==='Open seat'?'':v.vs+' vs '}${data?.me?.name||''}: tip-off!`:`🏀 ${data?.me?.name||'Someone'} drafted ${d.pick}`,sub:v.draft.done?'Tap to shoot':`${v.draft.picker}’s pick`});
@@ -406,6 +465,15 @@ document.addEventListener('click',async e=>{
  if(d.shoot){shootOpen=d.shoot;soPick={};tab='home';render();scrollTo(0,0);return;}
  if(d.closeshoot!==undefined){shootOpen=null;clearInterval(pollTimer);render();return;}
  if(d.reshoot){const out=await act(()=>api('/shootout',{opponentId:d.reshoot}));if(out){shootOpen=out.id;soPick={};tab='home';render();scrollTo(0,0);}return;}
+ if(d.dpick){const [slot,name]=d.dpick.split('|'),c=duelGame?.board?.find(s=>s.slot===slot)?.cards.find(x=>x.name===name);if(!c)return;fx('pick');if(duelPick[slot]?.name===name)delete duelPick[slot];else duelPick[slot]=c;duelPage(duelGame.id,!duelOpen);return;}
+ if(d.dlock!==undefined){const id=duelGame?.id;if(!id)return;b.disabled=true;try{const v=await api(`/duel/${id}/lineup`,{picks:Object.fromEntries(Object.entries(duelPick).map(([k,c])=>[k,c.name]))});duelPick={};
+  if(v.done)fx(v.won?'win':'miss');
+  if(IM)native({type:v.done?'update':'send',kind:'duel',path:`/r/${id}`,caption:v.done?(v.won?`🃏 ${data?.me?.name} won the Draft Duel, ${v.mine.grade} to ${v.theirs.grade}`:v.tie?'🃏 Draft Duel tied':`🃏 ${v.vs} won the Draft Duel, ${v.theirs.grade} to ${v.mine.grade}`):`🃏 ${data?.me?.name||'A friend'} drafted ${aGrade(v.mine.grade)} team. Beat it.`,sub:v.done?'Tap for both teams':'Same players, $130 cap. Tap to draft.'});
+  if(!v.done&&v.open&&!IM&&duelOpen){sentGame={id,key:'duel',grade:v.mine.grade};duelOpen=null;await refresh();scrollTo(0,0);return;}
+  duelPage(id,!duelOpen);}catch(err){toast(err.message);b.disabled=false;}return;}
+ if(d.duel){duelOpen=d.duel;duelPick={};tab='home';render();scrollTo(0,0);return;}
+ if(d.closeduel!==undefined){duelOpen=null;clearInterval(pollTimer);render();return;}
+ if(d.reduel){const out=await act(()=>api('/duel',{opponentId:d.reduel}));if(out){duelOpen=out.id;duelPick={};tab='home';render();scrollTo(0,0);}return;}
  if(d.derby){derbyOpen=d.derby;tab='home';render();scrollTo(0,0);return;}
  if(d.closederby!==undefined){derbyOpen=null;clearInterval(pollTimer);render();return;}
  if(d.rederby){const out=await act(()=>api('/derby',{opponentId:d.rederby}));if(out){derbyOpen=out.id;tab='home';render();scrollTo(0,0);}return;}

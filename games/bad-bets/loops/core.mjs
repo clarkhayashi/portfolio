@@ -33,6 +33,10 @@ const routes=[
  ['GET',/^\/derby\/([\w-]+)$/,true,(db,u,_,m)=>L.derbyFor(db,u,m[1])],
  ['POST',/^\/derby\/([\w-]+)\/swings$/,true,(db,u,b,m)=>L.derbySwings(db,u,m[1],b.swings)],
  ['GET',/^\/dchallenge\/([\w-]+)$/,false,(db,_,__,m)=>{const g=db.derbies?.[m[1]];if(!g)throw Error('That game is gone.');const v=L.derbyView(db,{id:null},g);return {from:db.users[g.a]?.name||'A friend',open:!g.b,done:!!g.winner,hr:v.theirs?v.theirs.hr:null};}],
+ ['POST',/^\/duel$/,true,(db,u,b)=>({id:L.startDuel(db,u,b.opponentId||null).id})],
+ ['GET',/^\/duel\/([\w-]+)$/,true,(db,u,_,m)=>L.duelFor(db,u,m[1])],
+ ['POST',/^\/duel\/([\w-]+)\/lineup$/,true,(db,u,b,m)=>L.duelLineup(db,u,m[1],b.picks)],
+ ['GET',/^\/uchallenge\/([\w-]+)$/,false,(db,_,__,m)=>{const g=db.duels?.[m[1]];if(!g)throw Error('That game is gone.');const v=L.duelView(db,{id:null},g);return {from:db.users[g.a]?.name||'A friend',open:!g.b,done:!!g.winner,grade:v.theirs?.grade||null};}],
  ['GET',/^\/challenge\/([\w-]+)$/,false,(db,_,__,m)=>{const g=db.pongs?.[m[1]];if(!g)throw Error('That game is gone.');return {from:db.users[g.a&&g.b?g.a:(g.a||g.b)]?.name||'A friend',mode:g.mode||'classic',open:!g.a||!g.b,done:!!g.winner};}],
  ['GET',/^\/pong\/([\w-]+)$/,true,(db,u,_,m)=>L.pongFor(db,u,m[1])],
  ['POST',/^\/pong\/([\w-]+)\/throw$/,true,(db,u,b,m)=>L.pongThrow(db,u,m[1],b)]

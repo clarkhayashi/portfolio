@@ -207,3 +207,36 @@ test('Penalty Shootout: secret picks, reveal only when both are in, exact dive s
  const g3=L.startShootout(db,clark,cody.id);L.shootoutPick(db,clark,g3.id,{shoot:'tc',dive:'l'});const r=L.shootoutPick(db,cody,g3.id,{shoot:'tl',dive:'c'});
  assert.equal(r.rounds[0].mine.goal,false);assert.equal(r.rounds[0].theirs.goal,false);assert.equal(r.rounds[0].theirs.myDive,'c');
 });
+
+test('Draft Duel: same board for both, cap enforced, picks hidden until both draft, Scout decides',async()=>{
+ const DU=await import('./duel.mjs');
+ const {db,clark}=setup();const noa=L.signUp(db,{name:'Noa'});
+ const g=L.startDuel(db,clark),b=g.boards,ids=Object.keys(b);
+ assert.deepEqual(ids,['pg','sg','sf','pf','c']);
+ for(const id of ids){assert.equal(b[id].length,DU.DEAL);assert.ok(b[id].some(n=>DU.price(n)<=DU.CHEAP),'each position has a cheap card');}
+ const cheap=Object.fromEntries(ids.map(id=>[id,b[id].at(-1)])),stars=Object.fromEntries(ids.map(id=>[id,b[id][0]]));
+ assert.throws(()=>L.duelLineup(db,noa,g.id,cheap),/Wait for the first draft/); // friend can't go first
+ if(ids.reduce((s,id)=>s+DU.price(stars[id]),0)>DU.BUDGET)assert.throws(()=>L.duelLineup(db,clark,g.id,stars),/cap is \$130/);
+ assert.throws(()=>L.duelLineup(db,clark,g.id,{...cheap,c:'Nobody'}),/Pick a C/);
+ const v1=L.duelLineup(db,clark,g.id,cheap);assert.equal(v1.done,false);assert.ok(v1.mine.grade);
+ assert.throws(()=>L.duelLineup(db,clark,g.id,cheap),/already drafted/);
+ const seen=L.duelFor(db,noa,g.id);
+ assert.equal(seen.myTurn,true);assert.deepEqual(seen.board.map(s=>s.cards.map(c=>c.name)),ids.map(id=>b[id])); // same board
+ assert.equal(seen.theirs.hidden,true);assert.equal(seen.theirs.picks,undefined);assert.equal(seen.theirs.grade,v1.mine.grade); // grade to beat, no picks
+ // Noa swaps the cheapest center for the priciest one that still fits: never worse than all-cheap
+ const better={...cheap};for(const n of b.c){const t=ids.reduce((s,id)=>s+DU.price(id==='c'?n:cheap[id]),0);if(t<=DU.BUDGET){better.c=n;break;}}
+ const v2=L.duelLineup(db,noa,g.id,better);
+ assert.equal(v2.done,true);assert.equal(v2.theirs.picks.length,5);assert.ok(v2.mine.report);
+ assert.equal(v2.won||v2.tie||v2.winnerName==='Clark',true);
+ assert.ok(L.home(db,clark).people.some(p=>p.name==='Noa')); // playing connects you
+ assert.equal(L.home(db,clark).duels[0].done,true);
+ L.deleteUser(db,noa);assert.equal(Object.keys(db.duels).length,0);
+});
+
+test('Big 3: a finished draft carries a Scout grade for each lineup',async()=>{
+ const {ORDER}=await import('./big3.mjs');
+ const {db,clark,kai}=setup();const g=L.startPong(db,clark,kai.id,'big3');
+ for(const [seat,slot] of ORDER)L.pongPick(db,seat==='a'?clark:kai,g.id,g.draft.boards[slot][0]);
+ const v=L.pongFor(db,clark,g.id);
+ assert.equal(v.draft.done,true);assert.match(v.draft.grades.me.grade,/^[A-DF]/);assert.ok(v.draft.grades.them.report);
+});

@@ -8,7 +8,7 @@
       "destination": "/api/loops?path=:path*"
     },
     {
-      "source": "/loops/(j|t|p|d|s)/:id",
+      "source": "/loops/(j|t|p|d|s|r)/:id",
       "destination": "/loops/index.html"
     },
     {
