@@ -176,7 +176,7 @@ em.up,.up{color:var(--up)!important;font-style:normal;font-weight:900}em.down,.d
 /* connection + fullscreen */
 #connection{position:fixed;top:calc(var(--u)*1.2);left:50%;transform:translateX(-50%);padding:.4em 1.2em;border-radius:999px;background:var(--down);color:#fff;font-weight:800;font-size:calc(var(--u)*1.8);z-index:5;box-shadow:0 .2em .8em rgb(0 0 0/.2)}
 #connection[hidden],#fullscreen[hidden]{display:none}
-#fullscreen{position:fixed;right:calc(var(--u)*2);bottom:calc(var(--u)*2);padding:.6em 1.3em;border:0;border-radius:999px;background:var(--ink);color:var(--bg);font:inherit;font-weight:800;font-size:calc(var(--u)*1.8);cursor:pointer;z-index:5}
+#fullscreen{position:fixed;right:calc(var(--u)*2);bottom:calc(var(--u)*2);min-height:44px;padding:.6em 1.3em;border:0;border-radius:999px;background:var(--ink);color:var(--bg);font:inherit;font-weight:800;font-size:calc(var(--u)*1.8);cursor:pointer;z-index:5}
 #fullscreen.idle{opacity:0;pointer-events:none}#fullscreen{transition:opacity .4s}
 #fullscreen:focus-visible{outline:calc(var(--u)*.4) solid var(--accent);outline-offset:.2em}
 /* motion */
@@ -190,7 +190,8 @@ em.up,.up{color:var(--up)!important;font-style:normal;font-weight:900}em.down,.d
 @media (max-aspect-ratio:1/1){:root{--u:1.6vw}.lobby,.hero,.bet,.split,.result,.tv-reveal{grid-template-columns:1fr}.hero-art{width:calc(var(--u)*40);justify-self:center}.tv-game-anim{justify-self:center}body{overflow:auto}#display{height:auto;min-height:100%}}
 .prompt.herd-long{font-size:calc(var(--u)*3.8);max-width:34ch;line-height:1.15}.herd-cols{grid-template-columns:1fr 1fr!important}.herd-names{list-style:none;margin:0;padding:0;font-size:calc(var(--u)*2.2);line-height:1.4;overflow-wrap:anywhere}.herd-names .black-sheep{font-weight:800;color:var(--accent)}
 .tv-herd-anim{font-size:calc(var(--u)*2.4);width:min(100%,calc(var(--u)*70));margin:calc(var(--u)*2) auto 0}
-.tv-reveal{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:calc(var(--u)*4);align-items:center;min-height:0}.tv-game-anim{font-size:calc(var(--u)*1.9);width:calc(var(--u)*44);max-width:100%}.tv-game-anim .ga{margin:0}</style>
+.tv-reveal{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:calc(var(--u)*4);align-items:center;min-height:0}.tv-game-anim{font-size:calc(var(--u)*1.9);width:calc(var(--u)*44);max-width:100%}.tv-game-anim .ga{margin:0}
+@media (max-aspect-ratio:1/1){.tv-reveal{grid-template-columns:1fr}.tv-game-anim{justify-self:center}}</style>
 </head>
 <body>
 <div id="connection" role="status" hidden></div>

@@ -11,7 +11,7 @@ const BASE=`.ga{position:relative;height:13em;border-radius:1.1em;background:#ee
 .ga-big{font-size:1.7em;line-height:1}.ga-md{font-size:1.3em;line-height:1}
 .ga-win{background:#cdeef2;border-color:#087f98}
 .ga-bad{color:#ad414b;border-color:#ad414b}
-.ga-teal{color:#087f98}
+.ga-teal{color:#066a7f}
 .ga-slot{border:.1em dashed #8acbd2;border-radius:.5em;padding:.2em .45em;font-weight:800;color:#5d7480;background:#ffffff80}
 .ga-tile{background:#fff;border:.1em solid #8acbd2;border-radius:.45em;padding:.12em .2em}
 .ga-cap{left:0;right:0;bottom:.55em;text-align:center;font-weight:800;font-size:.95em;white-space:normal}

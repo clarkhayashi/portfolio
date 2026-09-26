@@ -19,3 +19,8 @@ export const compatible=(ids,count,spot)=>GAMES.filter(g=>ids.includes(g.id)&&g.
 // Out: Bad Answers and Drawn Into Trouble (need a judge), Imposter (4+), One More Round (3+).
 export const SCOUT_GAMES=['draft','auction'];
 export const QUICK_GAMES=['draft','auction','number','shadow','rhythm','brain'];
+
+// Which surface a screen sits on. Dark surfaces (Shadowbox, Date Night levels 2 and 3) swap in the
+// light wordmark, the off-white disc behind the mark, and light muted text. Drives body[data-surface].
+export const DARK_GAMES=['shadow'];
+export const surfaceFor=(game,dateLevel)=>DARK_GAMES.includes(game)||['2','3'].includes(String(dateLevel??''))?'dark':'light';

@@ -2,3 +2,5 @@ node_modules/
 dist/
 .vercel/
 .env*
+ui-shots/
+ui-report.json

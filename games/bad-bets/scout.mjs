@@ -45,6 +45,7 @@ export function scout(theme,raw){
 // One plain line: who carries the team, then the weak spot. Uses each player's best side, so a defensive
 // star never makes a lineup read as "all offense".
 function report(theme,names){
+ if(!names.length)return 'No picks to grade.';
  const rs=names.map(n=>rating(theme,n)),best=rs.map(r=>Math.max(r.off,r.def)),avgBest=avg(best);
  const top=best.indexOf(Math.max(...best)),low=best.indexOf(Math.min(...best));
  const lead=best[top]>=93?`${names[top]} carries it.`:avgBest>=85?'Deep and dangerous.':avgBest>=74?'Solid starters.':'A thin roster.';

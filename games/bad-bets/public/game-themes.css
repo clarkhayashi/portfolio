@@ -87,3 +87,83 @@ body[data-game=mixer][data-date-level]{background:transparent}
 @media (prefers-reduced-motion:reduce){html:has(body[data-game=mixer][data-date-level]){transition:none}}
 body[data-game=mixer][data-date-level] button.ghost.full{border:2px solid var(--dn-ghost);min-height:56px;font-size:18px;margin-top:10px}
 body[data-game=mixer][data-date-level] button.ghost.full[data-action=mixerEnd]{border:0;min-height:0;font-size:15px;font-weight:600;color:var(--dn-muted);text-decoration:underline;text-underline-offset:3px}
+
+/* ==========================================================================
+   Polish 2026-09-25. One surface system, one button system, one footer.
+   Checked by `npm run check:ui` (ui-check.mjs). `:not(#_)` lifts a rule above
+   the per-game overrides without !important; it matches every element.
+   ========================================================================== */
+
+/* Surface tokens. body[data-surface] is set from catalog.js surfaceFor(). */
+:root{--muted:#56606d;--brand-ink:#1c2433;--btn-radius:14px;--btn-fill:#087f98;--btn-on-fill:#fff;--btn-line:#087f98;--btn-text:#066a7f;--quiet-line:#c9d3d6}
+body[data-surface=dark]{--muted:#d4c8de;--brand-ink:#fcf0df;--focus:#ffd28a;--quiet-line:#fcf0df66}
+body[data-game=shadow]{--btn-fill:#ff8b64;--btn-on-fill:#251a32;--btn-line:#ff8b64;--btn-text:#ffb59a}
+body[data-game=mixer][data-date-level]{--muted:var(--dn-muted);--brand-ink:var(--dn-ink);--btn-fill:var(--dn-accent);--btn-on-fill:var(--dn-on-accent);--btn-line:var(--dn-ghost);--btn-text:var(--dn-ink);--quiet-line:var(--dn-line);--focus:var(--dn-ink)}
+body[data-game=draft]{--btn-line:#a33b22;--btn-text:#8a3019}
+body[data-game=draw]{--btn-line:#53419d;--btn-text:#4a3a8f}
+body[data-game=rhythm]{--btn-line:#31542b;--btn-text:#31542b}
+
+/* Muted text on every tinted light background reads at 5:1 or better. */
+.eyebrow,.stage-heading .eyebrow,.subtitle,.pill,.room-top .pill,.quick-pill span,.quick-note,.quick-h2h span,.pack-chip span,.theme-card div>span{color:var(--muted)}
+.timer{color:var(--btn-text)}
+body[data-game=shadow] .timer{background:#493850;color:#fcf0df}
+body[data-game=shadow] .team strong{color:#d4c8de}
+body[data-game=shadow] .team:nth-child(2) strong{color:#ffb59a}
+
+/* Header lockup: 44px tap area, no clipped glyphs, light ink on dark surfaces. */
+.brand{min-height:44px;padding:0 8px;margin-left:-8px;border-radius:12px;-webkit-tap-highlight-color:transparent}
+.brand .brand-word{padding:0;line-height:1.15;color:var(--brand-ink)}
+body[data-game=shadow] .brand{color:var(--brand-ink)}
+.brand:focus{outline:0}
+.brand:focus-visible{outline:2.5px solid var(--focus);outline-offset:2px}
+/* Brand kit: on dark backgrounds the mark sits on an off-white disc, so its ink outline stays visible. */
+body[data-surface=dark] .brand-mark{background:#f8f7f3;border-radius:50%;padding:2px;box-sizing:border-box;box-shadow:0 0 0 1px #f8f7f3}
+
+/* Buttons. Primary = filled; secondary = outlined; ghost = quiet text. One radius, three heights. */
+button:not(:is(.choices *,.mode-options *,.game-tile,.q-card,.icon-btn,.pack-chip,.theme-card,.tutorial-launch,.again-chip,.physical-scores *,.raise-row *,.q-bid-row *,.round-options *,.category-picks *)):not(#_){border-radius:var(--btn-radius)}
+.stage .row button:not(#_){min-height:48px}
+button.secondary:not(#_),.stage .quick-actions button.q-alt:not(#_){background:transparent;color:var(--btn-text);border:2px solid var(--btn-line);box-shadow:none}
+button.secondary:not(#_):hover:not(:disabled){background:color-mix(in srgb,var(--btn-line) 10%,transparent)}
+button.ghost:not(#_){background:transparent;color:var(--btn-text);border:0;box-shadow:none}
+body[data-surface=dark] button.ghost:not(#_){color:var(--brand-ink)}
+/* Leave: a compact outlined button that always fits its label. */
+.room-top button[data-action=leave]:not(#_){min-height:44px;min-width:44px;padding:0 16px;border:1.5px solid var(--quiet-line);border-radius:var(--btn-radius);background:transparent;color:var(--brand-ink);font-size:14px;font-weight:600;white-space:nowrap;line-height:1}
+.room-top button[data-action=leave]:not(#_):hover{border-color:currentColor}
+
+/* Footer: three quiet text links, same size, same colour, 44px tall. */
+.simple-help{border-top-color:var(--quiet-line)}
+.simple-help :is(button,a):not(#_):not(#_){display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;padding:0 6px;margin:0 -6px;background:transparent;border:0;border-radius:10px;box-shadow:none;color:var(--muted);font:inherit;font-size:14px;font-weight:600;text-decoration:none;white-space:nowrap}
+.simple-help :is(button,a):not(#_):not(#_):hover{color:var(--brand-ink);text-decoration:underline;text-underline-offset:3px}
+
+/* Date Night quiet links keep their look but get a real tap area. */
+body[data-game=mixer][data-date-level] .dn-quiet button.link:not(#_){min-height:44px;padding:0 4px;border-radius:10px}
+:where(details>summary){min-height:44px;box-sizing:border-box;padding-block:12px}
+
+/* Date Night contrast: level 1 buttons and the level 2 red deepen a step so white and blush text pass 4.5:1. */
+body[data-game=mixer][data-date-level="1"],html:has(body[data-game=mixer][data-date-level="1"]){--dn-accent:#D1303D}
+body[data-game=mixer][data-date-level="2"],html:has(body[data-game=mixer][data-date-level="2"]){--dn-bg:#C92C42;--dn-card:#D63F53;--dn-muted:#FFF4F5}
+body[data-game=imposter] .role-card p{color:#d5e0d6}
+.scout-row .ovr{color:#066a7f}
+.video-fallback a{display:inline-flex;align-items:center;min-height:44px}
+
+/* Action rows: equal-width buttons that wrap cleanly on phones; the one filled action leads. */
+.stage .row:is(:has(>button[data-action=replay]),:has(>button[data-action=practice]),.physical-actions){display:flex;flex-wrap:wrap;align-items:stretch;gap:10px}
+.stage .row:is(:has(>button[data-action=replay]),:has(>button[data-action=practice]),.physical-actions)>button{flex:1 1 140px;margin:0}
+.stage .physical-actions>button:not(.secondary){flex-basis:100%;order:-1}
+/* Date Night keeps its outlined "Pass" buttons (ghost there means secondary). */
+body[data-game=mixer][data-date-level] :is(.dn-actions button.ghost,button.ghost.full:not([data-action=mixerEnd])):not(#_){border:2px solid var(--dn-ghost);color:var(--dn-ink)}
+.stage .row.physical-actions>button:not(.secondary):not(#_){flex-basis:100%;order:-1}
+/* Dialogs: the safe choice is outlined, the main one filled; loose buttons in a dialog stack full width. */
+.dialog-actions .console-button:not(.primary):not(#_){background:transparent;color:var(--btn-text);border:2px solid var(--btn-line)}
+.channel-detail>button:not(.mode-options *):not(#_){display:flex;align-items:center;justify-content:center;width:100%;min-height:48px;margin-top:10px}
+.channel-detail>button.ghost:not(#_){border:2px solid var(--btn-line)}
+/* Room header: the round pill wraps before the Leave button drops to its own line. */
+@media(max-width:560px){.room-top .row{flex-wrap:nowrap;align-items:center}.room-top .pill{white-space:normal;text-align:right;line-height:1.3;text-wrap:balance}}
+/* Ballpark's big monospace input: the hint must fit the field. */
+body[data-game=number] .stage input::placeholder{font-size:max(16px,.55em);letter-spacing:0}
+.channel-detail button[data-close]:not(.primary):not(#_){background:transparent;color:var(--btn-text);border:2px solid var(--btn-line)}
+/* Filled answer cards keep their text off the edges at every width. */
+body[data-game=quips] .build{padding:18px 22px}
+body[data-game=imposter] .build{padding:14px 16px}
+.raise-row small{opacity:1}
+body[data-game=imposter] .role-card{padding:18px 20px}
