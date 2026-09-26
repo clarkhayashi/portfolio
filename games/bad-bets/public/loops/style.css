@@ -87,3 +87,15 @@ h2{margin-top:30px}
 .hs-sm.hs-initials{font-size:.6rem}
 .pill-hs{display:inline-flex;align-items:center;padding-left:4px}
 .sound{float:right;padding:6px 10px;font-size:1.1rem;line-height:1}
+.games{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.gametile{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;background:#fff;color:var(--ink);margin:0;min-width:0}
+.gametile b{font-size:1.1rem}
+a.btn{display:block;text-align:center;text-decoration:none;border-radius:calc(var(--radius) - 4px);padding:14px 16px;font-weight:800;margin-top:8px}
+a.btn.accent{background:var(--accent);color:#fff}
+.rows h3{margin:0 0 4px}
+.mrow{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+.mrow:first-of-type{border-top:0}
+.micon{font-size:1.4rem;width:28px;text-align:center;flex:0 0 auto}
+.mtext{display:flex;flex-direction:column;min-width:0;flex:1 1 auto}
+.mtext b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mrow button{flex:0 0 auto;padding:10px 14px}

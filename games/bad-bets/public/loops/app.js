@@ -59,14 +59,6 @@ function giftCard(t){
 }
 
 const record=g=>`You ${g.record.me}–${g.record.them} ${esc(g.vs)} all time`;
-function pongCards(){
- const mine=data.pongs.filter(g=>g.myTurn),wait=data.pongs.filter(g=>!g.myTurn&&!g.done),done=data.pongs.filter(g=>g.done);
- return mine.map(g=>`<div class="card turn"><h3>${g.mode==='big3'&&!g.draft.done?`🏀 Your pick vs ${esc(g.vs)}`:`🏓 Your shot vs ${esc(g.vs)}`}</h3>${g.lastNote?`<p>${esc(g.lastNote)}</p>`:''}
-   <p class="small muted">${record(g)} · You have ${g.mine.filter(Boolean).length} cups left, they have ${g.targets.filter(Boolean).length}.</p>
-   <button class="accent" data-pong="${g.id}">${g.mode==='big3'&&!g.draft.done?`Pick your ${g.draft.slot}`:'Take your shot'}</button></div>`).join('')
-  +done.map(g=>`<div class="card"><h3>${g.won?`You beat ${esc(g.vs)}`:`${esc(g.vs)} won this one`}</h3><p class="small muted">${record(g)}</p><button data-challenge="${g.vsId}">Rematch</button></div>`).join('')
-  +(wait.length?`<p class="muted small">Waiting on ${wait.map(g=>esc(g.vs)).join(', ')} to shoot. No rush.</p>`:'');
-}
 
 const SLOT_NAME={guard:'Guard',wing:'Wing',big:'Big'};
 // Headshots: the same Wikimedia Commons photos Oops uses (credits at /credits.html). Missing or broken photos
@@ -97,7 +89,7 @@ function statsStrip(g){
 const soundToggle=()=>`<button class="ghost sound" data-sound aria-label="${muted?'Turn sound on':'Turn sound off'}">${muted?'🔇':'🔊'}</button>`;
 function pongView(g,page=false){
  if(g.mode==='big3'&&!g.draft.done)return draftView(g,page);
- const status=g.done?(g.won?'You won. 🏆':`${esc(g.winnerName||g.vs)} won.`):g.open&&!g.seated?'Take the open seat: shoot first to join.':g.myTurn?`${g.left} ${g.left===1?'ball':'balls'} left. Sink both and you get them back.`:`Nice. ${esc(g.vs)} is up.`;
+ const status=g.done?(g.won?'You won. 🏆':`${esc(g.winnerName||g.vs)} won.`):g.open&&!g.seated?'Take the open seat: shoot first to join.':g.myTurn?`${g.left} ${g.left===1?'ball':'balls'} left. Sink both and you get them back.`:g.open?'Waiting for a friend to open it. You go next.':`Nice. ${esc(g.vs)} is up.`;
  return `${page?'':'<button class="link" data-closepong>← Home</button>'}
  ${soundToggle()}<h1>${g.open&&!g.seated?'Pong challenge':`${g.mode==='big3'?'Big 3 Pong':'Pong'} vs ${esc(g.vs)}`}</h1><p class="muted small">${record(g)}</p>
  ${statsStrip(g)}
@@ -109,29 +101,47 @@ function pongView(g,page=false){
  ${g.done&&g.vsId&&!page?`<button class="accent" data-challenge="${g.vsId}">Rematch</button>`:''}`;
 }
 
-// First run: nobody to talk to yet. Two one-tap paths straight to a first send; nothing else on screen.
-function firstRun(){
- return `<h1>Hi, ${esc(data.me.name)}</h1><p class="muted">Who do you want to keep in touch with?</p>
- <button class="card big-choice" data-start="thought"><span class="big-emoji">💭</span><span><b>Send someone a thought</b><br><span class="small muted">One friend. They open a link, no app needed.</span></span></button>
- <button class="card big-choice" data-start="group"><span class="big-emoji">👥</span><span><b>Invite a group</b><br><span class="small muted">High school, college, the old team.</span></span></button>
- ${startGroup?`<form id="quickloop" class="card"><label for="qpub">Group name</label><input id="qpub" name="publicName" maxlength="40" placeholder="Kalani Class of ’22" required autofocus><button class="accent" type="submit" style="width:100%">Make it and get the invite link</button></form>`:''}
- <p class="muted small" style="text-align:center">Got an invite link from a friend? Just open it.</p>`;
+// Text a friend a game: tap a game, then "Text it" opens Messages with the link typed in. They open it, type
+// a first name, and play. No app or account on their side.
+let sentGame=null;
+const GAMES={pong:{mode:'classic',name:'Pong',emoji:'🏓',blurb:'Flick to sink their cups.'},big3:{mode:'big3',name:'Big 3 Pong',emoji:'🏀',blurb:'Draft a guard, wing and big first.'}};
+function textAGame(){
+ if(sentGame){const url=`${ORIGIN}/p/${sentGame.id}`,G=GAMES[sentGame.key],msg=`${data.me.name} challenged you to ${G.name} ${G.emoji} ${url}`;
+  return `<div class="card invite"><h3>${G.emoji} ${G.name} is ready</h3><p class="small">Send it to a friend. They go first, and you get your turn after.</p>
+   <a class="btn accent full" href="sms:?&body=${encodeURIComponent(msg)}">💬 Text it</a>
+   <div class="row" style="margin-top:8px"><button class="ghost" data-copy="${esc(url)}" data-sharetext="${esc(`${data.me.name} challenged you to ${G.name} ${G.emoji}`)}">${navigator.share?'Share…':'Copy link'}</button><button class="link" data-newgame>Done</button></div></div>`;}
+ return `<h2 style="margin-top:8px">Text a friend a game</h2><div class="games">${Object.entries(GAMES).map(([k,G])=>`<button class="card gametile" data-textgame="${k}"><span class="big-emoji">${G.emoji}</span><b>${G.name}</b><span class="small muted">${G.blurb}</span></button>`).join('')}</div>`;
 }
 
+// First run: nobody to talk to yet. Two one-tap paths straight to a first send; nothing else on screen.
+function firstRun(){
+ return `<h1>Hi, ${esc(data.me.name)}</h1>${textAGame()}
+ <h2>Or keep in touch another way</h2>
+ <div class="row"><button class="ghost" data-start="thought">💭 Send a thought</button><button class="ghost" data-start="group">👥 Invite a group</button></div>
+ ${startGroup?`<form id="quickloop" class="card"><label for="qpub">Group name</label><input id="qpub" name="publicName" maxlength="40" placeholder="Kalani Class of ’22" required autofocus><button class="accent full" type="submit">Make it and get the invite link</button></form>`:''}`;
+}
+
+// Home: only three things. What's waiting on you, a game to text a friend, and the latest thoughts for you.
+let showAllGifts=false;
 function homeView(){
  if(!data.loops.length&&!data.people.length&&!data.gifts.length&&!data.sent.length)return firstRun();
- const doors=data.people.filter(p=>p.openDoor).slice(0,8);
+ const mine=data.pongs.filter(g=>g.myTurn),wait=data.pongs.filter(g=>!g.myTurn&&!g.done&&!g.open),done=data.pongs.filter(g=>g.done).slice(0,1);
+ const moves=[
+  ...mine.filter(g=>g.id!==sentGame?.id).map(g=>{const pick=g.mode==='big3'&&!g.draft.done,name=g.mode==='big3'?'Big 3 Pong':'Pong';
+   if(g.open)return row(pick?'🏀':'🏓',`Your ${name} challenge`,'Go first while a friend joins',`<button class="accent" data-pong="${g.id}">${pick?'Pick':'Shoot'}</button>`);
+   return row(pick?'🏀':'🏓',pick?`Your pick vs ${esc(g.vs)}`:`Your shot vs ${esc(g.vs)}`,g.lastNote?esc(g.lastNote):record(g),`<button class="accent" data-pong="${g.id}">${pick?'Pick':'Shoot'}</button>`);}),
+  ...data.invites.filter(i=>!i.down).map(i=>row('📍',`${esc(i.who)} is in ${esc(i.city)}`,`${fmtDate(i.from)} to ${fmtDate(i.to)}${i.note?` · “${esc(i.note)}”`:''}`,`<button class="accent" data-down="${i.id}">I’m down</button>`)),
+  ...done.map(g=>row(g.won?'🏆':'🏓',g.won?`You beat ${esc(g.vs)}`:`${esc(g.vs)} won`,record(g),g.vsId?`<button class="ghost" data-challenge="${g.vsId}">Rematch</button>`:''))];
+ const gifts=showAllGifts?data.gifts:data.gifts.slice(0,3);
  return `<h1>Hi, ${esc(data.me.name)}</h1>
- ${pongCards()}
- ${data.invites.map(i=>`<div class="card invite"><h3>${esc(i.who)} is in ${esc(i.city)}</h3><p>${fmtDate(i.from)} to ${fmtDate(i.to)}. Open invite.${i.note?` “${esc(i.note)}”`:''}</p>
-  ${i.down?'<p class="door">You said you’re down.</p>':`<button class="accent" data-down="${i.id}">I’m down</button>`}</div>`).join('')}
- ${doors.length?`<h2>Thinking of someone?</h2><p class="muted small">Their door is open: they’re always happy to hear from you.</p>
-  <div>${doors.map(p=>`<button class="chip" data-sendto="user:${p.id}">${esc(p.name)}</button>`).join('')}</div>`:''}
- ${data.people.length?`<h2>Pong, anyone?</h2><p class="muted small">Send a challenge. They play whenever, or live if you're both on.</p><div class="row" style="margin-bottom:6px"><button class="chip ${pongMode==='classic'?'on':''}" data-pongmode="classic">Classic</button><button class="chip ${pongMode==='big3'?'on':''}" data-pongmode="big3">🏀 Big 3 draft</button></div><div>${data.people.map(p=>`<button class="chip" data-challenge="${p.id}">🏓 ${esc(p.name)}</button>`).join('')}</div>`:''}
- <h2>Thoughts for you</h2>
- ${data.gifts.length?data.gifts.map(giftCard).join(''):`<div class="empty">Nothing yet. Thoughts from your loops land here.<br>No pressure to open, react or reply.</div>`}
- ${!data.loops.length?`<div class="card"><h3>Start your first loop</h3><p class="small">A loop is a group of friends: high school, college, the old team.</p><button class="accent" data-tab="loops">Make a loop</button></div>`:''}`;
+ ${moves.length?`<section class="card rows"><h3>Your move</h3>${moves.join('')}</section>`:''}
+ ${wait.length?`<p class="muted small">Waiting on ${wait.map(g=>esc(g.vs)).join(', ')}. No rush.</p>`:''}
+ ${textAGame()}
+ <h2>For you</h2>
+ ${gifts.length?gifts.map(giftCard).join(''):`<div class="empty">Thoughts from friends land here. No pressure to reply.</div>`}
+ ${data.gifts.length>3&&!showAllGifts?`<button class="link" data-allgifts>See all ${data.gifts.length}</button>`:''}`;
 }
+const row=(icon,title,sub,action)=>`<div class="mrow"><span class="micon">${icon}</span><span class="mtext"><b>${title}</b><span class="small muted">${sub}</span></span>${action}</div>`;
 
 function sendView(){
  const targets=[...data.people.map(p=>({key:'user:'+p.id,label:p.name+(p.openDoor?' ·':'')})),...data.loops.map(l=>({key:'loop:'+l.id,label:l.name+' (loop)'})),{key:'link:',label:'Someone not on Loops yet'}];
@@ -214,6 +224,11 @@ async function render(){
  const r=route(),m=r.match(/^\/(j|t|p)\/([\w-]+)/);
  const app=$('#app'),nav=$('#tabs');
  if(m?.[1]==='t'&&(!token||IM)){nav.hidden=true;app.innerHTML=await linkThoughtView(m[2]);return;}
+ if(!token&&m?.[1]==='p'){nav.hidden=true;let c=null;try{c=await api('/challenge/'+m[2]);}catch(e){}
+  const G=c?.mode==='big3'?GAMES.big3:GAMES.pong;
+  app.innerHTML=`<section class="hero"><h1>${c?`${esc(c.from)} challenged you to ${G.name} ${G.emoji}`:'Pong'}</h1><p class="muted">${c&&!c.open?'Someone already took this seat, but you can still join Loops and start your own.':G.blurb}</p></section>
+  <form id="signup" class="card"><label for="name">Your first name</label><input id="name" name="name" autocomplete="given-name" maxlength="24" required autofocus><button class="accent full" type="submit">Play</button></form>
+  <p class="small muted" style="text-align:center">No app, no password. Loops keeps it light.</p>`;return;}
  if(!token){nav.hidden=true;let info=null;if(m?.[1]==='j'){try{info=await api('/invite/'+m[2]);}catch(e){toast(e.message);}}app.innerHTML=onboarding(m?.[1]==='j'?m[2]:null,info);return;}
  if(m?.[1]==='p'){nav.hidden=IM;await pongPage(m[2]);return;}
  if(r==='/im'){nav.hidden=true;app.innerHTML=imCompose();return;}
@@ -292,6 +307,9 @@ document.addEventListener('click',async e=>{
  if(d.openloop!==undefined){openLoop=d.openloop||null;render();scrollTo(0,0);return;}
  if(d.imgame){const big=d.imgame==='big3',out=await act(()=>api('/pong',{mode:big?'big3':'classic'}));if(out)native({type:'send',kind:'pong',path:`/p/${out.id}`,caption:big?`🏀 ${data?.me?.name||'A friend'} wants a Big 3 Pong draft`:`🏓 ${data?.me?.name||'A friend'} challenged you to Pong`,sub:big?'Draft a guard, wing and big, then play':'Tap to take the open seat'});return;}
  if(d.sound!==undefined){setMuted(!muted);b.outerHTML=soundToggle();return;}
+ if(d.textgame){const G=GAMES[d.textgame];const out=await act(()=>api('/pong',{mode:G.mode}));if(out){sentGame={id:out.id,key:d.textgame};render();}return;}
+ if(d.allgifts!==undefined){showAllGifts=true;render();return;}
+ if(d.newgame!==undefined){sentGame=null;render();return;}
  if(d.pongmode){pongMode=d.pongmode;render();return;}
  if(d.pick){const id=pageGame?.id;if(!id)return;fx('pick');try{const v=await api(`/pong/${id}/pick`,{name:d.pick});
   if(IM)native({type:'update',kind:'pong',path:`/p/${id}`,caption:v.draft.done?`🏀 Draft done. ${v.vs==='Open seat'?'':v.vs+' vs '}${data?.me?.name||''}: tip-off!`:`🏀 ${data?.me?.name||'Someone'} drafted ${d.pick}`,sub:v.draft.done?'Tap to shoot':`${v.draft.picker}’s pick`});

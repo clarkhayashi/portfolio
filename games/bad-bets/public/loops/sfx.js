@@ -46,5 +46,15 @@ const HAPTIC={throw:['light',10],plunk:['medium',25],rim:['rigid',12],miss:['sof
 export function fx(name){
  if(!muted&&ac&&SOUNDS[name]){try{SOUNDS[name]();}catch{}}
  const h=HAPTIC[name];if(!h)return;
- try{if(window.webkit?.messageHandlers?.loops)window.webkit.messageHandlers.loops.postMessage({type:'haptic',style:h[0]});else navigator.vibrate?.(h[1]);}catch{}
+ try{
+  if(window.webkit?.messageHandlers?.loops)window.webkit.messageHandlers.loops.postMessage({type:'haptic',style:h[0]});
+  else if(navigator.vibrate)navigator.vibrate(h[1]);
+  else switchTick(); // iPhone Safari: toggling a hidden switch control plays the system haptic (iOS 18+)
+ }catch{}
+}
+let tick=null;
+function switchTick(){
+ if(!tick){tick=document.createElement('label');tick.setAttribute('aria-hidden','true');tick.style.cssText='position:fixed;left:-100px;top:0;width:1px;height:1px;opacity:0;overflow:hidden';
+  const i=document.createElement('input');i.type='checkbox';i.setAttribute('switch','');i.tabIndex=-1;tick.append(i);document.body.append(tick);}
+ tick.click();
 }

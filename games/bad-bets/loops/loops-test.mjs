@@ -105,16 +105,18 @@ test('API: signup, home and auth over HTTP',async()=>{
  server.close();
 });
 
-test('open pong challenge: first friend to shoot takes the seat and gets connected',()=>{
- const {db,clark}=setup();const stranger=L.signUp(db,{name:'Leilani'}),third=L.signUp(db,{name:'Third'});
+test('open pong challenge: whoever opens the link plays first and gets connected',()=>{
+ const {db,clark}=setup();const leilani=L.signUp(db,{name:'Leilani'}),third=L.signUp(db,{name:'Third'});
  const g=L.startPong(db,clark);
- assert.equal(L.pongFor(db,stranger,g.id).open,true);
- assert.throws(()=>L.pongThrow(db,stranger,g.id,{aim:0,power:0}),/not your turn/); // challenger shoots first
- L.pongThrow(db,clark,g.id,{aim:0,power:0});L.pongThrow(db,clark,g.id,{aim:0,power:0});
- L.pongThrow(db,stranger,g.id,{aim:0,power:0}); // takes seat b
- assert.equal(db.pongs[g.id].b,stranger.id);
- assert.ok(L.home(db,clark).people.some(p=>p.name==='Leilani')); // now in each other's circle
- assert.throws(()=>L.pongThrow(db,third,g.id,{aim:0,power:0}),/not your turn/);
+ assert.equal(L.pongFor(db,leilani,g.id).open,true);
+ assert.equal(L.pongFor(db,leilani,g.id).myTurn,true); // the friend can shoot right away
+ assert.throws(()=>L.pongThrow(db,clark,g.id,{aim:0,power:0}),/not your turn/);
+ L.pongThrow(db,leilani,g.id,{aim:0,power:0}); // takes the open seat
+ assert.equal(db.pongs[g.id].a,leilani.id);
+ assert.ok(L.home(db,clark).people.some(p=>p.name==='Leilani'));
+ assert.throws(()=>L.pongThrow(db,third,g.id,{aim:0,power:0}),/not your turn|two players/);
+ L.pongThrow(db,leilani,g.id,{aim:0,power:0});
+ assert.equal(L.pongFor(db,clark,g.id).myTurn,true);
 });
 
 test('photos are stored apart from the thought and served by id',async()=>{

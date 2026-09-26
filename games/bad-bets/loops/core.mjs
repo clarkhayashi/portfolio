@@ -25,6 +25,7 @@ const routes=[
  ['POST',/^\/trips\/([\w-]+)\/down$/,true,(db,u,b,m)=>{L.imDown(db,u,m[1],b.note);return {ok:true};}],
  ['POST',/^\/pong$/,true,(db,u,b)=>({id:L.startPong(db,u,b.opponentId||null,b.mode==='big3'?'big3':'classic').id})],
  ['POST',/^\/pong\/([\w-]+)\/pick$/,true,(db,u,b,m)=>L.pongPick(db,u,m[1],b.name)],
+ ['GET',/^\/challenge\/([\w-]+)$/,false,(db,_,__,m)=>{const g=db.pongs?.[m[1]];if(!g)throw Error('That game is gone.');return {from:db.users[g.a&&g.b?g.a:(g.a||g.b)]?.name||'A friend',mode:g.mode||'classic',open:!g.a||!g.b,done:!!g.winner};}],
  ['GET',/^\/pong\/([\w-]+)$/,true,(db,u,_,m)=>L.pongFor(db,u,m[1])],
  ['POST',/^\/pong\/([\w-]+)\/throw$/,true,(db,u,b,m)=>L.pongThrow(db,u,m[1],b)]
 ];

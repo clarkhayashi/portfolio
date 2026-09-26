@@ -147,7 +147,9 @@ export function startPong(db,u,opponentId=null,mode='classic'){
   const live=Object.values(db.pongs).find(g=>!g.winner&&g.b&&pairKey(g.a,g.b)===pairKey(u.id,opponentId));
   if(live)return live;
  }
- const g={id:newId(),a:u.id,b:opponentId||null,cups:{a:Array(6).fill(true),b:Array(6).fill(true)},
+ // Direct challenge: you're seat a and go first. Open (texted) challenge: you're seat b, so whoever opens
+ // the link takes seat a and plays right away instead of waiting on you.
+ const g={id:newId(),a:opponentId?u.id:null,b:opponentId||u.id,cups:{a:Array(6).fill(true),b:Array(6).fill(true)},
   turn:'a',left:2,pairHits:0,current:[],last:null,winner:null,createdAt:now(),updatedAt:now()};
  if(mode==='big3'){g.mode='big3';g.draft=dealBig3();g.streak={a:0,b:0};}
  db.pongs[g.id]=g;return g;
@@ -155,12 +157,13 @@ export function startPong(db,u,opponentId=null,mode='classic'){
 export function joinPong(db,u,gameId){
  const g=db.pongs?.[gameId];need(g,'That game is gone.');
  if(seatOf(g,u.id))return g;
- need(!g.b,'This game already has two players. Start your own!');
- g.b=u.id;connect(db,db.users[g.a],u);g.updatedAt=now();return g;
+ need(!g.a||!g.b,'This game already has two players. Start your own!');
+ const host=db.users[g.a||g.b];if(!g.a)g.a=u.id;else g.b=u.id;
+ if(host)connect(db,host,u);g.updatedAt=now();return g;
 }
 export function pongPick(db,u,gameId,name){
  const g=db.pongs?.[gameId];need(g&&g.mode==='big3','That game has no draft.');
- if(!seatOf(g,u.id)&&!g.b&&draftTurn(g.draft)==='b')joinPong(db,u,gameId);
+ if(!seatOf(g,u.id)&&!g[draftTurn(g.draft)])joinPong(db,u,gameId);
  const me=seatOf(g,u.id);need(me,'This game already has two players. Start your own!');
  pickBig3(g.draft,me,name);
  if(draftDone(g.draft))g.stats={a:statsFor(g.draft.picks.a),b:statsFor(g.draft.picks.b)};
@@ -168,7 +171,7 @@ export function pongPick(db,u,gameId,name){
 }
 export function pongThrow(db,u,gameId,shot){
  const g=db.pongs?.[gameId];need(g&&!g.winner,'That game is over.');
- if(!seatOf(g,u.id)&&!g.b&&g.turn==='b')joinPong(db,u,gameId);
+ if(!seatOf(g,u.id)&&!g[g.turn])joinPong(db,u,gameId);
  const me=seatOf(g,u.id);need(me&&g.turn===me,'It is not your turn yet.');
  need(g.mode!=='big3'||draftDone(g.draft),'Finish the draft first.');
  const opp=otherSeat(me),window=g.stats?g.stats[me].aim*g.stats[opp].contest:1,res=pongShot(g.cups[opp],shot,window);
@@ -192,18 +195,18 @@ export function pongThrow(db,u,gameId,shot){
  return {...res,event,view:pongView(db,u,g)};
 }
 export function pongView(db,u,g){
- const me=seatOf(g,u.id)||'b',opp=otherSeat(me),oppId=g[opp];
+ const me=seatOf(g,u.id)||(g.a?'b':'a'),opp=otherSeat(me),oppId=g[opp];
  const h=g.a&&g.b?db.h2h?.[pairKey(g.a,g.b)]||{}:{};
  const lastHits=g.last?g.last.throws.filter(t=>t.hit!==null).length:0;
  const vs=oppId?db.users[oppId]?.name||'Someone':'Open seat';
- const drafting=g.mode==='big3'&&!draftDone(g.draft),canSit=!!seatOf(g,u.id)||!g.b;
+ const drafting=g.mode==='big3'&&!draftDone(g.draft),canSit=!!seatOf(g,u.id)||!g[me];
  const draft=g.mode==='big3'?{done:!drafting,myPick:drafting&&draftTurn(g.draft)===me&&canSit,slot:drafting?ORDER[g.draft.step][1]:null,
   picker:drafting?(db.users[g[draftTurn(g.draft)]]?.name||'Open seat'):null,
   board:drafting?g.draft.boards[ORDER[g.draft.step][1]].map(card):[],
   mine:Object.fromEntries(Object.entries(g.draft.picks[me]).map(([k,n])=>[k,card(n)])),
   theirs:Object.fromEntries(Object.entries(g.draft.picks[opp]).map(([k,n])=>[k,card(n)])),
   stats:g.stats?{me:g.stats[me],them:g.stats[opp]}:null,streak:g.streak?g.streak[me]:0}:null;
- return {id:g.id,mode:g.mode||'classic',draft,vs,vsId:oppId,seated:!!seatOf(g,u.id),open:!g.b,myTurn:!g.winner&&(drafting?draft.myPick:g.turn===me&&canSit),left:g.left,
+ return {id:g.id,mode:g.mode||'classic',draft,vs,vsId:oppId,seated:!!seatOf(g,u.id),open:!g.a||!g.b,myTurn:!g.winner&&(drafting?draft.myPick:g.turn===me&&canSit),left:g.left,
   targets:g.cups[opp],mine:g.cups[me],done:!!g.winner,won:!!g.winner&&g.winner===me&&!!seatOf(g,u.id),
   winnerName:g.winner?db.users[g[g.winner]]?.name:null,
   lastNote:g.last&&g.last.by!==me&&!g.winner?`${db.users[g[g.last.by]]?.name} sank ${lastHits} ${lastHits===1?'cup':'cups'}.`:'',
@@ -228,7 +231,7 @@ export function home(db,u){
   sent:see.filter(t=>t.from===u.id).sort((a,b)=>b.createdAt-a.createdAt).slice(0,30).map(shape),
   loops:loops.map(l=>({id:l.id,code:l.code,publicName:l.publicName,privateName:l.nick[u.id]||'',name:loopName(l),
    members:l.members.map(m=>pub(db.users[m])).filter(Boolean)})),
-  pongs:Object.values(db.pongs||{}).filter(g=>g.a===u.id||g.b===u.id).filter(g=>g.b||g.a===u.id).filter(g=>!g.winner||now()-g.updatedAt<3*864e5).sort((a,b)=>b.updatedAt-a.updatedAt).map(g=>pongView(db,u,g)),
+  pongs:Object.values(db.pongs||{}).filter(g=>g.a===u.id||g.b===u.id).filter(g=>!g.winner||now()-g.updatedAt<3*864e5).sort((a,b)=>b.updatedAt-a.updatedAt).map(g=>pongView(db,u,g)),
   people:people.map(pub).sort((a,b)=>(b.openDoor-a.openDoor)||a.name.localeCompare(b.name)),
   // Open invites from friends visiting my city, plus my own trips.
   invites:trips.filter(t=>t.uid!==u.id&&sameCity(t.city,u.city)&&people.some(p=>p.id===t.uid)).map(t=>({id:t.id,who:db.users[t.uid]?.name,city:t.city,from:t.from,to:t.to,note:t.note,down:!!t.downs[u.id]})),
