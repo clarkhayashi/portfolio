@@ -43,8 +43,12 @@ export function mountDerby(wrap,pitches,{onDone}){
   if(phase==='result'&&result){const u=clamp((now-resultAt)/(reduced?1:1100),0,1);
    if(result.feet>0){const dir=result.side==='left'?-1:result.side==='right'?1:0,dist=result.feet/460,
     x=pl.x+dir*W*0.42*dist*u,y=pl.y-H*0.9*dist*u-Math.sin(Math.PI*u)*H*0.18*(result.hr?1:0.6);ball(x,y,Math.max(2,10-8*u));}
-   ctx.textAlign='center';ctx.font=`800 ${result.hr?30:22}px "Baloo 2",sans-serif`;ctx.fillStyle=result.hr?'#f2b33d':'#fff';
-   ctx.strokeStyle='rgba(0,0,0,.45)';ctx.lineWidth=5;ctx.strokeText(result.label,W/2,H*0.55);ctx.fillText(result.label,W/2,H*0.55);
+   // Result on up to two lines: what happened, then how early or late (so players can adjust).
+   ctx.textAlign='center';ctx.strokeStyle='rgba(0,0,0,.45)';ctx.lineWidth=5;
+   const [main,sub]=result.label.split(' · ');
+   ctx.font=`800 ${result.hr?30:22}px "Baloo 2",sans-serif`;ctx.fillStyle=result.hr?'#f2b33d':'#fff';
+   ctx.strokeText(main,W/2,H*0.55);ctx.fillText(main,W/2,H*0.55);
+   if(sub){ctx.font='800 16px "Nunito",sans-serif';ctx.fillStyle='#fff';ctx.strokeText(sub,W/2,H*0.55+24);ctx.fillText(sub,W/2,H*0.55+24);}
    if(u>=1&&now-resultAt>1300)nextPitch(now);
   }
   bat(now);

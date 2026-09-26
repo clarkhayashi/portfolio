@@ -2,8 +2,9 @@
 // A pitch takes `ms` to reach the plate after release. A swing is the tap time after release (ms), or null
 // for no swing. The closer the tap is to the arrival, the farther the ball goes.
 export const PITCHES_PER_TURN=10;
-export const WINDOW=220;         // ms off at which contact disappears
-export const HR_FEET=350;
+export const WINDOW=300;         // ms off at which contact disappears (tuned 2026-09-26: was 220, too hard)
+export const HR_FEET=335;        // home run within about ±85 ms of perfect
+export const LAG=35;             // screen-to-tap delay: the perfect swing lands this many ms after arrival
 
 export const PITCH_TYPES=[
  {type:'fastball',label:'Fastball',min:640,max:740,mph:[93,99]},
@@ -21,11 +22,12 @@ export function pitchList(seed){
 
 export function outcome(pitch,swing){
  if(swing==null||!Number.isFinite(swing))return {kind:'take',label:'Strike looking',feet:0,hr:false,err:null};
- const err=Math.round(swing-pitch.ms),off=Math.abs(err);
- if(off>WINDOW)return {kind:'whiff',label:err<0?'Way early. Strike!':'Way late. Strike!',feet:0,hr:false,err};
+ const err=Math.round(swing-pitch.ms-LAG),off=Math.abs(err);
+ const by=`${err<0?'Early':'Late'} by ${(off/1000).toFixed(2)}s`;
+ if(off>WINDOW)return {kind:'whiff',label:`Strike! · ${by}`,feet:0,hr:false,err};
  const q=1-off/WINDOW,feet=Math.round(110+Math.pow(q,1.2)*340),hr=feet>=HR_FEET;
  const side=off<18?'center':err<0?'left':'right';
- return {kind:hr?'hr':feet>=250?'fly':'ground',label:hr?`Home run! ${feet} ft`:feet>=250?`Warning track, ${feet} ft`:err<0?'Rolled over. Grounder.':'Late. Weak grounder.',feet,hr,err,side};
+ return {kind:hr?'hr':feet>=250?'fly':'ground',label:hr?`Home run! ${feet} ft`:feet>=250?`Warning track, ${feet} ft · ${by}`:`Grounder · ${by}`,feet,hr,err,side};
 }
 
 export function score(pitches,swings){
