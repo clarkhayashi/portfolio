@@ -112,3 +112,6 @@ a.btn.accent{background:var(--accent);color:#fff}
 .sround b{display:block;margin-bottom:4px}
 .minigoal{display:grid;grid-template-columns:repeat(3,16px);grid-template-rows:repeat(2,14px);border:2px solid var(--ink);border-bottom:0;border-radius:3px 3px 0 0;flex:0 0 auto;font-style:normal}
 .minigoal i{font-style:normal;font-size:11px;line-height:14px;text-align:center}
+.goal.diving .spot:hover{background:rgba(47,143,107,.12)}
+.spot.glove{background:rgba(47,143,107,.18)!important}
+.minigoal i.dove{background:rgba(47,143,107,.35)}

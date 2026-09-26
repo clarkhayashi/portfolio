@@ -304,21 +304,22 @@ function imCompose(){
 // Penalty Shootout screen: pick where you shoot, then where you dive, then lock in. Revealed rounds show
 // both kicks on little goals: ⚽ is where the shot went, 🧤 is where the keeper dove.
 let shootOpen=null,soPick={};
-const SPOT_ORDER=['tl','tc','tr','bl','bc','br'],SPOT_TXT={tl:'top left',tc:'top middle',tr:'top right',bl:'low left',bc:'low middle',br:'low right'};
-const miniGoal=(ball,glove)=>`<span class="minigoal">${SPOT_ORDER.map(k=>`<i>${k===ball&&k===glove?'🧤':k===ball?'⚽':k===glove?'🧤':''}</i>`).join('')}</span>`;
+const SPOT_ORDER=['tl','tc','tr','bl','bc','br'],SPOT_TXT={tl:'top left',tc:'top middle',tr:'top right',bl:'low left',bc:'low middle',br:'low right',l:'left',c:'middle',r:'right'};
+const sideOf=x=>x&&x.length===2?x[1]:x; // a dive covers a whole side, top and low
+const miniGoal=(ball,glove)=>`<span class="minigoal">${SPOT_ORDER.map(k=>{const g=k[1]===sideOf(glove);return `<i class="${g?'dove':''}">${k===ball?(g?'🧤':'⚽'):''}</i>`;}).join('')}</span>`;
 async function shootPage(id,page=true){
  let g;try{g=await api('/shootout/'+id);}catch(e){$('#app').innerHTML=`<h1>Penalty Shootout</h1><div class="empty">${esc(e.message)}</div>`;return;}
  const back=page?'':'<button class="link" data-closeshoot>← Home</button>';
  const dots=(n,total)=>Array.from({length:Math.max(5,total)},(_,i)=>`<span class="dot ${i<n?'on':''}"></span>`).join('');
  const board=`<section class="card rows sboard"><div class="mrow"><span class="mtext"><b>You ${g.score.me}</b></span><span>${g.rounds.map(r=>r.mine.goal?'⚽':'❌').join(' ')||'…'}</span></div><div class="mrow"><span class="mtext"><b>${esc(g.vs)} ${g.score.them}</b></span><span>${g.rounds.map(r=>r.theirs.goal?'⚽':'❌').join(' ')||'…'}</span></div></section>`;
  const rounds=g.rounds.map((r,i)=>`<div class="card sround"><b>Round ${i+1}</b>
-   <div class="mrow">${miniGoal(r.mine.shoot,r.mine.theirDive)}<span class="mtext"><b>${r.mine.goal?'Your goal ⚽':'Saved 🧤'}</b><span class="small muted">You shot ${SPOT_TXT[r.mine.shoot]}, ${esc(g.vs)} dove ${SPOT_TXT[r.mine.theirDive]}</span></span></div>
-   <div class="mrow">${miniGoal(r.theirs.shoot,r.theirs.myDive)}<span class="mtext"><b>${r.theirs.goal?`${esc(g.vs)} scores`:'You saved it 🧤'}</b><span class="small muted">${esc(g.vs)} shot ${SPOT_TXT[r.theirs.shoot]}, you dove ${SPOT_TXT[r.theirs.myDive]}</span></span></div></div>`).reverse().join('');
+   <div class="mrow">${miniGoal(r.mine.shoot,r.mine.theirDive)}<span class="mtext"><b>${r.mine.goal?'Your goal ⚽':'Saved 🧤'}</b><span class="small muted">You shot ${SPOT_TXT[r.mine.shoot]}, ${esc(g.vs)} dove ${SPOT_TXT[sideOf(r.mine.theirDive)]}</span></span></div>
+   <div class="mrow">${miniGoal(r.theirs.shoot,r.theirs.myDive)}<span class="mtext"><b>${r.theirs.goal?`${esc(g.vs)} scores`:'You saved it 🧤'}</b><span class="small muted">${esc(g.vs)} shot ${SPOT_TXT[r.theirs.shoot]}, you dove ${SPOT_TXT[sideOf(r.theirs.myDive)]}</span></span></div></div>`).reverse().join('');
  let top;
  if(g.done)top=`<h1>⚽ ${g.won?'You win!':g.tie?'Tie game':`${esc(g.winnerName||g.vs)} wins`}</h1><p class="muted small">${record(g)}</p>${g.vsId&&!page?`<button class="accent full" data-reshoot="${g.vsId}">Rematch</button>`:''}`;
  else if(g.myTurn){const step=soPick.shoot?'dive':'shoot';
-  top=`<h1>⚽ ${g.suddenDeath?'Sudden death':`Round ${g.round} of 5`}</h1><p class="muted small">${g.theyPicked?`${esc(g.vs)} already picked. `:''}${step==='shoot'?'Where do you shoot?':'Now, where do you dive?'}</p>
-  <div class="goal" data-step="${step}">${SPOT_ORDER.map(k=>`<button class="spot ${soPick.shoot===k?'ball':''} ${soPick.dive===k?'glove':''}" data-spot="${k}" aria-label="${SPOT_TXT[k]}">${soPick.shoot===k&&soPick.dive===k?'⚽🧤':soPick.shoot===k?'⚽':soPick.dive===k?'🧤':''}</button>`).join('')}</div>
+  top=`<h1>⚽ ${g.suddenDeath?'Sudden death':`Round ${g.round} of 5`}</h1><p class="muted small">${g.theyPicked?`${esc(g.vs)} already picked. `:''}${step==='shoot'?'Where do you shoot?':'Now, which way do you dive? You cover that whole side.'}</p>
+  <div class="goal ${step==='dive'?'diving':''}">${SPOT_ORDER.map(k=>{const dove=soPick.dive&&k[1]===soPick.dive;return `<button class="spot ${soPick.shoot===k?'ball':''} ${dove?'glove':''}" data-spot="${step==='dive'?k[1]:k}" aria-label="${step==='dive'?`dive ${SPOT_TXT[k[1]]}`:SPOT_TXT[k]}">${soPick.shoot===k?'⚽':''}${dove&&k[0]==='b'?'🧤':''}</button>`;}).join('')}</div>
   <p class="small">${soPick.shoot?`Shoot: <b>${SPOT_TXT[soPick.shoot]}</b>`:'Tap a spot to aim.'}${soPick.dive?` · Dive: <b>${SPOT_TXT[soPick.dive]}</b>`:''} ${soPick.shoot?'<button class="link" data-spotreset>Change</button>':''}</p>
   <button class="accent full" data-lockin ${soPick.shoot&&soPick.dive?'':'disabled'}>Lock in</button>`;}
  else top=`<h1>⚽ ${g.suddenDeath?'Sudden death':`Round ${g.round}`}</h1><div class="empty">Your picks are in. Waiting on ${esc(g.vs)}. ${page?'This updates by itself.':'No rush.'}</div>`;

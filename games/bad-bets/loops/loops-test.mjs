@@ -202,5 +202,8 @@ test('Penalty Shootout: secret picks, reveal only when both are in, exact dive s
  const g2=L.startShootout(db,clark,cody.id);
  for(let i=0;i<5;i++){L.shootoutPick(db,clark,g2.id,{shoot:'tl',dive:'br'});L.shootoutPick(db,cody,g2.id,{shoot:'tl',dive:'br'});}
  const sd=L.shootoutFor(db,cody,g2.id);assert.equal(sd.done,false);assert.equal(sd.suddenDeath,true);
- assert.throws(()=>L.shootoutPick(db,clark,g2.id,{shoot:'zz',dive:'tl'}),/Pick a spot/);
+ assert.throws(()=>L.shootoutPick(db,clark,g2.id,{shoot:'zz',dive:'l'}),/Pick a spot/);
+ // a dive covers the whole side, top and low
+ const g3=L.startShootout(db,clark,cody.id);L.shootoutPick(db,clark,g3.id,{shoot:'tc',dive:'l'});const r=L.shootoutPick(db,cody,g3.id,{shoot:'tl',dive:'c'});
+ assert.equal(r.rounds[0].mine.goal,false);assert.equal(r.rounds[0].theirs.goal,false);assert.equal(r.rounds[0].theirs.myDive,'c');
 });
