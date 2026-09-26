@@ -358,9 +358,9 @@ async function derbyPage(id,page=true){
  try{derbyGame=await api('/derby/'+id);}catch(e){$('#app').innerHTML=`<h1>Home Run Derby</h1><div class="empty">${esc(e.message)}</div>`;return;}
  const g=derbyGame,app=$('#app'),back=page?'':'<button class="link" data-closederby>← Home</button>';
  if(g.myTurn){
-  app.innerHTML=`${back}${soundToggle()}<h1>⚾ Home Run Derby</h1><p class="muted small">${g.theirs?`Beat ${esc(g.vs)}’s <b>${g.theirs.hr}</b> ${g.theirs.hr===1?'homer':'homers'}.`:'You bat first. Your friend gets the same 10 pitches.'} Tap anywhere on the field to swing.</p>
-   <div id="derby" class="pong"><canvas aria-label="Baseball field. Tap to swing when the pitch reaches the plate."></canvas><p class="small muted" data-derby-label>Tap Play ball, then tap to swing.</p><button class="accent full" data-derby-start>Play ball</button></div>`;
-  mountDerby($('#derby'),g.pitches,{onDone:async swings=>{
+  app.innerHTML=`${back}${soundToggle()}<h1>Home Run Derby</h1><p class="muted small">${g.theirs?`Beat ${esc(g.vs)}’s <b>${g.theirs.hr}</b> ${g.theirs.hr===1?'homer':'homers'}.`:'You bat first. Your friend gets the same 10 pitches.'} Tap anywhere on the field to swing.</p>
+   <div id="derby" class="pong"><canvas aria-label="Baseball field. Tap to swing when the pitch reaches the plate."></canvas><button class="accent full" data-derby-start>Play ball</button><p class="small muted" data-derby-label>Tap the field to swing. Space bar or a controller's A button works too.</p></div>`;
+  mountDerby($('#derby'),g.pitches,{target:g.theirs?{name:g.vs,hr:g.theirs.hr}:null,onDone:async swings=>{
    try{const v=await api(`/derby/${id}/swings`,{swings});derbyGame=v;
     if(v.done){fx(v.won?'win':'miss');}
     if(IM)native({type:v.done?'update':'send',kind:'derby',path:`/d/${id}`,caption:v.done?(v.won?`⚾ ${data?.me?.name} won the Derby, ${v.mine.hr}–${v.theirs.hr}`:v.tie?`⚾ Derby tied ${v.mine.hr}–${v.theirs.hr}`:`⚾ ${v.vs} won the Derby, ${v.theirs.hr}–${v.mine.hr}`):`⚾ ${data?.me?.name||'A friend'} hit ${v.mine.hr} ${v.mine.hr===1?'homer':'homers'}. Beat it.`,sub:v.done?'Tap for the box score':'Same 10 pitches. Tap to bat.'});
@@ -370,8 +370,9 @@ async function derbyPage(id,page=true){
   }});
   return;
  }
- const line=(who,r)=>r?`<div class="mrow"><span class="micon">⚾</span><span class="mtext"><b>${esc(who)}: ${r.hr} ${r.hr===1?'homer':'homers'}</b><span class="small muted">Longest ${r.longest} ft</span></span></div>`:`<div class="mrow"><span class="micon">⏳</span><span class="mtext"><b>${esc(who)}</b><span class="small muted">Hasn’t batted yet</span></span></div>`;
- app.innerHTML=`${back}<h1>⚾ ${g.done?(g.won?'You win!':g.tie?'Tie game':`${esc(g.winnerName||g.vs)} wins`):'Home Run Derby'}</h1>
+ const box=r=>r.results?`<span class="boxscore">${r.results.map(x=>`<i class="${x.hr?'hr':x.feet>0?'in':'k'}" title="${x.hr?`Home run, ${x.feet} ft`:x.feet>0?`${x.feet} ft`:'Strike'}">${x.feet>0?x.feet:'K'}</i>`).join('')}</span>`:'';
+ const line=(who,r)=>r?`<div class="mrow"><img class="micon art" src="${BASE}/art/derby.svg" alt="" width="36" height="36"><span class="mtext"><b>${esc(who)}: ${r.hr} ${r.hr===1?'homer':'homers'}</b><span class="small muted">Longest ${r.longest} ft</span>${box(r)}</span></div>`:`<div class="mrow"><span class="micon art waiting" aria-hidden="true"></span><span class="mtext"><b>${esc(who)}</b><span class="small muted">Hasn’t batted yet</span></span></div>`;
+ app.innerHTML=`${back}<h1>${g.done?(g.won?'You win!':g.tie?'Tie game':`${esc(g.winnerName||g.vs)} wins`):'Home Run Derby'}</h1>
   <section class="card rows">${line('You',g.mine)}${line(g.vs,g.theirs)}</section>
   ${g.done?`<p class="muted small">${record(g)}</p>${g.vsId&&!page?`<button class="accent full" data-rederby="${g.vsId}">Rematch</button>`:''}`:`<p class="muted small">Waiting on ${esc(g.vs)}. No rush.</p>`}`;
  clearInterval(pollTimer);
